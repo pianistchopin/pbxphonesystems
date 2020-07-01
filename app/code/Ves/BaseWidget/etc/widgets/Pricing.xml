@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">   
+    <widget id="ves_basewidget_pricing" class="Ves\BaseWidget\Block\Widget\Pricing">
+        <label translate="true">Ves Base: Pricing Plan</label>
+        <description>Plan Membership</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            <parameter name="addition_cls" xsi:type="text" visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="subtitle" xsi:type="text" visible="true">
+                <label translate="true">Subtitle</label>
+            </parameter>
+
+            <parameter name="use_product_info" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Use Product Info?</label>
+                <description translate="true">Use product info to show price, currency, link and addtocart button. Disable to input custom info.</description>
+                
+            </parameter>
+
+            <parameter name="id_path" xsi:type="block" visible="true" required="false">
+                <label translate="true">Product</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+
+            <parameter name="price" xsi:type="text" visible="true">
+                <label translate="true">Price</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+                <depends>
+                    <parameter name="use_product_info" value="0" />
+                </depends>
+            </parameter>
+
+            <parameter name="link" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+                <label translate="true">Link</label>
+                <description translate="true">Link to product or any page as you want.</description>
+                <depends>
+                    <parameter name="use_product_info" value="0" />
+                </depends>
+            </parameter>
+
+            <parameter name="linktitle" xsi:type="text" visible="true">
+                <label translate="true">Link Title</label>
+                <description translate="true">For example: Get It Now</description>
+            </parameter>
+
+            <parameter name="period" xsi:type="text" visible="true">
+                <label translate="true">Period</label>
+                <description translate="true">For example: Per month</description>
+            </parameter>
+
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Button Link Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="isfeatured" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Is Featured</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="content" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+            </parameter>
+
+            <parameter name="template" xsi:type="text"  visible="true">
+                <label translate="true">Template</label>
+                <description translate="true">Input custom module template file path. For example: widget/pricing.phtml Empty for default.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

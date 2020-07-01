@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="Ves_Testimonial::css/style.css" />
+	</head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="Ves\Testimonial\Block\Adminhtml\Menu" name="ves_testimonial_menu" />
+        </referenceContainer>
+    </body>
+</page>

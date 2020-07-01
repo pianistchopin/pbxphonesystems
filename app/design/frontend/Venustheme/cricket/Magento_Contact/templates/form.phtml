@@ -1,0 +1,179 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$vesData = $this->helper('Ves\Themesettings\Helper\Data');
+
+$show_contactform = $ves->getContactPageCfg('contactform/show_contactform');
+
+$show_googlemap = $ves->getContactPageCfg('googlemap/show_googlemap');
+$map_api = $ves->getContactPageCfg('googlemap/map_api');
+$map_api = $map_api?'key='.$map_api.'&amp;':"key=AIzaSyALraGXlzRqFlAOb-tYLhUi6o6Cq9qN4KA&amp;";
+$location_lng = $ves->getContactPageCfg('googlemap/location_lng');
+$location_lat = $ves->getContactPageCfg('googlemap/location_lat');
+$address = $ves->getContactPageCfg('googlemap/address');
+$telephone = $ves->getContactPageCfg('googlemap/telephone');
+$fax = $ves->getContactPageCfg('googlemap/fax');
+$enable_contactus = $ves->getContactPageCfg('googlemap/enable_contactus');
+$enable_contactform = $ves->getContactPageCfg('googlemap/enable_contactform');
+$custom_html = $ves->getContactPageCfg('googlemap/custom_html');
+$map_width = $ves->getContactPageCfg('googlemap/map_width');
+$map_height = $ves->getContactPageCfg('googlemap/map_height');
+$map_zoom = (int)$ves->getContactPageCfg('googlemap/map_zoom');
+
+$marker_content = $ves->getContactPageCfg('googlemap/marker_content');
+if($marker_content!=''){
+    $marker_content = $vesData->filter($marker_content);
+}
+
+$marker_content_staticblock = $ves->getContactPageCfg('googlemap/marker_content_staticblock');
+$marker_content_width = $ves->getContactPageCfg('googlemap/marker_content_width');
+$marker_content_height = $ves->getContactPageCfg('googlemap/marker_content_height');
+$marker_content_position = $ves->getContactPageCfg('googlemap/marker_content_position');
+?>
+<div class="ves-contact">
+    <div class="block">
+        <?php if($show_googlemap){ ?>
+        <div class="block-title"> <strong><?php echo __('Our Location'); ?> </strong> </div>
+        <div class="block-content">
+            <div class="google-map clearfix">
+                <div id="map" style="width: <?php echo $map_width?$map_width:"100%" ?>;height:<?php echo $map_height?$map_height:"400px" ?>;"></div>
+                    <script>
+                    // This example displays a marker at the center of Australia.
+                    // When the user clicks the marker, an info window opens.
+
+                        function initMap() {
+                            // Default My Dinh Plaza
+                            var uluru = {
+                                lat: <?php echo $location_lat?$location_lat:'21.0309091' ?>,
+                                lng: <?php echo $location_lng?$location_lng:'105.77577840000004' ?>,
+                                radius: 100
+                            };
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: <?php echo $map_zoom?$map_zoom:'15' ?>,
+                                center: uluru,
+                            });
+
+                            var contentString = '<?php echo $address; ?><br/><?php echo $marker_content?$marker_content:"";  ?>';
+                            var infowindow = new google.maps.InfoWindow({
+                                content: contentString,
+                                maxWidth: <?php echo $marker_content_width?$marker_content_width:"300"; ?>,
+                                maxHeight: <?php echo $marker_content_height?$marker_content_height:"300"; ?>,
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: uluru,
+                                map: map,
+                                title: '<?php echo $address?$address:""; ?>'
+                            });
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+                        }
+
+                    </script>
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?<?php echo $map_api; ?>signed_in=true&amp;callback=initMap"></script>
+                </div>
+                <?php } ?>
+                <?php //end contact map ?>
+
+                <div class="row">
+                    <?php if($enable_contactus){ ?>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-sx-12">
+                        <div class="block contact-info">
+                            <div class="block-title"> <strong><?php echo __('Contact Us'); ?> </strong></div>
+                            <div class="block-content">       
+                                <div class="media">
+                                    <i class="fa fa-home pull-left"></i>
+                                    <div class="media-body">
+                                        <?php echo $address; ?>
+                                    </div>
+                                </div>
+
+                                <?php if ($telephone) { ?>
+                                <div class="media">
+                                    <i class="fa fa-phone pull-left"></i>
+                                    <div class="media-body">                          
+                                        <?php echo $telephone; ?>                             
+                                    </div>
+                                </div>
+                                <?php } ?>
+
+                                <?php if ($fax) { ?>
+                                <div class="media">
+                                    <i class="fa fa-envelope-o pull-left"></i>           
+                                    <div class="media-body">
+                                        <?php echo $fax; ?>
+                                    </div>
+                                </div>                                  
+                                <?php } ?>
+                            </div>  
+                        </div>
+                        <?php if($custom_html){ ?>
+                        <div class="contact-customhtml">
+                            <div class="content">
+                                <?php echo $vesData->filter($custom_html);; ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <?php } ?>
+
+
+                    <?php if($show_contactform){ ?>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="block form contact">
+                            <div class="block-title"><strong><?php /* @escapeNotVerified */ echo __('Write Us') ?></strong> </div>
+                                <div class="block-content">
+                                <form action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>"
+                                id="contact-form"
+                                method="post"
+                                data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>"
+                                data-mage-init='{"validation":{}}'>
+                                    <fieldset class="fieldset">
+                                        <div class="field note no-label"><?php /* @escapeNotVerified */ echo __('Jot us a note and we’ll get back to you as quickly as possible.') ?></div>
+                                        <div class="field name required">
+                                            <label class="label" for="name"><span><?php /* @escapeNotVerified */ echo __('Name') ?></span></label>
+                                            <div class="control">
+                                                <input name="name" id="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                                            </div>
+                                        </div>
+                                        <div class="field email required">
+                                            <label class="label" for="email"><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></label>
+                                            <div class="control">
+                                                <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" value="<?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getUserEmail()) ?>" class="input-text" type="email" data-validate="{required:true, 'validate-email':true}"/>
+                                            </div>
+                                        </div>
+                                        <div class="field telephone">
+                                            <label class="label" for="telephone"><span><?php /* @escapeNotVerified */ echo __('Phone Number') ?></span></label>
+                                            <div class="control">
+                                                <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone Number') ?>" value="" class="input-text" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="field comment required">
+                                            <label class="label" for="comment"><span><?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?></span></label>
+                                            <div class="control">
+                                                <textarea name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('What’s on your mind?') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                                            </div>
+                                        </div>
+                                        <?php echo $block->getChildHtml('form.additional.info'); ?>
+                                    </fieldset>
+                                    <div class="actions">
+                                        <input type="hidden" name="hideit" id="hideit" value="" />
+                                        <button type="submit" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>" class="action submit primary">
+                                            <span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>  
+                        </div>
+                    </div>
+                    <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<remove src="Ves_Themesettings::css/owl.carousel.min.css" />
+		<css src="Ves_Themesettings::css/paneltool.css" />
+        <css src="Ves_Themesettings::css/jquery.fancybox.css" />
+	</head>
+	<body>
+		<referenceBlock name="head.additional">
+			<block class="Ves\Themesettings\Block\Html\Head" name="ves.head" template="Ves_Themesettings::/html/head.phtml"/>
+		</referenceBlock>
+
+		<referenceContainer name="header.container">
+            <block class="Ves\Themesettings\Block\Html\Links" name="top.links">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">header links</argument>
+                </arguments>
+            </block>
+            
+            <block class="Ves\Themesettings\Block\Html\Header" name="ves_header">
+            	<block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+                    <arguments>
+                        <argument name="css_class" xsi:type="string">header links</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Template" name="top.search" as="topSearch" template="Magento_Search::form.mini.phtml" />
+
+                <block class="Ves\Themesettings\Block\Template" name="custom_block" template="html/header_custom_block.phtml" ifconfig="ves_themesettings_header/general_settings/static_block" after="-"/>
+
+                <!-- Call CMS static block: call-online -->
+                <block class="Magento\Cms\Block\Block" name="call-online" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">call-online</argument>
+                    </arguments>
+                </block>
+                <!-- End call CMS static block: call-online -->
+
+                <!-- TOP LINKS: settings and navigation -->
+                <block class="Magento\Framework\View\Element\Template" name="setting_links" as="setting_links" template="Magento_Theme::html/setting.phtml">
+                    <block class="Magento\Store\Block\Switcher" name="store_language_custom" as="store_language_custom" template="switch/languages_custom.phtml" ifconfig="ves_themesettings_header/language_switcher_settings/language_switcher"/>
+                    <block class="Magento\Directory\Block\Currency" name="currency_custom" before="store_language_custom" template="currency_custom.phtml" ifconfig="ves_themesettings_header/currency_switcher_settings/currency_switcher"/>
+                </block>
+
+                <block class="Magento\Framework\View\Element\Template" name="navigation.sections" as="ves_navigation" before="-" template="Magento_Theme::html/navigation.phtml">
+                    <block class="Magento\Framework\View\Element\Template" name="account.store.links" as="store_links" template="Magento_Theme::html/store_links.phtml" ifconfig="ves_themesettings_header/toplinks_settings/enable"/>
+                    <block class="Magento\Directory\Block\Currency" name="store.settings.currency" as="store_currency" before="store_language" template="currency.phtml" ifconfig="ves_themesettings_header/currency_switcher_settings/currency_switcher"/>
+                    <block class="Magento\Store\Block\Switcher" name="store.settings.language" as="store_language" template="switch/languages.phtml" ifconfig="ves_themesettings_header/language_switcher_settings/language_switcher"/>
+                </block>
+                <!-- END TOP LINKS: settings and navigation -->
+                <block class="Magento\Framework\View\Element\Template" name="ves.top.search" as="vesTopSearch" template="Magento_Search::form.mini.phtml" >
+                    <block class="Magento\Framework\View\Element\Template" name="advanced-search-link" template="Magento_CatalogSearch::advanced/link.phtml" />
+                </block>
+            </block>
+        </referenceContainer>
+
+        <move element="navigation.sections" as="catalog.topnav" destination="ves_header" />
+        <move element="top.links" as="top_links" destination="ves_header"/>
+        <move element="logo" as="logo" destination="ves_header"/>
+        <move element="minicart" as="minicart" destination="ves_header"/>
+        <move element="top.search" as="topSearch" destination="ves_header"/>
+        <move element="skip_to_content" as="skip_to_content" destination="ves_header"/>
+
+        <referenceBlock name="store_language"  remove="true"/>
+        <referenceBlock name="currency"  remove="true"/> 
+
+        <!-- Footer Container -->
+        <referenceContainer name="footer-container">
+            <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="ves-footer">
+                <container name="footer-top" label="Footer Top" htmlTag="div" htmlClass="footer-top">
+                    <block class="Ves\Themesettings\Block\Html\Footer" name="ves.footer.top" template="Ves_Themesettings::html/footer/footer-top.phtml"/>
+                </container>
+                <container name="footer-center" label="Footer Center" htmlTag="div" htmlClass="footer-center" after="footer-top">
+                    <block class="Ves\Themesettings\Block\Html\Footer" name="ves.footer.center" template="Ves_Themesettings::html/footer/footer-center.phtml"/>
+                </container>
+                <container name="footer-bottom" label="Footer Bottom" htmlTag="div" htmlClass="footer-bottom" after="footer-center">
+                    <block class="Ves\Themesettings\Block\Html\Footer" name="ves.footer.bottom" template="Ves_Themesettings::html/footer/footer-bottom.phtml"/>
+                </container>
+                <referenceBlock name="form.subscribe"  remove="true"/>
+                
+                <block class="Magento\Framework\View\Element\Template" name="report.bugs" template="Magento_Theme::html/bugreport.phtml" />
+            </container>
+        </referenceContainer>
+        <!-- End Footer Container -->
+
+        <!-- Before Body End -->
+		<referenceContainer name="before.body.end">
+			<block class="Magento\Theme\Block\Html\Footer" name="copyright" template="Ves_Themesettings::html/footer/copyright.phtml"/>
+			<block class="Magento\Framework\View\Element\Template" name="scrolltop" template="Ves_Themesettings::html/scrolltop.phtml" />
+			<block class="Magento\Framework\View\Element\Template" name="custom.js" template="Ves_Themesettings::customjs.phtml" />
+			<block class="Magento\Framework\View\Element\Template" name="ajax.js" template="Ves_Themesettings::ajax/js.phtml" />
+			<block class="Ves\Themesettings\Block\PanelTool" name="paneltool" template="Ves_Themesettings::paneltool/paneltool.phtml" />
+		</referenceContainer>
+	</body>
+</page>

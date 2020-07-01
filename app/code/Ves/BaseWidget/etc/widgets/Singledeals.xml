@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+ <widget id="ves_basewidget_singledeals" class="Ves\BaseWidget\Block\Widget\Singledeals">
+    <label translate="true">Ves Base: Single Deal Block</label>
+    <description>Create Single Deal Block</description>
+    <parameters>
+        <parameter name="title" xsi:type="text" visible="true" >
+            <label translate="true">Title</label>
+            <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+        </parameter>
+        <parameter name="addition_cls" xsi:type="text" visible="true" >
+            <label translate="true">Addition Class</label>
+            <description translate="true">This class is used to make owner style for the widget.</description>
+        </parameter>
+        <parameter name="background_color" xsi:type="text" visible="true" >
+            <label translate="true">Background Color</label>
+            <description translate="true"><![CDATA[Example: #CC0000, white,...]]></description>
+        </parameter>
+        <parameter name="use_image_background" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Use Backgroupd Image</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="file" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+            <label translate="true">Background Image</label>
+            <description translate="true"><![CDATA[Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+            Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            <depends><parameter name="use_image_background" value="1" /></depends>
+        </parameter>
+        
+        <parameter name="background_position_x" xsi:type="text"  visible="true" >
+            <label translate="true">Background Image Positon X</label>
+            <description translate="true"><![CDATA[Default is left. Check value avaible at <a href="http://www.w3schools.com/cssref/pr_background-position.asp" target="_blank">here</a>]]></description>
+            <depends><parameter name="use_image_background" value="1" /></depends>
+        </parameter>
+        <parameter name="background_position_y" xsi:type="text"  visible="true" >
+            <label translate="true">Background Image Positon Y</label>
+            <description translate="true"><![CDATA[Default is center. Check value avaible at <a href="http://www.w3schools.com/cssref/pr_background-position.asp" target="_blank">here</a>]]></description>
+            <depends><parameter name="use_image_background" value="1" /></depends>
+        </parameter>
+        <parameter name="image_size" xsi:type="text"  visible="true" >
+            <label translate="true">Image size</label>
+            <description translate="true"><![CDATA[Enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image]]></description>
+        </parameter>
+        <parameter name="id_path" xsi:type="block" visible="true" required="true">
+            <label translate="true">Product</label>
+            <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                <data>
+                    <item name="button" xsi:type="array">
+                        <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                    </item>
+                </data>
+            </block>
+        </parameter>
+        <parameter name="show_new_label" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display New Label</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_sale_label" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Sale Label</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_short_description" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Short Description</label>
+           <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="short_max_char" xsi:type="text" visible="true" >
+            <label translate="true">Description Character Limit</label>
+            <description translate="true">Default is 100</description>
+            <depends><parameter name="show_short_description" value="1" /></depends>
+            <value>100</value>
+        </parameter>
+        <parameter name="show_price" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Price</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_addtocart" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Button Add To Cart</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_timer_countdown" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Time Countdown</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_review" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Review</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_wishlist" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Button Wishlist</label>
+            <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="show_compare" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+            <label translate="true">Display Button Compare</label>
+           <description translate="true">Default should be Yes</description>
+        </parameter>
+        <parameter name="template" xsi:type="text"  visible="true" >
+            <label translate="true">Widget Template</label>
+            <description translate="true">Input custom module template file path. For example: widget/singledeal.phtml Empty for default.</description>
+        </parameter>
+    </parameters>
+</widget>
+</widgets>

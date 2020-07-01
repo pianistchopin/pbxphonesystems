@@ -1,0 +1,47 @@
+<?php
+$element_profiles = $this->getElementProfiles();
+?>
+<div class="fieldset admin__fieldset fieldset-wide fieldset-widget-options">
+   <div class="admin__field field with-note">
+   		<label class="label admin__field-label" for="select_element_profile" ><span><?php echo __("Choose Element Profile"); ?></span></label>
+	    <div class="admin__field-control control">
+	       <select id="select_element_profile" name="block_id" class="widget-option select admin__control-select">
+	       	<?php if($element_profiles) {
+		            		foreach($element_profiles as $profile) {
+		            			?>
+		            			<option value="<?php echo $profile['value']; ?>"><?php echo $profile['label']; ?></option>
+		            			<?php
+		            		}
+		            	} 
+		    ?>
+			</select>
+	        <div class="note admin__field-note" id="select_element_profile-note"><?php echo __("Choose Element Builder Profile"); ?></div>
+	    </div>
+	</div>
+	<div class="admin__field field with-note">
+	   <label class="label admin__field-label" for="select_element_disable_wrapper" ><span><?php echo __("Disable Element Wrapper"); ?></span></label>
+	    <div class="admin__field-control control">
+	        <select id="select_element_disable_wrapper" name="disable_wrapper" class="widget-option select admin__control-select">
+				<option value="1"><?php echo __("Yes"); ?></option>
+				<option value="0" selected="selected"><?php echo __("No"); ?></option>
+			</select>
+	        <div class="note admin__field-note" id="select_element_disable_wrapper-note"><?php echo __("Default: <strong>false</strong>. Enable to disable block wrapper for block builder on frontend, it will not show block title, just show generated layout.");?></div>
+	    </div>
+	</div>
+	<div class="admin__field field">
+	   <label class="label admin__field-label" for="select_element_show_title" ><span><?php echo __("Show Title"); ?></span></label>
+	    <div class="admin__field-control control">
+	        <select id="select_element_show_title" name="show_title" class="widget-option select admin__control-select">
+				<option value="1"><?php echo __("Yes"); ?></option>
+				<option value="0" selected="selected"><?php echo __("No"); ?></option>
+			</select>
+	    </div>
+	</div>
+	<div class="admin__field field with-note">
+	   <label class="label admin__field-label" for="input_element_template" ><span><?php echo __("Element Template"); ?></span></label>
+	    <div class="admin__field-control control">
+	        <input type="text" id="input_element_template" name="template" class="widget-option input-text admin__control-text">
+	        <div class="note admin__field-note" id="input_element_template-note"><?php echo __("Input custom module template file path. For example: widget/blockbuilder/default.phtml Empty for default");?></div>
+	    </div>
+	</div>
+</div>

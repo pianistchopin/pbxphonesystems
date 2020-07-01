@@ -1,0 +1,100 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+// Ves
+$_imgHelper = $this->helper('Ves\Themesettings\Helper\Image');
+$data = $this->helper('Ves\Themesettings\Helper\Data'); 
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+
+$classes = '';
+
+// Item Settings
+$show_name = $ves->getProductListingCfg('product_settings/show_name');
+$show_name_single_line = (int)$ves->getProductListingCfg('product_settings/show_name_single_line');
+if($show_name_single_line){
+    $classes .= ' single-line-name';
+}
+$show_short_description = $ves->getProductListingCfg('product_settings/show_short_description');
+$short_max_char = (int)$ves->getProductListingCfg('product_settings/short_max_char');
+$show_learnmore = $ves->getProductListingCfg('product_settings/show_learnmore');
+$show_price = $ves->getProductListingCfg('product_settings/show_price');
+$show_review = $ves->getProductListingCfg('product_settings/show_review');
+$show_countdowntimer = $ves->getProductListingCfg('product_settings/show_countdowntimer');
+$show_quickview = $ves->getProductListingCfg('product_settings/show_quickview');
+$quickview_popup_height = $ves->getProductListingCfg('product_settings/quickview_popup_height');
+$quickview_popup_width = $ves->getProductListingCfg('product_settings/quickview_popup_width');
+$show_addtocart = $ves->getProductListingCfg('product_settings/show_addtocart');
+$addtocart_popup_height = $ves->getProductListingCfg('product_settings/addtocart_popup_height');
+$addtocart_popup_width = $ves->getProductListingCfg('product_settings/addtocart_popup_width');
+$show_wishlist = $ves->getProductListingCfg('product_settings/show_wishlist');
+$show_compare = $ves->getProductListingCfg('product_settings/show_compare');
+$show_new_label = $ves->getProductListingCfg('product_settings/show_new_label');
+$show_sale_label = $ves->getProductListingCfg('product_settings/show_sale_label');
+$show_image = $ves->getProductListingCfg('product_settings/show_image');
+$aspect_ratio = $ves->getProductListingCfg('product_settings/aspect_ratio');
+$image_width = $ves->getProductListingCfg('product_settings/image_width');
+$image_height = $ves->getProductListingCfg('product_settings/image_height');
+$alt_image = $ves->getProductListingCfg('product_settings/alt_image');
+$alt_image_column = $ves->getProductListingCfg('product_settings/alt_image_column');
+$alt_image_column_value = $ves->getProductListingCfg('product_settings/alt_image_column_value');
+
+//If image width is not specified, use default values
+if ($image_width <= 0){
+    $image_width = 300;
+    $image_height = 300;
+}
+$catViewKeepFrame = TRUE;
+if($aspect_ratio){
+    $image_height = 0;
+    $catViewKeepFrame = FALSE;
+}
+if ($data->getCoreRegistry()->registry('catViewKeepFrame') === NULL){
+    $data->getCoreRegistry()->register('catViewKeepFrame', $catViewKeepFrame);
+}
+?>
+<?php if (($_products = $block->getProductCollection()) && $_products->getSize()): ?>
+    <div class="block widget block-new-products-images">
+        <div class="block-title">
+            <strong><?php /* @escapeNotVerified */ echo __('New Products') ?></strong>
+        </div>
+        <div class="block-content">
+            <?php $suffix = $block->getNameInLayout(); ?>
+            <ol id="widget-new-products-<?php /* @escapeNotVerified */ echo $suffix; ?>" class="product-items product-items-images <?php echo $classes; ?>">
+                <?php foreach ($_products->getItems() as $_product): ?>
+                    <li class="product-item">
+                        <?php // Product Image ?>
+                        <?php if($show_image){ ?>
+                        <?php
+                        $_image = $_imgHelper->getImg($_product, $image_width, $image_height, 'category_page_grid');
+                        ?>
+                        <?php if($_image){ ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_image->getLabel() ?>" class="product-item-photo">
+                            <img src="<?php echo $_image->getUrl(); ?>" alt="<?php echo $_image->getLabel() ?>" />
+                        </a>
+                        <?php } ?>
+                        <?php if($alt_image){ ?>
+                        <?php
+                        $_altImg = $_imgHelper->getAltImgHtml($_product, $image_width, $image_height, 'category_page_grid', $alt_image_column, $alt_image_column_value);
+                        ?>
+                        <?php if($_altImg){ ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" class="hover-image" title="<?php echo $_altImg->getLabel() ?>" class="hover-image">
+                            <img src="<?php echo $_altImg->getUrl(); ?>" alt="<?php echo $_altImg->getLabel() ?>" />
+                        </a>
+                        <?php } ?>
+                        <?php } ?>
+                        <?php } ?>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <?php echo $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif; ?>

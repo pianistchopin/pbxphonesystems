@@ -1,0 +1,130 @@
+.landofcoder-menu {
+    color: #41362f;
+    float: left;
+    font-size: 1.6rem;
+    margin-top: .7rem;
+}
+.page-main-actions._hidden .landofcoder-menu {
+    display: none;
+}
+.landofcoder-menu .dropdown {
+    display: inline-block!important;
+    position: relative;
+}
+.landofcoder-menu .dropdown:before, .landofcoder-menu .dropdown:after {
+    content: "";
+    display: table;
+}
+.landofcoder-menu .admin__action-dropdown {
+    font-size: 1.6rem;
+    letter-spacing: .025em;
+    background-color: #f8f8f8;
+    z-index: 20;
+    transition: border-color 0.15s ease;
+}
+.landofcoder-menu .dropdown .dropdown-menu {
+    margin: 0;
+    padding: 6px 0 3px 0;
+    list-style: none none;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px #007bdb solid;
+    position: absolute;
+    z-index: 1000;
+    top: 100%;
+    line-height: 1.36;
+    min-width: 18.5rem;
+    margin-top: -1px;
+    display: none;
+    transition: all 0.15s ease;
+    visibility: hidden;
+    opacity: 0;
+}
+.landofcoder-menu .dropdown.active .admin__action-dropdown-text:after {
+    background-color: #ffffff;
+    content: '';
+    height: 6px;
+    position: absolute;
+    top: 100%;
+    right: -6px;
+    left: 0;
+}
+.landofcoder-menu .dropdown.active .admin__action-dropdown,
+.landofcoder-menu .dropdown.active .dropdown-menu {
+    border-color: #007bdb;
+    background-color: #fff;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+.landofcoder-menu .dropdown.active .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+.landofcoder-menu .dropdown .dropdown-menu li:hover,
+.landofcoder-menu .dropdown .dropdown-menu li.current {
+    background: #e0f6fe;
+    cursor: pointer;
+}
+.landofcoder-menu .dropdown-menu>li>a:focus,.landofcoder-menu .dropdown-menu>li>a:hover{
+    background: #e0f6fe;
+}
+.landofcoder-menu .dropdown-menu li {
+    margin: 0;
+    border: 0;
+    cursor: default;
+    font-size: 1.4rem;
+    list-style-type: none;
+}
+.landofcoder-menu .dropdown-menu li a {
+    text-decoration: none;
+    color: #41362f;
+    display: block;
+    padding: .6rem 1.8rem;
+}
+.landofcoder-menu .dropdown-menu li.separator {
+    border-top: 1px #adadad solid;
+}
+.landofcoder-menu .dropdown-menu li.separator a {
+    padding-top: .8rem;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.landofcoder-menu .dropdown-child {
+    position: relative;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.landofcoder-menu .dropdown-content {
+    border-radius: 2px;
+    left: 100%;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    top: 0;
+    border: 1px #adadad solid;
+}
+
+/* Links inside the dropdown */
+.landofcoder-menu .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.landofcoder-menu .dropdown-content a:hover {background-color: #e0f6fe}
+
+/* Show the dropdown menu on hover */
+.landofcoder-menu .dropdown-child:hover .dropdown-content {
+    display: block;
+}
+.hidden{display: none;}
+.vespagebuilder-pagebuilder-edit .modal-popup._show,.vespagebuilder-pagebuilder-create .modal-popup._show,.vespagebuilder-blockbuilder-edit .modal-popup._show,.vespagebuilder-blockbuilder-create .modal-popup._show{
+    z-index: 12000!important;
+}
+.vespagebuilder-pagebuilder-edit .loading-mask,.vespagebuilder-pagebuilder-create .modal-popup._show,.vespagebuilder-blockbuilder-edit .loading-mask,.vespagebuilder-blockbuilder-create .modal-popup._show{
+    z-index: 13000!important;
+}

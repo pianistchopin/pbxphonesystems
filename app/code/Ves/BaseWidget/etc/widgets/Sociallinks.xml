@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_sociallinks" class="Ves\BaseWidget\Block\Widget\Sociallinks">
+        <label translate="true">Ves Base: Social Links</label>
+        <description>Show Social Links</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true" >
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            
+            <parameter name="enable_collapse" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+
+            </parameter>
+
+            <parameter name="facebook_link" xsi:type="text" visible="true" >
+                <label translate="true">Link Facebook</label>
+                <description translate="true"><![CDATA[https://facebook.com/link]]></description>
+            </parameter>
+
+            <parameter name="twitter_link" xsi:type="text" visible="true" >
+                <label translate="true">Link Twitter</label>
+                <description translate="true"><![CDATA[https://twitter.com/link]]></description>
+            </parameter>
+
+            <parameter name="pinterest_link" xsi:type="text" visible="true" >
+                <label translate="true">Link Pinterest</label>
+                <description translate="true"><![CDATA[https://www.pinterest.com/link]]></description>
+            </parameter>
+
+            <parameter name="google_plus" xsi:type="text" visible="true" >
+                <label translate="true">Link Googleplus</label>
+                <description translate="true"><![CDATA[https://plus.google.com/link]]></description>
+            </parameter>
+
+            <parameter name="youtube" xsi:type="text" visible="true" >
+                <label translate="true">Link Youtube</label>
+                <description translate="true"><![CDATA[https://youtube.com/link]]></description>
+            </parameter>
+
+            <parameter name="vimeo" xsi:type="text" visible="true" >
+                <label translate="true">Link Vimeo</label>
+                <description translate="true"><![CDATA[https://vimeo.com/link]]></description>
+            </parameter>
+
+            <parameter name="skype" xsi:type="text" visible="true" >
+                <label translate="true">Link Skype</label>
+                <description translate="true"><![CDATA[https://skype.com/link]]></description>
+            </parameter>
+
+            <parameter name="instagram" xsi:type="text" visible="true" >
+                <label translate="true">Link Instagram</label>
+                <description translate="true"><![CDATA[https://instagram.com/link]]></description>
+            </parameter>
+
+            <parameter name="linkedln" xsi:type="text" visible="true" >
+                <label translate="true">Link Linkedln</label>
+                <description translate="true"><![CDATA[https://linkedin.com/link]]></description>
+            </parameter>
+
+            <parameter name="fivepx" xsi:type="text" visible="true" >
+                <label translate="true">Link 500px</label>
+                <description translate="true"><![CDATA[https://500px.com/link]]></description>
+            </parameter>
+
+            <parameter name="amazon" xsi:type="text" visible="true" >
+                <label translate="true">Link Amazon</label>
+                <description translate="true"><![CDATA[http://amazon.com/link]]></description>
+            </parameter>
+
+            <parameter name="weibo" xsi:type="text" visible="true" >
+                <label translate="true">Link Weibo</label>
+                <description translate="true"><![CDATA[http://weibo.com/link]]></description>
+            </parameter>
+
+            <parameter name="reddit" xsi:type="text" visible="true" >
+                <label translate="true">Link Reddit</label>
+                <description translate="true"><![CDATA[https://reddit.com/link]]></description>
+            </parameter>
+
+            <parameter name="vine" xsi:type="text" visible="true" >
+                <label translate="true">Link Vine</label>
+                <description translate="true"><![CDATA[https://vine.co/link]]></description>
+            </parameter>
+
+            <parameter name="whatsapp" xsi:type="text" visible="true" >
+                <label translate="true">Link Whatsapp</label>
+                <description translate="true"><![CDATA[whatsapp://send?text=link]]></description>
+            </parameter>
+
+            <parameter name="tumblr" xsi:type="text" visible="true" >
+                <label translate="true">Link Tumblr</label>
+                <description translate="true"><![CDATA[https://tumblr.com/link]]></description>
+            </parameter>
+
+            <parameter name="foursquare" xsi:type="text" visible="true" >
+                <label translate="true">Link Foursquare</label>
+                <description translate="true"><![CDATA[https://foursquare.com/link]]></description>
+            </parameter>
+
+            <parameter name="dribbble" xsi:type="text" visible="true" >
+                <label translate="true">Link Dribbble</label>
+                <description translate="true"><![CDATA[https://dribbble.com/link]]></description>
+            </parameter>
+
+            <parameter name="behance" xsi:type="text" visible="true" >
+                <label translate="true">Link Behance</label>
+                <description translate="true"><![CDATA[https://www.behance.net/link]]></description>
+            </parameter>
+
+            <parameter name="delicious" xsi:type="text" visible="true" >
+                <label translate="true">Link Delicious</label>
+                <description translate="true"><![CDATA[http://delicious.com/link]]></description>
+            </parameter>
+
+            <parameter name="slideshare" xsi:type="text" visible="true" >
+                <label translate="true">Link Slideshare</label>
+                <description translate="true"><![CDATA[http://slideshare.net/link]]></description>
+            </parameter>
+
+            <parameter name="steam" xsi:type="text" visible="true" >
+                <label translate="true">Link Steam</label>
+                <description translate="true"><![CDATA[http://store.steampowered.com/link]]></description>
+            </parameter>
+
+            <parameter name="yelp" xsi:type="text" visible="true" >
+                <label translate="true">Link Yelp</label>
+                <description translate="true"><![CDATA[http://yelp.com/link]]></description>
+            </parameter>
+
+            <parameter name="flickr" xsi:type="text" visible="true" >
+                <label translate="true">Link Flickr</label>
+                <description translate="true"><![CDATA[https://flickr.com/link]]></description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

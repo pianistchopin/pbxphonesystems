@@ -1,0 +1,144 @@
+<?php
+$_instagram = $this->getInstagramdefault();
+$_vesHelper = $this->helper('Ves\BaseWidget\Helper\Productlist');
+//var_dump($instagram);die;
+$default_items = (int)$this->getConfig("default_items");
+$default_items = !empty($default_items)?$default_items:5;
+
+$mobile_items = (int)$this->getConfig("mobile_items");
+$mobile_items = !empty($mobile_items)?$mobile_items:1;
+
+$tablet_small_items = (int)$this->getConfig("tablet_small_items");
+$tablet_small_items = !empty($tablet_small_items)?$tablet_small_items:2;
+
+$tablet_items = (int)$this->getConfig("tablet_items");
+$tablet_items = !empty($mobile_items)?$tablet_items:4;
+
+$itemsperpage = (int)$this->getConfig("limit");
+$itemsperpage = !empty($itemsperpage)?$itemsperpage:8;
+
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+
+$i  = 0;
+$moduleId = rand(1,10)+rand();
+$custom_id = $this->getConfig("custom_id", "");
+
+$cmsblock = $this->getConfig('cmsblock');
+$pretext_html = $this->getConfig('pretext');
+$html = '';
+if($cmsblock === 'pretext_html'){
+    $html = base64_decode($pretext_html);
+}elseif($cmsblock!=''){
+    $html = $this->getCmsBlockModel()->load($cmsblock)->getContent();
+}
+$html = $_vesHelper->filter($html);
+?>
+<?php if( count($_instagram) ) { ?>
+<div id="<?php echo $custom_id?$custom_id:('ves-instagram-carousel-'.$moduleId);?>" class="ves-widget block instagram_gallery">
+    <?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+            <?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-instagram-carousel<?php echo $moduleId; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<?php endif; ?>
+	<?php if($html){ ?>
+      <div class="pretext-html">
+            <?php echo $html;?>
+      </div>
+      <?php } ?>
+	<div id="widget-instagram-carousel<?php echo $moduleId; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+		<?php
+		$number = 0;
+		foreach ($_instagram->data as $media) { $i++?>
+		<?php if($i == 1 || ($i-1) % $itemsperpage == 0) { ?>
+		<div class="row">
+			<?php } ?>
+			<?php
+			// image
+			$link = $media->link;
+			$image = $media->images->low_resolution->url;
+			$image_large = $media->images->standard_resolution->url;
+			$width_large = $media->images->standard_resolution->width;
+			$height_large = $media->images->standard_resolution->height;
+			$avatar = $media->user->profile_picture;
+			$username = $media->user->username;
+			$comment = (!empty($media->caption->text)) ? $media->caption->text : '';
+			?>
+			<div class="item-instagram">
+				<a class="colorbox-instagram_<?php echo $number; ?>" href="#instagram-detail_<?php echo $number; ?>">
+					<img style="width: <?php echo $this->getWidthinconfig() ?>px; height: <?php echo $this->getHeightinconfig() ?>px;" alt="instagram image <?php echo $number; ?>" src="<?php echo $image ?>"/>
+				</a>
+				<div class="hidden hide">
+					<div id="instagram-detail_<?php echo $number; ?>" >
+						<img width="<?php echo $width_large ?>" height="<?php echo $height_large ?>" class="media" src="<?php echo $image_large ?>" alt="instagram image <?php echo $number; ?>"/>
+						<div class="instagram-content">
+							<div class="instagram-avatar" style="background-image: url(<?php echo $avatar ?>)"></div>
+							<p><a target="_blank" href="<?php echo $link ?>"><?php echo $username ?></a></p>
+							<div class="instagram-comment"><?php echo $comment ?></div>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					require(['jquery'],function($){
+        				$(document).ready(function(){
+							require([
+								'jquery'
+								<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_fancybox")): ?>
+							    ,"Ves_All/lib/fancybox/jquery.fancybox"
+							    <?php endif; ?>
+								],function($){
+									$('.colorbox-instagram_<?php echo $number; ?>').fancybox({
+										helpers: {
+										    overlay: {
+										      locked: false
+										    }
+										  }
+									});
+								});
+						});
+					});
+				</script>
+			<?php $number ++; ?>
+		</div>
+		<?php if( $i%$itemsperpage==0 || $i==$itemsperpage) { ?>
+	</div>
+	<?php } ?>
+	<?php }?>
+</div>
+
+</div>
+<script type="text/javascript">
+require([
+		'jquery'
+		],function($){
+			jQuery( window ).resize(function() {
+				ResizeWidth();
+			});
+			jQuery(window).load(function() {
+				ResizeWidth();
+			});
+
+});
+
+function ResizeWidth(){
+			var totalwidth = jQuery("#ves-instagram-carousel-<?php echo $moduleId;?>").outerWidth(true);
+			var totalwidthBody = jQuery("body").outerWidth(true);
+			var cols = 5;
+			if (totalwidthBody >= 980 && totalwidthBody <= 1199) {
+				 cols = <?php echo $default_items ?>;
+			}else if (totalwidthBody <= 480) {
+				 cols = <?php echo $mobile_items ?>;
+			}else if (totalwidthBody >= 480 &&  totalwidthBody <= 641) {
+				 cols = <?php echo $tablet_small_items ?>;
+			}else if (totalwidthBody >= 641 &&  totalwidthBody <= 768) {
+				 cols = <?php echo $tablet_items ?>;
+			}
+			//console.log(cols+'-'+totalwidth+'-'+totalwidthBody);
+			var first_total = totalwidth/cols;
+			var width_default = Math.round(first_total-2).toString();
+			var width2 = Math.round((first_total-2) * 2).toString();
+
+			jQuery( ".item-instagram" ).width(width_default);
+}
+</script>
+<?php } //end if ?>

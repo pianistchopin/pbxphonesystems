@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    <referenceContainer name="page.wrapper">
+        <container name="header.container" as="header_container" label="Page Header Container"  htmlTag="div" htmlClass="page-header" before="-" />
+
+        <container name="ves-slideshow" as="ves-slideshow" label="Page Slideshow Container" htmlTag="div" htmlClass="ves-slideshow clearfix" before="main.content"/>
+
+        <container name="ves-showcase" as="ves-showcase" label="Page Showcase Container" htmlTag="div" htmlClass="ves-showcase page-main clearfix" after="ves-slideshow"/>
+
+        <container name="ves-masstop" as="ves-masstop" label="Page Masstop Container" htmlTag="div" htmlClass="ves-masstop page-main clearfix" after="ves-showcase"/>
+
+        <container name="ves-massbottom" as="ves-massbottom" label="Page Massbottom Container" htmlTag="div" htmlClass="ves-massbottom page-main clearfix" after="ves-masstop"/>
+
+        <container name="ves-massbottom1" as="ves-massbottom1" label="Page Massbottom1 Container" htmlTag="div" htmlClass="ves-massbottom1 page-main clearfix" after="ves-massbottom"/>
+
+        <container name="ves-massbottom2" as="ves-massbottom2" label="Page Massbottom2 Container" htmlTag="div" htmlClass="ves-massbottom2 page-main clearfix" after="ves-massbottom1"/>
+
+        <container name="footer-container" as="footer" before="before.body.end" label="Page Footer Container" htmlTag="div" htmlClass="page-footer" />
+    </referenceContainer>
+</layout>

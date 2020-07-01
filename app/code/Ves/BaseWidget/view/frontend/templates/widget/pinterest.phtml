@@ -1,0 +1,27 @@
+<?php
+if ($select_type): ?>
+	<div class="ves-widget widget-pinterest block">
+		<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+		<div class="block-title">
+			<strong><span><?php echo $widget_heading; ?></span></strong>
+		</div>
+		<?php endif; ?>
+		<div class="widget-inner block-content">
+
+			<a data-pin-do="buttonPin" <?php echo $button_type.$color; ?> href="http://www.pinterest.com/pin/create/button/?url=<?php echo $url;?>&amp;media=<?php echo $media; ?>&amp;description=<?php echo $description; ?>"
+				class="pin-it-button" data-pin-count="<?php echo $select_type; ?>">
+			    <img src="//assets.pinterest.com/images/pidgets/<?php echo $color_image?$color_image:'pin_it_button.png';?>" alt="<?php echo __('Pin It'); ?>" />
+			</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		(function(d){
+		    var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+		    p.type = 'text/javascript';
+		    p.async = true;
+		    p.src = '//assets.pinterest.com/js/pinit.js';
+		    f.parentNode.insertBefore(p, f);
+		}(document));
+	</script>
+<?php endif; ?>

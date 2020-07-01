@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_twitter" class="Ves\BaseWidget\Block\Widget\Twitter">
+		<label translate="true">Ves Base: Twitter Widget</label>
+		<description translate="true">Facebook Widget</description>
+		<parameters>
+			<parameter name="username" xsi:type="text" visible="true">
+				<label translate="true">Username</label>
+				<description translate="true">Twitter Username</description>
+			</parameter>
+
+			<parameter name="id" xsi:type="text"  visible="true" >
+				<label translate="true">Twiter Widget Id</label>
+				<description translate="true"><![CDATA[<hr style="display:none"/>Widget Url: https://twitter.com/settings/widgets/516884405818621953/edit<br/>Widget ID: <b>516884405818621953</b>]]></description>
+			</parameter>
+
+			<parameter name="title" xsi:type="text"  visible="true" >
+				<label translate="true">Title</label>
+			</parameter>
+			
+			<parameter name="custom_id" xsi:type="text"  visible="true" >
+				<label translate="true">Custom Block Id</label>
+			</parameter>
+
+			<parameter name="theme" xsi:type="select"  visible="true" >
+				<label translate="true">Theme</label>
+				<options>
+					<option name="dark" value="dark">
+                        <label translate="true">Dark</label>
+                    </option>
+                    <option name="light" value="light" selected="true">
+                        <label translate="true">Light</label>
+                    </option>
+				</options>
+			</parameter>
+
+			<parameter name="width" xsi:type="text"  visible="true" >
+				<label translate="true">Widget Width</label>
+				<description translate="true"><![CDATA[Example: 260 .Then widget will have width 260px]]></description>
+			</parameter>
+
+			<parameter name="height" xsi:type="text"  visible="true" >
+				<label translate="true">Widget Height</label>
+				<description translate="true"><![CDATA[Example: 300 .Then widget will have height 300px]]></description>
+			</parameter>
+
+			<parameter name="limit" xsi:type="text"  visible="true" >
+				<label translate="true">Limit</label>
+			</parameter>
+
+			<parameter name="enable_scrollbar" xsi:type="select"  visible="true" >
+				<label translate="true">Enable Scrollbar</label>
+				<options>
+					<option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No Scroll bar</label>
+                    </option>
+				</options>
+			</parameter>
+
+			<parameter name="enable_header" xsi:type="select"  visible="true" >
+				<label translate="true">Enable Header</label>
+				<options>
+					<option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No Header</label>
+                    </option>
+				</options>
+			</parameter>
+
+			<parameter name="enable_footer" xsi:type="select"  visible="true" >
+				<label translate="true">Enable Footer</label>
+				<options>
+					<option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No Footer</label>
+                    </option>
+				</options>
+			</parameter>
+
+			<parameter name="enable_border" xsi:type="select"  visible="true" >
+				<label translate="true">Enable Border</label>
+				<options>
+					<option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No Border</label>
+                    </option>
+				</options>
+			</parameter>
+
+			<parameter name="link_color" xsi:type="text"  visible="true" >
+				<label translate="true">Link Color</label>
+				<description translate="true"><![CDATA[<a href="http://www.w3schools.com/tags/ref_colorpicker.asp" target="_blank">Choice Color</a><br/>For Example: <b>red, green, blue, yellow</b> <br/> <b>Hexa Code: #FF0000, #FFCCC..</b>]]></description>
+			</parameter>
+
+			<parameter name="border_color" xsi:type="text"  visible="true" >
+				<label translate="true">Border Color</label>
+				<description translate="true"><![CDATA[<a href="http://www.w3schools.com/tags/ref_colorpicker.asp" target="_blank">Choice Color</a><br/>For Example: <b >red, green, blue, yellow</b> <br/> <b >Hexa Code: #FF0000, #00FFFF...</b>]]></description>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

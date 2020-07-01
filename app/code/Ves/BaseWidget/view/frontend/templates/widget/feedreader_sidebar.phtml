@@ -1,0 +1,75 @@
+<?php
+/*
+* Ves Base Widget - Feed Reader Sidebar
+*
+* @package   vesbase
+* @version   5.0
+* @author    http://www.venustheme.com
+* @copyright Copyright (C) October 2013 venustheme.com <@emai:venustheme@gmail.com>
+*               <info@venustheme.com>.All rights reserved.
+* @license   GNU General Public License version 2
+*/
+$modid = rand().time();
+$remainder = '';
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+$max_chars = $this->getConfig("max_chars", 80);
+$is_truncate = $this->getConfig("is_truncate", 0);
+$strip_html = $this->getConfig("strip_html", 0);
+$widget_heading = $block->escapeHtml($this->getTitle());
+?>
+<?php if($this->getItemCount() > 0): ?>
+<div class="ves-widget block block-list block-feed-reader-widget">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+	 	<?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-feedreader-sidebar<?php echo $modid; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+		<strong><span><?php echo $widget_heading ; ?></span></strong>
+	</div>
+	<?php endif; ?>
+	<div id="widget-feedreader-sidebar<?php echo $modid; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+		<ol id="feed-items-<?php echo $modid; ?>">
+		<?php
+		$itemCount = 0;
+		foreach($this->getItems() as $item): ?>
+			<li class="block-feed-item <?php echo (++$itemCount % 2 == 0 ? 'even' : 'odd'); ?><?php if($itemCount == 1): ?> first<?php endif;?><?php if($itemCount >= $this->getItemCount()): ?> last<?php endif; ?>">
+				<h5>
+					<a href="<?php echo $block->escapeHtml($item->link()); ?>">
+						<?php echo $block->escapeHtml($item->title()); ?>
+					</a>
+				</h5>
+				<div class="date">
+					<?php echo date('d.m.Y H:m', strtotime($item->pubDate())); ?>
+				</div>
+				<div class="summary">
+					<?php if($is_truncate): ?>
+					<a href="<?php echo $block->escapeHtml($item->link()); ?>">
+						<?php 
+							$description = $item->description();
+							$description = $strip_html?strip_tags($description): $description;
+							echo $block->escapeHtml($this->helper("Ves\BaseWidget\Helper\Data")->truncateString($description, $max_chars, '...', $remainder, false)); ?>
+					</a>
+					<?php else : ?>
+						<?php echo $item->description(); ?>
+					<?php endif; ?>
+				</div>
+			</li>
+		<?php endforeach; ?>
+		</ol>
+	</div>
+</div>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+      require([
+            'jquery'
+            <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+            ,"Ves_All/lib/bootstrap/js/bootstrap.min"
+            <?php endif; ?>
+            ],function($){
+                  
+            });
+      });
+ });
+</script>
+<?php endif; ?>
+<?php endif; ?>

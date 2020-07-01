@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_popup" class="Ves\BaseWidget\Block\Widget\Popup">
+        <label translate="true">Ves Base: Popup</label>
+        <description>Show Promotion, Newsletter, Signup Popup</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+
+            <parameter name="addition_class" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="open_button_text" xsi:type="text"  visible="true">
+                <label translate="true">Open Popup Button Text</label>
+                <description translate="true">Input text for open popup button. Empty for hide</description>
+            </parameter>
+
+            <parameter name="button_class" xsi:type="text"  visible="true">
+                <label translate="true">Button Class</label>
+                <description translate="true">Input css class for open popup button</description>
+            </parameter>
+
+            <parameter name="open_popup_first" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Allow Open Popup On First Load</label>
+            </parameter>
+
+            <parameter name="show_disable_option" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Dont Show Popup Again</label>
+                <description translate="true">Disable checkbox allow Not receive this message again</description>
+            </parameter>
+
+            <parameter name="form_type" xsi:type="select"  visible="true">
+                <label translate="true">Select Popup Content Type</label>
+                <options>
+                    <option name="newsletter" value="newsletter" selected="true">
+                        <label translate="true">Newsletter Form</label>
+                    </option>
+                    <option name="login" value="login">
+                        <label translate="true">Login and Register Form</label>
+                    </option>
+                    <option name="register" value="register">
+                        <label translate="true">Register</label>
+                    </option>
+                    <option name="forgotpassword" value="forgotpassword">
+                        <label translate="true">Forgot Password Form</label>
+                    </option>
+                    <option name="cms" value="cms">
+                        <label translate="true">CMS Static Block Content</label>
+                    </option>
+                    <option name="customhtml" value="customhtml">
+                        <label translate="true">Custom Html</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+                <description translate="true">Input html content.</description>
+                <depends>
+                    <parameter name="form_type" value="customhtml" />
+                </depends>
+            </parameter>
+
+            <parameter name="cms" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+                <depends>
+                    <parameter name="form_type" value="cms" />
+                </depends>
+            </parameter>
+
+            <parameter name="responsive_popup" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Allow show reponsive popup</label>
+            </parameter>
+
+            <parameter name="popup_height" xsi:type="text"  visible="true">
+                <label translate="true">Popup Width</label>
+                <description translate="true">Default value is 60%</description>
+            </parameter>
+
+            <parameter name="popup_width" xsi:type="text"  visible="true">
+                <label translate="true">Popup Width</label>
+                <description translate="true">Default value is 60%</description>
+            </parameter>
+
+            <parameter name="delay" xsi:type="text"  visible="true">
+                <label translate="true">Popup will show after</label>
+                <description translate="true">A specified number of seconds. Empty to when load widget. For example: 1000</description>
+            </parameter>
+
+            <parameter name="opacity" xsi:type="text"  visible="true">
+                <label translate="true">Opacity</label>
+                <description translate="true">The overlay opacity level. Range: 0 to 1. Default 0.6</description>
+            </parameter>
+
+            <parameter name="expire" xsi:type="text"  visible="true">
+                <label translate="true">Cookie Expire</label>
+                <description translate="true">Cookie expire time(second). When popup is shown, there will be one cookie created at a set time. Once, the page is loaded in the time, the system will check whether the cookie of created popup is outdated or not. If the cookie is outdated, popup will show up; in contrast, if the cookie have been not outdated yet, the popup wont show and wait until the cookie is outdated. For example: 10000</description>
+            </parameter>
+
+            <parameter name="form_template" xsi:type="text"  visible="true">
+                <label translate="true">Form Template</label>
+                <description translate="true">Input custom module template file path. For example: ves/base/newsletter.phtml. Empty for default</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

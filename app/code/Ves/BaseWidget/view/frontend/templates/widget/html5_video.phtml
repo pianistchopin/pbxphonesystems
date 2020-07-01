@@ -1,0 +1,80 @@
+<?php
+$title = $this->getData('title');
+
+$modid = rand().time();
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+$custom_class = $this->getConfig("custom_class", "vjs-default-skin");
+$enable_controls = $this->getConfig("enable_controls", 0);
+$enable_subtitles = $this->getConfig("enable_subtitles", 0);
+$enable_autoplay = $this->getConfig("enable_autoplay", 0);
+if(!$enable_controls) {
+	$enable_autoplay = true;
+}
+$subtitles_langcode = $this->getConfig("subtitles_langcode", "en");
+$subtitles_lang = $this->getConfig("subtitles_lang", "English");
+$content = $this->getConfig("content", "");
+if($content) {
+	$content = str_replace(" ", "+", $content);
+	if(is_string($content) && $this->isBase64Encoded($content)){
+		$content = base64_decode($content);
+	}
+	$content = $this->getDataFilterHelper()->filter($content);
+}
+?>
+<div class="ves-widget block block-list block-html5video-widget">
+	<?php if(isset($title) && trim($title)!=''): ?>
+		<div class="block-title">
+			<?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-html5video<?php echo $modid; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+			<strong><span><?php echo $title; ?></span></strong>
+		</div>
+	<?php endif; ?>
+	<div id="widget-html5video<?php echo $modid; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+
+		<video id="widget-html5video<?php echo $modid; ?>-video" class="video-js <?php echo $custom_class; ?>" <?php if($enable_controls){ ?> controls <?php } ?> <?php echo $enable_autoplay?'autoplay':''; ?> preload="auto" width="<?php echo (int)$width; ?>" height="<?php echo (int)$height; ?>"
+	      poster="<?php echo $thumbnailurl; ?>"
+	      data-setup='{}'>
+	    <?php if($mp4_file) { ?>
+	    <source src="<?php echo $mp4_file; ?>" type='video/mp4' />
+	    <?php } ?>
+	    <?php if($webm_file) { ?>
+	    <source src="<?php echo $webm_file; ?>" type='video/webm' />
+		<?php } ?>
+		<?php if($ogg_file) { ?>
+	    <source src="<?php echo $ogg_file; ?>" type='video/ogg' />
+		<?php } ?>
+		<?php if( $subtitles_path ) { ?>
+	    <track kind="captions" src="<?php echo $subtitles_path; ?>" srclang="<?php echo $subtitles_langcode; ?>" label="<?php echo $subtitles_lang; ?>"></track><!-- Tracks need an ending tag thanks to IE9 -->
+	    <track kind="subtitles" src="<?php echo $subtitles_path; ?>" srclang="<?php echo $subtitles_langcode; ?>" label="<?php echo $subtitles_lang; ?>"></track><!-- Tracks need an ending tag thanks to IE9 -->
+		<?php } ?>
+	    <p class="vjs-no-js"><?php echo $content; ?></p>
+	  </video>
+
+	</div>
+</div>
+<script>
+	require(['jquery', 'Ves_BaseWidget/js/videojs/video'],function($){
+    	videojs.options.flash.swf = "<?php echo $swf_file; ?>";
+    	<?php if($enable_autoplay) { ?>
+    		videojs('widget-html5video<?php echo $modid; ?>-video').ready(function() {
+			    this.play();
+			});
+		<?php } ?>
+	})
+  </script>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	require([
+		'jquery'
+		<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		<?php endif; ?>
+		],function($){
+			
+		});
+	});
+});
+</script>
+<?php endif; ?>
+

@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_gallery" class="Ves\BaseWidget\Block\Widget\Gallery">
+		<label translate="true">Ves Base: Gallery Images</label>
+		<description translate="true">Create Gallery Images, Lookbook Images</description>
+		<parameters>
+
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+			</parameter>
+
+			<parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Collapse</label>
+
+			</parameter>
+
+			<parameter name="addition_cls" xsi:type="text" visible="true">
+				<label translate="true">Addition Class</label>
+				<description translate="true">This class is used to make owner style for the widget.</description>
+			</parameter>
+
+			<parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+				<label translate="true">Widget Box Style</label>
+				<description translate="true">These classes are bootstrap typo contextual color classes</description>
+			</parameter>
+
+			<parameter name="thumbnail_mode" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Render Thumbnail</label>
+				<description translate="true">Whether to render thumbnail with cropping-resizing function</description>
+			</parameter>
+
+			<parameter name="thumb_height" xsi:type="text" visible="true">
+				<label translate="true">Thumbnail Height</label>
+				<depends><parameter name="thumbnail_mode" value="1" /></depends>
+			</parameter>
+
+			<parameter name="thumb_width" xsi:type="text" visible="true">
+				<label translate="true">Thumbnail Width</label>
+				<depends><parameter name="thumbnail_mode" value="1" /></depends>
+			</parameter>
+			<parameter name="keep_ratio" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Keep Resize Ratio</label>
+				<depends><parameter name="thumbnail_mode" value="1" /></depends>
+			</parameter>
+
+			<parameter name="limit_item" xsi:type="text" visible="true">
+				<label translate="true">Limit Items</label>
+			</parameter>
+
+			<parameter name="max_items" xsi:type="text" visible="true">
+				<label translate="true">Max Items</label>
+			</parameter>
+
+			<parameter name="thumbnail_mode" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Render Thumbnail</label>
+				<description translate="true">Whether to render thumbnail with cropping-resizing function</description>
+			</parameter>
+
+			<parameter name="template" xsi:type="select" required="true" visible="true">
+				<label translate="true">Template</label>
+				<options>
+					<option name="default" value="widget/gallery_list.phtml" selected="true">
+						<label translate="true">Gallery Show As List</label>
+					</option>
+					<option name="grid" value="widget/gallery_grid.phtml">
+						<label translate="true">Gallery Show As Grid</label>
+					</option>
+					<option name="carousel" value="widget/gallery_carousel.phtml">
+						<label translate="true">Gallery Show As Carousel</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="effect_scroll" xsi:type="select"  visible="true">
+				<label translate="true">Render Thumbnail</label>
+				<description translate="true">Image Effect When Scroll Down</description>
+				<options>
+					<option name="effect1" value="effect1" selected="true">
+						<label translate="true">Effect 1</label>
+					</option>
+					<option name="effect2" value="effect2">
+						<label translate="true">Effect 2</label>
+					</option>
+					<option name="effect3" value="effect3">
+						<label translate="true">Effect 3</label>
+					</option>
+					<option name="effect4" value="effect4">
+						<label translate="true">Effect 4</label>
+					</option>
+					<option name="effect5" value="effect5">
+						<label translate="true">Effect 5</label>
+					</option>
+					<option name="effect7" value="effect7">
+						<label translate="true">Effect 7</label>
+					</option>
+					<option name="effect8" value="effect8">
+						<label translate="true">Effect 8</label>
+					</option>
+				</options>
+			</parameter>
+
+			
+			<parameter name="popup" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Popup Image</label>
+			</parameter>
+
+			<parameter name="popup_plugin" xsi:type="select"  visible="true">
+				<label translate="true">Popup Type</label>
+				<options>
+					<option name="colorbox" value="colorbox" selected="true">
+						<label translate="true">Colorbox</label>
+					</option>
+					<option name="fancybox" value="fancybox">
+						<label translate="true">Fancybox</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="enable_thumb" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Popup Thumb List</label>
+				<description translate="true"><![CDATA[We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Thumbs]]></description>
+				<depends>
+					<parameter name="popup_plugin" value="fancybox" />
+				</depends>
+			</parameter>
+
+			<parameter name="popup_thumb_width" xsi:type="text"  visible="true">
+				<label translate="true">Popup Thumb Width</label>
+				<depends>
+					<parameter name="popup_plugin" value="fancybox" />
+				</depends>
+			</parameter>
+
+			<parameter name="popup_thumb_height" xsi:type="text"  visible="true">
+				<label translate="true">Popup Thumb Height</label>
+				<depends>
+					<parameter name="popup_plugin" value="fancybox" />
+				</depends>
+			</parameter>
+
+			<parameter name="use_custom_button"  xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Use Custom Popup Buttons</label>
+				<description translate="true"><![CDATA[We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Buttons]]></description>
+				<depends>
+					<parameter name="popup_plugin" value="fancybox" />
+				</depends>
+			</parameter>
+
+			<parameter name="slideshow" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Slideshow On Popup</label>
+				<depends>
+					<parameter name="popup_plugin" value="fancybox" />
+				</depends>
+			</parameter>
+
+			<parameter name="slideshow_speed" xsi:type="text"  visible="true">
+				<label translate="true">Popup Slideshow Speed</label>
+				<description translate="true"><![CDATA[Sets the speed of the slideshow, in milliseconds. Default: 2500]]></description>
+			</parameter>
+
+			<parameter name="show_info" xsi:type="select"  visible="true">
+				<label translate="true">Show Image Info</label>
+				<options>
+					<option name="yes" value="1">
+						<label translate="true">Enabled</label>
+					</option>
+					<option name="no" value="0" selected="true">
+						<label translate="true">Disabled</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="source" xsi:type="select"  visible="true">
+				<label translate="true">From Source</label>
+				<description translate="true">Choose Source to render image and content in the slideshow</description>
+				<options>
+					<option name="image" value="image">
+						<label translate="true">Upload Images</label>
+					</option>
+					<option name="folder" value="folder" selected="true">
+						<label translate="true">Load Images From Folder</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="source_folder_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+				<label translate="true">Images From Folder Setting</label>
+				<depends>
+					<parameter name="source" value="folder" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_folder" xsi:type="text"  visible="true">
+				<label translate="true">Input Image Folder Path</label>
+				<description><![CDATA[Image Folder Path Setting(this folder put in pub/media/ ) <br/>For example: gallery its mean folder path pub/media/gallery]]></description>
+				<depends>
+					<parameter name="source" value="folder" />
+				</depends>
+			</parameter>
+
+			<parameter name="source_images_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+				<label translate="true">Upload Images Setting</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_1" xsi:type="text"  visible="true">
+				<label translate="true">Title 1</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_1" xsi:type="text"  visible="true">
+				<label translate="true">Link 1</label>
+				<description translate="true">Input link url 1.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_1" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 1</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_1" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 1</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_2" xsi:type="text"  visible="true">
+				<label translate="true">Title 2</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_2" xsi:type="text"  visible="true">
+				<label translate="true">Link 2</label>
+				<description translate="true">Input link url 2.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_2" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 2</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_2" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 2</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_3" xsi:type="text"  visible="true">
+				<label translate="true">Title 3</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_3" xsi:type="text"  visible="true">
+				<label translate="true">Link 3</label>
+				<description translate="true">Input link url 3.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_3" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 3</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_3" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 3</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_4" xsi:type="text"  visible="true">
+				<label translate="true">Title 4</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_4" xsi:type="text"  visible="true">
+				<label translate="true">Link 4</label>
+				<description translate="true">Input link url 4.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_4" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 4</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_4" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 4</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_5" xsi:type="text"  visible="true">
+				<label translate="true">Title 5</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_5" xsi:type="text"  visible="true">
+				<label translate="true">Link 5</label>
+				<description translate="true">Input link url 5.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_5" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 5</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_5" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 5</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_6" xsi:type="text"  visible="true">
+				<label translate="true">Title 6</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_6" xsi:type="text"  visible="true">
+				<label translate="true">Link 6</label>
+				<description translate="true">Input link url 6.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_6" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 6</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_6" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 6</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_7" xsi:type="text"  visible="true">
+				<label translate="true">Title 7</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_7" xsi:type="text"  visible="true">
+				<label translate="true">Link 7</label>
+				<description translate="true">Input link url 7.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_7" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 7</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_7" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 7</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_8" xsi:type="text"  visible="true">
+				<label translate="true">Title 8</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_8" xsi:type="text"  visible="true">
+				<label translate="true">Link 8</label>
+				<description translate="true">Input link url 8.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_8" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 8</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_8" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 8</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_9" xsi:type="text"  visible="true">
+				<label translate="true">Title 9</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_9" xsi:type="text"  visible="true">
+				<label translate="true">Link 9</label>
+				<description translate="true">Input link url 9.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_9" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 9</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_9" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 9</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_10" xsi:type="text"  visible="true">
+				<label translate="true">Title 10</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_10" xsi:type="text"  visible="true">
+				<label translate="true">Link 10</label>
+				<description translate="true">Input link url 10.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_10" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 10</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_10" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 10</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_11" xsi:type="text"  visible="true">
+				<label translate="true">Title 11</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_11" xsi:type="text"  visible="true">
+				<label translate="true">Link 11</label>
+				<description translate="true">Input link url 11.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_11" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 11</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_11" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 11</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="title_12" xsi:type="text"  visible="true">
+				<label translate="true">Title 12</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="link_12" xsi:type="text"  visible="true">
+				<label translate="true">Link 12</label>
+				<description translate="true">Input link url 12.</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="image_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image 12</label>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="product_id_12" xsi:type="text"  visible="true">
+				<label translate="true">Product Id 12</label>
+				<description translate="true">Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30</description>
+				<depends>
+					<parameter name="source" value="image" />
+				</depends>
+			</parameter>
+
+			<parameter name="source_owl_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+				<label translate="true">OWL Carousel Setting</label>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="default_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Default)</label>
+				<description translate="true">Show number items when screen size between 1199px and 980px. Default: 4</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="mobile_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Phones)</label>
+				<description translate="true">Show number items when screen size bellow 480px. Default: 1</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="tablet_small_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Phones to Small tablets)</label>
+				<description translate="true">Show number items when screen size between 641px and 480px. Default: 2</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="tablet_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Phones to tablets)</label>
+				<description translate="true">Show number items when screen size between 768px and 641px. Default: 2</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="portrait_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Portrait tablets)</label>
+				<description translate="true">Show number items when screen size between 979px and 769px. Default: 3</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="large_items" xsi:type="text" visible="true">
+				<label translate="true">Number Columns On Page (Large display)</label>
+				<description translate="true">Show number items when screen size 1200px and up. Default: 5</description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+
+			<parameter name="auto_play" xsi:type="select" visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Auto Play</label>
+			</parameter>
+
+			<parameter name="interval" xsi:type="text" visible="true">
+				<label translate="true">Speed</label>
+				<description translate="true"><![CDATA[Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes]]></description>
+				<depends>
+					<parameter name="template" value="widget/gallery_carousel.phtml" />
+				</depends>
+			</parameter>
+			<parameter name="slideby" xsi:type="text"  visible="true">
+				<label translate="true">Slide By Number Items</label>
+				<value>1</value>
+			</parameter>
+			<parameter name="dots" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Show dots navigations</label>
+			</parameter>
+			<parameter name="nav" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Show next/prev buttons.</label>
+			</parameter>
+			<parameter name="nav_next" xsi:type="text"  visible="true">
+				<label translate="true">Navigation Next Button Text</label>
+				<depends><parameter name="nav" value="1" /></depends>
+				<value>Next</value>
+			</parameter>
+			<parameter name="nav_next_icon" xsi:type="text"  visible="true">
+				<label translate="true">Navigation Next Font Icon</label>
+				<depends><parameter name="nav" value="1" /></depends>
+				<value>fa fa-angle-right</value>
+			</parameter>
+			<parameter name="nav_pre" xsi:type="text"  visible="true">
+				<label translate="true">Navigation Previous Button Text</label>
+				<depends><parameter name="nav" value="1" /></depends>
+				<value>Pre</value>
+			</parameter>
+			<parameter name="nav_pre_icon" xsi:type="text"  visible="true">
+				<label translate="true">Navigation Previous Font Icon</label>
+				<depends><parameter name="nav" value="1" /></depends>
+				<value>fa fa-angle-left</value>
+			</parameter>
+			<parameter name="rtl" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">RTL Layout</label>
+			</parameter>
+			<parameter name="loop" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Loop</label>
+				<description translate="true"><![CDATA[Infinity loop. Duplicate last and first items to get loop illusion.]]></description>
+			</parameter>
+
+			<parameter name="block_template" xsi:type="text" visible="true">
+				<label translate="true">Custom Module Template</label>
+				<description translate="true">Input custom module template file path. For example: widget/gallery_carousel.phtml Empty for default</description>
+			</parameter>
+
+		</parameters>
+	</widget>
+</widgets>

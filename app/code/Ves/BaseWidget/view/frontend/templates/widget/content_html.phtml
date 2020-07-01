@@ -1,0 +1,61 @@
+<?php
+$widget_heading = $this->getConfig('title');    
+$addition_cls = $this->getConfig('addition_cls');
+
+$content = $this->getConfig('html');
+
+$content = str_replace(" ", "+", $content);
+if(is_string($content) && $this->isBase64Encoded($content)){
+    $content = base64_decode($content);
+}
+$content = $this->getDataFilterHelper()->filter($content);
+
+$width = $this->getConfig('width');
+$aligment = $this->getConfig('aligment');
+$text_aligment = $this->getConfig('text_aligment');
+$custom_css = [];
+if($width && $width != "auto") {
+    $custom_css[] = "width:".trim($width);
+}
+if($aligment && $aligment != "auto") {
+    $custom_css[] = "float:".$aligment;
+}
+if($text_aligment && $aligment != "auto") {
+    $custom_css[] = "text-align:".$text_aligment;
+}
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+$id = rand().time();
+?>
+<div class="ves-widget widget-contenthtml block <?php echo $addition_cls; ?>" <?php echo $custom_css?'style="'.implode(";", $custom_css).'"':'';?>>
+    <?php if($widget_heading): ?>
+    <div class="block-title">
+        <?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-contenthtml<?php echo $id; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+        <strong><span><?php echo $widget_heading; ?></span></strong>
+    </div>
+    <?php endif; ?>
+    <?php if ($content): ?>
+        <div id="widget-contenthtml<?php echo $id; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enable-collapse collapse <?php endif; ?>"><?php echo $content; ?></div>
+    <?php endif; ?>
+    <?php if ($this->getConfig('enable_url')): ?>
+        <?php $url = $this->getConfig('url') ?>
+        <?php if ($url): ?>
+            <a href="<?php echo $this->getConfig('url'); ?>" class="<?php echo $this->getConfig('url_class'); ?>"><?php echo $this->getConfig('url_label'); ?></a>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+    require([
+        'jquery'
+        <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+        ,"Ves_All/lib/bootstrap/js/bootstrap.min"
+        <?php endif; ?>
+        ],function($){
+            
+        });
+    });
+});
+</script>
+<?php endif; ?>

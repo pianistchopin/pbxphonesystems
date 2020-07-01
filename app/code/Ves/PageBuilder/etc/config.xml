@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<vespagebuilder>
+            <general>
+                <show>1</show>
+                <minify_html>1</minify_html>
+                <enable_owl>0</enable_owl>
+                <enable_transition>1</enable_transition>
+                <enable_parallax>1</enable_parallax>
+                <enable_colorbox>1</enable_colorbox>
+                <enable_fancybox>1</enable_fancybox>
+                <enable_fancybox_buttons>0</enable_fancybox_buttons>
+                <enable_fancybox_media>0</enable_fancybox_media>
+                <enable_fancybox_thumbs>0</enable_fancybox_thumbs>
+                <enable_animation>1</enable_animation>
+                <enable_holder_js>1</enable_holder_js>
+                <enable_fontawesome>0</enable_fontawesome>
+                <use_sample_elements>0</use_sample_elements>
+                <enable_visual_composer>0</enable_visual_composer>
+                <auto_backup_profile>1</auto_backup_profile>
+                <enable_masonary>0</enable_masonary>
+                <enable_bootstrap24>0</enable_bootstrap24>
+                <enable_preview>1</enable_preview>
+            </general>
+            <expire_page_setting>
+                <load_cms_block></load_cms_block>
+                <redirect_url></redirect_url>
+            </expire_page_setting>
+            <commingsoon_page_setting>
+                <load_cms_block></load_cms_block>
+                <redirect_url></redirect_url>
+            </commingsoon_page_setting>
+            <private_page_setting>
+                <load_cms_block></load_cms_block>
+                <redirect_url></redirect_url>
+                <enable_login_form>0</enable_login_form>
+            </private_page_setting>
+        </vespagebuilder>
+        <veslivecss>
+            <general>
+                <show>0</show>
+                <live_profile>default</live_profile>
+                <allow_save_profile>1</allow_save_profile>
+                <allowFrontendForAdmins>1</allowFrontendForAdmins>
+                <allowedIPs></allowedIPs>
+                <path_to_pattern>pagebuilder/livecss/images/patterns</path_to_pattern>
+                <path_css_profile>media/pagebuilder/livecss</path_css_profile>
+            </general>
+        </veslivecss>
+	</default>
+</config>

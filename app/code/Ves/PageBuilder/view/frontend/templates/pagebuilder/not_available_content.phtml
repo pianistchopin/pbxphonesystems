@@ -1,0 +1,12 @@
+<?php
+	if(isset($login_form_block) && isset($customer_new_block)) {
+		?>
+		<div class="login-container">
+		<?php echo $login_form_block?$login_form_block->toHtml():''; ?>
+		<?php echo $customer_new_block?$customer_new_block->toHtml():''; ?>
+		</div>
+		<?php
+	} else if(isset($cms_block)) {
+		echo $cms_block;
+	}
+?>

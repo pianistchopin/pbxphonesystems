@@ -1,0 +1,16 @@
+<?php
+$addition_cls = $this->getConfig('addition_cls');
+$author =  $this->getConfig('author', "");
+$cite =  $this->getConfig('cite', "");
+$content = $this->getConfig('html');
+
+$content = str_replace(" ", "+", $content);
+$content = base64_decode($content);
+$content = $this->getDataFilterHelper()->filter($content);
+if ($content): 
+?>
+	<blockquote class="<?php echo $addition_cls; ?>">
+		<?php echo $content; ?>
+		<small><?php echo $author; ?><?php if($cite):?> <cite><?php echo $cite; ?></cite><?php endif; ?></small>
+	</blockquote>
+<?php endif;?>

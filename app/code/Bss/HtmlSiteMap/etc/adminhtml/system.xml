@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    BSS_HtmlSiteMap
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bss" translate="label" sortOrder="300">
+            <label><![CDATA[Bss Commerce]]></label>
+        </tab>
+        <section id="bss_htmlsitemap" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>HTML Sitemap</label>
+            <tab>bss</tab>
+            <resource>Bss_HtmlSiteMap::bss_htmlsitemap</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Version 1.0.3<br/>Choose "Yes" to enable module<br /><b>When the module is enabled, the default URL of site map is http://yourlink.com/sitemap</b>]]></comment>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of Site</label>
+                </field>
+                <field id="order_templates" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Session Order</label>
+                    <comment><![CDATA[<b>Fill in the order of sessions to be displayed. Please fill in all 4 items separated by a coma. Example: 1,2,3,4 ID of sessions as below</b><br/>1: Product List<br/>2: Store View List<br/>3: Additional Link List<br/>4: Category and CMS Page List]]></comment>
+                </field>
+            </group>
+            <group id="product" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product List</label>
+                <field id="enable_product" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Product Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title_product" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of "Product List"</label>
+                </field>
+                <field id="sort_product" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Product by</label>
+                    <source_model>Bss\HtmlSiteMap\Model\Config\Source\Custom</source_model>
+                </field>
+                <field id="order_product" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Arrange Product by</label>
+                    <source_model>Bss\HtmlSiteMap\Model\Config\Source\Order</source_model>
+                </field>
+                <field id="max_products" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Bss\HtmlSiteMap\Block\Adminhtml\System\Config\MaximumProduct</frontend_model>
+                    <label>Maximum Products Displayed on Sitemap</label>
+                    <comment><![CDATA[Maximum Products to be shown on Sitemap. The limit number you can fill in is 50000]]></comment>
+                </field>
+            </group>
+            <group id="store" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Store List</label>
+                <field id="enable_store" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Store View Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title_store" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of "Store View List"</label>
+                </field>
+            </group>
+            <group id="category" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category List</label>
+                <field id="enable_category" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Category Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title_category" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of "Category List"</label>
+                </field>
+                <field id="id_category" translate="label" type="text" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Category</label>
+                    <comment><![CDATA[Fill in ID of categories you want to hide in Sitemap (separated by a coma). Example: <b>1,2,5,9,23,45,77</b>]]></comment>
+                </field>
+            </group>
+            <group id="addition" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Additional Link List</label>
+                <field id="title_addition" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of "Additional Link List"</label>
+                </field>
+                <field id="addition_link" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List of Additional Links</label>
+                    <frontend_model>Bss\HtmlSiteMap\Block\Adminhtml\System\Config\TextArea</frontend_model>
+                    <comment><![CDATA[<b>Please follow this example to add additional links:</b><br />[http://yourlink1.com][Anchor Text 1]<br />[http://yourlink2.com][Anchor Text 2]]]></comment>
+                </field>
+                <field id="open_new_tab" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Open Additional Link in a New Tab</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="cms" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>CMS Link List</label>
+                <field id="enable_cms" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show CMS Link</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title_cms" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title of "CMS List"</label>
+                </field>
+                <field id="do_something" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable CMS Link</label>
+                    <source_model>Bss\HtmlSiteMap\Model\Config\Source\Checkbox</source_model>
+                    <comment>Hold Ctrl when choosing multiple options</comment>
+                </field>
+            </group>
+            <group id="for_search" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Search Engine Optimization</label>
+                <field id="meta_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                </field>
+                <field id="keywords" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Keywords</label>
+                </field>
+                <field id="description" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

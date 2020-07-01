@@ -1,0 +1,58 @@
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_customblock" class="Ves\BaseWidget\Block\Widget\Customblock">
+        <label translate="true">Load Custom Extension Block</label>
+        <description>Load Any Magento Extension Block As Widget</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable.</description>
+            </parameter>
+            <parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+            </parameter>
+            <parameter name="addition_cls" xsi:type="text" visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Widget Box Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes</description>
+            </parameter>
+            <parameter name="block_type" xsi:type="text" visible="true">
+                <label translate="true">Block Type</label>
+                <description translate="true">Type of extension block which the extension support (for example: Magento\Newsletter\Block\Subscribe ).</description>
+            </parameter>
+            <parameter name="block_name" xsi:type="text" visible="true">
+                <label translate="true">Block Name</label>
+                <description translate="true">Name of the extension block which you want for the block. For example: custom.subscribe.</description>
+            </parameter>
+            <parameter name="block_params" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+                <label translate="true">Block Parameters</label>
+                <description translate="true">The parameters wich are supported by the block. Use format: param_name=param_value . If want add more params, enter to new line. For example: template='subscribe.phtml'</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

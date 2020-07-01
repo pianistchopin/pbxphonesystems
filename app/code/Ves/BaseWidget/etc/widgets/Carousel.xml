@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_carousel" class="Ves\BaseWidget\Block\Widget\Carousel">
+        <label translate="true">Ves Base: Content Carousel</label>
+        <description>Create Content Carousel</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+
+            <parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+            </parameter>
+            
+            <parameter name="addition_cls" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Widget Box Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="template" xsi:type="text"  visible="true">
+                <label translate="true">Module Template</label>
+                <description translate="true">Input custom module template file path. For example: ves/base/carousel.phtml Empty for default.</description>
+            </parameter>
+
+            <parameter name="carousel_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Setting</label>
+            </parameter>
+
+            <parameter name="rtl" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Right To Left</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="loop" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Loop Carousel</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="show_navigator" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Button Navigation</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+            <parameter name="nav_next" xsi:type="text"  visible="true">
+                <label translate="true">Navigation Next Button Text</label>
+                <depends><parameter name="show_navigator" value="1" /></depends>
+                <value>Next</value>
+            </parameter>
+            <parameter name="nav_next_icon" xsi:type="text"  visible="true">
+                <label translate="true">Navigation Next Font Icon</label>
+                <depends><parameter name="show_navigator" value="1" /></depends>
+                <value>fa fa-angle-right</value>
+            </parameter>
+            <parameter name="nav_pre" xsi:type="text"  visible="true">
+                <label translate="true">Navigation Previous Button Text</label>
+                <depends><parameter name="show_navigator" value="1" /></depends>
+                <value>Pre</value>
+            </parameter>
+            <parameter name="nav_pre_icon" xsi:type="text"  visible="true">
+                <label translate="true">Navigation Previous Font Icon</label>
+                <depends><parameter name="show_navigator" value="1" /></depends>
+                <value>fa fa-angle-left</value>
+            </parameter>
+
+            <parameter name="enable_custom_nav" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Custom Nav</label>
+            </parameter>
+
+            <parameter name="next_icon_class" xsi:type="text"  visible="true">
+                <label translate="true">Next Icon Class</label>
+                <description translate="true">input icon class. For example: fa fa-angle-right</description>
+                <depends><parameter name="enable_custom_nav" value="1" /></depends>
+                <value>fa fa-angle-right</value>
+
+            </parameter>
+
+            <parameter name="previous_icon_class" xsi:type="text"  visible="true">
+                <label translate="true">Previous Icon Class</label>
+                <description translate="true">input icon class. For example: fa fa-angle-left</description>
+                <depends><parameter name="enable_custom_nav" value="1" /></depends>
+                <value>fa fa-angle-left</value>
+            </parameter>
+
+            <parameter name="dots" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show dots navigations</label>
+            </parameter>
+
+            <parameter name="lazyload" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Lazy Load</label>
+                <description translate="true"><![CDATA[Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not <img>]]></description>
+            </parameter>
+
+            <parameter name="mouse_drag" xsi:type="select"  visible="true">
+                <label translate="true">Enable Mouse Drag</label>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="touch_drag" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Touch Drag</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="pulldrag" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Pull Drag</label>
+                <description translate="true"><![CDATA[Stage pull to edge.]]></description>
+            </parameter>
+
+            <parameter name="slide_by" xsi:type="text"  visible="true">
+                <label translate="true">Slide By</label>
+                <description translate="true">Number Items will slide on a time. Default: 1</description>
+            </parameter>
+
+            <parameter name="margin_item" xsi:type="text"  visible="true">
+                <label translate="true">Margin Each Items</label>
+                <description translate="true">Default 0</description>
+            </parameter>
+
+            <parameter name="single_item" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Single Item</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+     
+            <parameter name="default_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Default)</label>
+                <description translate="true">Show number items when screen size between 1199px and 980px</description>
+ 
+            </parameter>
+
+            <parameter name="mobile_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones)</label>
+                <description translate="true">Show number items when screen size bellow 480px</description>
+
+            </parameter>
+
+            <parameter name="tablet_small_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones to Small tablets)</label>
+                <description translate="true">Show number items when screen size between 641px and 480px</description>
+
+            </parameter>
+
+            <parameter name="tablet_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones to tablets)</label>
+                <description translate="true">Show number items when screen size between 768px and 641px</description>
+
+            </parameter>
+
+            <parameter name="portrait_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Portrait tablets)</label>
+                <description translate="true">Show number items when screen size between 979px and 769px</description>
+  
+            </parameter>
+
+            <parameter name="large_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Large display)</label>
+                <description translate="true">Show number items when screen size 1200px and up</description>
+  
+            </parameter>
+
+            <parameter name="autowidth" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Width</label>
+            </parameter>
+
+            <parameter name="autoheight" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Height</label>
+            </parameter>
+
+            <parameter name="auto_play" xsi:type="select" visible="true" >
+                <label translate="true">Auto Play</label>
+                <options>
+                    <option name="yes" value="1">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0" selected="true">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+
+            </parameter>
+
+            <parameter name="animatein" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\AnimateCssIn">
+                <label translate="true">animateIn</label>
+            </parameter>
+
+            <parameter name="animateout" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\AnimateCssOut">
+                <label translate="true">animateOut</label>
+            </parameter>
+
+            <parameter name="animatecss_preview" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\AnimateCssPreview">
+                <label translate="true">Preview</label>
+            </parameter>
+
+            <parameter name="autospeed" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Speed</label>
+                <description translate="true">Set speed of autoplay when enable auto play option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 1000</description>
+  
+            </parameter>
+
+            <parameter name="autoplay_timeout" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Timeout</label>
+                <description translate="true">Set speed of autoplay when enable auto play timeout option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 3000</description>
+                <depends><parameter name="auto_play" value="1" /></depends>
+                <value>3000</value>
+            </parameter>
+
+            <parameter name="interval" xsi:type="text" visible="true">
+                <label translate="true">Navigation Speed</label>
+                <description translate="true">Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800</description>
+  
+            </parameter>
+
+            <parameter name="dots_speed" xsi:type="text" visible="true">
+                <label translate="true">Dots Speed</label>
+                
+                <description translate="true">Set speed of dot when enable dot speed option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800</description>
+                <value>800</value>
+            </parameter>
+
+            <parameter name="autoplay_hover" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Pause On Hover</label>
+                <depends><parameter name="auto_play" value="1" /></depends>
+            </parameter>
+
+            <parameter name="carousel_items_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Items</label>
+            </parameter>
+
+            <parameter name="header_1" xsi:type="text"  visible="true">
+                <label translate="true">Header 1</label>
+            </parameter>
+
+            <parameter name="cms_1" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 1</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_1" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 1</label>
+                <description translate="true">Enter Content 1</description>
+            </parameter>
+
+            <parameter name="header_2" xsi:type="text"  visible="true">
+                <label translate="true">Header 2</label>
+            </parameter>
+
+            <parameter name="cms_2" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 2</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_2" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 2</label>
+                <description translate="true">Enter Content 2</description>
+            </parameter>
+
+            <parameter name="header_3" xsi:type="text"  visible="true">
+                <label translate="true">Header 3</label>
+            </parameter>
+
+            <parameter name="cms_3" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 3</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_3" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 3</label>
+                <description translate="true">Enter Content 3</description>
+            </parameter>
+
+            <parameter name="header_4" xsi:type="text"  visible="true">
+                <label translate="true">Header 4</label>
+            </parameter>
+
+            <parameter name="cms_4" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 4</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_4" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 4</label>
+                <description translate="true">Enter Content 4</description>
+            </parameter>
+
+            <parameter name="header_5" xsi:type="text"  visible="true">
+                <label translate="true">Header 5</label>
+            </parameter>
+
+            <parameter name="cms_5" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 5</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_5" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 5</label>
+                <description translate="true">Enter Content 5</description>
+            </parameter>
+
+            <parameter name="header_6" xsi:type="text"  visible="true">
+                <label translate="true">Header 6</label>
+            </parameter>
+
+            <parameter name="cms_6" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 6</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_6" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 6</label>
+                <description translate="true">Enter Content 6</description>
+            </parameter>
+
+            <parameter name="header_7" xsi:type="text"  visible="true">
+                <label translate="true">Header 7</label>
+            </parameter>
+
+            <parameter name="cms_7" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 7</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_7" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 7</label>
+                <description translate="true">Enter Content 7</description>
+            </parameter>
+
+            <parameter name="header_8" xsi:type="text"  visible="true">
+                <label translate="true">Header 8</label>
+            </parameter>
+
+            <parameter name="cms_8" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 8</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_8" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 8</label>
+                <description translate="true">Enter Content 8</description>
+            </parameter>
+
+            <parameter name="header_9" xsi:type="text"  visible="true">
+                <label translate="true">Header 9</label>
+            </parameter>
+
+            <parameter name="cms_9" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 9</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_9" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 9</label>
+                <description translate="true">Enter Content 9</description>
+            </parameter>
+
+            <parameter name="header_10" xsi:type="text"  visible="true">
+                <label translate="true">Header 10</label>
+            </parameter>
+
+            <parameter name="cms_10" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 10</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_10" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 10</label>
+                <description translate="true">Enter Content 10</description>
+            </parameter>
+
+            <parameter name="header_11" xsi:type="text"  visible="true">
+                <label translate="true">Header 11</label>
+            </parameter>
+
+            <parameter name="cms_11" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 11</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_11" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 11</label>
+                <description translate="true">Enter Content 11</description>
+            </parameter>
+
+            <parameter name="header_12" xsi:type="text"  visible="true">
+                <label translate="true">Header 12</label>
+            </parameter>
+
+            <parameter name="cms_12" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 12</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 12</label>
+                <description translate="true">Enter Content 12</description>
+            </parameter>
+
+            <parameter name="header_13" xsi:type="text"  visible="true">
+                <label translate="true">Header 13</label>
+            </parameter>
+
+            <parameter name="cms_13" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 13</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_13" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 13</label>
+                <description translate="true">Enter Content 13</description>
+            </parameter>
+
+            <parameter name="header_14" xsi:type="text"  visible="true">
+                <label translate="true">Header 14</label>
+            </parameter>
+
+            <parameter name="cms_14" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 14</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_14" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 14</label>
+                <description translate="true">Enter Content 14</description>
+            </parameter>
+
+            <parameter name="header_15" xsi:type="text"  visible="true">
+                <label translate="true">Header 15</label>
+            </parameter>
+
+            <parameter name="cms_15" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 15</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_15" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 15</label>
+                <description translate="true">Enter Content 15</description>
+            </parameter>
+
+            <parameter name="header_16" xsi:type="text"  visible="true">
+                <label translate="true">Header 16</label>
+            </parameter>
+
+            <parameter name="cms_16" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 16</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_16" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 16</label>
+                <description translate="true">Enter Content 16</description>
+            </parameter>
+
+            <parameter name="header_17" xsi:type="text"  visible="true">
+                <label translate="true">Header 17</label>
+            </parameter>
+
+            <parameter name="cms_17" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 17</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_17" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 17</label>
+                <description translate="true">Enter Content 17</description>
+            </parameter>
+
+            <parameter name="header_18" xsi:type="text"  visible="true">
+                <label translate="true">Header 18</label>
+            </parameter>
+
+            <parameter name="cms_18" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 18</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_18" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 18</label>
+                <description translate="true">Enter Content 18</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

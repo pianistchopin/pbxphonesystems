@@ -1,0 +1,46 @@
+<?php
+$id = rand().time();
+if (isset($tabs)): ?>
+<div class="ves-widget widget-tab block <?php echo $addition_cls; ?> <?php if (isset($stylecls)&&$stylecls) echo 'block-'.$stylecls;?>">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<?php endif; ?>
+	<div class="widget-inner block-content">	
+		<div id="widget-tabs<?php echo $id;?>" class="panel-group">
+		
+			<ul class="nav nav-tabs" id="widget-tab-label<?php echo $id;?>">
+			  <?php foreach ($tabs as $key => $ac): ?>
+			  <li class=""><a href="#tab<?php echo $id.$key;?>" ><?php echo $ac['header'];?></a></li>
+			  <?php endforeach; ?>
+			</ul>
+
+			<div class="tab-content">
+			 	<?php foreach ($tabs as $key => $ac): ?>
+				  <div class="tab-pane" id="tab<?php echo $id.$key;?>" style="visibility:visible"><?php echo $ac['content'];?></div>
+			 	<?php endforeach; ?>
+	 		</div>
+
+	</div></div>
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	require([
+		'jquery'
+		<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		<?php endif; ?>
+		],function($){
+			$('#widget-tab-label<?php echo $id; ?> a').click(function (e) {
+				e.preventDefault();
+				$(this).tab('show');
+			})
+			$('#widget-tab-label<?php echo $id; ?> a:first').tab('show'); 
+		});
+	});
+});
+</script>
+
+<?php endif; ?>

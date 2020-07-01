@@ -1,0 +1,187 @@
+<?php
+$id = rand().time();
+
+$custom_items = trim($custom_items);
+$modid = rand().time();
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+
+// OWL Carousel
+$single_item = $this->getConfig("single_item", 0);
+$autoSpeed = $this->getConfig("autospeed", 1000);
+$animateOut = $this->getConfig('animateout','0');
+$animateIn = $this->getConfig('animatein','0');
+$nav_speed = $this->getConfig('nav_speed', 800);
+$dots_speed = $this->getConfig('dots_speed', 800);
+$autoplay_hover = $this->getConfig('autoplay_hover');
+$dots = $this->getConfig('dots');
+$autoplay_timeout = $this->getConfig('autoplay_timeout');
+$pullDrag = $this->getConfig('pulldrag');
+
+$enable_custom_nav = $this->getConfig('enable_custom_nav', 0);
+$next_icon_class = $this->getConfig('next_icon_class', 'fa fa-angle-right');
+$previous_icon_class = $this->getConfig('previous_icon_class', 'fa fa-angle-left');
+$autoheight = $this->getConfig('autoheight', 0);
+$autowidth = $this->getConfig('autowidth', 0);
+$lazyLoad = $this->getConfig('lazyLoad', 0);
+$nav_next = $this->getConfig('nav_next', '');
+$nav_pre = $this->getConfig('nav_pre', '');
+$nav_next_icon = $this->getConfig('nav_next_icon', 'fa fa-angle-right');
+$nav_pre_icon = $this->getConfig('nav_pre_icon', 'fa fa-angle-left');
+
+if (isset($carousels) && $carousels): ?>
+<div class="ves-widget widget-carousel owlcarousel block <?php echo $addition_cls; ?> <?php if (isset($stylecls)&&$stylecls) echo 'block-'.$stylecls;?>">
+      <?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+      <div class="block-title">
+            <?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-carousel<?php echo $modid; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+            <strong><span><?php echo $widget_heading; ?></span></strong>
+      </div>
+      <?php endif; ?>
+      <div id="widget-carousel<?php echo $modid; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+            <div id="owlwidgetcarousel<?php echo $id;?>" class="owl-carousel">
+            <?php foreach ($carousels as $key => $ac): ?>
+                        <div class="item <?php if($key==0) {?>first<?php } elseif($key == (count($carousels) -1 )) {?>last<?php } ?>">
+                              <?php if($ac['header']){ ?><h4 class="item-title"><?php echo $ac['header']; ?> </h4><?php } ?>
+                              <div class="item-content">
+                                    <?php echo $ac['content']; ?>
+                              </div>
+                        </div>
+            <?php endforeach; ?>
+            </div>
+            <?php if($enable_custom_nav){ ?>
+            <?php $show_nav = false; ?>
+            <div class="customNavigation">
+                  <a class="carousel-prev<?php echo $id ?> carousel-prev" href="javascript:;" title="<?php echo __("Prev"); ?>"><i class="<?php echo $previous_icon_class ?>"></i></a>
+                  <a class="carousel-next<?php echo $id ?> carousel-next" href="javascript:;" title="<?php echo __("Next"); ?>"><i class="<?php echo $next_icon_class ?>"></i></a>
+            </div>
+            <?php } ?>
+      </div>
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+            $(document).ready(function(){
+                  require([
+                  'jquery'
+                   <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_owlcarousel")): ?>
+                  ,"Ves_All/lib/owl.carousel/owl.carousel.min"
+                  <?php endif; ?>
+                  ],function($){
+                      var widgetowlcarousel = jQuery('#owlwidgetcarousel<?php echo $id;?>');
+                          widgetowlcarousel.owlCarousel({
+                              autoplay: <?php echo $auto_play_mode?'true':'false';?>,
+                              <?php if ($autoSpeed): ?>
+                              autoplaySpeed: <?php echo $autoSpeed; ?>,
+                              <?php endif; ?>
+                              autoplayTimeout: <?php echo (int)$autoplay_timeout ?>,
+                              <?php if ($animateIn): ?>
+                              animateIn: <?php echo $animateIn?'"'.$animateIn.'"':"false"; ?>,
+                              <?php endif; ?>
+                              <?php if ($animateOut): ?>
+                              animateOut: <?php echo $animateOut?'"'.$animateOut.'"':"false"; ?>,
+                              <?php endif; ?>
+                              autoplayHoverPause: <?php echo $autoplay_hover?"true":"false" ?>,
+                              nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                              <?php if($show_nav): ?>
+                              navText: ["<span class='<?php echo $nav_pre_icon; ?>'><?php echo $nav_pre; ?></span>","<span class='<?php echo $nav_next_icon; ?>'><?php echo $nav_next; ?></span>"],
+                              <?php endif; ?>
+                              autoWidth: <?php echo $autowidth?"true":"false" ?>,
+                              autoHeight: <?php echo $autoheight?"true":"false" ?>,
+                              slideBy: <?php echo (isset($slide_by) && $slide_by)?(int)$slide_by:1; ?>,
+                              loop: <?php echo $loop == 1?'true':'false'; ?>,
+                              margin: <?php echo $margin_item?(int)$margin_item:'0'; ?>,
+                              navSpeed:  <?php echo $interval?(int)$interval:'false'; ?>,
+                              dots: <?php echo $dots?"true":"false" ?>,
+                              dotsSpeed: <?php echo $dots_speed?(int)$dots_speed:'false'; ?>,
+                              mouseDrag: <?php echo $mouse_drag == 1?'true':'false'; ?>,
+                              touchDrag: <?php echo $touch_drag == 1?'true':'false'; ?>,
+                              pullDrag: <?php echo $pullDrag?"true":"false" ?>,
+                              lazyLoad: <?php echo $lazyLoad?"true":"false" ?>,
+                              <?php if($single_item){ ?>
+                              items: 1,
+                              responsive: {
+                                    0:{
+                                          items:1
+                                    },
+                                    600:{
+                                          items:1
+                                    },
+                                    1000:{
+                                          items:1
+                                    }
+                              },
+                              <?php }else{ ?>
+                              items: <?php echo $default_items?(int)$default_items:4; ?>,
+                              <?php if($mobile_items || $tablet_small_items || $tablet_items || $portrait_items || $large_items): ?>
+                              responsive: {
+                                    <?php if($mobile_items): ?>
+                                    0: {
+                                          items: <?php echo $mobile_items?(int)$mobile_items:1; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    },
+                                    <?php endif; ?>
+                                    <?php if($tablet_small_items): ?>
+                                    600: {
+                                          items: <?php echo $tablet_small_items?(int)$tablet_small_items:2; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    },
+                                    <?php endif; ?>
+                                    <?php if($tablet_items): ?>
+                                    767: {
+                                          items: <?php echo $tablet_items?(int)$tablet_items:2; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    },
+                                    <?php endif; ?>
+                                    <?php if($portrait_items): ?>
+                                    1000: {
+                                          items: <?php echo $portrait_items?(int)$portrait_items:3; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    },
+                                    <?php endif; ?>
+                                    1200: {
+                                          items: <?php echo $default_items?(int)$default_items:4; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    },
+                                    <?php if($large_items): ?>
+                                    1900: {
+                                          items: <?php echo $large_items?(int)$large_items:5; ?>,
+                                          nav: <?php echo $show_nav == 1?"true":"false" ?>,
+                                          loop: <?php echo $loop == 1?'true':'false'; ?>
+                                    }
+                                    <?php endif; ?>
+                              },
+                              <?php endif; ?>
+                              <?php } ?>
+                              singleItem: <?php echo $single_item?'true':'false';?>
+                          });
+
+                        <?php if($enable_custom_nav): // owl custom navigation trigger ?>
+                        jQuery(".carousel-prev<?php echo $id ?>").click(function () {
+                              widgetowlcarousel.trigger('prev.owl.carousel');
+                              });
+                        jQuery(".carousel-next<?php echo $id ?>").click(function () {
+                              widgetowlcarousel.trigger('next.owl.carousel');
+                        });
+                        <?php endif; ?>    
+                  });
+            })
+      });
+</script>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+      require([
+            'jquery'
+            <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+            ,"Ves_All/lib/bootstrap/js/bootstrap.min"
+            <?php endif; ?>
+            ],function($){
+                  
+            });
+</script>
+<?php endif; ?>
+<?php endif; ?>
+
+

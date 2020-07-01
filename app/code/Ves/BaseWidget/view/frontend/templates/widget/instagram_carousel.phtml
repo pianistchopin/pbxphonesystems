@@ -1,0 +1,232 @@
+<?php 
+
+/*Owl Carousel Setting*/
+$_vesHelper = $this->helper('Ves\BaseWidget\Helper\Productlist');
+$autoSpeed = $this->getConfig("autospeed", 1000);
+$animateOut = $this->getConfig('animateout','0');
+$animateIn = $this->getConfig('animatein','0');
+$nav_speed = $this->getConfig('nav_speed', 800);
+$dots_speed = $this->getConfig('dots_speed', 800);
+$autoplay_hover = $this->getConfig('autoplay_hover');
+$dots = $this->getConfig('dots');
+$autoplay_timeout = $this->getConfig('autoplay_timeout');
+$pullDrag = $this->getConfig('pulldrag');
+
+$carousel_responsive = 1;
+$cols = (int)$default_items;
+$cols = !empty($cols)?(int)$cols:4;
+$itemsperpage = 1;
+
+$auto_play = $auto_play_mode?"true":"false";
+
+$enable_custom_nav = $this->getConfig('enable_custom_nav', 1);
+$next_icon_class = $this->getConfig('next_icon_class', 'fa fa-angle-right');
+$previous_icon_class = $this->getConfig('previous_icon_class', 'fa fa-angle-left');
+$autoheight = $this->getConfig('autoheight', 0);
+$autowidth = $this->getConfig('autowidth', 0);
+$lazyLoad = $this->getConfig('lazyLoad', 0);
+
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+$default_items = $cols;
+$cols = 1;
+$span = 12/$cols;
+$active = 'latest';
+$moduleId = rand().time();
+$custom_id = $this->getConfig("custom_id", "");
+$cmsblock = $this->getConfig('cmsblock');
+$pretext_html = $this->getConfig('pretext');
+$html = '';
+if($cmsblock === 'pretext_html'){
+    $html = base64_decode($pretext_html);
+}elseif($cmsblock!=''){
+    $html = $this->getCmsBlockModel()->load($cmsblock)->getContent();
+}
+$html = $_vesHelper->filter($html);
+?>
+<?php if( count($this->getInstagram()) ) { ?>
+<div id="<?php echo $custom_id?$custom_id:('ves-instagram-carousel-'.$moduleId);?>" class="ves-widget block instagram_carousel_widget owlinstagramcarousel <?php echo $addition_cls; ?> <?php if (isset($stylecls)&&$stylecls) echo 'block-'.$stylecls;?>">
+      <?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+      <div class="block-title">
+            <?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-instagram-carousel<?php echo $moduleId; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+            <strong><span><?php echo $widget_heading; ?></span></strong>
+      </div>
+      <?php endif; ?>
+      <?php if($html){ ?>
+      <div class="pretext-html">
+            <?php echo $html;?>
+      </div>
+      <?php } ?>
+
+      <div id="widget-instagram-carousel<?php echo $moduleId; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+            <div class="box-instagrams carousel slide">
+                  <div id="owlinstagramcarousel<?php echo $moduleId;?>" class="owl-carousel">
+                        <?php
+                              $pages = array_chunk( $this->getInstagram(), $itemsperpage);
+                        ?>
+                        <?php $number = 0; ?>
+                        <?php foreach ($pages as  $k => $tmpinstagram ):  ?>
+                                    <div class="item <?php if($k==0) {?>first<?php } elseif($k == (count($pages) -1 )) {?>last<?php } ?> instagrams-grid no-margin">
+                                    <?php foreach( $tmpinstagram as $i => $media ) {  $i=$i+1;?>
+                                    <?php if( $cols == 1 || $i%$cols == 1 ) { ?>
+                                    <div class="item-row">
+                                          <?php } ?>
+                                          <div class="item-instagram">
+                                          <a class="colorbox-instagram_<?php echo $number; ?>" href="#instagram-detail_<?php echo $number; ?>" >
+                                                <img style="width: <?php echo $this->getWidthinconfig() ?>px; height: <?php echo $this->getHeightinconfig() ?>px;"  src="<?php echo $media['image'] ?>" alt="instagram image <?php echo $number; ?>"/>
+                                          </a>
+                                          <div class="hidden hide">
+                                                <div id="instagram-detail_<?php echo $number; ?>" >
+                                                      <img width="<?php echo $media['width_large'] ?>" height="<?php echo $media['height_large'] ?>" class="media" alt="instagram image <?php echo $number; ?>" src="<?php echo $media['image_large'] ?>"/>
+                                                      <div class="instagram-content">
+                                                            <div class="instagram-avatar" style="background-image: url(<?php echo $media['avatar'] ?>)"></div>
+                                                            <p><a target="_blank" href="<?php echo $media['link'] ?>"><?php echo $media['username'] ?></a></p>
+                                                            <div class="instagram-comment"><?php echo $media['comment'] ?></div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    <script type="text/javascript">
+                                          require(['jquery'],function($){
+                                                $(document).ready(function(){
+                                                require([
+                                                            'jquery'
+                                                            <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_colorbox")): ?>
+                                                          ,"Ves_All/lib/colorbox/jquery.colorbox.min"
+                                                          <?php endif; ?>
+                                                            ],function($){
+
+                                                                  $('.colorbox-instagram_<?php echo $number; ?>').colorbox({inline:true, width:"50%", opacity: 0.7});
+                                                                  $('#instagram-detail_<?php echo $number; ?>').hide();
+                                                                  $('.colorbox-instagram_<?php echo $number; ?>').click(function(){
+                                                                        $('#instagram-detail_<?php echo $number; ?>').show();
+                                                                  });
+                                                                  $(document).bind('cbox_closed', function(){
+                                                                        $('#instagram-detail_<?php echo $number; ?>').hide();
+                                                                  });
+                                                      });
+                                                });
+                                          });  
+                                          </script>
+                                          
+                                    <?php $number ++; ?>
+                                    </div>
+                                    <?php if( $cols==1 || $i%$cols == 0 || $i==count($tmpinstagram) ) { ?>
+                                    </div>
+                              <?php } ?>
+                              <?php $number ++; } //endforeach 2?>
+                                    </div>
+                        <?php endforeach; ?>
+                  </div>
+                  <?php if($enable_custom_nav){ ?>
+            <?php $show_navigator = false; ?>
+            <div class="customNavigation">
+                  <a class="carousel-prev<?php echo $moduleId ?>" href="javascript:;" title="<?php echo __("Prev"); ?>"><i class="<?php echo $previous_icon_class ?>"></i></a>
+                  <a class="carousel-next<?php echo $moduleId ?>" href="javascript:;" title="<?php echo __("Next"); ?>"><i class="<?php echo $next_icon_class ?>"></i></a>
+            </div>
+            <?php } ?>
+      </div>
+</div>
+
+</div>
+<script type="text/javascript">
+require(['jquery'],function($){
+      $(document).ready(function(){
+      require([
+            'jquery'
+             <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_owlcarousel")): ?>
+            ,"Ves_All/lib/owl.carousel/owl.carousel.min"
+            <?php endif; ?>
+            ],function($){
+                var widgetowlcarousel = jQuery('#owlinstagramcarousel<?php echo $moduleId;?>');
+                    widgetowlcarousel.owlCarousel({
+                        autoplay: <?php echo $auto_play_mode?'true':'false';?>,
+                        <?php if ($autoSpeed): ?>
+                        autoplaySpeed: <?php echo $autoSpeed; ?>,
+                        <?php endif; ?>
+                        autoplayTimeout: <?php echo (int)$autoplay_timeout ?>,
+                        <?php if ($animateIn): ?>
+                        animateIn: <?php echo $animateIn?'"'.$animateIn.'"':"false"; ?>,
+                        <?php endif; ?>
+                        <?php if ($animateOut): ?>
+                        animateOut: <?php echo $animateOut?'"'.$animateOut.'"':"false"; ?>,
+                        <?php endif; ?>
+                        autoplayHoverPause: <?php echo $autoplay_hover?"true":"false" ?>,
+                        nav: <?php echo $show_navigator == 1?"true":"false" ?>,
+                        navigation: <?php echo $show_navigator == 1?'true':'false'; ?>,
+                        <?php if($show_navigator): ?>
+                        navText: ["<span class='fa fa-angle-left'></span>","<span class='fa fa-angle-right'></span>"],
+                        <?php endif; ?>
+                        autoWidth: <?php echo $autowidth?"true":"false" ?>,
+                        autoHeight: <?php echo $autoheight?"true":"false" ?>,
+                        slideBy: <?php echo (isset($slide_by) && $slide_by)?(int)$slide_by:1; ?>,
+                        loop: <?php echo $loop == 1?'true':'false'; ?>,
+                        margin: <?php echo $margin_item?(int)$margin_item:'0'; ?>,
+                        navSpeed:  <?php echo $interval?(int)$interval:'false'; ?>,
+                        dot: <?php echo $dots?"true":"false" ?>,
+                        dotsSpeed: <?php echo $dots_speed?(int)$dots_speed:'false'; ?>,
+                        mouseDrag: <?php echo $mouse_drag == 1?'true':'false'; ?>,
+                        touchDrag: <?php echo $touch_drag == 1?'true':'false'; ?>,
+                        pullDrag: <?php echo $pullDrag?"true":"false" ?>,
+                        lazyLoad: <?php echo $lazyLoad?"true":"false" ?>,
+                        items: <?php echo $default_items?(int)$default_items:4; ?>
+
+                        <?php if($mobile_items || $tablet_small_items || $tablet_items || $portrait_items || $large_items): ?>
+                        ,responsive: {
+                              <?php if($mobile_items): ?>
+                              0: {
+                                    items: <?php echo $mobile_items?(int)$mobile_items:1; ?>,
+                                    nav: true,
+                                    loop: true
+                              },
+                              <?php endif; ?>
+                              <?php if($tablet_small_items): ?>
+                              600: {
+                                    items: <?php echo $tablet_small_items?(int)$tablet_small_items:2; ?>,
+                                    nav: true,
+                                    loop: true
+                              },
+                              <?php endif; ?>
+                              <?php if($tablet_items): ?>
+                              767: {
+                                    items: <?php echo $tablet_items?(int)$tablet_items:2; ?>,
+                                    nav: true,
+                                    loop: true
+                              },
+                              <?php endif; ?>
+                              <?php if($portrait_items): ?>
+                              1000: {
+                                    items: <?php echo $portrait_items?(int)$portrait_items:3; ?>,
+                                    nav: true,
+                                    loop: true
+                              },
+                              <?php endif; ?>
+                              1200: {
+                                    items: <?php echo $default_items?(int)$default_items:4; ?>,
+                                    nav: true,
+                                    loop: true
+                              },
+                              <?php if($large_items): ?>
+                              1900: {
+                                    items: <?php echo $large_items?(int)$large_items:5; ?>,
+                                    nav: true,
+                                    loop: true
+                              }
+                              <?php endif; ?>
+                        }
+                        <?php endif; ?>
+                    });
+
+                  <?php if($enable_custom_nav): // owl custom navigation trigger ?>
+                  jQuery(".carousel-prev<?php echo $moduleId ?>").click(function () {
+                        widgetowlcarousel.trigger('prev.owl.carousel');
+                        });
+                  jQuery(".carousel-next<?php echo $moduleId ?>").click(function () {
+                        widgetowlcarousel.trigger('next.owl.carousel');
+                  });
+                  <?php endif; ?>    
+            });
+      });
+});
+</script>
+<?php } //end if ?>
+
+      

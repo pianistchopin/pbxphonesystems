@@ -1,0 +1,18 @@
+<?php
+$_theme = $this->helper('Ves\Themesettings\Helper\Data');
+$_product = $_theme->getCoreRegistry()->registry('current_product');
+$categoryHelper = $this->helper('Magento\Catalog\Helper\Category');
+$categoryCollection = $_product->getCategoryCollection()->addAttributeToSelect('*');
+$count = $categoryCollection->count();
+$i = 0;
+?>
+<?php if($count){ ?>
+<div class="product-list-categories">
+<strong><?php echo __('Categories: ') ?></strong>
+<?php foreach ($categoryCollection as $_category) { ?>
+    <a href="<?php echo $categoryHelper->getCategoryUrl($_category) ?>"><?php echo $_category->getName();?></a>
+    <?php if($i<($count-1)){ echo ','; } ?>
+    <?php $i++; ?>
+<?php } ?>
+</div>
+<?php } ?>

@@ -1,0 +1,429 @@
+if(typeof(Ves_Builder) === 'undefined') {
+    var Ves_Builder = function () {
+        this.builder = null;
+        this.callback = {};
+        this.currentCol = null;
+        this.currentWidget = null;
+        this.currentShortcode = ''; 
+    }
+    var turnoffTinyMCEs = [];
+    var getContentTinyMCEs = [];
+    var getTinyMCEFields = [];
+    var VesBuilder = null;
+    var VesCallBack = {};
+    var VesCurrentCol = null;
+    var VesCurrentWidget = null;
+    var VesCurrentShortcode = "";
+
+
+    if(typeof(getWidgetTypeByShortcode) !== 'function') {
+        function getWidgetTypeByShortcode(short_code) {
+            var widgetType = "";
+            if (short_code.indexOf('{{widget') != -1) {
+                
+                short_code.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
+                    if (match[1] == 'type') {
+                        widgetType = match[2];
+                    }
+                });
+            }
+            return widgetType;
+        }
+    }
+}
+
+if(typeof(triggerSaveForm) === 'undefined') {
+    var WPO_DataRow = function () {
+        this.index   =  0;
+        this.wcls = '';
+        this.cls   = '';
+        this.incls   = '';
+        this.css   = '';
+        this.bgcolor = '';
+        this.bgimage = '';
+        this.bgrepeat = '';
+        this.bgposition = '';
+        this.bgattachment = '';
+        this.padding = '';
+        this.margin = '';
+        this.nogutters = 0;
+        this.fullwidth = 0;
+        this.parallax = 0;
+        this.iscontainer = 0;
+        this.p_percent = '50%';
+        this.p_scroll = '0.4';
+        this.inbgcolor = '';
+        this.inbgimage = '';
+        this.inbgrepeat = '';
+        this.inbgposition = '';
+        this.inbgattachment = '';
+        this.inparallax = 0;
+        this.inp_percent = '50%';
+        this.inp_scroll = '0.4';
+        this.sfxcls = '';
+        this.offcanvas = '';
+    }
+
+    var WPO_DataCol = function () {
+        this.index = 0;
+        this.cols = '';
+        this.wcls = '';
+        this.cls = '';
+        this.incls = '';
+        this.css   = '';
+        this.sfxcls = '';
+        this.bgcolor = '';
+        this.bgimage = '';
+        this.bgrepeat = '';
+        this.bgposition = '';
+        this.bgattachment = '';
+        this.padding = '';
+        this.margin = '';
+        this.inrow = 0;
+        this.lgcol = 4;
+        this.mdcol = 4;
+        this.smcol = 6;
+        this.xscol = 12;
+        this.offcol = '';
+             
+    }
+
+    var WPO_DataWidget = function () {
+        this.cls = '';
+        this.incls   = '';
+        this.css   = '';
+        this.bgcolor = '';
+        this.bgimage = '';
+        this.bgrepeat = '';
+        this.bgposition = '';
+        this.bgattachment = '';
+        this.padding = '';
+        this.margin = '';
+        this.sfxcls = '';
+        this.sfxa = '';
+        this.sfxaduration = '';
+        this.sfxadelay = '';
+        this.sfxaoffset = '';
+        this.sfxaiteration = '';
+        this.wtype = '';
+        this.wkey ='';
+        this.shortcode = '';
+        this.settings = '';
+        this.widget = '';
+        this.isajax = 0;
+        this.desktop = 1;
+        this.tablet = 1;
+        this.mobile = 1;
+        this.name = '';
+             
+    }
+
+     
+    var  current_id_tab = 1;
+    if(typeof(getWidgetTypeByShortcode) !== 'function') {
+        function getWidgetTypeByShortcode(short_code) {
+            var widgetType = "";
+            if (short_code.indexOf('{{widget') != -1) {
+                
+                short_code.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
+                    if (match[1] == 'type') {
+                        widgetType = match[2];
+                    }
+                });
+            }
+            return widgetType;
+        }
+    }
+    function initClipboard(button_class, content_id, row) {
+      var copyCommandSupported = document.queryCommandSupported('copy');
+      console.log('Copy command supported: ' + copyCommandSupported);
+      if(jQuery( button_class, row ).length > 0) {
+            jQuery( button_class, row ).click(function($) {
+                if(!content_id) {
+                    content_id = "#shortcode_content";
+                }
+                if(content_id == "#shortcode_content") {
+                    var shortcode = getRowShortCode(row);
+                    if( jQuery("[name=shortcode]", "#row_editshortcode").length > 0 ) {
+                        jQuery(content_id).html( shortcode );
+                        initJSONEditor(jQuery(content_id), "#row_editshortcode");
+                    }
+                }
+                
+                var preElement = jQuery(content_id)[0];
+                var msg_id = "";
+                copyToClipboard(preElement, showSuccessMsg, msg_id);
+          });
+      }
+    }
+
+   
+    var getCacheStorage = function(storage){
+        if (!storage) return false;
+        if (storage === true) return window.localStorage;
+        if (typeof storage === "object" && 'getItem' in storage &&
+            'removeItem' in storage && 'setItem' in storage)
+        {
+            return storage;
+        }
+        throw new TypeError("localCache must either be a boolean value, " +
+            "or an object which implements the Storage interface.");
+    };
+
+    var removeCacheFromStorage = function(cacheKey){
+        var storage = getCacheStorage(true);
+
+        if(storage) {
+            storage.removeItem(cacheKey);
+            storage.removeItem(cacheKey + 'cachettl');
+            storage.removeItem(cacheKey + 'dataType');
+        }
+    };
+
+    function wysiwygExists() {
+        return (typeof tinyMCE != 'undefined');
+    }
+
+    function getLayoutData( container ){
+                var clear_shortcode = arguments[1]||0;
+                var output = new Array();
+                jQuery( container ).children('.inner ').children(".wpo-row").each( function(){
+             
+                    var _row = jQuery(this);
+                    var data = _row.data('rowcfg');
+                    //Check row options empty data then remove it
+                    var rowsArray = new WPO_DataRow();
+                    for( var k in rowsArray ){
+                        if(k !="cols" && typeof(data[k]) !== "undefined" && data[k] == "" ){
+                            delete data[k];
+                        }
+                    }//End Check row options empty data then remove it
+
+                    data.cols = new Array();
+                    jQuery(_row).children('.inner').children( '.wpo-col' ).each( function(){
+                        var _col = jQuery(this).data('colcfg');
+                        //Check column options empty data then remove it
+                        var colsArray = new WPO_DataCol();
+                        for( var j in colsArray ){
+                            if((j !="widgets" || j !="rows") && typeof(_col[j]) !== "undefined" && _col[j] == "" ){
+                                delete _col[j];
+                            }
+                        }//End Check column options empty data then remove it
+                        _col.widgets = new Array();
+
+                        jQuery(this).children('.inner').children('.wpo-content ').children( '.wpo-ijwidget' ).each( function() {  
+                            wd = jQuery(this).data("wgcfg");
+                            if(typeof(wd) !== "undefined" && wd){
+                                //Check widget options empty data then remove it
+                                var widgetsArray = new WPO_DataWidget();
+                                for( var i in widgetsArray ){
+                                    if(typeof(wd[i]) !== "undefined" && wd[i] == "" ){
+                                        delete wd[i];
+                                    }
+                                }//End Check widget options empty data then remove it
+                                //Remove widget shortcode if shortcode was stored in widgets array
+                                if((clear_shortcode == 1) && jQuery('#wpowidget'+wd.wkey).length > 0 && ("" != jQuery('#wpowidget'+wd.wkey).val())){
+                                    wd.shortcode = "";
+                                }//End Remove widget shortcode if shortcode was stored in widgets array
+
+                                _col.widgets.push( wd );
+                            }
+                        } ); 
+                        _col.rows = new Array();
+                        if( jQuery(this).children('.inner').children( '.wpo-row' ).length > 0 ){
+                            _col.rows = getLayoutData( this, clear_shortcode );
+                        }
+                        data.cols.push( _col );
+                    } );
+                    output.push( data );  
+                } );
+                return output;  
+    }
+
+    function getRowShortCode( _row ) {
+        var output = new Array();   
+        var _row = jQuery(_row);
+        var data = _row.data('rowcfg');
+        data.cols = new Array();
+        jQuery(_row).children('.inner').children( '.wpo-col' ).each( function(){
+            var _col = jQuery(this).data('colcfg');
+            _col.widgets = new Array();
+
+            jQuery(this).children('.inner').children('.wpo-content ').children( '.wpo-ijwidget' ).each( function() {  
+                wd = jQuery(this).data("wgcfg");
+                _col.widgets.push( wd );
+            } ); 
+            _col.rows = new Array();
+            if( jQuery(this).children('.inner').children( '.wpo-row' ).length > 0 ){
+                _col.rows = getLayoutData( this );
+            }
+            data.cols.push( _col );
+        } );
+        output.push( data );
+
+        var j = JSON.stringify( output );
+        return j;
+    }
+
+
+
+    /**
+        * add event triggers to operator in form of selected column and selected row 
+    */
+    function triggerSaveForm(){
+        var clear_shortcode = 0;
+        jQuery(".layout-builder-wrapper").each( function(){
+                var output = getLayoutData( jQuery(this).find(".layout-builder"), clear_shortcode );
+                var j = JSON.stringify( output );
+                jQuery(".hidden-content-layout",this).html( j );
+        } );
+    }
+
+    function afterCreateWidget(shortcode, wpo_id) {
+        var widget_type = getWidgetTypeByShortcode(shortcode);
+        var check_widget_type = widget_type.replace(/\\/g, '/');
+
+
+        var available_widgets = ["Magento/Cms/Block/Widget/Block","Ves/PageBuilder/Block/Widget/Builder","Ves/BaseWidget/Block/Widget/Image","Ves/BaseWidget/Block/Widget/Html","Ves/BaseWidget/Block/Widget/Ourservice","Ves/BaseWidget/Block/Widget/ContentHtml","Ves/BaseWidget/Block/Widget/Heading"];
+        
+        if(0 <= available_widgets.indexOf(check_widget_type)) {
+            ajaxUpdateWidgetInfo(check_widget_type, shortcode, wpo_id);
+        }
+    }
+
+    function buildWidgetHtml(shortcode) {
+        var $widget_type = getWidgetTypeByShortcode(shortcode);
+        var $html = "";
+        var $widget_info = null;
+        if($widget_type != "") {
+            $widget_info = getWidgetsInfo( $widget_type, shortcode );
+            var widget_group = "other";
+            var widget_code = $widget_type.replace("/","_");
+            var widget_icon = "other";
+            var widget_font_icon = "";
+            var widget_title = $widget_type.replace("/"," - ");
+            var widget_description = "";
+
+            if($widget_info != null && $widget_info != "") {
+                widget_group = $widget_info.group;
+                widget_code = $widget_info.code;
+                widget_icon = $widget_info.icon;
+                widget_font_icon = $widget_info.font_icon;
+                widget_title = $widget_info.title;
+                widget_description = $widget_info.description;
+            }
+
+            $html = '<div class="wpo-wg-button" data-group="'+ widget_group +'">';
+            $html += '<div data-widget="'+ widget_code + '" id="wpo_'+ widget_code + '">';
+            $html += '<div class="wpo-wicon wpo-icon-'+ widget_icon + '">';
+            if(widget_font_icon) {
+                $html += '<i class="'+widget_font_icon+'" aria-hidden="true"/>'
+            }
+            $html += '</div>';
+            $html += '<div class="widget-title"><div class="widget-title-content">'+ widget_title + '</div></div>';
+            $html += '<div class="widget-desc-wrap"><i class="widget-desc">'+ widget_description + '</i></div>';
+            $html += '</div>';
+            $html += '</div>';
+        }
+        return $html !="" ? $html:shortcode;
+    }
+
+    function updateWidgetShortcodeInfo(shortcode, widget_obj) {
+        if($(widget_obj).length <= 0)
+            return;
+
+        if($(widget_obj).find(".widget-icon-img").length > 0) {
+            $(widget_obj).find(".widget-icon-img").remove();
+        }
+            
+        var $widget_type = getWidgetTypeByShortcode(shortcode);
+        var $html = "";
+        var $widget_info = null;
+        if($widget_type != "") {
+            $widget_info = getWidgetsInfo( $widget_type, shortcode );
+            var widget_group = "other";
+            var widget_code = $widget_type.replace("/","_");
+            var widget_icon = "other";
+            var widget_font_icon = "";
+            var widget_title = $widget_type.replace("/"," - ");
+            var widget_description = "";
+
+            if($widget_info != null && $widget_info != "") {
+                widget_group = $widget_info.group;
+                widget_code = $widget_info.code;
+                widget_icon = $widget_info.icon;
+                widget_font_icon = $widget_info.font_icon;
+                widget_title = $widget_info.title;
+                widget_description = $widget_info.description;
+            }
+
+            if(widget_group && $(widget_obj).find(".wpo-wg-button").length > 0) {
+                $(widget_obj).find(".wpo-wg-button").data("group", widget_group);
+            }
+            if(widget_icon && $(widget_obj).find(".wpo-wicon").length > 0) {
+                var icon_obj = $(widget_obj).find(".wpo-wicon").first();
+                $(icon_obj).removeAttr('class');
+                $(icon_obj).attr('class', '');
+                $(icon_obj)[0].className = '';
+
+                $(icon_obj).addClass('wpo-wicon');
+                $(icon_obj).addClass('wpo-icon-'+ widget_icon);
+
+                if(widget_font_icon){
+                    $html_icon = '<i class="'+widget_font_icon+'" aria-hidden="true"/>';
+                    $(icon_obj).html($html_icon);
+                }
+            }
+            if(widget_title && $(widget_obj).find(".widget-title-content").length >0 ) {
+                $(widget_obj).find(".widget-title-content").first().html(widget_title);
+            } else if(widget_title && $(widget_obj).find(".widget-title").length >0 ) {
+                $(widget_obj).find(".widget-title").first().html(widget_title);
+            }
+
+            if(widget_description  && $(widget_obj).find(".widget-desc").length >0 ) {
+                $(widget_obj).find(".widget-desc").first().html(widget_description);
+            }
+        }
+    }
+
+    function testAnim(x) {
+        jQuery('#demo-effect-block').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+          jQuery(this).removeClass();
+        });
+    }
+
+    function animateDemoPreview(anim, t, i) {
+        var a, n, o, r = jQuery("#effect-preview-block");
+        var html = '<div id="effect-preview-block" style="display: none;"><div class="demo-block"><div id="demo-effect-block">Demo effect</div></div></div>';
+        if(i && r.length) {
+            r.remove();
+            return false;
+        }
+
+        r = jQuery(html).appendTo(document.body);
+
+        if(t){
+            r.css(t);
+        }
+        r.show();
+        testAnim(anim);
+        return true;
+    }
+    function initJSONEditor(textarea_element, wrapper_element) {
+
+    }
+
+    require(['jquery'],function($){
+        jQuery(document).ready(function ($) {
+            var e = $(document);
+            e.on("mouseenter", ".effect-list > option", function (e) {
+                e.preventDefault();
+                var t = $(this),
+                    i = t.parent().offset();
+                i.left -= 330, animateDemoPreview(t.val(), i)
+            }).on("mouseleave", ".effect-list > option", function () {
+                animateDemoPreview("", "", !0)
+            });
+        });
+    })
+}

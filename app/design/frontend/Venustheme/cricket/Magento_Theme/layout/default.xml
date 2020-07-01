@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                <argument name="logo_img_width" xsi:type="string">auto</argument>
+                <argument name="logo_img_height" xsi:type="string">auto</argument>
+            </arguments>
+        </referenceBlock>
+        
+        <referenceBlock name="report.bugs" remove="true"/>
+
+        <move element="copyright" destination="before.body.end"/> 
+
+
+        <referenceContainer name="before.body.end">
+                <block class="Magento\Framework\View\Element\Template" name="ves.common.hiddencontent" as="commonHiddenContent" template="Magento_Theme::popup.phtml" >
+                        <block class="Ves\Themesettings\Block\Customer\Block\Form\Register" name="formregister" as="formregister" template="Magento_Theme::register.phtml" >
+                                <container name="form.additional.info" as="form_additional_info"/>
+                                <container name="customer.form.register.fields.before" as="form_fields_before" label="Form Fields Before" htmlTag="div" htmlClass="customer-form-before"/>
+                        </block>
+                        <block class="Ves\Themesettings\Block\Customer\Block\Form\Login" name="formlogin" as="formlogin" template="Magento_Theme::login.phtml">
+                            <container name="form.additional.info" as="form_additional_info"/>
+                        </block>
+                </block>
+        </referenceContainer>
+    </body>
+</page>

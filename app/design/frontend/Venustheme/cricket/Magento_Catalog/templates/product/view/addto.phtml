@@ -1,0 +1,72 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View*/
+?>
+<?php
+$_product = $block->getProduct();
+$_wishlistSubmitParams = $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product);
+$compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
+
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$show_compare = $ves->getProductPageCfg('element_settings/show_compare');
+$show_wishlist = $ves->getProductPageCfg('element_settings/show_wishlist');
+$show_email = $ves->getProductPageCfg('element_settings/show_email');
+$show_sharelinks = $ves->getProductPageCfg('element_settings/show_sharelinks');
+?>
+
+<?php if($show_compare || $show_wishlist || $show_email){ ?>
+<div class="product-addto-links" data-role="add-to-links">
+
+    <?php if($show_compare){ ?>
+    <a href="#" data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
+        data-role="add-to-links"
+        class="add-to-compare"><i class="zmdi zmdi-refresh-alt">&nbsp;</i><span><?php /* @escapeNotVerified */ echo __('Compare') ?></span></a>
+        <?php } ?>
+        
+    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $show_wishlist) : ?>
+        <a href="#"
+        class="add-to-wishlist"
+        data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
+        data-action="add-to-wishlist"><i class="zmdi zmdi-favorite-outline">&nbsp;</i><span><?php /* @escapeNotVerified */ echo __('Wishlist') ?></span></a>
+    <?php endif; ?>
+
+        <?php if($show_email){ ?>
+        <?php if ($block->canEmailToFriend()): ?>
+            <a href="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"
+             class="mailto1 friend"><i class="fa fa-envelope-o">&nbsp;</i><span><?php /* @escapeNotVerified */ echo __('Email') ?></span></a>
+         <?php endif; ?>
+         <?php } ?>
+    </div>
+
+    <?php if($show_sharelinks){ ?>
+         <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+            <div class="share">
+                <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style ">
+                    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+                    <a class="addthis_button_tweet"></a>
+                    <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+                    <a class="addthis_counter addthis_pill_style"></a>
+                    </div>
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-538d2d303ab3eaa0"></script>
+                <!-- AddThis Button END -->
+                    <div style="clear:both"></div>
+            </div>
+        <?php } ?>
+        
+    <?php } ?>
+    <?php if($show_wishlist){ ?>
+    <script type="text/x-magento-init">
+        {
+            "body": {
+                "addToWishlist": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getWishlistOptions())?>
+            }
+        }
+    </script>
+    <?php } ?>

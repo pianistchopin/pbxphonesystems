@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Webkul_MultiEbayStoreMageConnect::manager" title="Multi Store eBay Magento Connect" module="Webkul_MultiEbayStoreMageConnect" sortOrder="10" resource="Webkul_MultiEbayStoreMageConnect::manager"/>
+
+        <add id="Webkul_MultiEbayStoreMageConnect::ebay_account_connect" title="eBay Account Connect" module="Webkul_MultiEbayStoreMageConnect" sortOrder="20" parent="Webkul_MultiEbayStoreMageConnect::manager" action="multiebaystoremageconnect/ebayaccount" resource="Webkul_MultiEbayStoreMageConnect::ebay_account_connect"/>
+
+        <add id="Webkul_MultiEbayStoreMageConnect::listing_templates" title="Listing Templates" module="Webkul_MultiEbayStoreMageConnect" sortOrder="50" parent="Webkul_MultiEbayStoreMageConnect::manager" action="multiebaystoremageconnect/templates/index" resource="Webkul_MultiEbayStoreMageConnect::listing_templates"/>
+
+        <add id="Webkul_MultiEbayStoreMageConnect::products_pricerules" title="Price Rule" module="Webkul_MultiEbayStoreMageConnect" sortOrder="50" parent="Webkul_MultiEbayStoreMageConnect::manager" action="multiebaystoremageconnect/pricerules/index" resource="Webkul_MultiEbayStoreMageConnect::products_pricerules"/>
+    </menu>
+</config>

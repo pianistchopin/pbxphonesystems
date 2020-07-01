@@ -1,0 +1,114 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_Reports
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Mageplaza\Reports\Block\Menu;
+
+/** @var Menu $block */
+$gridName = $block->getGridName();
+try {
+    $date = $block->getDateRange();
+} catch (Exception $e) {
+    $date = [];
+}
+$menu = $block->getMenuUrls() ?: [];
+$storeFilterUrl = $block->getUrl('mpreports/details/storefilter', ['form_key' => $block->getFormKey()]);
+?>
+<div id="menu" class="mp_menu" data-mage-init='{"Mageplaza_Reports/js/detail/menu":{
+                                                    "gridName":"<?= /** @noEscape */ $gridName ?>",
+                                                    "date":<?= /** @noEscape */ json_encode($date) ?>,
+                                                    "storeUrl":"<?= /** @noEscape */ $storeFilterUrl ?>"
+                                                }}'>
+    <div class="admin__action-dropdown-wrap menu-select">
+        <a href="#" class="admin__action-dropdown"
+           title="Menu"
+           data-mage-init='{"dropdown":{"autoPosition":true}}'
+           data-toggle="dropdown">
+            <i class="fa fa-bars"></i>
+        </a>
+        <ul class="admin__action-dropdown-menu">
+            <?php foreach ($menu as $item) : ?>
+                <li><a href="<?= /** @noEscape */ $item['path'] ?>"><?= /** @noEscape */ $item['label'] ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="date-range-picker">
+        <div id="daterange">
+            <i class="fa fa-calendar"></i>
+            <span></span>
+            <i class="fa fa-caret-down"></i>
+        </div>
+    </div>
+    <div class="mp-rp-store-switcher">
+        <?= $block->getChildHtml() ?>
+    </div>
+    <div class="customer-group">
+        <select id="customer-group-id">
+            <?php foreach ($block->getCustomerGroup() as $group) : ?>
+                <option value="<?= /** @noEscape */ $group['value'] ?>"><?= /** @noEscape */ $group['label'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="period">
+        <span><strong><?= $block->escapeHtml(__('Period')) ?></strong></span>
+        <select id="period">
+            <option value="day"><?= $block->escapeHtml(__('Day')) ?></option>
+            <option value="week"><?= $block->escapeHtml(__('Week')) ?></option>
+            <option value="month"><?= $block->escapeHtml(__('Month')) ?></option>
+            <option value="year"><?= $block->escapeHtml(__('Year')) ?></option>
+        </select>
+    </div>
+    <div class="order_status">
+        <span class="label"><strong><?= $block->escapeHtml(__('Order Status')) ?></strong></span>
+        <div class="mp-rp-order-status admin__action-dropdown-wrap admin__data-grid-action-columns"
+             style="float: right">
+            <button id="mp-rp-order-status" class="admin__action-dropdown" type="button">
+                <span class="admin__action-dropdown-text"><?= $block->escapeHtml(__('--Select--')) ?></span>
+            </button>
+            <div class="admin__action-dropdown-menu _overflow" id="order_status">
+                <div class="admin__action-dropdown-menu-header"></div>
+                <div class="admin__action-dropdown-menu-content">
+                    <?php foreach ($block->getOrderStatusList() as $status) : ?>
+                        <div class="admin__field-option" data-repeat-index="0">
+                            <input class="admin__control-checkbox"
+                                   type="checkbox"
+                                   checked
+                                   name="<?= /** @noEscape */ $status['value'] ?>"
+                                   id="<?= /** @noEscape */ $status['value'] ?>">
+                            <label class="admin__field-label"
+                                   for="<?= /** @noEscape */ $status['value'] ?>"><?= /** @noEscape */ $status['label'] ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="date_used">
+        <span><strong><?= $block->escapeHtml(__('Date Used')) ?></strong></span>
+        <select id="date_used" class="select-box">
+            <option value="created_at"><?= $block->escapeHtml(__('Created At')) ?></option>
+            <option value="updated_at"><?= $block->escapeHtml(__('Updated At')) ?></option>
+        </select>
+    </div>
+</div>
+
+
+
+

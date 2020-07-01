@@ -1,0 +1,21 @@
+{
+    "name": "ves/magento2-pagebuilder",
+    "description": "PageBuilder Extension - Manage page layout profiles",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0"
+    },
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "extra": {
+        "map": [
+            [
+                "*",
+                "Ves/PageBuilder"
+            ]
+        ]
+    }
+}

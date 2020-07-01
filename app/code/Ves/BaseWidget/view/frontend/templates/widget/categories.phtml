@@ -1,0 +1,137 @@
+<?php
+/*
+* Ves Base Widget - Categories List
+*
+* @package   vesbase
+* @version   5.0
+* @author    http://www.venustheme.com
+* @copyright Copyright (C) October 2013 venustheme.com <@emai:venustheme@gmail.com>
+*               <info@venustheme.com>.All rights reserved.
+* @license   GNU General Public License version 2
+*/
+$_catalogCatgoryHelper = $this->helper('Magento\Catalog\Helper\Category');
+
+$moduleId = rand().time();
+$catIds = explode(',', $catsid);
+$cols = (isset($cols) && $cols)?(int)$cols:4;
+$item_cols = round(12/$cols);
+$auto_play_mode = (int)$autoplay;
+$auto_play = $auto_play_mode?"true":"false";
+$cms = isset($cms)?$cms:"";
+
+$enable_carousel =1;
+?>
+<div class="ves-widget widget-categories block <?php echo $addition_cls; ?> <?php echo isset($stylecls)&&$stylecls?'block-'.$stylecls:'';?>">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<!-- Show pretext -->
+	<?php if( $pretext && !$cms ) { ?>
+	<div class="pretext"><?php echo $pretext;?></div>
+	<?php } elseif($cms) { ?>
+	<div class="pretext"><?php echo $cms;?></div>
+	<?php } ?>
+	<!-- End Show pretext -->
+	<?php endif; ?>
+	<div class="widget-inner block-content clearfix">
+		<?php if($enable_carousel) { //Check If enable carousel, call the carousel layout ?>
+			<div class="box-categories carousel slide" id="categoriescarousel<?php echo $moduleId;?>">
+			<?php if( count($catIds) > $itemsperpage && $show_navigator) { ?>
+			<div class="carousel-controls">
+				<a class="carousel-control left" href="#categoriescarousel<?php echo $moduleId;?>"   data-slide="prev"><i class="fa fa-angle-left"></i></a>
+				<a class="carousel-control right" href="#categoriescarousel<?php echo $moduleId;?>"  data-slide="next"><i class="fa fa-angle-right"></i></a>
+			</div>
+			<?php } ?>
+			<div class="carousel-inner">
+				<?php
+				$collection = $block->getCategoryCollection($catIds);
+				$pages = array_chunk( $collection->getItems(), $itemsperpage);
+				?>
+				<?php foreach ($pages as  $k => $cate_items ) {  ?>
+
+					<div class="item <?php if($k==0) {?>first<?php } elseif($k == (count($pages) -1 )) {?>last<?php } ?> <?php if($k==0) {?>active<?php } ?> no-margin">
+
+						<?php foreach( $cate_items as $i => $category ) {?>
+							<?php $i=$i+1; ?>
+					        <?php if( $cols == 1 || $i%$cols == 1 ) { ?>
+					        <div class="row categories-row">
+					        <?php } ?>
+					        
+					        <div class="col-lg-<?php echo $item_cols; ?> col-md-<?php echo $item_cols; ?> col-sm-<?php echo $item_cols; ?> col-xs-12">
+					        	<ul>
+					        		<?php if($enable_image && $category->getImage()): 
+					        			  $category_image = $this->getCategoryImage( $category, $image_width, $image_height, $cate_image );
+					        			  if($category_image):
+					        		?>
+					        		<li><a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category); ?>"><img src="<?php echo $category_image; ?>" alt="<?php echo $category->getName(); ?>"></a></li>
+					        		<?php endif; ?>
+					        		<?php endif; ?>
+					        		<li><a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category)?>">
+				                            <?php echo $category->getName()?>
+				                            <?php if($enable_numbproduct): ?>
+				                                (<?php echo $category->getProductCount() ?>)
+				                            <?php endif; ?>
+				                    </a></li>
+					        	</ul>
+				            </div>
+					        <?php if( $cols==1 || $i%$cols == 0 || $i==count($cate_items) ) { ?>
+					            </div>
+					        <?php } ?>
+					                            
+					<?php } //endforeach; ?>
+						
+					</div>
+				<?php } ?>
+			</div>
+		</div>
+		<script type="text/javascript">
+			require(['jquery'],function($){
+    		$(document).ready(function(){
+		    require([
+		        'jquery'
+		        <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		        ,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		        <?php endif; ?>
+            	],function($){
+					$('#categoriescarousel<?php echo $moduleId;?>').carousel({interval:<?php echo ( $auto_play_mode?$interval:'false') ;?>,auto:<?php echo $auto_play;?>,pause:'hover', cycle: true});
+			});
+			});
+			});
+		</script>
+
+		<?php } else { //If not enable crousel ?>
+			<ul>
+
+			<?php $collection = $block->getCategoryCollection($catIds); ?>
+				<?php foreach($collection as $category):
+					$pull_left_class = "";
+				?>
+				<li>
+					<div class="categories-row">
+						<?php if($enable_image): 
+
+					        $category_image = $this->getCategoryImage( $category, $image_width, $image_height, $cate_image );
+					        if($category_image):
+					        	$pull_left_class = "pull-left";
+					    ?>
+						<div class="image pull-right">
+	                    	<a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category); ?>"><img src="<?php echo $category_image; ?>" alt="<?php echo $category->getName(); ?>"></a>
+	                	</div>
+	                	<?php endif; ?>
+	                	<?php endif; ?>
+	                	<div class="<?php echo $pull_left_class; ?>"> 
+	                		<a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category)?>">
+	                            <?php echo $category->getName()?>
+	                            <?php if($enable_numbproduct): ?>
+	                                (<?php echo $category->getProductCount() ?>)
+	                            <?php endif; ?>
+	                   		</a>
+	                	</div>
+					</div>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+		<?php } ?>
+	</div>
+</div>

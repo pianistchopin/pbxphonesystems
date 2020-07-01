@@ -1,0 +1,83 @@
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */
+ #ebayaccount_tab_listing_configuration_content .label.admin__field-label,#ebayaccount_tab_general_configuration_content .label.admin__field-label {
+     width : 30%;
+ }
+ .wk-mu-error-msg-container{
+    max-height : 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.ebay-authorize {
+    margin-top: 20px;
+}
+.wk-mu-sample-files {
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+.wk-mu-sample-files > a {
+    margin-right: 15px;
+}
+.wk-mu-progress-bar {
+    border: 1px solid #28cb6e;
+    display: inline-block;
+    height: 15px;
+    margin-top: 5px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.wk-mu-progress-bar-current {
+    background: none repeat scroll 0 0 #61d896;
+    display: inline-block;
+    height: 15px;
+    width: 0px;
+}
+.wk-mu-info-bar {
+    color: #3c763d;
+    font-weight: bold;
+    margin-top: 30px;
+}
+.wk-mu-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.wk-mu-note {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.wk-mu-notice {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.wk-mu-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.wk-mu-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+}
+.wk-mapping-fieldset .wk-save-mapping,.page-main-actions .wk-product-import-buttons,.wk-back-button{
+    float:right;
+}
+.admin__control-table .ebay_listing_var {
+    padding-left: 22px;
+}
+.admin__control-table .input-prefix {
+    position: absolute;
+    padding: 3px 0px 3px 10px;
+    font-size: 1.5em;
+}

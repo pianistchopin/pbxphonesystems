@@ -1,0 +1,1458 @@
+"Not use","Not use"
+Latest,Latest
+"New Arrival","New Arrival"
+Special,Special
+"Most Popular","Most Popular"
+"Best Seller","Best Seller"
+"Top Rated","Top Rated"
+Random,Random
+Featured,Featured
+Deals,Deals
+"Theme Default","Theme Default"
+Repeat,Repeat
+"Repeat X","Repeat X"
+"Repeat Y","Repeat Y"
+"No Repeat","No Repeat"
+"Inherits from parent element","Inherits from parent element"
+"The background scrolls along with the element","The background scrolls along with the element"
+"The background is fixed with regard to the viewport","The background is fixed with regard to the viewport"
+"The background scrolls along with the elements contents","The background scrolls along with the elements contents"
+"left top","left top"
+"left center","left center"
+"left bottom","left bottom"
+"right top","right top"
+"right center","right center"
+"right bottom","right bottom"
+"center top","center top"
+"center center","center center"
+"center bottom","center bottom"
+"No Animation","No Animation"
+bounce,bounce
+flash,flash
+pulse,pulse
+rubberBand,rubberBand
+shake,shake
+swing,swing
+tada,tada
+wobble,wobble
+bounceIn,bounceIn
+bounceInDown,bounceInDown
+bounceInLeft,bounceInLeft
+bounceInRight,bounceInRight
+bounceInUp,bounceInUp
+fadeIn,fadeIn
+fadeInDown,fadeInDown
+fadeInDownBig,fadeInDownBig
+fadeInLeft,fadeInLeft
+fadeInLeftBig,fadeInLeftBig
+fadeInRight,fadeInRight
+fadeInRightBig,fadeInRightBig
+fadeInUp,fadeInUp
+fadeInUpBig,fadeInUpBig
+flip,flip
+flipInX,flipInX
+flipInY,flipInY
+lightSpeedIn,lightSpeedIn
+rotateIn,rotateIn
+rotateInDownLeft,rotateInDownLeft
+rotateInDownRight,rotateInDownRight
+rotateInUpLeft,rotateInUpLeft
+rotateInUpRight,rotateInUpRight
+hinge,hinge
+rollIn,rollIn
+zoomIn,zoomIn
+zoomInDown,zoomInDown
+zoomInLeft,zoomInLeft
+zoomInRight,zoomInRight
+zoomInUp,zoomInUp
+Default,Default
+Primary,Primary
+Danger,Danger
+Info,Info
+Warning,Warning
+Highlighted,Highlighted
+Nopadding,Nopadding
+Darked,Darked
+no-padding,no-padding
+no-margin,no-margin
+Disable,Disable
+"Enable Left Sidebar","Enable Left Sidebar"
+"Enable Right Sidebar","Enable Right Sidebar"
+"Enable Both Left & Right Sidebar","Enable Both Left & Right Sidebar"
+"Offcanvas Left","Offcanvas Left"
+"Offcanvas Right","Offcanvas Right"
+"Main Column","Main Column"
+"Open Animate Preview","Open Animate Preview"
+Title,Title
+Image,Image
+Category,Category
+Class,Class
+Position,Position
+"Change Image","Change Image"
+"Select Image","Select Image"
+"Remove Image","Remove Image"
+"WYSIWYG Editor","WYSIWYG Editor"
+"Source for Tab","Source for Tab"
+Ajax,Ajax
+Disconnect,Disconnect
+"Images Manager - Ves Base Widget","Images Manager - Ves Base Widget"
+"Ves Base Widget","Ves Base Widget"
+"Images Manager","Images Manager"
+Text,Text
+Icon,Icon
+"Text, Icon","Text, Icon"
+"Icon, Text","Icon, Text"
+"Custom Height","Custom Height"
+"Auto Equal Height","Auto Equal Height"
+"Auto Height","Auto Height"
+"--Select a Rule Group--","--Select a Rule Group--"
+"Pretext HTML","Pretext HTML"
+"-- Please Select --","-- Please Select --"
+"Attention Seekers","Attention Seekers"
+"Bouncing Entrances","Bouncing Entrances"
+"Fading Entrances","Fading Entrances"
+Flippers,Flippers
+Lightspeed,Lightspeed
+"Rotating Entrances","Rotating Entrances"
+"Zoom Entrances","Zoom Entrances"
+Specials,Specials
+"Bouncing Exits","Bouncing Exits"
+"Fading Exits","Fading Exits"
+"Rotating Exits","Rotating Exits"
+"Sliding Exits","Sliding Exits"
+"Zoom Exits","Zoom Exits"
+"Alert Success","Alert Success"
+"Alert Info","Alert Info"
+"Alert Warning","Alert Warning"
+"Alert Danger","Alert Danger"
+Inline,Inline
+Bubble,Bubble
+None,None
+Facebook,Facebook
+Twitter,Twitter
+"Y! Mail","Y! Mail"
+ZingMe,ZingMe
+"Pinterest Pin It","Pinterest Pin It"
+Print,Print
+Email,Email
+Tumblr,Tumblr
+LinkedIn,LinkedIn
+Favorites,Favorites
+Gmail,Gmail
+"Google+ Share","Google+ Share"
+Hotmail,Hotmail
+Linkshares,Linkshares
+Myspace,Myspace
+PrintFriendly,PrintFriendly
+Virb,Virb
+Webnews,Webnews
+"Windows Gadgets","Windows Gadgets"
+WordPress,WordPress
+Yigg,Yigg
+ZicZac,ZicZac
+Standard,Standard
+Small,Small
+Medium,Medium
+Larger,Larger
+Tall,Tall
+Success,Success
+Link,Link
+"--Select a Cms Static Block--","--Select a Cms Static Block--"
+"Top Links","Top Links"
+"Top Navigation","Top Navigation"
+"Wishlist Sidebar","Wishlist Sidebar"
+Newsletter,Newsletter
+"Top Search","Top Search"
+"Catalog Compare Sidebar","Catalog Compare Sidebar"
+"Footer Links","Footer Links"
+Copyright,Copyright
+"Main Content - Category Products(grid/list)","Main Content - Category Products(grid/list)"
+"-- Choose Effect --","-- Choose Effect --"
+fade,fade
+backSlide,backSlide
+goDown,goDown
+fadeUp,fadeUp
+H1,H1
+H2,H2
+H3,H3
+H4,H4
+H5,H5
+H6,H6
+Left,Left
+Right,Right
+Top,Top
+Bottom,Bottom
+"Small square 75x75","Small square 75x75"
+"Large square 150x150","Large square 150x150"
+"Thumbnail, 100 on longest side","Thumbnail, 100 on longest side"
+"Small, 240 on longest side","Small, 240 on longest side"
+"Small, 320 on longest side","Small, 320 on longest side"
+"Medium 640, 640 on longest side","Medium 640, 640 on longest side"
+"Medium 800, 800 on longest side†","Medium 800, 800 on longest side†"
+"Large, 1024 on longest side*","Large, 1024 on longest side*"
+"Very Small","Very Small"
+Big,Big
+"Extra Medium","Extra Medium"
+"Extra Big","Extra Big"
+No-padding,No-padding
+"Contextual alternatives","Contextual alternatives"
+Striped,Striped
+Animated,Animated
+Stacked,Stacked
+Auto,Auto
+100%,100%
+75%,75%
+50%,50%
+25%,25%
+15%,15%
+"Design In","Design In"
+"Large Devices, Wide Screens","Large Devices, Wide Screens"
+"Medium Devices, Desktops","Medium Devices, Desktops"
+"Small Devices, Tablets","Small Devices, Tablets"
+"Extra Small Devices, Phones","Extra Small Devices, Phones"
+"Enable Grid","Enable Grid"
+"Show Grid Layout","Show Grid Layout"
+"Disable Grid Layout","Disable Grid Layout"
+Action,Action
+"Toggle Show/Hide Design Code","Toggle Show/Hide Design Code"
+"Toggle Code","Toggle Code"
+"Parse JSON Data Online:","Parse JSON Data Online:"
+"Parse It","Parse It"
+"Add element","Add element"
+"Toggle List","Toggle List"
+"Filter By Name","Filter By Name"
+"Filter By Group","Filter By Group"
+All,All
+Typo,Typo
+Blog,Blog
+Magento,Magento
+Social,Social
+Others,Others
+Content,Content
+Product,Product
+Save,Save
+Close,Close
+"Load Element Profile","Load Element Profile"
+"Load Element","Load Element"
+"Widget - Edit Short Code","Widget - Edit Short Code"
+Shortcode,Shortcode
+"Select All","Select All"
+"Update Shortcode","Update Shortcode"
+"Row - Edit Short Code","Row - Edit Short Code"
+"Image Manager","Image Manager"
+"Row Settings","Row Settings"
+"Column Settings","Column Settings"
+"Widget Settings","Widget Settings"
+Layout,Layout
+Background,Background
+"Inner Background","Inner Background"
+Style,Style
+"Layout Settings","Layout Settings"
+"Enable offcanvas Sidebar","Enable offcanvas Sidebar"
+Fullwidth,Fullwidth
+Yes,Yes
+No,No
+"Enable Class Container For The Row","Enable Class Container For The Row"
+"No Gutters","No Gutters"
+"Margin & Padding","Margin & Padding"
+Padding,Padding
+"top right bottom left","top right bottom left"
+Margin,Margin
+"Background Color","Background Color"
+"Background Repeat","Background Repeat"
+"Background Position","Background Position"
+"Background Attachment","Background Attachment"
+Parallax,Parallax
+"Parallax Style","Parallax Style"
+"Parallax Percent","Parallax Percent"
+"Parallax Scroll","Parallax Scroll"
+"Inner Background Color","Inner Background Color"
+"Inner Background Image","Inner Background Image"
+"Css Classes","Css Classes"
+"Row Wrapper Class","Row Wrapper Class"
+"Wrapper Inner Class","Wrapper Inner Class"
+"Row Style","Row Style"
+"Row Inner Class","Row Inner Class"
+"Custom Style","Custom Style"
+"Inline Css","Inline Css"
+"Input css code at here. It will show in property <strong>style</strong> of the element.<br/> For example: &lt;div  <strong>style</strong>=""<i>Inline Css</i>""&gt;...&lt;/div&gt;","Input css code at here. It will show in property <strong>style</strong> of the element.<br/> For example: &lt;div  <strong>style</strong>=""<i>Inline Css</i>""&gt;...&lt;/div&gt;"
+"Preview Code","Preview Code"
+"Row content were generated at here...","Row content were generated at here..."
+"End Row Inner","End Row Inner"
+"End Row Level","End Row Level"
+"End Wrapper Inner","End Wrapper Inner"
+"End Row Wrapper","End Row Wrapper"
+"Set Column As","Set Column As"
+"Column Style","Column Style"
+"Addition Class","Addition Class"
+"Inner Class","Inner Class"
+"Column content were generated at here...","Column content were generated at here..."
+"End Column Inner","End Column Inner"
+"End Column Wrapper","End Column Wrapper"
+"Display On","Display On"
+Animation,Animation
+"Detect mobile/tablet devices to show or not show the widget.","Detect mobile/tablet devices to show or not show the widget."
+Desktop,Desktop
+Tablet,Tablet
+Mobile,Mobile
+"Ajax Mode","Ajax Mode"
+"Enable Ajax To Generate The Widget","Enable Ajax To Generate The Widget"
+Disabled,Disabled
+Enable,Enable
+"Allow generate widget shortcode via ajax. Enable to speed up the site.","Allow generate widget shortcode via ajax. Enable to speed up the site."
+"Animation Settings","Animation Settings"
+"CSS3 Animation","CSS3 Animation"
+"Animation Duration","Animation Duration"
+"Animation Delay","Animation Delay"
+"Animation Offset","Animation Offset"
+"Animation Iteration","Animation Iteration"
+"Widget Box Style","Widget Box Style"
+"Widget content were generated at here...","Widget content were generated at here..."
+"End Widget Wrapper","End Widget Wrapper"
+"Choose Static block","Choose Static block"
+"Choose CMS Static Block Item","Choose CMS Static Block Item"
+Template,Template
+"CMS Static Block Default Template. Default: widget/static_block/default.phtml","CMS Static Block Default Template. Default: widget/static_block/default.phtml"
+"Choose Element Profile","Choose Element Profile"
+"Choose Element Builder Profile","Choose Element Builder Profile"
+"Disable Element Wrapper","Disable Element Wrapper"
+"Default: <strong>false</strong>. Enable to disable block wrapper for block builder on frontend, it will not show block title, just show generated layout.","Default: <strong>false</strong>. Enable to disable block wrapper for block builder on frontend, it will not show block title, just show generated layout."
+"Show Title","Show Title"
+"Element Template","Element Template"
+"Input custom module template file path. For example: widget/blockbuilder/default.phtml Empty for default","Input custom module template file path. For example: widget/blockbuilder/default.phtml Empty for default"
+"Use Code: ","Use Code: "
+Day,Day
+Hours,Hours
+Mins,Mins
+Secs,Secs
+Expired,Expired
+Prev,Prev
+Next,Next
+"View all","View all"
+"End Date: ","End Date: "
+New,New
+"Learn More","Learn More"
+"Hurry up! Offer ends in:","Hurry up! Offer ends in:"
+days,days
+hrs,hrs
+mins,mins
+secs,secs
+"Add to Cart","Add to Cart"
+"In stock","In stock"
+"Out of stock","Out of stock"
+"Add to Wish List","Add to Wish List"
+"Add to Compare","Add to Compare"
+"Not receive this message again","Not receive this message again"
+"ves_base_widget_googlemap: google-loader has been loaded, but not the maps-API.","ves_base_widget_googlemap: google-loader has been loaded, but not the maps-API."
+"Sign Up for Our Newsletter:","Sign Up for Our Newsletter:"
+"Enter your email address","Enter your email address"
+Subscribe,Subscribe
+"Sign up now !","Sign up now !"
+"Pin It","Pin It"
+"Complete (success)","Complete (success)"
+Complete,Complete
+"Complete (danger)","Complete (danger)"
+"Review by ","Review by "
+"Posted on ","Posted on "
+"Shopping Cart","Shopping Cart"
+"Show Large Image","Show Large Image"
+Sale,Sale
+Pinterest,Pinterest
+"Google Plus","Google Plus"
+Youtube,Youtube
+Skype,Skype
+Vimeo,Vimeo
+Instagram,Instagram
+Linkedin,Linkedin
+500px,500px
+Amazon,Amazon
+Weibo,Weibo
+Reddit,Reddit
+Vine,Vine
+Whatsapp,Whatsapp
+Foursquare,Foursquare
+Dribbble,Dribbble
+Behance,Behance
+Delicious,Delicious
+Slideshare,Slideshare
+Steam,Steam
+Yelp,Yelp
+Flickr,Flickr
+"Share on Facebook","Share on Facebook"
+"Share Facebook","Share Facebook"
+"Share on Twitter","Share on Twitter"
+Google,Google
+"Tweets by","Tweets by"
+Error,Error
+"Insert Widget...","Insert Widget..."
+"Ves Pages Builder","Ves Pages Builder"
+"Base Widgets","Base Widgets"
+"General Settings","General Settings"
+Enabled,Enabled
+"Root Media Path","Root Media Path"
+"Input root media folder path of filemanager popup in pages builder ( media/FOLDER_PATH ). Input FOLDER_PATH . For example folder name: wysiwyg . The filemanager will get images from media/wysiwyg . Default empty value","Input root media folder path of filemanager popup in pages builder ( media/FOLDER_PATH ). Input FOLDER_PATH . For example folder name: wysiwyg . The filemanager will get images from media/wysiwyg . Default empty value"
+"Enabled Swiper Carousel","Enabled Swiper Carousel"
+"Enabled Cookie Jquery","Enabled Cookie Jquery"
+"Enabled Countdown Js","Enabled Countdown Js"
+"Ves Base: Accordion","Ves Base: Accordion"
+"Widget Title","Widget Title"
+"This tile will be showed as header of widget block. Empty to disable","This tile will be showed as header of widget block. Empty to disable"
+"This class is used to make owner style for the widget.","This class is used to make owner style for the widget."
+"These classes are bootstrap typo contextual color classes.","These classes are bootstrap typo contextual color classes."
+"Accordion Type","Accordion Type"
+"Select a kind of accordion JS","Select a kind of accordion JS"
+"Magento Accordion JS","Magento Accordion JS"
+"Bootstrap Accordion JS","Bootstrap Accordion JS"
+"Multiple Collapsible","Multiple Collapsible"
+"Defines if multiple panels can be expanded at the same time.","Defines if multiple panels can be expanded at the same time."
+"Open On Focus","Open On Focus"
+"For keyboard navigation defines if the accordion expands when the title gets in focus.","For keyboard navigation defines if the accordion expands when the title gets in focus."
+Active,Active
+"Defines which tab is active when the widget gets instantiated.","Defines which tab is active when the widget gets instantiated."
+"Items Setting","Items Setting"
+"Header 1","Header 1"
+"Select CMS static block 1","Select CMS static block 1"
+"Use CMS static block for accordion content","Use CMS static block for accordion content"
+"Content 1","Content 1"
+"Enter Content 1","Enter Content 1"
+"Header 2","Header 2"
+"Select CMS static block 2","Select CMS static block 2"
+"Content 2","Content 2"
+"Enter Content 2","Enter Content 2"
+"Header 3","Header 3"
+"Select CMS static block 3","Select CMS static block 3"
+"Content 3","Content 3"
+"Enter Content 3","Enter Content 3"
+"Header 4","Header 4"
+"Select CMS static block 4","Select CMS static block 4"
+"Content 4","Content 4"
+"Enter Content 4","Enter Content 4"
+"Header 5","Header 5"
+"Select CMS static block 5","Select CMS static block 5"
+"Content 5","Content 5"
+"Enter Content 5","Enter Content 5"
+"Header 6","Header 6"
+"Select CMS static block 6","Select CMS static block 6"
+"Content 6","Content 6"
+"Enter Content 6","Enter Content 6"
+"Header 7","Header 7"
+"Select CMS static block 7","Select CMS static block 7"
+"Content 7","Content 7"
+"Enter Content 7","Enter Content 7"
+"Header 8","Header 8"
+"Select CMS static block 8","Select CMS static block 8"
+"Content 8","Content 8"
+"Enter Content 8","Enter Content 8"
+"Header 9","Header 9"
+"Select CMS static block 9","Select CMS static block 9"
+"Content 9","Content 9"
+"Enter Content 9","Enter Content 9"
+"Header 10","Header 10"
+"Select CMS static block 10","Select CMS static block 10"
+"Content 10","Content 10"
+"Enter Content 10","Enter Content 10"
+"Header 11","Header 11"
+"Select CMS static block 11","Select CMS static block 11"
+"Content 11","Content 11"
+"Enter Content 11","Enter Content 11"
+"Header 12","Header 12"
+"Select CMS static block 12","Select CMS static block 12"
+"Content 12","Content 12"
+"Enter Content 12","Enter Content 12"
+"Header 13","Header 13"
+"Select CMS static block 13","Select CMS static block 13"
+"Content 13","Content 13"
+"Enter Content 13","Enter Content 13"
+"Header 14","Header 14"
+"Select CMS static block 14","Select CMS static block 14"
+"Content 14","Content 14"
+"Enter Content 14","Enter Content 14"
+"Header 15","Header 15"
+"Select CMS static block 15","Select CMS static block 15"
+"Content 15","Content 15"
+"Enter Content 15","Enter Content 15"
+"Header 16","Header 16"
+"Select CMS static block 16","Select CMS static block 16"
+"Content 16","Content 16"
+"Enter Content 16","Enter Content 16"
+"Header 17","Header 17"
+"Select CMS static block 17","Select CMS static block 17"
+"Content 17","Content 17"
+"Enter Content 17","Enter Content 17"
+"Header 18","Header 18"
+"Select CMS static block 18","Select CMS static block 18"
+"Content 18","Content 18"
+"Enter Content 18","Enter Content 18"
+"Header 19","Header 19"
+"Select CMS static block 19","Select CMS static block 19"
+"Content 19","Content 19"
+"Enter Content 19","Enter Content 19"
+"Header 20","Header 20"
+"Select CMS static block 20","Select CMS static block 20"
+"Content 20","Content 20"
+"Enter Content 20","Enter Content 20"
+"Header 21","Header 21"
+"Select CMS static block 21","Select CMS static block 21"
+"Content 21","Content 21"
+"Enter Content 21","Enter Content 21"
+"Header 22","Header 22"
+"Select CMS static block 22","Select CMS static block 22"
+"Content 22","Content 22"
+"Enter Content 22","Enter Content 22"
+"Header 23","Header 23"
+"Select CMS static block 23","Select CMS static block 23"
+"Content 23","Content 23"
+"Enter Content 23","Enter Content 23"
+"Header 24","Header 24"
+"Select CMS static block 24","Select CMS static block 24"
+"Content 24","Content 24"
+"Enter Content 24","Enter Content 24"
+"Header 25","Header 25"
+"Select CMS static block 25","Select CMS static block 25"
+"Content 25","Content 25"
+"Enter Content 25","Enter Content 25"
+"Header 26","Header 26"
+"Select CMS static block 26","Select CMS static block 26"
+"Content 26","Content 26"
+"Enter Content 26","Enter Content 26"
+"Header 27","Header 27"
+"Select CMS static block 27","Select CMS static block 27"
+"Content 27","Content 27"
+"Enter Content 27","Enter Content 27"
+"Header 28","Header 28"
+"Select CMS static block 28","Select CMS static block 28"
+"Content 28","Content 28"
+"Enter Content 28","Enter Content 28"
+"Header 29","Header 29"
+"Select CMS static block 29","Select CMS static block 29"
+"Content 29","Content 29"
+"Enter Content 29","Enter Content 29"
+"Header 30","Header 30"
+"Select CMS static block 30","Select CMS static block 30"
+"Content 30","Content 30"
+"Enter Content 30","Enter Content 30"
+"Ves Base: Accordion With Background","Ves Base: Accordion With Background"
+"Heading Type","Heading Type"
+"Select accordion title heading type.","Select accordion title heading type."
+"Item Class 1","Item Class 1"
+"Item Background Image 1","Item Background Image 1"
+"Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Item Class 2","Item Class 2"
+"Item Background Image 2","Item Background Image 2"
+"Item Class 3","Item Class 3"
+"Item Background Image 3","Item Background Image 3"
+"Item Class 4","Item Class 4"
+"Item Background Image 4","Item Background Image 4"
+"Item Class 5","Item Class 5"
+"Item Background Image 5","Item Background Image 5"
+"Item Class 6","Item Class 6"
+"Item Background Image 6","Item Background Image 6"
+"Item Class 7","Item Class 7"
+"Item Background Image 7","Item Background Image 7"
+"Item Class 8","Item Class 8"
+"Item Background Image 8","Item Background Image 8"
+"Item Class 9","Item Class 9"
+"Item Background Image 9","Item Background Image 9"
+"Item Class 10","Item Class 10"
+"Item Background Image 10","Item Background Image 10"
+"Item Class 11","Item Class 11"
+"Item Background Image 11","Item Background Image 11"
+"Item Class 12","Item Class 12"
+"Item Background Image 12","Item Background Image 12"
+"Ves Base: Alert","Ves Base: Alert"
+"Input html content.","Input html content."
+"Alert Type","Alert Type"
+"Select a alert style","Select a alert style"
+"Ves Base: Core Magento Blocks","Ves Base: Core Magento Blocks"
+"Block Name","Block Name"
+"Choose a block to render.","Choose a block to render."
+"Or Input Block Name","Or Input Block Name"
+"Input a block name to render.","Input a block name to render."
+"Custom Template","Custom Template"
+"Load Custom Template For The Block. For example: html/topmenu.phtml Empty for default.","Load Custom Template For The Block. For example: html/topmenu.phtml Empty for default."
+"Ves Base: Blockquote","Ves Base: Blockquote"
+"Generate bootstrap blockquote element","Generate bootstrap blockquote element"
+"Author name","Author name"
+"Input the author. Empty to disable","Input the author. Empty to disable"
+"Cite text","Cite text"
+"Input the cite text. Empty to disable","Input the cite text. Empty to disable"
+"Ves Base: Button","Ves Base: Button"
+"Generate button","Generate button"
+"Text on the button","Text on the button"
+"will be showed on button.","will be showed on button."
+"URL (link)","URL (link)"
+"Button Link.","Button Link."
+"Button Type","Button Type"
+"Select types suitable for your button.","Select types suitable for your button."
+"Button Icon","Button Icon"
+"Button icon. You can input Font Awesome Icon at here. For example: <strong>fa fa-home</strong><br/>More information font awesome icon at here: <a href=""https://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">https://fortawesome.github.io/Font-Awesome/icons/</a>","Button icon. You can input Font Awesome Icon at here. For example: <strong>fa fa-home</strong><br/>More information font awesome icon at here: <a href=""https://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">https://fortawesome.github.io/Font-Awesome/icons/</a>"
+"Button Size","Button Size"
+"Select size suitable for your button.","Select size suitable for your button."
+"Extra class name","Extra class name"
+"If you wish to style particular content element differently, then use this field to add a class name and then refer to it in your css file.","If you wish to style particular content element differently, then use this field to add a class name and then refer to it in your css file."
+"Custom button attributes","Custom button attributes"
+"Input custom html attribute of the button. You can input event click for button. <br/>For example: onclick=""callTheFunction();"" ","Input custom html attribute of the button. You can input event click for button. <br/>For example: onclick=""callTheFunction();"" "
+"Ves Base: Content Carousel","Ves Base: Content Carousel"
+"Enable Collapse","Enable Collapse"
+"Module Template","Module Template"
+"Input custom module template file path. For example: ves/base/carousel.phtml Empty for default.","Input custom module template file path. For example: ves/base/carousel.phtml Empty for default."
+"Carousel Setting","Carousel Setting"
+"Enable Right To Left","Enable Right To Left"
+"Default should be Yes","Default should be Yes"
+"Enable Loop Carousel","Enable Loop Carousel"
+"Enable Button Navigation","Enable Button Navigation"
+"Navigation Next Button Text","Navigation Next Button Text"
+"Navigation Next Font Icon","Navigation Next Font Icon"
+"Navigation Previous Button Text","Navigation Previous Button Text"
+"Navigation Previous Font Icon","Navigation Previous Font Icon"
+"Enable Custom Nav","Enable Custom Nav"
+"Next Icon Class","Next Icon Class"
+"input icon class. For example: fa fa-angle-right","input icon class. For example: fa fa-angle-right"
+"Previous Icon Class","Previous Icon Class"
+"input icon class. For example: fa fa-angle-left","input icon class. For example: fa fa-angle-left"
+"Show dots navigations","Show dots navigations"
+"Lazy Load","Lazy Load"
+"Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not <img>","Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not <img>"
+"Enable Mouse Drag","Enable Mouse Drag"
+"Enable Touch Drag","Enable Touch Drag"
+"Pull Drag","Pull Drag"
+"Stage pull to edge.","Stage pull to edge."
+"Slide By","Slide By"
+"Number Items will slide on a time. Default: 1","Number Items will slide on a time. Default: 1"
+"Margin Each Items","Margin Each Items"
+"Default 0","Default 0"
+"Enable Single Item","Enable Single Item"
+"Number Columns On Page (Default)","Number Columns On Page (Default)"
+"Show number items when screen size between 1199px and 980px","Show number items when screen size between 1199px and 980px"
+"Number Columns On Page (Phones)","Number Columns On Page (Phones)"
+"Show number items when screen size bellow 480px","Show number items when screen size bellow 480px"
+"Number Columns On Page (Phones to Small tablets)","Number Columns On Page (Phones to Small tablets)"
+"Show number items when screen size between 641px and 480px","Show number items when screen size between 641px and 480px"
+"Number Columns On Page (Phones to tablets)","Number Columns On Page (Phones to tablets)"
+"Show number items when screen size between 768px and 641px","Show number items when screen size between 768px and 641px"
+"Number Columns On Page (Portrait tablets)","Number Columns On Page (Portrait tablets)"
+"Show number items when screen size between 979px and 769px","Show number items when screen size between 979px and 769px"
+"Number Columns On Page (Large display)","Number Columns On Page (Large display)"
+"Show number items when screen size 1200px and up","Show number items when screen size 1200px and up"
+"Auto Width","Auto Width"
+"Auto Play","Auto Play"
+animateIn,animateIn
+animateOut,animateOut
+Preview,Preview
+"Autoplay Speed","Autoplay Speed"
+"Set speed of autoplay when enable auto play option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 1000","Set speed of autoplay when enable auto play option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 1000"
+"Autoplay Timeout","Autoplay Timeout"
+"Set speed of autoplay when enable auto play timeout option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 3000","Set speed of autoplay when enable auto play timeout option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 3000"
+"Navigation Speed","Navigation Speed"
+"Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800","Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800"
+"Dots Speed","Dots Speed"
+"Set speed of dot when enable dot speed option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800","Set speed of dot when enable dot speed option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800"
+"Pause On Hover","Pause On Hover"
+"Carousel Items","Carousel Items"
+"Ves Base: List Categories","Ves Base: List Categories"
+"Select Static Block","Select Static Block"
+"Choose Template for your module.","Choose Template for your module."
+Pretext,Pretext
+"Empty for hide. You put html text","Empty for hide. You put html text"
+"Choose Categories","Choose Categories"
+"Choose categories will show on frontend","Choose categories will show on frontend"
+"Show Image","Show Image"
+"Image Width","Image Width"
+"Category Image Width (default: 150)","Category Image Width (default: 150)"
+"Image Height","Image Height"
+"Category Image Height (default: 150)","Category Image Height (default: 150)"
+"Show Total Products","Show Total Products"
+"Show List Categories In Carousel","Show List Categories In Carousel"
+"Show Carousel Navigator","Show Carousel Navigator"
+"Autoplay Carousel","Autoplay Carousel"
+"Speed Of Carousel","Speed Of Carousel"
+"Input seed of category carousel (default: 3000)","Input seed of category carousel (default: 3000)"
+"Categories Per Page","Categories Per Page"
+"The maximum number of categories in each page (default: 3)","The maximum number of categories in each page (default: 3)"
+"Colums In Categories carousel","Colums In Categories carousel"
+"Number columns of categories in each page (default: 3)","Number columns of categories in each page (default: 3)"
+"Template Layout","Template Layout"
+"Default template","Default template"
+"Categories List Links Template","Categories List Links Template"
+"Custom Widget Template","Custom Widget Template"
+"Input custom module template file path. For example: widget/categories.phtml or widget/categories_owl.phtml Empty for default","Input custom module template file path. For example: widget/categories.phtml or widget/categories_owl.phtml Empty for default"
+"Base Widget: Tab by Category","Base Widget: Tab by Category"
+"Input custom module template file path. For example: <b>widget/product_tabs/categorytab.phtml</b>. Empty for default","Input custom module template file path. For example: <b>widget/product_tabs/categorytab.phtml</b>. Empty for default"
+"Tab Settings","Tab Settings"
+"Tab Manage","Tab Manage"
+"Empty tab title to show realy category title","Empty tab title to show realy category title"
+Source,Source
+"jQuery EasyTabs Plugin Options","jQuery EasyTabs Plugin Options"
+"Enable Animate Tab","Enable Animate Tab"
+"Animation Speed","Animation Speed"
+Collapsible,Collapsible
+"Makes panels collapse and un-collapse if active tab is clicked repeatedly.","Makes panels collapse and un-collapse if active tab is clicked repeatedly."
+Cycle,Cycle
+"Defaut Tab Position","Defaut Tab Position"
+"Transition In","Transition In"
+"Transition In Easing","Transition In Easing"
+"Transition Out","Transition Out"
+"Transition Out Easing","Transition Out Easing"
+Event,Event
+"Item Settings","Item Settings"
+"Show Name","Show Name"
+"Show Name In Single Line","Show Name In Single Line"
+"Show Short Description","Show Short Description"
+"Description Character Limit","Description Character Limit"
+"Empty to show all short description","Empty to show all short description"
+"Show More Link","Show More Link"
+"Show Price","Show Price"
+"Show Review","Show Review"
+"Show Countdown Timer","Show Countdown Timer"
+"Show New Label","Show New Label"
+"Show Sale Label","Show Sale Label"
+"Aspect Ratio","Aspect Ratio"
+"If set to Yes, it will keep aspect ratio of the product image (height of the image will be calculated automatically based on width).
+					If set to No, Magento will automatically transform each image into square. If the original image was rectangular, the empty space at the sides will be filled with white color.
+				","If set to Yes, it will keep aspect ratio of the product image (height of the image will be calculated automatically based on width).
+					If set to No, Magento will automatically transform each image into square. If the original image was rectangular, the empty space at the sides will be filled with white color.
+				"
+"Compare Link","Compare Link"
+Show,Show
+"Compare Format","Compare Format"
+"Compare Text","Compare Text"
+"Compare Class","Compare Class"
+"Wishlist Link","Wishlist Link"
+"Wishlist Format","Wishlist Format"
+"Wishlist Text","Wishlist Text"
+"Wishlist Class","Wishlist Class"
+"Add to Cart Button","Add to Cart Button"
+"Add To Cart Popup Width","Add To Cart Popup Width"
+"Add To Cart Popup Height","Add To Cart Popup Height"
+"Add To Cart Format","Add To Cart Format"
+"Add To Cart Text","Add To Cart Text"
+"Add To Cart Class","Add To Cart Class"
+"Quickview Button","Quickview Button"
+"Quickview Popup Width","Quickview Popup Width"
+"Quickview Popup Height","Quickview Popup Height"
+"Quickview Format","Quickview Format"
+"Quick View Text","Quick View Text"
+"Quick View Class","Quick View Class"
+"OWL Carousel Settings","OWL Carousel Settings"
+"Number of Item per Column","Number of Item per Column"
+"Item Height","Item Height"
+"Unit: pixel. Empty to display normally","Unit: pixel. Empty to display normally"
+"Number Columns On Page","Number Columns On Page"
+"Show number items when screen size between 640px and 480px","Show number items when screen size between 640px and 480px"
+Autoplay,Autoplay
+"Show next/prev buttons.","Show next/prev buttons."
+"RTL Layout","RTL Layout"
+Loop,Loop
+"Infinity loop. Duplicate last and first items to get loop illusion.","Infinity loop. Duplicate last and first items to get loop illusion."
+"Ves Base: Category Info","Ves Base: Category Info"
+"Resize Image","Resize Image"
+"Show Description","Show Description"
+"Limit character of Description","Limit character of Description"
+"Default is 100","Default is 100"
+"Show Number Product","Show Number Product"
+"Show Sub Categories","Show Sub Categories"
+"Limit number Sub Categories","Limit number Sub Categories"
+"Default is 3","Default is 3"
+"Limit Result","Limit Result"
+Columns,Columns
+"Show ""View All"" link","Show ""View All"" link"
+"Categories Info Block Template","Categories Info Block Template"
+"Categories Info With Image Block Template","Categories Info With Image Block Template"
+"Categories Info Carousel Template","Categories Info Carousel Template"
+"Ves Base: Simple Content Html Block","Ves Base: Simple Content Html Block"
+"Widget content","Widget content"
+"Add URL like","Add URL like"
+URL,URL
+"URL Label","URL Label"
+"Link Class","Link Class"
+"Widget width","Widget width"
+"Widget aligment","Widget aligment"
+"Widget Text aligment","Widget Text aligment"
+Center,Center
+Start,Start
+End,End
+Justify,Justify
+"Ves Base: Coupon Countdown Banner","Ves Base: Coupon Countdown Banner"
+"Title of Name","Title of Name"
+"Empty for hide","Empty for hide"
+"Banner Countdown","Banner Countdown"
+"Choose Rule to show on frontend.","Choose Rule to show on frontend."
+"Input color name or color code. Example: #CC0000, white,...","Input color name or color code. Example: #CC0000, white,..."
+"Background Image","Background Image"
+"Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Background Positon X","Background Positon X"
+"Default is center","Default is center"
+"Background Positon Y","Background Positon Y"
+"Image size","Image size"
+"Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image","Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image"
+"Custom Coupon code","Custom Coupon code"
+"If you use ""Use Auto Generation"" you must go to Manage coupon code get a coupon code and enter it here.","If you use ""Use Auto Generation"" you must go to Manage coupon code get a coupon code and enter it here."
+"Display Coupon Code","Display Coupon Code"
+"Display Short Description","Display Short Description"
+"Display Time Countdown","Display Time Countdown"
+"Ves Base: Banner Countdown Timer","Ves Base: Banner Countdown Timer"
+"Empty for hide.","Empty for hide."
+"Expired Date:","Expired Date:"
+"Input date with format: M/d/yyyy for example: 09/30/2015.","Input date with format: M/d/yyyy for example: 09/30/2015."
+"Use Backgroupd Image","Use Backgroupd Image"
+"Example: #CC0000, white,...","Example: #CC0000, white,..."
+"Display Link","Display Link"
+"Link Title","Link Title"
+"Input link title. Empty for hide","Input link title. Empty for hide"
+"Addition Class For Link","Addition Class For Link"
+"Url Link","Url Link"
+"Input link url. Empty for hide","Input link url. Empty for hide"
+"Display Description","Display Description"
+"Show Expired Date","Show Expired Date"
+"Display Timer Countdown","Display Timer Countdown"
+"Countdown Timer Use Background Image (Default)","Countdown Timer Use Background Image (Default)"
+"Countdown Timer Use Column Image","Countdown Timer Use Column Image"
+"Ves Base: Counting Number","Ves Base: Counting Number"
+Number,Number
+"Input number to run counting, for example: 960","Input number to run counting, for example: 960"
+"Font Icon Class","Font Icon Class"
+"Input font awesome icon class, empty for hide. For example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href=""http://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">http://fortawesome.github.io/Font-Awesome/icons/</a>","Input font awesome icon class, empty for hide. For example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href=""http://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">http://fortawesome.github.io/Font-Awesome/icons/</a>"
+"Font Size","Font Size"
+"Input Font Size. For example: 32px","Input Font Size. For example: 32px"
+"This tile will be showed as header of widget block. Empty to disable.","This tile will be showed as header of widget block. Empty to disable."
+"Load Custom Extension Block","Load Custom Extension Block"
+"These classes are bootstrap typo contextual color classes","These classes are bootstrap typo contextual color classes"
+"Block Type","Block Type"
+"Type of extension block which the extension support (for example: Magento\Newsletter\Block\Subscribe ).","Type of extension block which the extension support (for example: Magento\Newsletter\Block\Subscribe )."
+"Name of the extension block which you want for the block. For example: custom.subscribe.","Name of the extension block which you want for the block. For example: custom.subscribe."
+"Block Parameters","Block Parameters"
+"The parameters wich are supported by the block. Use format: param_name=param_value . If want add more params, enter to new line. For example: template='subscribe.phtml'","The parameters wich are supported by the block. Use format: param_name=param_value . If want add more params, enter to new line. For example: template='subscribe.phtml'"
+"Ves Base Widget: Deal Product","Ves Base Widget: Deal Product"
+"Input custom module template file path. For example: <b>widget/dealproduct/categorytab.phtml</b>. Empty for default","Input custom module template file path. For example: <b>widget/dealproduct/categorytab.phtml</b>. Empty for default"
+"Show Thumbnail","Show Thumbnail"
+"Number thumbnail Image","Number thumbnail Image"
+"Thumbnail Vertical Style","Thumbnail Vertical Style"
+"Just work when use with theme from <a href=""http://venustheme.com"" target=""_BLANK"">Venustheme.com</a>","Just work when use with theme from <a href=""http://venustheme.com"" target=""_BLANK"">Venustheme.com</a>"
+"Ves Base: Facebook Widget","Ves Base: Facebook Widget"
+"Facebook Widget","Facebook Widget"
+"Custom Block Id","Custom Block Id"
+"Facebook URL","Facebook URL"
+"Example: <b>https://www.facebook.com/venustheme</b>","Example: <b>https://www.facebook.com/venustheme</b>"
+"Facebook App Id","Facebook App Id"
+"You should create a facebook app to get app id. https://developers.facebook.com/docs/apps/register <br/>For example: 1451966991726173","You should create a facebook app to get app id. https://developers.facebook.com/docs/apps/register <br/>For example: 1451966991726173"
+"Widget Width","Widget Width"
+"Example: 260 .Then widget will have width 260px","Example: 260 .Then widget will have width 260px"
+"Widget Height","Widget Height"
+"Example: 300 .Then widget will have height 300px","Example: 300 .Then widget will have height 300px"
+"Show Friends","Show Friends"
+"Small Header","Small Header"
+"Hide Cover Image","Hide Cover Image"
+"Show Posts","Show Posts"
+"Custom CSS","Custom CSS"
+"Example: <b>background: #25252A; color: #CCC;</b>","Example: <b>background: #25252A; color: #CCC;</b>"
+"Use Widget Iframe","Use Widget Iframe"
+"Ves Base: Facebook Comment","Ves Base: Facebook Comment"
+"Facebook Comment Widget","Facebook Comment Widget"
+"Use Current Page Url","Use Current Page Url"
+"Or Input Page URL","Or Input Page URL"
+"The width of the plugin. Either a pixel value or the literal 100% for fluid width. The mobile version of the Comments plugin ignores the width parameter, and instead has a fluid width of 100%. Default: 550","The width of the plugin. Either a pixel value or the literal 100% for fluid width. The mobile version of the Comments plugin ignores the width parameter, and instead has a fluid width of 100%. Default: 550"
+"Number Posts","Number Posts"
+"The number of comments to show by default. The minimum value is 1.","The number of comments to show by default. The minimum value is 1."
+Theme,Theme
+Light,Light
+Dark,Dark
+"Sort Comment By","Sort Comment By"
+"Reverse Time","Reverse Time"
+Time,Time
+"Ves Base: Feed Reader","Ves Base: Feed Reader"
+"Adds a FeedReader block","Adds a FeedReader block"
+"Feed URI","Feed URI"
+"Input Feed URI or RSS feed url","Input Feed URI or RSS feed url"
+"Item Count","Item Count"
+"This tile will be showed as header of widget block. If empty, the feed's title will be used","This tile will be showed as header of widget block. If empty, the feed's title will be used"
+"Truncate Description","Truncate Description"
+"Max Chars Of Description Will Show","Max Chars Of Description Will Show"
+"Strip Html Tags In Description","Strip Html Tags In Description"
+"Feed Reader Sidebar (Default)","Feed Reader Sidebar (Default)"
+"Feed Reader Sidebar - Carousel","Feed Reader Sidebar - Carousel"
+"Default should be No","Default should be No"
+"Ves Base: Flickr","Ves Base: Flickr"
+"Flickr Gallery Widget","Flickr Gallery Widget"
+"API ID","API ID"
+"Cretate App ID at (<a target=""_blank"" href=""https://www.flickr.com/services/apps/create/apply/"">flick.com</a>)<br/>For example: 83568b9ffa3848d1859c995008eae2b8","Cretate App ID at (<a target=""_blank"" href=""https://www.flickr.com/services/apps/create/apply/"">flick.com</a>)<br/>For example: 83568b9ffa3848d1859c995008eae2b8"
+"User Id","User Id"
+"Find Your ID at (<a target=""_blank"" href=""http://idgettr.com/"">idGettr</a>)<br/> For example: 49399681@N08","Find Your ID at (<a target=""_blank"" href=""http://idgettr.com/"">idGettr</a>)<br/> For example: 49399681@N08"
+"Number of photos to show","Number of photos to show"
+"Default: 10","Default: 10"
+Speed,Speed
+"Default: 350","Default: 350"
+"Thumbnails images","Thumbnails images"
+"Thumbnails images height","Thumbnails images height"
+"Example: ""500px"", or 500 ","Example: ""500px"", or 500 "
+"Thumbnails images width","Thumbnails images width"
+"Popup images","Popup images"
+"Popup images width","Popup images width"
+"Example: ""500px"", or 500 or 60% ","Example: ""500px"", or 500 or 60% "
+"Ves Base: Google Plus Button","Ves Base: Google Plus Button"
+"Google Button Plus Widget","Google Button Plus Widget"
+"Button size","Button size"
+"Select size suitable for your google button.","Select size suitable for your google button."
+Annotation,Annotation
+"Select annotation suitable for your google button.","Select annotation suitable for your google button."
+"Language Code","Language Code"
+"Input language code. Ex: nl. Empty default English. <br><a href=""https://developers.google.com/+/web/+1button/"">More information</a>","Input language code. Ex: nl. Empty default English. <br><a href=""https://developers.google.com/+/web/+1button/"">More information</a>"
+Width,Width
+"Input width of the button. For example: 300 (px)","Input width of the button. For example: 300 (px)"
+"Input Custom Url ","Input Custom Url "
+"Sets the URL to +1. Set this attribute when you have a +1 button next to an item description for another page and want the button to +1 the referenced page and not the current page.","Sets the URL to +1. Set this attribute when you have a +1 button next to an item description for another page and want the button to +1 the referenced page and not the current page."
+"Ves Base: Google Map","Ves Base: Google Map"
+"Create A Google Map","Create A Google Map"
+"Google Map API","Google Map API"
+"Input your google map API Key. Read the guide to get the API key: <a href=""https://developers.google.com/maps/documentation/javascript/get-api-key"" target=""_BLANK"">Click Here</a><br/>For example our API Key: AIzaSyDHInVsRQ9ffcVrKmJrr6QI1N3mHsKuYus","Input your google map API Key. Read the guide to get the API key: <a href=""https://developers.google.com/maps/documentation/javascript/get-api-key"" target=""_BLANK"">Click Here</a><br/>For example our API Key: AIzaSyDHInVsRQ9ffcVrKmJrr6QI1N3mHsKuYus"
+Latitude,Latitude
+"Input Latitude. For example: 21.010904","Input Latitude. For example: 21.010904"
+Longitude,Longitude
+"Input Longitude. For example: 105.787736","Input Longitude. For example: 105.787736"
+Zoom,Zoom
+"Input Zoom Value from 1-16","Input Zoom Value from 1-16"
+"Input Map Width value. For example: 250px or 100%","Input Map Width value. For example: 250px or 100%"
+Height,Height
+"Input Map Height value. For example: 200px or 100%","Input Map Height value. For example: 200px or 100%"
+Description,Description
+"Maker Icon","Maker Icon"
+"Input maker icon url. 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Input maker icon url. 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Ves Base: Google Plus","Ves Base: Google Plus"
+"Google plus Widget","Google plus Widget"
+"Badge Types","Badge Types"
+Persion,Persion
+Page,Page
+"Google Plus Url","Google Plus Url"
+"<hr style=""display:none""/>Google Page Url: <b>https://plus.google.com/+GooglePlusDevelopers</b><br/>Google Person Url: <b>https://plus.google.com/+JonathanBeri</b>","<hr style=""display:none""/>Google Page Url: <b>https://plus.google.com/+GooglePlusDevelopers</b><br/>Google Person Url: <b>https://plus.google.com/+JonathanBeri</b>"
+"Example: ""400"" or ""400px""","Example: ""400"" or ""400px"""
+Portrait,Portrait
+Landscape,Landscape
+"Show Tag Line","Show Tag Line"
+"Enable Cover Photo","Enable Cover Photo"
+"Ves Base: Heading Text","Ves Base: Heading Text"
+"Heading Text: h1,h2,h3,h4,h5,h6","Heading Text: h1,h2,h3,h4,h5,h6"
+"Prefix Class","Prefix Class"
+"Will be showed on separator.","Will be showed on separator."
+"Ves Base: Html Content","Ves Base: Html Content"
+"Generate Html Content","Generate Html Content"
+"Ves Base: Instagram","Ves Base: Instagram"
+"Create Instagram Widget","Create Instagram Widget"
+"Select Static block as pretext.","Select Static block as pretext."
+"Instagram Access Token","Instagram Access Token"
+"Please follow <a href=""http://www.venustheme.com/how-to-get-instagram-access-token/"" target=""_BLANK"">this tutorial</a> to get your access token of your instagram's app. <br/> For example: <strong>1673521893.2e41da5.92ad74b9e49d4501b32781cdb79598cd</strong>","Please follow <a href=""http://www.venustheme.com/how-to-get-instagram-access-token/"" target=""_BLANK"">this tutorial</a> to get your access token of your instagram's app. <br/> For example: <strong>1673521893.2e41da5.92ad74b9e49d4501b32781cdb79598cd</strong>"
+"Image Instagram Size, it is used in scroller module","Image Instagram Size, it is used in scroller module"
+"Formart WidthxHeight, for example: 150x150","Formart WidthxHeight, for example: 150x150"
+Limit,Limit
+"Default: 20","Default: 20"
+"Get Instagram by","Get Instagram by"
+"Choose Type Instagram.","Choose Type Instagram."
+"User Name","User Name"
+Hastag,Hastag
+Location,Location
+Username,Username
+"Default: venusthemes","Default: venusthemes"
+"Hastag name","Hastag name"
+"Default: fashion","Default: fashion"
+"Default Latitude","Default Latitude"
+"You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 21.030897","You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 21.030897"
+"Default Longitude","Default Longitude"
+"You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 105.775575","You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 105.775575"
+Distance,Distance
+"Distance in meter (max. distance: 5km = 5000). Default: 1000","Distance in meter (max. distance: 5km = 5000). Default: 1000"
+"Use OWL Carousel","Use OWL Carousel"
+"Default should be false","Default should be false"
+"Input custom module template file path. For example: widget/instagram.phtml Empty for default","Input custom module template file path. For example: widget/instagram.phtml Empty for default"
+"Ves Base: Links","Ves Base: Links"
+"Block Links Widget","Block Links Widget"
+"UL Class","UL Class"
+"This class is used for wrapper of list links (ul tag).","This class is used for wrapper of list links (ul tag)."
+"Text Link 1","Text Link 1"
+"Link 1","Link 1"
+"Input link url 1.","Input link url 1."
+"Link Icon 1","Link Icon 1"
+"Enter Font Icon Class For Link 1.","Enter Font Icon Class For Link 1."
+"Text Link 2","Text Link 2"
+"Link 2","Link 2"
+"Input link url 2.","Input link url 2."
+"Link Icon 2","Link Icon 2"
+"Enter Font Icon Class For Link 2.","Enter Font Icon Class For Link 2."
+"Text Link 3","Text Link 3"
+"Link 3","Link 3"
+"Input link url 3.","Input link url 3."
+"Link Icon 3","Link Icon 3"
+"Enter Font Icon Class For Link 3.","Enter Font Icon Class For Link 3."
+"Text Link 4","Text Link 4"
+"Link 4","Link 4"
+"Input link url 4.","Input link url 4."
+"Link Icon 4","Link Icon 4"
+"Enter Font Icon Class For Link 4.","Enter Font Icon Class For Link 4."
+"Text Link 5","Text Link 5"
+"Link 5","Link 5"
+"Input link url 5.","Input link url 5."
+"Link Icon 5","Link Icon 5"
+"Enter Font Icon Class For Link 5.","Enter Font Icon Class For Link 5."
+"Text Link 6","Text Link 6"
+"Link 6","Link 6"
+"Input link url 6.","Input link url 6."
+"Link Icon 6","Link Icon 6"
+"Enter Font Icon Class For Link 6.","Enter Font Icon Class For Link 6."
+"Text Link 7","Text Link 7"
+"Link 7","Link 7"
+"Input link url 7.","Input link url 7."
+"Link Icon 7","Link Icon 7"
+"Enter Font Icon Class For Link 7.","Enter Font Icon Class For Link 7."
+"Text Link 8","Text Link 8"
+"Link 8","Link 8"
+"Input link url 8.","Input link url 8."
+"Link Icon 8","Link Icon 8"
+"Enter Font Icon Class For Link 8.","Enter Font Icon Class For Link 8."
+"Text Link 9","Text Link 9"
+"Link 9","Link 9"
+"Input link url 9.","Input link url 9."
+"Link Icon 9","Link Icon 9"
+"Enter Font Icon Class For Link 9.","Enter Font Icon Class For Link 9."
+"Text Link 10","Text Link 10"
+"Input link url 10.","Input link url 10."
+"Enter Font Icon Class For Link 10.","Enter Font Icon Class For Link 10."
+"Text Link 11","Text Link 11"
+"Link 11","Link 11"
+"Input link url 11.","Input link url 11."
+"Link Icon 11","Link Icon 11"
+"Enter Font Icon Class For Link 11.","Enter Font Icon Class For Link 11."
+"Text Link 12","Text Link 12"
+"Link 12","Link 12"
+"Input link url 12.","Input link url 12."
+"Link Icon 12","Link Icon 12"
+"Enter Font Icon Class For Link 12.","Enter Font Icon Class For Link 12."
+"Text Link 13","Text Link 13"
+"Link 13","Link 13"
+"Input link url 13.","Input link url 13."
+"Link Icon 13","Link Icon 13"
+"Enter Font Icon Class For Link 13.","Enter Font Icon Class For Link 13."
+"Text Link 14","Text Link 14"
+"Link 14","Link 14"
+"Input link url 14.","Input link url 14."
+"Link Icon 14","Link Icon 14"
+"Enter Font Icon Class For Link 14.","Enter Font Icon Class For Link 14."
+"Text Link 15","Text Link 15"
+"Link 15","Link 15"
+"Input link url 15.","Input link url 15."
+"Enter Font Icon Class For Link 15.","Enter Font Icon Class For Link 15."
+"Text Link 16","Text Link 16"
+"Link 16","Link 16"
+"Input link url 16.","Input link url 16."
+"Link Icon 16","Link Icon 16"
+"Enter Font Icon Class For Link 16.","Enter Font Icon Class For Link 16."
+"Ves Base: Gallery Images","Ves Base: Gallery Images"
+"Create Gallery Images, Lookbook Images","Create Gallery Images, Lookbook Images"
+"Render Thumbnail","Render Thumbnail"
+"Whether to render thumbnail with cropping-resizing function","Whether to render thumbnail with cropping-resizing function"
+"Thumbnail Height","Thumbnail Height"
+"Thumbnail Width","Thumbnail Width"
+"Keep Resize Ratio","Keep Resize Ratio"
+"Limit Items","Limit Items"
+"Max Items","Max Items"
+"Gallery Show As List","Gallery Show As List"
+"Gallery Show As Grid","Gallery Show As Grid"
+"Gallery Show As Carousel","Gallery Show As Carousel"
+"Image Effect When Scroll Down","Image Effect When Scroll Down"
+"Effect 1","Effect 1"
+"Effect 2","Effect 2"
+"Effect 3","Effect 3"
+"Effect 4","Effect 4"
+"Effect 5","Effect 5"
+"Effect 7","Effect 7"
+"Effect 8","Effect 8"
+"Enable Popup Image","Enable Popup Image"
+"Popup Type","Popup Type"
+Colorbox,Colorbox
+Fancybox,Fancybox
+"Enable Popup Thumb List","Enable Popup Thumb List"
+"We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Thumbs","We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Thumbs"
+"Popup Thumb Width","Popup Thumb Width"
+"Popup Thumb Height","Popup Thumb Height"
+"Use Custom Popup Buttons","Use Custom Popup Buttons"
+"We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Buttons","We should enable system config Pages Builder > General Settings > Enabled Helper Fancybox Buttons"
+"Enable Slideshow On Popup","Enable Slideshow On Popup"
+"Popup Slideshow Speed","Popup Slideshow Speed"
+"Sets the speed of the slideshow, in milliseconds. Default: 2500","Sets the speed of the slideshow, in milliseconds. Default: 2500"
+"Show Image Info","Show Image Info"
+"From Source","From Source"
+"Choose Source to render image and content in the slideshow","Choose Source to render image and content in the slideshow"
+"Upload Images","Upload Images"
+"Load Images From Folder","Load Images From Folder"
+"Images From Folder Setting","Images From Folder Setting"
+"Input Image Folder Path","Input Image Folder Path"
+"Upload Images Setting","Upload Images Setting"
+"Title 1","Title 1"
+"Image 1","Image 1"
+"Product Id 1","Product Id 1"
+"Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30","Input Product Ids which will show on the image as lookbook. Input multil id with comma. For example: 20,22,30"
+"Title 2","Title 2"
+"Image 2","Image 2"
+"Product Id 2","Product Id 2"
+"Title 3","Title 3"
+"Image 3","Image 3"
+"Product Id 3","Product Id 3"
+"Title 4","Title 4"
+"Image 4","Image 4"
+"Product Id 4","Product Id 4"
+"Title 5","Title 5"
+"Image 5","Image 5"
+"Product Id 5","Product Id 5"
+"Title 6","Title 6"
+"Image 6","Image 6"
+"Product Id 6","Product Id 6"
+"Title 7","Title 7"
+"Image 7","Image 7"
+"Product Id 7","Product Id 7"
+"Title 8","Title 8"
+"Image 8","Image 8"
+"Product Id 8","Product Id 8"
+"Title 9","Title 9"
+"Image 9","Image 9"
+"Product Id 9","Product Id 9"
+"Title 10","Title 10"
+"Link 10","Link 10"
+"Image 10","Image 10"
+"Product Id 10","Product Id 10"
+"Title 11","Title 11"
+"Image 11","Image 11"
+"Product Id 11","Product Id 11"
+"Title 12","Title 12"
+"Image 12","Image 12"
+"Product Id 12","Product Id 12"
+"OWL Carousel Setting","OWL Carousel Setting"
+"Show number items when screen size between 1199px and 980px. Default: 4","Show number items when screen size between 1199px and 980px. Default: 4"
+"Show number items when screen size bellow 480px. Default: 1","Show number items when screen size bellow 480px. Default: 1"
+"Show number items when screen size between 641px and 480px. Default: 2","Show number items when screen size between 641px and 480px. Default: 2"
+"Show number items when screen size between 768px and 641px. Default: 2","Show number items when screen size between 768px and 641px. Default: 2"
+"Show number items when screen size between 979px and 769px. Default: 3","Show number items when screen size between 979px and 769px. Default: 3"
+"Show number items when screen size 1200px and up. Default: 5","Show number items when screen size 1200px and up. Default: 5"
+"Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes","Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes"
+"Slide By Number Items","Slide By Number Items"
+"Custom Module Template","Custom Module Template"
+"Input custom module template file path. For example: widget/gallery_carousel.phtml Empty for default","Input custom module template file path. For example: widget/gallery_carousel.phtml Empty for default"
+"Ves Base: Newsletter Widget","Ves Base: Newsletter Widget"
+"Create Magento Newsletter Widget","Create Magento Newsletter Widget"
+"Title Class","Title Class"
+"Signup Text","Signup Text"
+"For example: Signup","For example: Signup"
+"Button Text","Button Text"
+"For example: Submit","For example: Submit"
+"Button Classes","Button Classes"
+"Input Classes","Input Classes"
+"Addition Classes","Addition Classes"
+"Input custom template","Input custom template"
+"For example: Ves_BaseWidget::widget/newsletter.phtml .Empty for default","For example: Ves_BaseWidget::widget/newsletter.phtml .Empty for default"
+"Ves Base: Our Service","Ves Base: Our Service"
+"Wrapper Class","Wrapper Class"
+"This class is used to make owner style for the widget wrapper. ","This class is used to make owner style for the widget wrapper. "
+"This class is used to make owner style for the widget inner. ","This class is used to make owner style for the widget inner. "
+"Widget Title Class","Widget Title Class"
+"This class is used to make owner style for the title.","This class is used to make owner style for the title."
+"Icon Class","Icon Class"
+"If you use Icon Class, The image at bellow will be not used. you can use icon from font-awesome, for example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href=""http://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">http://fortawesome.github.io/Font-Awesome/icons/</a>","If you use Icon Class, The image at bellow will be not used. you can use icon from font-awesome, for example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href=""http://fortawesome.github.io/Font-Awesome/icons/"" target=""_BLANK"">http://fortawesome.github.io/Font-Awesome/icons/</a>"
+"Icon Style","Icon Style"
+"Icon Font Size","Icon Font Size"
+"Input Font Size for Icon. For example: 32px.","Input Font Size for Icon. For example: 32px."
+"Icon Position","Icon Position"
+"Image File","Image File"
+"Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                    Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                    Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Image Size","Image Size"
+"WIDTHxHEIGHT. For example: 80x80","WIDTHxHEIGHT. For example: 80x80"
+"Image Class","Image Class"
+"Content Class","Content Class"
+"Link for image icon or font icon","Link for image icon or font icon"
+"Input the link for image icon or font icon. Empty for hide","Input the link for image icon or font icon. Empty for hide"
+"Ves Base: Pinterest","Ves Base: Pinterest"
+"Couting type","Couting type"
+"Select Couting type.","Select Couting type."
+"Above the Button","Above the Button"
+"Beside the Button","Beside the Button"
+"Not Shown","Not Shown"
+"Pin button type","Pin button type"
+"Pin button type.","Pin button type."
+Large,Large
+Round,Round
+"Button Color","Button Color"
+Red,Red
+Gray,Gray
+White,White
+Url,Url
+"Image Preview","Image Preview"
+"Input image url. For example: http://website_url/images/image-name.jpg","Input image url. For example: http://website_url/images/image-name.jpg"
+"Ves Base: Pinterest - Profile Widget","Ves Base: Pinterest - Profile Widget"
+"For example: http://www.pinterest.com/pinterest/ or http://www.pinterest.com/pinterest/pin-pets/","For example: http://www.pinterest.com/pinterest/ or http://www.pinterest.com/pinterest/pin-pets/"
+"Widget type","Widget type"
+"Select Pinterest Widget Type (Profile or Board).","Select Pinterest Widget Type (Profile or Board)."
+"Profile Widget","Profile Widget"
+"Board Widget","Board Widget"
+"Default: 80","Default: 80"
+"Board Height","Board Height"
+"Default: 320","Default: 320"
+"Board Width","Board Width"
+"Default: 371","Default: 371"
+"Ves Base: Popup","Ves Base: Popup"
+"Open Popup Button Text","Open Popup Button Text"
+"Input text for open popup button. Empty for hide","Input text for open popup button. Empty for hide"
+"Button Class","Button Class"
+"Input css class for open popup button","Input css class for open popup button"
+"Allow Open Popup On First Load","Allow Open Popup On First Load"
+"Show Dont Show Popup Again","Show Dont Show Popup Again"
+"Disable checkbox allow Not receive this message again","Disable checkbox allow Not receive this message again"
+"Select Popup Content Type","Select Popup Content Type"
+"Newsletter Form","Newsletter Form"
+"Login and Register Form","Login and Register Form"
+Register,Register
+"Forgot Password Form","Forgot Password Form"
+"CMS Static Block Content","CMS Static Block Content"
+"Custom Html","Custom Html"
+"Select CMS static block","Select CMS static block"
+"Allow show reponsive popup","Allow show reponsive popup"
+"Popup Width","Popup Width"
+"Default value is 60%","Default value is 60%"
+"Popup will show after","Popup will show after"
+"A specified number of seconds. Empty to when load widget. For example: 1000","A specified number of seconds. Empty to when load widget. For example: 1000"
+Opacity,Opacity
+"The overlay opacity level. Range: 0 to 1. Default 0.6","The overlay opacity level. Range: 0 to 1. Default 0.6"
+"Cookie Expire","Cookie Expire"
+"Cookie expire time(second). When popup is shown, there will be one cookie created at a set time. Once, the page is loaded in the time, the system will check whether the cookie of created popup is outdated or not. If the cookie is outdated, popup will show up; in contrast, if the cookie have been not outdated yet, the popup wont show and wait until the cookie is outdated. For example: 10000","Cookie expire time(second). When popup is shown, there will be one cookie created at a set time. Once, the page is loaded in the time, the system will check whether the cookie of created popup is outdated or not. If the cookie is outdated, popup will show up; in contrast, if the cookie have been not outdated yet, the popup wont show and wait until the cookie is outdated. For example: 10000"
+"Form Template","Form Template"
+"Input custom module template file path. For example: ves/base/newsletter.phtml. Empty for default","Input custom module template file path. For example: ves/base/newsletter.phtml. Empty for default"
+"Ves Base: Pricing Plan","Ves Base: Pricing Plan"
+Subtitle,Subtitle
+"Use Product Info?","Use Product Info?"
+"Use product info to show price, currency, link and addtocart button. Disable to input custom info.","Use product info to show price, currency, link and addtocart button. Disable to input custom info."
+"Select Product...","Select Product..."
+Price,Price
+"Link to product or any page as you want.","Link to product or any page as you want."
+"For example: Get It Now","For example: Get It Now"
+Period,Period
+"For example: Per month","For example: Per month"
+"Button Link Style","Button Link Style"
+"Is Featured","Is Featured"
+"Input custom module template file path. For example: widget/pricing.phtml Empty for default.","Input custom module template file path. For example: widget/pricing.phtml Empty for default."
+"Ves Base: Single Product Block","Ves Base: Single Product Block"
+"Show block wrapper","Show block wrapper"
+"Show block title","Show block title"
+"Display Product Title","Display Product Title"
+"Display Product Image","Display Product Image"
+"Enter image size in pixels: 300x300 (Width x Height).","Enter image size in pixels: 300x300 (Width x Height)."
+"Alternative Image","Alternative Image"
+"Show alternative image on mouse hover over the product image.","Show alternative image on mouse hover over the product image."
+"Select Alternative Image By Column","Select Alternative Image By Column"
+"Which column of the product image gallery will mark alternative images of your products.","Which column of the product image gallery will mark alternative images of your products."
+"Alternative Image Column Value","Alternative Image Column Value"
+"Specify the value which will mark alternative images of your products. E.g.: if Select Alt. Image By Column is set to ""Sort Order"", specify the number which will mark (in ""Sort Order"" column of the product image gallery) alternative images, for example: ""2"".","Specify the value which will mark alternative images of your products. E.g.: if Select Alt. Image By Column is set to ""Sort Order"", specify the number which will mark (in ""Sort Order"" column of the product image gallery) alternative images, for example: ""2""."
+"Display Sale Label","Display Sale Label"
+"Display New Label","Display New Label"
+"Short Description Max Chars","Short Description Max Chars"
+"For example: 100","For example: 100"
+"Display Price","Display Price"
+"Display Button Add To Cart","Display Button Add To Cart"
+"Only for special products.","Only for special products."
+"Display Review","Display Review"
+"Display Button Wishlist","Display Button Wishlist"
+"Display Button Compare","Display Button Compare"
+"Display Quick View","Display Quick View"
+"Aspect Ratio When Resize Image","Aspect Ratio When Resize Image"
+"Widget Template","Widget Template"
+"Input custom module template file path. For example: widget/single_product.phtml Empty for default.","Input custom module template file path. For example: widget/single_product.phtml Empty for default."
+"Ves Base: Progress Bar","Ves Base: Progress Bar"
+"Select type progress bar","Select type progress bar"
+"Green color(success)","Green color(success)"
+"value input format: type|value|min|max. For example: abc|80|0|100","value input format: type|value|min|max. For example: abc|80|0|100"
+"Blue color(infotmation)","Blue color(infotmation)"
+"value input format: type|value|min|max. For example: test|80|0|100","value input format: type|value|min|max. For example: test|80|0|100"
+"Orange color(warning)","Orange color(warning)"
+"Red color(danger)","Red color(danger)"
+"Show label","Show label"
+"Progress bar will be showed label or not.","Progress bar will be showed label or not."
+"Ves Base: Generate a Shortcode","Ves Base: Generate a Shortcode"
+"Input Shortcode which magento support. For example: {{block...}} {{widget..}}.","Input Shortcode which magento support. For example: {{block...}} {{widget..}}."
+"Ves Base: Single Image","Ves Base: Single Image"
+"Generate Single Image","Generate Single Image"
+"Input css class for widget heading title.","Input css class for widget heading title."
+"Description Class","Description Class"
+"Input css class for widget content.","Input css class for widget content."
+"Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size.","Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size."
+"Image Alignment","Image Alignment"
+"Align Left","Align Left"
+"Align Right","Align Right"
+"Align Center","Align Center"
+"Image Style","Image Style"
+Rounded,Rounded
+Circle,Circle
+Thumbnail,Thumbnail
+"Image Alt Text","Image Alt Text"
+"Input the text for alt attribute of image tag (it is for SEO optimizing)","Input the text for alt attribute of image tag (it is for SEO optimizing)"
+"Uze Image Zoom","Uze Image Zoom"
+"Enable image zoom when your image larger and you enable resize image (use image size)","Enable image zoom when your image larger and you enable resize image (use image size)"
+"Don't Use","Don't Use"
+"Basic Zoom","Basic Zoom"
+"Inner Zoom","Inner Zoom"
+"Lens Zoom","Lens Zoom"
+"Zoom Lens Size","Zoom Lens Size"
+"Input the zoom lens size (number value). Larger than: 100 . Default: 200","Input the zoom lens size (number value). Larger than: 100 . Default: 200"
+"Enable Image Description","Enable Image Description"
+"Image Description","Image Description"
+"Choose Popup Js","Choose Popup Js"
+"Colorbox Js","Colorbox Js"
+"Fancybox Js","Fancybox Js"
+"Ves Base: Single Deal Block","Ves Base: Single Deal Block"
+"Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+            Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+            Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+"Background Image Positon X","Background Image Positon X"
+"Default is left. Check value avaible at <a href=""http://www.w3schools.com/cssref/pr_background-position.asp"" target=""_blank"">here</a>","Default is left. Check value avaible at <a href=""http://www.w3schools.com/cssref/pr_background-position.asp"" target=""_blank"">here</a>"
+"Background Image Positon Y","Background Image Positon Y"
+"Default is center. Check value avaible at <a href=""http://www.w3schools.com/cssref/pr_background-position.asp"" target=""_blank"">here</a>","Default is center. Check value avaible at <a href=""http://www.w3schools.com/cssref/pr_background-position.asp"" target=""_blank"">here</a>"
+"Enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image","Enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image"
+"Input custom module template file path. For example: widget/singledeal.phtml Empty for default.","Input custom module template file path. For example: widget/singledeal.phtml Empty for default."
+"Ves Base: Social Links","Ves Base: Social Links"
+"Link Facebook","Link Facebook"
+https://facebook.com/link,https://facebook.com/link
+"Link Twitter","Link Twitter"
+https://twitter.com/link,https://twitter.com/link
+"Link Pinterest","Link Pinterest"
+https://www.pinterest.com/link,https://www.pinterest.com/link
+"Link Googleplus","Link Googleplus"
+https://plus.google.com/link,https://plus.google.com/link
+"Link Youtube","Link Youtube"
+https://youtube.com/link,https://youtube.com/link
+"Link Vimeo","Link Vimeo"
+https://vimeo.com/link,https://vimeo.com/link
+"Link Skype","Link Skype"
+https://skype.com/link,https://skype.com/link
+"Link Instagram","Link Instagram"
+https://instagram.com/link,https://instagram.com/link
+"Link Linkedln","Link Linkedln"
+https://linkedin.com/link,https://linkedin.com/link
+"Link 500px","Link 500px"
+https://500px.com/link,https://500px.com/link
+"Link Amazon","Link Amazon"
+http://amazon.com/link,http://amazon.com/link
+"Link Weibo","Link Weibo"
+http://weibo.com/link,http://weibo.com/link
+"Link Reddit","Link Reddit"
+https://reddit.com/link,https://reddit.com/link
+"Link Vine","Link Vine"
+https://vine.co/link,https://vine.co/link
+"Link Whatsapp","Link Whatsapp"
+whatsapp://send?text=link,whatsapp://send?text=link
+"Link Tumblr","Link Tumblr"
+https://tumblr.com/link,https://tumblr.com/link
+"Link Foursquare","Link Foursquare"
+https://foursquare.com/link,https://foursquare.com/link
+"Link Dribbble","Link Dribbble"
+https://dribbble.com/link,https://dribbble.com/link
+"Link Behance","Link Behance"
+https://www.behance.net/link,https://www.behance.net/link
+"Link Delicious","Link Delicious"
+http://delicious.com/link,http://delicious.com/link
+"Link Slideshare","Link Slideshare"
+http://slideshare.net/link,http://slideshare.net/link
+"Link Steam","Link Steam"
+http://store.steampowered.com/link,http://store.steampowered.com/link
+"Link Yelp","Link Yelp"
+http://yelp.com/link,http://yelp.com/link
+"Link Flickr","Link Flickr"
+https://flickr.com/link,https://flickr.com/link
+"Ves Base: Social Share Links","Ves Base: Social Share Links"
+"Enable Only Font Icons","Enable Only Font Icons"
+"Active Share For Current Product","Active Share For Current Product"
+"Share Item Title","Share Item Title"
+"Share Item Image","Share Item Image"
+"Share Item URL","Share Item URL"
+"Enable Facebook Share","Enable Facebook Share"
+"Enable Twitter Share","Enable Twitter Share"
+"Enable Google Plus Share","Enable Google Plus Share"
+"Enable Pinterest Share","Enable Pinterest Share"
+"Base Widget: Tab by Source and Conditions","Base Widget: Tab by Source and Conditions"
+"Input custom module template file path. For example: <b>widget/products_tabs/sourcetab.phtml</b>. Empty for default","Input custom module template file path. For example: <b>widget/products_tabs/sourcetab.phtml</b>. Empty for default"
+Conditions,Conditions
+"Ves Base: Content Swiper Slider","Ves Base: Content Swiper Slider"
+"Create Content Swiper Slider","Create Content Swiper Slider"
+"Input custom module template file path. For example: widget/swiper.phtml Empty for default.","Input custom module template file path. For example: widget/swiper.phtml Empty for default."
+Effect,Effect
+Slide,Slide
+Fade,Fade
+Cube,Cube
+Coverflow,Coverflow
+Direction,Direction
+Horizontal,Horizontal
+Vertical,Vertical
+Freemode,Freemode
+"If true then slides will not have fixed positions","If true then slides will not have fixed positions"
+"Enable Pagination","Enable Pagination"
+"Enable Scroll Bar","Enable Scroll Bar"
+"Slide Height","Slide Height"
+"Input number to make height of swiper slide in px. For example: 500","Input number to make height of swiper slide in px. For example: 500"
+"Number Items will slide on a time. For example: 2,3,4,5,6,.. Default: auto","Number Items will slide on a time. For example: 2,3,4,5,6,.. Default: auto"
+"Distance Between Slides","Distance Between Slides"
+"Distance between slides in px. Default: 0","Distance between slides in px. Default: 0"
+"Duration of transition between slides (in ms). Default: 300","Duration of transition between slides (in ms). Default: 300"
+Interval,Interval
+"Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default value: 3000","Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default value: 3000"
+"Box Size Of Item 1","Box Size Of Item 1"
+"Box Size Of Item 2","Box Size Of Item 2"
+"Box Size Of Item 3","Box Size Of Item 3"
+"Box Size Of Item 4","Box Size Of Item 4"
+"Box Size Of Item 5","Box Size Of Item 5"
+"Box Size Of Item 6","Box Size Of Item 6"
+"Box Size Of Item 7","Box Size Of Item 7"
+"Box Size Of Item 8","Box Size Of Item 8"
+"Box Size Of Item 9","Box Size Of Item 9"
+"Box Size Of Item 10","Box Size Of Item 10"
+"Box Size Of Item 11","Box Size Of Item 11"
+"Box Size Of Item 12","Box Size Of Item 12"
+"Box Size Of Item 13","Box Size Of Item 13"
+"Box Size Of Item 14","Box Size Of Item 14"
+"Box Size Of Item 15","Box Size Of Item 15"
+"Box Size Of Item 16","Box Size Of Item 16"
+"Box Size Of Item 17","Box Size Of Item 17"
+"Box Size Of Item 18","Box Size Of Item 18"
+"Box Size Of Item 20","Box Size Of Item 20"
+"Ves Base: Tab","Ves Base: Tab"
+"Tab Type","Tab Type"
+"Select a kind of tab JS","Select a kind of tab JS"
+"Magento tab JS","Magento tab JS"
+"Bootstrap tab JS","Bootstrap tab JS"
+"Tab Header.","Tab Header."
+"Use CMS static block for accordion content.","Use CMS static block for accordion content."
+"Ves Base: Twitter Widget","Ves Base: Twitter Widget"
+"Twitter Username","Twitter Username"
+"Twiter Widget Id","Twiter Widget Id"
+"<hr style=""display:none""/>Widget Url: https://twitter.com/settings/widgets/516884405818621953/edit<br/>Widget ID: <b>516884405818621953</b>","<hr style=""display:none""/>Widget Url: https://twitter.com/settings/widgets/516884405818621953/edit<br/>Widget ID: <b>516884405818621953</b>"
+"Enable Scrollbar","Enable Scrollbar"
+"No Scroll bar","No Scroll bar"
+"Enable Header","Enable Header"
+"No Header","No Header"
+"Enable Footer","Enable Footer"
+"No Footer","No Footer"
+"Enable Border","Enable Border"
+"No Border","No Border"
+"Link Color","Link Color"
+"<a href=""http://www.w3schools.com/tags/ref_colorpicker.asp"" target=""_blank"">Choice Color</a><br/>For Example: <b>red, green, blue, yellow</b> <br/> <b>Hexa Code: #FF0000, #FFCCC..</b>","<a href=""http://www.w3schools.com/tags/ref_colorpicker.asp"" target=""_blank"">Choice Color</a><br/>For Example: <b>red, green, blue, yellow</b> <br/> <b>Hexa Code: #FF0000, #FFCCC..</b>"
+"Border Color","Border Color"
+"<a href=""http://www.w3schools.com/tags/ref_colorpicker.asp"" target=""_blank"">Choice Color</a><br/>For Example: <b >red, green, blue, yellow</b> <br/> <b >Hexa Code: #FF0000, #00FFFF...</b>","<a href=""http://www.w3schools.com/tags/ref_colorpicker.asp"" target=""_blank"">Choice Color</a><br/>For Example: <b >red, green, blue, yellow</b> <br/> <b >Hexa Code: #FF0000, #00FFFF...</b>"
+"Ves Base: Video","Ves Base: Video"
+"Video Widget","Video Widget"
+"Video Id","Video Id"
+"<hr style=""display:none""/>Youtube: <b>https://www.youtube.com/watch?v=eWFrj2pkqkg</b><br/>Youtube ID: <b>eWFrj2pkqkg</b><br/><hr style=""display:none""/>Vimeo: <b>http://vimeo.com/109681493</b><br/>Vimeo ID: <b>109681493</b>","<hr style=""display:none""/>Youtube: <b>https://www.youtube.com/watch?v=eWFrj2pkqkg</b><br/>Youtube ID: <b>eWFrj2pkqkg</b><br/><hr style=""display:none""/>Vimeo: <b>http://vimeo.com/109681493</b><br/>Vimeo ID: <b>109681493</b>"
+"Enter image path or use format http://domain/yourimage.jpg. 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>","Enter image path or use format http://domain/yourimage.jpg. 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The ""subfolder"" is child folder in <strong>your_webroot_folder/pub/media/</strong>"
+16:9,16:9
+4by3,4by3
+"Example: ""500"" or ""500px""","Example: ""500"" or ""500px"""
+"Video Type","Video Type"

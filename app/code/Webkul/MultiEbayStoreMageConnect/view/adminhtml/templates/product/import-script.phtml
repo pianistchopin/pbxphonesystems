@@ -1,0 +1,27 @@
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<?php
+	$id = $block->getRequest()->getParam('id');
+	$releventData = [
+		'importProductSelector' => '#wk-import-product',
+		'importAjaxUrl'	=> $block->getUrl('*/products/import'),
+		'profilerSelector'	=> '#wk-run-profiler',
+		'profilerAjaxUrl'	=> $this->getUrl('*/products/profiler',['id'=>$id])
+	];
+
+	$serializedData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($releventData);
+
+?>
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "Webkul_MultiEbayStoreMageConnect/js/product-map-plugin":<?php echo $serializedData ?>
+        }
+    }
+</script>

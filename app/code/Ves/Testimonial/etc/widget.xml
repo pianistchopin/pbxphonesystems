@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://venustheme.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Testimonial
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="ves_testimonial_widget" class="Ves\Testimonial\Block\Widget\CustomWidget">
+        <label translate="true">Ves Testimonial Widget</label>
+        <description>Testimonial Widget</description>
+        <parameters>
+            <parameter name="tabsettings_heading" xsi:type="conditions" visible="true" sort_order="0" class="Ves\Testimonial\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">General Seting</label>
+            </parameter>
+            <parameter name="widget_title" xsi:type="text" visible="true" sort_order="10">
+                <label translate="true">Widget Title</label>
+            </parameter>
+            <parameter name="widget_class" xsi:type="text" visible="true" sort_order="20">
+                <label translate="true">Widget Classes</label>
+                <description translate="true"><![CDATA[Our Classes: <br/>1. Testimonial Content: <b>content-no-radius</b>, <b>content-small-radius</b>, <b>content-medium-radius</b>, <b>content-large-radius</b><br/>2. Image: <b>image-small-radius</b>, <b>image-medium-radius</b>, <b>image-large-radius</b><br/>3. Image Size: <b>no-image</b>, <b>small-image</b>, <b>medium-image</b>, <b>large-image</b>, <b>xlarge-image</b><br/>4. Image Scale: <b>tmls-grayscale</b>]]></description>
+            </parameter>
+            <parameter name="tmls_pretext" xsi:type="conditions" visible="true" sort_order="30" class="Ves\Testimonial\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Pretext</label>
+            </parameter>
+            <parameter name="number_item" xsi:type="text" visible="true" sort_order="40">
+                <label translate="true">Number Item</label>
+                <value>12</value>
+            </parameter>
+            <parameter name="order_by" xsi:type="select" visible="true" source_model="Ves\Testimonial\Model\Config\Source\OrderBy" sort_order="50">
+                <label translate="true">Order By</label>
+            </parameter>
+            <parameter name="block_template" xsi:type="text" visible="true" sort_order="60">
+                <label translate="true">Custom Template</label>
+                <description translate="true"><![CDATA[Input custom module template file path. For example: <b>Ves_Testimonial::widget/style1.phtml</b>. Empty for default]]></description>
+            </parameter>
+            <parameter name="layout" xsi:type="select" visible="true" source_model="Ves\Testimonial\Model\Config\Source\Layout" sort_order="70">
+                <label translate="true">Layout</label>
+            </parameter>
+            <parameter name="grid_column" xsi:type="text" visible="true" sort_order="80">
+                <label translate="true">Grid Column</label>
+            </parameter>
+            <parameter name="grid_pagination" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="90">
+                <label translate="true">Grid Pagination</label>
+            </parameter>
+            <parameter name="item_per_page" xsi:type="text" visible="true" sort_order="100">
+                <label translate="true">Number Item Per Page</label>
+                <depends><parameter name="grid_pagination" value="1" /></depends>
+            </parameter>
+            <parameter name="testimonial_heading" xsi:type="conditions" visible="true" sort_order="110" class="Ves\Testimonial\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Testimonial</label>
+            </parameter>
+            <parameter name="testimonial_color" xsi:type="text" visible="true" sort_order="120">
+                <label translate="true">Testimonial Content Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+            </parameter>
+            <parameter name="testimonial_bgcolor" xsi:type="text" visible="true" sort_order="130">
+                <label translate="true">Testimonial Content Background Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+            </parameter>
+            <parameter name="testimonial_bordercolor" xsi:type="text" visible="true" sort_order="140">
+                <label translate="true">Testimonial Content Border Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+            </parameter>
+            <parameter name="show_name" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="150">
+                <label translate="true">Show Nickname</label>
+            </parameter>
+            <parameter name="nickname_color" xsi:type="text" visible="true" sort_order="160">
+                <label translate="true">Nickname Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+                <depends><parameter name="show_name" value="1" /></depends>
+            </parameter>
+            <parameter name="show_address" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="170">
+                <label translate="true">Show Address</label>
+            </parameter>
+            <parameter name="show_email" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="180">
+                <label translate="true">Show Email</label>
+            </parameter>
+            <parameter name="show_company" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="190">
+                <label translate="true">Show Company</label>
+            </parameter>
+            <parameter name="show_job" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="200">
+                <label translate="true">Show Job</label>
+            </parameter>
+            <parameter name="show_title" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="210">
+                <label translate="true">Show Title</label>
+            </parameter>
+            <parameter name="title_color" xsi:type="text" visible="true" sort_order="220">
+                <label translate="true">Title Color</label>
+                <description translate="true"><![CDATA[Input color name or color code. Example: #CC0000, white,...]]></description>
+                <depends><parameter name="show_title" value="1" /></depends>
+            </parameter>
+            <parameter name="show_image" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="230">
+                <label translate="true">Show Image</label>
+            </parameter>
+            <parameter name="image_width" xsi:type="text" visible="true" sort_order="240">
+                <label translate="true">Image Width</label>
+                <depends><parameter name="show_image" value="1" /></depends>
+            </parameter>
+            <parameter name="image_height" xsi:type="text" visible="true" sort_order="250">
+                <label translate="true">Image Height</label>
+                <depends><parameter name="show_image" value="1" /></depends>
+            </parameter>
+            <parameter name="show_rating" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="260">
+                <label translate="true">Show Rating</label>
+            </parameter>
+            <parameter name="show_socialnetworks" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="270">
+                <label translate="true">Show Social Networks</label>
+            </parameter>
+            <parameter name="show_date" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="280">
+                <label translate="true">Show Date</label>
+            </parameter>
+            <parameter name="show_readmore" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno" sort_order="290">
+                <label translate="true">Show Readmore Link</label>
+            </parameter>
+            <parameter name="readmore_char" xsi:type="text" visible="true" sort_order="300">
+                <label translate="true">Max chars in content</label>
+                <description translate="true"><![CDATA[Put number to limit characters shown on each content. If the number of character are longer than you did input, it's automatically cut and added " Read More" at the end. If you want to show entire content, leave it blank]]></description>
+                <depends><parameter name="show_readmore" value="1" /></depends>
+                <value>200</value>
+            </parameter>
+            <parameter name="tabsettings_heading" xsi:type="conditions" visible="true" sort_order="310" class="Ves\Testimonial\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">OWL Carousel Settings</label>
+            </parameter>
+            <parameter name="number_item_percolumn" xsi:type="text" visible="true" sort_order="320">
+                <label translate="true">Number of Item per Column</label>
+                <description translate="true"><![CDATA[Multiple Row]]></description>
+                <value>1</value>
+            </parameter>
+            <parameter name="custom_height" xsi:type="text" visible="true" sort_order="330">
+                <label translate="true">Custom Height</label>
+            </parameter>
+            <parameter name="large_max_items" xsi:type="text"  visible="true" sort_order="340">
+                <label translate="true">Number Columns On Page (Large display)</label>
+                <description translate="true"><![CDATA[Show number items when screen size 1200px and up]]></description>
+                <value>3</value>
+            </parameter>
+            <parameter name="large_items" xsi:type="text"  visible="true" sort_order="350">
+                <label translate="true">Number Columns On Page</label>
+                <description translate="true"><![CDATA[Show number items when screen size between 1199px and 980px]]></description>
+                <value>3</value>
+            </parameter>
+            <parameter name="portrait_items" xsi:type="text"  visible="true" sort_order="360">
+                <label translate="true">Number Columns On Page (Portrait tablets)</label>
+                <description translate="true"><![CDATA[Show number items when screen size between 979px and 769px]]></description>
+                <value>3</value>
+            </parameter>
+            <parameter name="tablet_items" xsi:type="text"  visible="true" sort_order="370">
+                <label translate="true">Number Columns On Page (Phones to tablets)</label>
+                <description translate="true"><![CDATA[Show number items when screen size between 768px and 641px]]></description>
+                <value>3</value>
+            </parameter>
+            <parameter name="tablet_small_items" xsi:type="text"  visible="true" sort_order="380">
+                <label translate="true">Number Columns On Page (Phones to Small tablets)</label>
+                <description translate="true"><![CDATA[Show number items when screen size between 640px and 480px]]></description>
+                <value>3</value>
+            </parameter>
+            <parameter name="mobile_items" xsi:type="text"  visible="true" sort_order="390">
+                <label translate="true">Number Columns On Page (Phones)</label>
+                <description translate="true"><![CDATA[Show number items when screen size bellow 480px]]></description>
+                <value>1</value>
+            </parameter>
+            <parameter name="autoplay" xsi:type="select"  visible="true" sort_order="400" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Autoplay</label>
+            </parameter>
+            <parameter name="autoplay_timeout" xsi:type="text" visible="true" sort_order="410">
+                <label translate="true">Autoplay Timeout</label>
+                <depends><parameter name="autoplay" value="1" /></depends>
+                <value>5000</value>
+            </parameter>
+            <parameter name="dots" xsi:type="select"  visible="true" sort_order="420" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show dots navigations</label>
+            </parameter>
+            <parameter name="nav" xsi:type="select"  visible="true" sort_order="430" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show next/prev buttons.</label>
+            </parameter>
+            <parameter name="nav_next" xsi:type="text"  visible="true" sort_order="440">
+                <label translate="true">Navigation Next Button Text</label>
+                <depends><parameter name="nav" value="1" /></depends>
+                <value>Next</value>
+            </parameter>
+            <parameter name="nav_pre" xsi:type="text"  visible="true" sort_order="450">
+                <label translate="true">Navigation Previous Button Text</label>
+                <depends><parameter name="nav" value="1" /></depends>
+                <value>Pre</value>
+            </parameter>
+            <parameter name="rtl" xsi:type="select"  visible="true" sort_order="460" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">RTL Layout</label>
+            </parameter>
+            <parameter name="loop" xsi:type="select"  visible="true" sort_order="470" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Loop</label>
+                <description translate="true"><![CDATA[Infinity loop. Duplicate last and first items to get loop illusion.]]></description>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="ves_testimonial_widget_button" class="Ves\Testimonial\Block\Widget\ButtonWidget">
+        <label translate="true">Testimonial Form</label>
+        <description>Testimonial Form</description>
+        <parameters>
+            <parameter name="display_type" xsi:type="select" visible="true" source_model="Ves\Testimonial\Model\Config\Source\DisplayType">
+                <label translate="true">Display Type</label>
+            </parameter>
+            <parameter name="button_text" xsi:type="text" visible="true" >
+                <label translate="true">Button Text</label>
+                <depends><parameter name="display_type" value="link" /></depends>
+                <value>Add Testimonial</value>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

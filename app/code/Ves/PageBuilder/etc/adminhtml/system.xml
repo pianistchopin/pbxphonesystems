@@ -1,0 +1,232 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_BaseWidget
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<tab id="vespagebuildertab" translate="label" sortOrder="400">
+			<label>Ves Pages Builder</label>
+		</tab>
+		<section id="vespagebuilder" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+			<class>separator-top</class>
+			<label>Pages Builder</label>
+			<tab>vespagebuildertab</tab>
+			<resource>Ves_PageBuilder::config_pagebuilder</resource>
+			<group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General Settings (Pages Builder)</label>
+				<field id="show" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="minify_html" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Minify Html Output</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="enable_parallax" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Parallax Js</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<!--
+				<field id="enable_fontawesome" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Font Awesome</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[Load font awesome for bootstrap and icon font. Get more information at here: <a href="http://fortawesome.github.io/Font-Awesome/" target="_BLANK">http://fortawesome.github.io/Font-Awesome/</a>]]></comment>
+				</field>
+				-->
+
+				<field id="enable_colorbox" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Colorbox Popup JS</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="enable_fancybox" translate="label comment" type="select" sortOrder="85" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Fancybox Popup JS</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="enable_bootstrap24" translate="label comment" type="select" sortOrder="88" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Bootstrap 24 Columns</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[Load bootstrap 24 columns for backend of pagebuilder and element builder to build layout with maximum 24 columns.]]></comment>
+				</field>
+
+				<!--
+				<field id="enable_animation" translate="label comment" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled CSS3 Animation</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				-->
+
+				<field id="enable_holder_js" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Image Holder Js</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="auto_backup_profile" translate="label comment" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Auto Backup Page Builder Profile</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<comment><![CDATA[Allow auto backup page builder profile to json file store in the folder <strong>"var/cache/vespagebuilder/"</strong>]]></comment>
+				</field>
+
+				<field id="enable_preview" translate="label comment" type="select" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Preview Element Profile</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+			</group>
+
+			<group id="expire_page_setting" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Expired Page Settings</label>
+
+				<field id="redirect_url" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Redirect To URL</label>
+					<comment><![CDATA[Input URL to redirect when the page expired visible date. Empty to hide.]]></comment>
+				</field>
+
+				<field id="load_cms_block" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Load CMS Block</label>
+					<comment><![CDATA[Select a cms static block to display when the page profile expired visible date. Default not choose.]]></comment>
+					<source_model>Ves\PageBuilder\Model\Config\Source\ListCmsBlock</source_model>
+				</field>
+
+				
+			</group>
+
+			<group id="commingsoon_page_setting" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Comming Soon Page Settings</label>
+
+				<field id="redirect_url" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Redirect To URL</label>
+					<comment><![CDATA[Input URL to redirect when the page is comming soon. Empty to hide.]]></comment>
+				</field>
+
+				<field id="load_cms_block" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Load CMS Block</label>
+					<comment><![CDATA[Select a cms static block to display when the page is comming soon. Default not choose.]]></comment>
+					<source_model>Ves\PageBuilder\Model\Config\Source\ListCmsBlock</source_model>
+				</field>
+
+				
+			</group>
+
+			<group id="private_page_setting" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>Private Page Settings (Certain Customer Groups)</label>
+
+				<field id="redirect_url" translate="label comment" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Redirect To URL</label>
+					<comment><![CDATA[Input URL to redirect when the page is private. Empty to hide.]]></comment>
+				</field>
+
+				<field id="enable_login_form" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Login Form</label>
+					<comment>Enable/Disable Login Form When Page Is Private.</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="load_cms_block" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Load CMS Block</label>
+					<comment><![CDATA[Select a cms static block to display when the page is private. Default not choose.]]></comment>
+					<source_model>Ves\PageBuilder\Model\Config\Source\ListCmsBlock</source_model>
+				</field>
+
+
+			</group>
+		</section>
+		
+		<section id="veslivecss" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+			<class>separator-top</class>
+			<label>Live CSS Editor</label>
+			<tab>vespagebuildertab</tab>
+			<resource>Ves_PageBuilder::config_livecss</resource>
+			<group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General Settings (Live Css)</label>
+
+				<field id="show" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Live Css Tool</label>
+					<comment>Enable/Disable Live CSS Tool On Frontend (only admin user can save the css profile)</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="live_profile" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Select default live css profile</label>
+					<comment>Select default live css profile which allow load setting to change style in the site (there profiles were stored in the folder pub/pagebuilder/livecss/profiles/)</comment>
+					<source_model>Ves\PageBuilder\Model\Config\Source\ListLiveProfile</source_model>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="allow_save_profile" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allow Save Css Profile</label>
+					<comment>Enable/Disable Save Css Customize Profile On Frontend</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="allowFrontendForAdmins" translate="label comment" type="select" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allow Save Css Profile for Admins?</label>
+					<comment>Logged in admins to save css profile on frontend?</comment>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="allowedIPs" translate="label comment" type="text" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Allowed IPs</label>
+					<comment><![CDATA[IPs that can save css profile on frontend. Empty to allow all IPs.]]></comment>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="path_css_profile" translate="label comment" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Css Profile Folder Path</label>
+					<comment><![CDATA[Input folder path to folder which stored customize css profiles (folder path should be under pub/ folder). Default: media/pagebuilder/livecss <br/> Or Default: pagebuilder/livecss/customize]]></comment>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="path_to_pattern" translate="label comment" type="text" sortOrder="65" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Pattern Images Folder Path</label>
+					<comment><![CDATA[Input folder path to pattern images (folder path should be under pub/ folder). Default: pagebuilder/livecss/images/patterns]]></comment>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+
+				<field id="css_profile" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Load Custom Css Profile</label>
+					<comment>Select a css profile to load on frontend. The profile was created by live css editor tool and was stored in the folder pub/css/</comment>
+					<source_model>Ves\PageBuilder\Model\Config\Source\ListCssProfile</source_model>
+					<depends>
+	                    <field id="show">1</field>
+	                </depends>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

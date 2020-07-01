@@ -1,0 +1,75 @@
+/*
+	Skin Blue: #7FFFD4;
+*/
+.product-reviews-summary .reviews-actions a:hover, 
+.ves-megamenu .dropdown-menu a:hover,
+.product-block .product-item-info .product-item-actions .actions-secondary a:hover, 
+.product-block .product-item-info .product-item-actions .actions-secondary a:focus
+{
+  color: #7FFFD4!important;
+}
+.columns a:hover, .columns .alink:hover, .block.cricket-footer .nav-links li a:hover,
+body .page-wrapper a:hover, body .page-wrapper .alink:hover, .breadcrumbs .item strong,
+.product-info-main .product-info-stock-sku .stock.available, 
+.product-info-main .product-info-stock-sku .stock.unavailable,
+.blog-posts .owl-carousel .post-title a:hover, .blog-posts .post-block .read-more:hover,
+.page-wrapper .products.wrapper ~ .toolbar .toolbar-amount, .cms-page-error h2,
+.block.tmls-widget .tmls-item-info .tmls-testimonial::before, .block.cricket-footer .infom em, 
+.page-header .block-header h4, .minicart-wrapper .action.showcart .counter-price, 
+.ves-menutop .ves-megamenu .all-categories .dropdown-submenu:hover > a, 
+.ves-menutop .ves-megamenu .all-categories .dropdown-submenu:focus > a
+{
+  color: #7FFFD4;
+}
+
+.scrollup, body .page-wrapper .owl-carousel .owl-dots .owl-dot:hover span,
+.block-warning .nav-links li a:hover, .tags-link li a:hover, .block.tags li a:hover, 
+.ves-block .tagcloud li a:hover, body .page-wrapper .btn, .block .block-title > strong::after,
+.ves-menutop .ves-megamenu li.level0 > a::after, .ourservice-block::before,
+body .page-wrapper .owl-carousel .owl-dots .owl-dot.active span
+{
+  background-color: #7FFFD4;
+}
+
+.ves-menutop .ves-megamenu li.level0.active > a, .ves-menutop .ves-megamenu li.level0:hover > a,
+.block.cricket-footer .copyright span, .page-main > .page-title-wrapper .page-title, 
+.page-header .setting-links-dropdown li a:hover, .product-info-main .add-action:hover, 
+.bundle-options-container .add-action:hover, .product-add-form .add-action:hover,
+.vesblog-category-view .post-title a:hover, .ves-bloglatest .post-title a:hover,
+.widget-images.widget-images-v2 .image-content h3, .widget-html.html-v1 h2 span,
+.ves-vertical.menu-click .nav-item .dropdown-menu .nav-item > a:hover::before
+{color: #7FFFD4;}
+
+.block.tmls-widget .tmls-item-info .tmls-name, .block.cricket-footer .nav-links li a:hover::before,
+.vesblog-category-view .post-summary .desc > a, .ves-bloglatest .post-summary .desc > a,
+.blog-posts .post-block .read-more, .page-wrapper .columns .widget-carousel .slider-content h2 span,
+.product-info-main .product-addto-links a:hover, .product-options-bottom .product-addto-links a:hover
+{color: #7FFFD4;}
+
+.review-form .action.submit.primary:hover, .vesblog-category-view .post-summary > a:hover, .ves-bloglatest .post-summary > a:hover,
+.page-wrapper .columns .owl-carousel .owl-nav [class*="owl-"]:hover, .page-wrapper .columns .owl-carousel .owl-nav [class*="owl-"]:focus,
+.product-block .product-item-info .quick-view:hover, body .page-wrapper .btn.btn-primary:hover, .page-header .header2 .header-bottom,
+body .page-wrapper .btn.btn-black:hover, .minicart-wrapper .counter-number{
+  background: #7FFFD4;
+}
+
+.productlist-widget ul.etabs li a::after, .page-wrapper .toolbar .modes-mode.active,
+.product-block .product-item-info .actions-primary .add-to-cart, .action.primary,
+.widget-images.widget-images-v3 h4, .countdown-timmer .item-countdown{background: #7FFFD4;}
+
+.product-info-main .box-tocart .action.tocart:hover, .bundle-options-container .box-tocart .action.tocart:hover, 
+.product-add-form .box-tocart .action.tocart:hover, .product-info-main .box-tocart .action.tocart, 
+.bundle-options-container .box-tocart .action.tocart, .product-add-form .box-tocart .action.tocart
+{background: #7FFFD4!important;}
+
+.review-form .action.submit.primary:hover, .fotorama__thumb-border,
+.vesblog-category-view .post-summary > a:hover, .ves-bloglatest .post-summary > a:hover,
+.ves-menutop .ves-megamenu .products-widget .owl-nav a:hover{border-color: #7FFFD4;}
+
+._keyfocus *:focus, input:focus:not([disabled]), textarea:focus:not([disabled]), select:focus:not([disabled]){
+  box-shadow: 0 0 3px 1px #7FFFD4;
+}
+
+/* Custom */
+.widget-images.widget-images-v3 h4::before{border-right-color: #58d8ad;}
+.rtl .widget-images.widget-images-v3 h4::before{border-left-color: #58d8ad;}

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_BaseWidget
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+	<system>
+		<tab id="vespagebuildertab" translate="label" sortOrder="400">
+			<label>Ves Pages Builder</label>
+		</tab>
+		<section id="vesbasewidget" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+			<class>separator-top</class>
+			<label>Base Widgets</label>
+			<tab>vespagebuildertab</tab>
+			<resource>Ves_BaseWidget::config_basewidget</resource>
+			<group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+				<label>General Settings</label>
+				
+				<field id="show" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="root_media" translate="label comment" type="text" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Root Media Path</label>
+					<comment>Input root media folder path of filemanager popup in pages builder ( media/FOLDER_PATH ). Input FOLDER_PATH . For example folder name: wysiwyg . The filemanager will get images from media/wysiwyg . Default empty value</comment>
+				</field>
+
+				<field id="dir_mode" translate="label comment" type="text" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Dir Mode</label>
+					<comment>new dirs mode. Defaul: 0755</comment>
+				</field>
+
+				<field id="file_mode" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>File Mode</label>
+					<comment>new files mode. Defaul: 0644</comment>
+				</field>
+
+				<field id="max_arc_files_size" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Max Archive Files Size</label>
+					<comment> max allowed archive files size (0 - no limit)</comment>
+				</field>
+				<!--
+				<field id="enable_swiper" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Swiper Carousel</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				-->
+				<field id="enable_cookie_jquery" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Cookie Jquery</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+				<field id="enable_countdown" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Enabled Countdown Js</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+
+			</group>
+		</section>
+	</system>
+</config>

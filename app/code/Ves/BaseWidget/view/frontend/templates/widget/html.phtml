@@ -1,0 +1,44 @@
+<?php
+$widget_heading = $this->getConfig('title');	
+$addition_cls = $this->getConfig('addition_cls');
+$stylecls =  $this->getConfig('stylecls');
+$content = $this->getConfig('html');
+
+$content = str_replace(" ", "+", $content);
+if(is_string($content) && $this->isBase64Encoded($content)){
+	$content = base64_decode($content);
+}
+$content = $this->getDataFilterHelper()->filter($content);
+$enable_collapse = $this->getConfig("enable_collapse", 0);
+$id = rand().time();
+if ($content): 
+?>
+	<div class="ves-widget widget-html block <?php echo $addition_cls; ?> <?php if (isset($stylecls)&&$stylecls) echo 'block-'.$stylecls;?>">
+		<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+		<div class="block-title">
+			<?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-html<?php echo $id; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+			<strong><span><?php echo $widget_heading; ?></span></strong>
+		</div>
+		<?php endif; ?>
+		<div id="widget-html<?php echo $id; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enable-collapse collapse <?php endif; ?>">
+			<?php echo $content; ?>
+		</div>
+	</div>
+
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	require([
+		'jquery'
+		<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		<?php endif; ?>
+		],function($){
+			
+		});
+	});
+});
+</script>
+<?php endif; ?>
+<?php endif;?>

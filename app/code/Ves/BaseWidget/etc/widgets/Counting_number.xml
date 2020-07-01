@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_counting" class="Ves\BaseWidget\Block\Widget\Counting">
+        <label translate="true">Ves Base: Counting Number</label>
+        <description>Play Counting Number In Effect</description>
+        <parameters>
+            <parameter name="number" xsi:type="text" visible="true">
+                <label translate="true">Number</label>
+                <description translate="true">Input number to run counting, for example: 960</description>
+            </parameter>
+
+            <parameter name="number" xsi:type="text" visible="true">
+                <label translate="true">Number</label>
+                <description translate="true">Input number to run counting, for example: 960</description>
+            </parameter>
+            
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Widget Box Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="icon" xsi:type="text" visible="true">
+                <label translate="true">Font Icon Class</label>
+                <description translate="true"><![CDATA[Input font awesome icon class, empty for hide. For example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_BLANK">http://fortawesome.github.io/Font-Awesome/icons/</a>]]></description>
+            </parameter>
+
+            <parameter name="font_size" xsi:type="text" visible="true">
+                <label translate="true">Font Size</label>
+                <description translate="true">Input Font Size. For example: 32px</description>
+            </parameter>
+
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable.</description>
+            </parameter>
+
+            <parameter name="show_description" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Description</label>
+            </parameter>
+
+            <parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+                <depends>
+                   <parameter name="show_description" value="1" />
+               </depends>
+            </parameter>
+
+        </parameters>
+    </widget>
+</widgets>

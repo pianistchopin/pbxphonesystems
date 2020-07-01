@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_socialshare" class="Ves\BaseWidget\Block\Widget\Socialshare">
+        <label translate="true">Ves Base: Social Share Links</label>
+        <description>Show social share links</description>
+        <parameters>
+           <parameter name="title" xsi:type="text" visible="true" >
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+             <parameter name="enable_collapse" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+            </parameter>
+
+            <parameter name="enable_onlyicon" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Only Font Icons</label>
+                
+            </parameter>
+
+            <parameter name="is_product_share" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Active Share For Current Product</label>
+            </parameter>
+
+            <parameter name="item_title" xsi:type="text" visible="true">
+                <label translate="true">Share Item Title</label>
+                <description translate="true">Input custom title which you want to share. Empty to get current page Title.</description>
+            </parameter>
+
+            <parameter name="item_desciption" xsi:type="text" visible="true">
+                <label translate="true">Share Item Description</label>
+                <description translate="true">Input custom description which you want to share. Empty to get current page Description.</description>
+            </parameter>
+
+            <parameter name="item_image" xsi:type="text" visible="true">
+                <label translate="true">Share Item Image Url</label>
+                <description translate="true">Input custom image url which you want to share. Empty to get current page image.</description>
+            </parameter>
+
+            <parameter name="item_url" xsi:type="text" visible="true">
+                <label translate="true">Share Item URL</label>
+                <description translate="true">Input custom url which you want to share. Empty to get current URL.</description>
+            </parameter>
+
+            <parameter name="enable_facebook" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Facebook Share</label>
+            </parameter>
+
+            <parameter name="fb_app_id" xsi:type="text" visible="true">
+                <label translate="true">Facebook App Id</label>
+                <description translate="true">Input facebook app id (create it at here: https://developers.facebook.com/docs/apps/register). Default: 579922788744604</description>
+                <value>579922788744604</value>
+            </parameter>
+
+            <parameter name="enable_twitter" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Twitter Share</label>
+            </parameter>
+
+            <parameter name="enable_googleplus" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Google Plus Share</label>
+                
+            </parameter>
+
+            <parameter name="enable_pinterest" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Pinterest Share</label>
+                
+            </parameter>
+
+            <parameter name="enable_linkedin" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Linkedin Share</label>
+            </parameter>
+
+        </parameters>
+    </widget>
+</widgets>

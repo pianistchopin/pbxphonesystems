@@ -1,0 +1,70 @@
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<div class="pp-buttons-container">
+    <button id="<?php echo $block->getId() ?>" onclick="return false;">
+        <span><span><span><?php echo $block->escapeHtml($block->getButtonLabel()); ?></span></span></span>
+    </button>
+</div>
+<script>
+require([
+        "jquery",
+        "mage/mage",
+    ], function($){
+    	var alerttext = '';
+         $("#<?php echo $block->getId() ?>").on( "click", function() {
+
+            var alerttext = '';
+            new Ajax.Request('<?php echo $block->getAjaxCheckUrl() ?>', {
+                method: 'get',
+                onSuccess: function(transport){
+                    var response = $.parseJSON(transport.responseText);
+                    if (response.msg){
+                        $('<div />').html(response.msg)
+                            .modal({
+                                title: $.mage.__('Attention'),
+                                autoOpen: true,
+                                buttons: [{
+                                 text: 'OK',
+                                    attr: {
+                                        'data-action': 'cancel'
+                                    },
+                                    'class': 'action-primary',
+                                    click: function() {
+                                            this.closeModal();
+                                        }
+                                }]
+                             });
+                    }else{
+                        if(response.success){
+                            alerttext = '<b>Categories imported : </b>'+ response.success+'<br>';
+                        }
+                        if(response.error1){
+                            alerttext+='<b>Categories already imported: </b>'+ response.error1+'<br>';
+                        }
+                        $('<div />').html(alerttext)
+                            .modal({
+                                title: $.mage.__('Attention'),
+                                autoOpen: true,
+                                buttons: [{
+                                 text: 'OK',
+                                    attr: {
+                                        'data-action': 'cancel'
+                                    },
+                                    'class': 'action-primary',
+                                    click: function() {
+                                            this.closeModal();
+                                        }
+                                }]
+                        });
+                    }
+                }
+            });
+    	});
+   	}); 	            
+</script>

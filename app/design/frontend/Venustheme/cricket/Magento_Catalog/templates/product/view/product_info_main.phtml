@@ -1,0 +1,88 @@
+<?php
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$show_sku = $ves->getProductPageCfg('element_settings/show_sku');
+$show_sharelinks = $ves->getProductPageCfg('element_settings/show_sharelinks');
+$show_short_description = $ves->getProductPageCfg('element_settings/show_short_description');
+$show_price = $ves->getProductPageCfg('element_settings/show_price');
+$show_rating = $ves->getProductPageCfg('element_settings/show_rating');
+$show_countdowntimer = $ves->getProductPageCfg('element_settings/show_countdowntimer');
+$show_addtocart = $ves->getProductPageCfg('element_settings/show_addtocart');
+$show_review = $ves->getProductPageCfg('element_settings/show_review');
+$show_compare = $ves->getProductPageCfg('element_settings/show_compare');
+$show_wishlist = $ves->getProductPageCfg('element_settings/show_wishlist');
+$show_email = $ves->getProductPageCfg('element_settings/show_email');
+$show_newlabel = $ves->getProductPageCfg('element_settings/show_newlabel');
+$show_salelabel = $ves->getProductPageCfg('element_settings/show_salelabel');
+
+$_product = $block->getProduct();
+$productId = 'countdown-'.$_product->getId();
+?>
+
+<div class="product-info-price">
+	<?php if($show_price){ ?>
+	<?php echo $this->getChildHtml('product_price_final') ?>
+	<?php } ?>
+</div>
+
+<?php if($show_review){ ?>
+	<?php echo $this->getChildHtml('product_info_review') ?>
+<?php } ?>
+
+<div class="product-info-stock-sku">
+	<?php echo $this->getChildHtml('product_info_type') ?>
+	<?php if($show_sku){ ?>
+	<?php echo $this->getChildHtml('product_info_sku') ?>
+	<?php } ?>
+</div>
+
+<?php if($show_short_description){ ?>
+	<?php echo $this->getChildHtml('product_info_overview') ?>
+<?php } ?>
+
+<?php // Countdown Timer Block ?>
+    <?php
+        $specialprice = $_product->getSpecialPrice();
+        $specialPriceFromDate = $_product->getSpecialFromDate();
+        $specialPriceToDate = $_product->getSpecialToDate();
+        $today =  time();
+        if ($specialprice && $specialPriceFromDate && $specialPriceToDate) {
+        if( $show_countdowntimer && ($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate))) {
+
+	$date1 = date('G:i:s', strtotime($_product->getSpecialToDate()));
+	if ($date1 == "0:00:00") {
+		$targetDate = date('m/d/Y \2\3\:\5\9\:\0\0', strtotime($_product->getSpecialToDate()));
+	}else{
+		$targetDate = date('m/d/Y G:i:s', strtotime($_product->getSpecialToDate()));
+	}
+	?>
+	<div class="countdown-timmer">
+		<div class="item-detail">
+			<?php echo __('Hurry up! Offer ends in:'); ?>
+		</div>
+		<div id="item-countdown-<?php echo $productId ?>" class="item-countdown"></div>
+		<script type="text/javascript">
+			require([
+				'jquery',
+				'countdown'
+				],function () {
+					jQuery(document).ready(function(){
+						jQuery("#item-countdown-<?php echo $productId ?>").lofCountDown({
+							formatStyle:2,
+							TargetDate:"<?php echo $targetDate; ?>",
+							DisplayFormat:"<ul><li>%%D%% <div><?php echo __('Days');?></div></li><li>%%H%% <div><?php echo __('Hrs');?></div></li><li>%%M%% <div><?php echo __('Mins');?></div></li><li>%%S%% <div><?php echo __('Secs');?></div></li></ul>",
+                            FinishMessage:"<?php echo __('Expired');?>",
+						});
+					});
+
+				});
+		</script>
+	</div>
+	<?php } ?>
+<?php } ?>
+	
+<?php echo $this->getChildHtml('product_price_tier') ?>
+<?php echo $this->getChildHtml('alert_urls') ?>
+<?php echo $this->getChildHtml('product_info') ?>
+
+<?php echo $this->getChildHtml('product_info_extrahint') ?>
+<?php echo $this->getChildHtml('product_info_details') ?>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_ourservice" class="Ves\BaseWidget\Block\Widget\Ourservice">
+        <label translate="true">Ves Base: Our Service</label>
+        <description>Create Service Information</description>
+        <parameters>
+            <parameter name="wrapper_class" xsi:type="text"  visible="true">
+                <label translate="true">Wrapper Class</label>
+                <description translate="true">This class is used to make owner style for the widget wrapper. </description>
+            </parameter>
+            <parameter name="inner_class" xsi:type="text"  visible="true">
+                <label translate="true">Inner Class</label>
+                <description translate="true">This class is used to make owner style for the widget inner. </description>
+            </parameter>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            <parameter name="title_class" xsi:type="text" visible="true">
+                <label translate="true">Widget Title Class</label>
+                <description translate="true">This class is used to make owner style for the title.</description>
+            </parameter>
+            <parameter name="icon_class" xsi:type="text" visible="true">
+                <label translate="true">Icon Class</label>
+                <description translate="true"><![CDATA[If you use Icon Class, The image at bellow will be not used. you can use icon from font-awesome, for example: <strong>fa-thumbs-o-up</strong> . Find more icons at here: <a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_BLANK">http://fortawesome.github.io/Font-Awesome/icons/</a>]]></description>
+            </parameter>
+
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Icon Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+            <parameter name="font_size" xsi:type="text" visible="true">
+                <label translate="true">Icon Font Size</label>
+                <description translate="true">Input Font Size for Icon. For example: 32px.</description>
+            </parameter>
+            
+            <parameter name="icon_position" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListIconPosition">
+                <label translate="true">Icon Position</label>
+            </parameter>
+
+            <parameter name="file" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Image File</label>
+                <description translate="true"><![CDATA[Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                    Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="alt_text" xsi:type="text" visible="true">
+                <label translate="true">Image Alt Text</label>
+                <description translate="true">Alt text for image</description>
+            </parameter>
+            <parameter name="imagesize" xsi:type="text" visible="true">
+                <label translate="true">Image Size</label>
+                <description translate="true">WIDTHxHEIGHT. For example: 80x80</description>
+            </parameter>
+
+            <parameter name="image_class" xsi:type="text" visible="true">
+                <label translate="true">Image Class</label>
+            </parameter>
+
+            <parameter name="content_html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+            </parameter>
+
+            <parameter name="contentclass" xsi:type="text" visible="true">
+                <label translate="true">Content Class</label>
+            </parameter>
+
+            <parameter name="link" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+                <label translate="true">Link for image icon or font icon</label>
+                <description translate="true">Input the link for image icon or font icon. Empty for hide</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

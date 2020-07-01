@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_flickr" class="Ves\BaseWidget\Block\Widget\Flickr">
+		<label translate="true">Ves Base: Flickr</label>
+		<description translate="true">Flickr Gallery Widget</description>
+		<parameters>
+
+			<parameter name="api_id" xsi:type="text"  visible="true">
+				<label translate="true">API ID</label>
+				<description translate="true"><![CDATA[Cretate App ID at (<a target="_blank" href="https://www.flickr.com/services/apps/create/apply/">flick.com</a>)<br/>For example: 83568b9ffa3848d1859c995008eae2b8]]></description>
+			</parameter>
+
+			<parameter name="user_id" xsi:type="text"  visible="true">
+				<label translate="true">User Id</label>
+				<description translate="true"><![CDATA[Find Your ID at (<a target="_blank" href="http://idgettr.com/">idGettr</a>)<br/> For example: 49399681@N08]]></description>
+			</parameter>
+
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+			</parameter>
+
+
+			<parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Collapse</label>
+
+			</parameter>
+
+			<parameter name="custom_id" xsi:type="text"  visible="true">
+				<label translate="true">Custom Block Id</label>
+			</parameter>
+
+			<parameter name="number_show" xsi:type="text"  visible="true">
+				<label translate="true">Number of photos to show</label>
+				<description translate="true">Default: 10</description>
+			</parameter>
+
+			<parameter name="speed" xsi:type="text"  visible="true">
+				<label translate="true">Speed</label>
+				<description translate="true">Default: 350</description>
+			</parameter>
+
+			<parameter name="thumbnail" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListImageSize">
+				<label translate="true">Thumbnails images</label>
+			</parameter>
+
+			<parameter name="thumbnail_image_height" xsi:type="text"  visible="true">
+				<label translate="true">Thumbnails images height</label>
+				<description translate="true"><![CDATA[Example: "500px", or 500 ]]></description>
+			</parameter>
+
+			<parameter name="thumbnail_image_width" xsi:type="text"  visible="true">
+				<label translate="true">Thumbnails images width</label>
+				<description translate="true"><![CDATA[Example: "500px", or 500 ]]></description>
+			</parameter>
+
+			<parameter name="popup" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListImageSize">
+				<label translate="true">Popup images</label>
+			</parameter>
+
+			<parameter name="popup_image_width" xsi:type="text"  visible="true">
+				<label translate="true">Popup images width</label>
+				<description translate="true"><![CDATA[Example: "500px", or 500 or 60% ]]></description>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

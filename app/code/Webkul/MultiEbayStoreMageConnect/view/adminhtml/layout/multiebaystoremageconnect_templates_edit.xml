@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */ 
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Magento_Customer::js/bootstrap/customer-post-action.js"/>
+        <css src="Webkul_MultiEbayStoreMageConnect::css/styles.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+           <block class="Webkul\MultiEbayStoreMageConnect\Block\Adminhtml\Templates\Edit\AttributeMap" name="template_attribute_map" />
+           <block class="Webkul\MultiEbayStoreMageConnect\Block\Adminhtml\Templates\Listing" name="template_listing" />
+        </referenceContainer>
+    </body>
+</page>

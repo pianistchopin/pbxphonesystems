@@ -1,0 +1,307 @@
+"Manage Blocks","Manage Blocks"
+"Add New Element Profile","Add New Element Profile"
+"Save Profile","Save Profile"
+"Save and Continue Edit","Save and Continue Edit"
+Duplicate,Duplicate
+"Delete Profile","Delete Profile"
+"Edit Profile '%1'","Edit Profile '%1'"
+"New Profile","New Profile"
+"Design Elemment","Design Elemment"
+"Prefix Class","Prefix Class"
+"Enable Container","Enable Container"
+"-- Load A Layout --","-- Load A Layout --"
+"Current Layout Profile","Current Layout Profile"
+"Use Backup Layout","Use Backup Layout"
+"Element Editor","Element Editor"
+Design,Design
+"Element Information","Element Information"
+"Element Title","Element Title"
+"URL Key","URL Key"
+"Empty to auto create url key","Empty to auto create url key"
+Status,Status
+Shortcode,Shortcode
+"Display Element From Date","Display Element From Date"
+"Display Element To Date","Display Element To Date"
+"Enable Element for certain customer groups","Enable Element for certain customer groups"
+Position,Position
+"Image URL","Image URL"
+"Input Image URL to preview the element profile. <br/><strong>For example:</strong> http://domain.com/images/element_profile1.jpg","Input Image URL to preview the element profile. <br/><strong>For example:</strong> http://domain.com/images/element_profile1.jpg"
+Description,Description
+Preview,Preview
+"Manage Pages","Manage Pages"
+"New Page","New Page"
+"Manage Elements","Manage Elements"
+"New Element Profile","New Element Profile"
+"Manage Images","Manage Images"
+"Base Settings","Base Settings"
+"Page Settings","Page Settings"
+"Live Css Settings","Live Css Settings"
+Guide,Guide
+"Get Support","Get Support"
+"Page Layout","Page Layout"
+Layout,Layout
+"Layout Update XML","Layout Update XML"
+"Custom Design","Custom Design"
+"Custom Design From","Custom Design From"
+"Custom Design To","Custom Design To"
+"-- Please Select --","-- Please Select --"
+"Custom Theme","Custom Theme"
+"Custom Layout","Custom Layout"
+"Custom Layout Update XML","Custom Layout Update XML"
+"Meta Data","Meta Data"
+Keywords,Keywords
+"Meta Keywords","Meta Keywords"
+"Meta Description","Meta Description"
+"CMS Page Information","CMS Page Information"
+"Desgin Block","Desgin Block"
+"Block Editor","Block Editor"
+"Page View Optimization","Page View Optimization"
+"Google Analytics Content Experiments Code","Google Analytics Content Experiments Code"
+"Experiment Code","Experiment Code"
+"Experiment code should be added to the original page only.","Experiment code should be added to the original page only."
+"Block Information","Block Information"
+"Page Title","Page Title"
+"Store View","Store View"
+"Display Block From Date","Display Block From Date"
+"Display Block To Date","Display Block To Date"
+"Enable Block for certain customer groups","Enable Block for certain customer groups"
+"Page Information","Page Information"
+"Wrapper For Page Builder","Wrapper For Page Builder"
+"Enable Wrapper Block","Enable Wrapper Block"
+Disabled,Disabled
+Enabled,Enabled
+"Select Wrapper Class","Select Wrapper Class"
+"Choose a container size","Choose a container size"
+"-- Select A Class --","-- Select A Class --"
+container,container
+container-small,container-small
+container-large,container-large
+container-fluid,container-fluid
+main-container,main-container
+"Custom Wrapper Class","Custom Wrapper Class"
+"For example: <strong>container</strong>","For example: <strong>container</strong>"
+"Page Builder Widget Settings","Page Builder Widget Settings"
+"Custom Template","Custom Template"
+"Input custom module template file path. For example: pagebuilder/default.phtml Empty for default","Input custom module template file path. For example: pagebuilder/default.phtml Empty for default"
+"Exprired Page Settings","Exprired Page Settings"
+"Redirect Url","Redirect Url"
+"Input URL to redirect when the page expired visible date. Empty to use store setting","Input URL to redirect when the page expired visible date. Empty to use store setting"
+"Load CMS Block","Load CMS Block"
+"Select a cms static block to display when the page profile expired visible date. Empty to use store setting.","Select a cms static block to display when the page profile expired visible date. Empty to use store setting."
+"Comming Soon Page Settings","Comming Soon Page Settings"
+"Input URL to redirect when the page comming soon. Empty to use store setting","Input URL to redirect when the page comming soon. Empty to use store setting"
+"Select a cms static block to display when the page profile comming soon. Empty to use store setting.","Select a cms static block to display when the page profile comming soon. Empty to use store setting."
+"Privated Page Settings","Privated Page Settings"
+"Input URL to redirect when the page is private. Empty to use store setting","Input URL to redirect when the page is private. Empty to use store setting"
+"Enabled Login Form","Enabled Login Form"
+"Enabled/disable login form","Enabled/disable login form"
+"Use Module Setting","Use Module Setting"
+Yes,Yes
+No,No
+"Select a cms static block to display when the page profile private. Empty to use store setting.","Select a cms static block to display when the page profile private. Empty to use store setting."
+Settings,Settings
+"Custom Style / JS","Custom Style / JS"
+"Custom CSS","Custom CSS"
+"Enter custom CSS code here. Your custom CSS will be outputted only on this particular page.","Enter custom CSS code here. Your custom CSS will be outputted only on this particular page."
+"Custom JS","Custom JS"
+"Enter custom JS code here. Your custom JS will be outputted only on this particular page.","Enter custom JS code here. Your custom JS will be outputted only on this particular page."
+Title,Title
+Created,Created
+Modified,Modified
+Action,Action
+CSV,CSV
+"Excel XML","Excel XML"
+ID,ID
+"The element builder profile <strong>%1</strong> have been convert to html content of CMS Block: Ves_Element_%2","The element builder profile <strong>%1</strong> have been convert to html content of CMS Block: Ves_Element_%2"
+"The Element Builder Profile Was Converted To CMS Html Content.","The Element Builder Profile Was Converted To CMS Html Content."
+"Something went wrong while convert the element profile.","Something went wrong while convert the element profile."
+"The block builder has been deleted.","The block builder has been deleted."
+"We can't find a block builder profile to delete.","We can't find a block builder profile to delete."
+"Pages Builder","Pages Builder"
+"Manage Element Profiles","Manage Element Profiles"
+"This element builder profile no longer exits.","This element builder profile no longer exits."
+"Edit Element Profile","Edit Element Profile"
+"Element Builder","Element Builder"
+"Manage Element Builder Profiles","Manage Element Builder Profiles"
+"Please correct the data sent.","Please correct the data sent."
+"Something went wrong while saving the page.","Something went wrong while saving the page."
+"A total of %1 record(s) have been convert to html content of CMS Block have prefix: Ves_Element_","A total of %1 record(s) have been convert to html content of CMS Block have prefix: Ves_Element_"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"A total of %1 record(s) have been disabled.","A total of %1 record(s) have been disabled."
+"A total of %1 record(s) have been enabled.","A total of %1 record(s) have been enabled."
+"Profile was successfully duplicated.","Profile was successfully duplicated."
+"You saved this block builder profile.","You saved this block builder profile."
+"Something went wrong while saving the block builder profile.","Something went wrong while saving the block builder profile."
+"The page builder profile <strong>%1</strong> have been convert to html content of CMS Page: Ves_Template_%2","The page builder profile <strong>%1</strong> have been convert to html content of CMS Page: Ves_Template_%2"
+"The Page Builder Profile Was Converted To CMS Html Content.","The Page Builder Profile Was Converted To CMS Html Content."
+"Something went wrong while convert the page profile.","Something went wrong while convert the page profile."
+"The page builder ""%1"" has been deleted.","The page builder ""%1"" has been deleted."
+"We can't find a page builder profile to delete.","We can't find a page builder profile to delete."
+"Manage Page Profiles","Manage Page Profiles"
+"This page builder profile no longer exits.","This page builder profile no longer exits."
+"Edit Page Profile","Edit Page Profile"
+"New Page Profile","New Page Profile"
+"Page Builder","Page Builder"
+"Manage Page Builder Profiles","Manage Page Builder Profiles"
+"A total of %1 record(s) have been convert to html content of CMS Pages have prefix: Ves_Template_","A total of %1 record(s) have been convert to html content of CMS Pages have prefix: Ves_Template_"
+"The Page Builde Profile Was Converted To CMS Html Content.","The Page Builde Profile Was Converted To CMS Html Content."
+"To apply changes you should fill in hidden required ""%1"" field","To apply changes you should fill in hidden required ""%1"" field"
+"You saved this page builder profile.","You saved this page builder profile."
+"You saved this page.","You saved this page."
+"Something went wrong while saving the page builder profile.","Something went wrong while saving the page builder profile."
+"Saved custom css file ""%1"" successfully!","Saved custom css file ""%1"" successfully!"
+"We can't save custom css file right now.","We can't save custom css file right now."
+"Body Content","Body Content"
+TopBar,TopBar
+Header,Header
+MainMenu,MainMenu
+Footer,Footer
+"Footer Top","Footer Top"
+"Footer Center","Footer Center"
+"Footer Bottom","Footer Bottom"
+Products,Products
+Powered,Powered
+"Modules in Sidebar","Modules in Sidebar"
+"Module Blocks","Module Blocks"
+"Cart Blocks","Cart Blocks"
+Checkout,Checkout
+Custom,Custom
+Text,Text
+"Color Input","Color Input"
+"Image Pattern","Image Pattern"
+"Font Size","Font Size"
+"Border Style","Border Style"
+"Custom Css Code","Custom Css Code"
+"Invalid Block class name: %1","Invalid Block class name: %1"
+"Element Profile: ","Element Profile: "
+"CMS Static Block: ","CMS Static Block: "
+"Edit CMS Static Block","Edit CMS Static Block"
+"Single Image","Single Image"
+Logo,Logo
+"Our Service","Our Service"
+Html,Html
+"Simple Content Html","Simple Content Html"
+"-- Please Select CMS Block --","-- Please Select CMS Block --"
+"-- Select A Custom Css File --","-- Select A Custom Css File --"
+"Don't Use","Don't Use"
+Auto,Auto
+Manual,Manual
+"-- Select A Profile --","-- Select A Profile --"
+"A CMS page URL key for specified store already exists.","A CMS page URL key for specified store already exists."
+"The page URL key contains capital letters or disallowed symbols.","The page URL key contains capital letters or disallowed symbols."
+"The page URL key cannot be made of only numbers.","The page URL key cannot be made of only numbers."
+"--Select a Cms Static Block--","--Select a Cms Static Block--"
+"All Store Views","All Store Views"
+Edit,Edit
+Delete,Delete
+"Delete ${ $.$data.title }","Delete ${ $.$data.title }"
+"Are you sure you wan't to delete a ${ $.$data.title } record?","Are you sure you wan't to delete a ${ $.$data.title } record?"
+"Convert Template","Convert Template"
+"Sidebar Left","Sidebar Left"
+"Sidebar Right","Sidebar Right"
+"Live Css Editor","Live Css Editor"
+"Theme: ","Theme: "
+"Css Profiles: ","Css Profiles: "
+"And Named This:","And Named This:"
+"Rename This","Rename This"
+"Css Selector: ","Css Selector: "
+"Those Images in folder pub/pagebuilder/livecss/images/patterns/","Those Images in folder pub/pagebuilder/livecss/images/patterns/"
+Inherit,Inherit
+Clear,Clear
+None,None
+"Write your custom rules...","Write your custom rules..."
+"Ves Pages Builder","Ves Pages Builder"
+"Add Page Profile","Add Page Profile"
+"Manage Page Profile","Manage Page Profile"
+"General Settings (Pages Builder)","General Settings (Pages Builder)"
+"Minify Html Output","Minify Html Output"
+"Enabled Parallax Js","Enabled Parallax Js"
+"Enabled Colorbox Popup JS","Enabled Colorbox Popup JS"
+"Enabled Fancybox Popup JS","Enabled Fancybox Popup JS"
+"Enabled Bootstrap 24 Columns","Enabled Bootstrap 24 Columns"
+"Load bootstrap 24 columns for backend of pagebuilder and element builder to build layout with maximum 24 columns.","Load bootstrap 24 columns for backend of pagebuilder and element builder to build layout with maximum 24 columns."
+"Enabled Image Holder Js","Enabled Image Holder Js"
+"Auto Backup Page Builder Profile","Auto Backup Page Builder Profile"
+"Allow auto backup page builder profile to json file store in the folder <strong>""var/cache/vespagebuilder/""</strong>","Allow auto backup page builder profile to json file store in the folder <strong>""var/cache/vespagebuilder/""</strong>"
+"Expired Page Settings","Expired Page Settings"
+"Redirect To URL","Redirect To URL"
+"Input URL to redirect when the page expired visible date. Empty to hide.","Input URL to redirect when the page expired visible date. Empty to hide."
+"Select a cms static block to display when the page profile expired visible date. Default not choose.","Select a cms static block to display when the page profile expired visible date. Default not choose."
+"Input URL to redirect when the page is comming soon. Empty to hide.","Input URL to redirect when the page is comming soon. Empty to hide."
+"Select a cms static block to display when the page is comming soon. Default not choose.","Select a cms static block to display when the page is comming soon. Default not choose."
+"Private Page Settings (Certain Customer Groups)","Private Page Settings (Certain Customer Groups)"
+"Input URL to redirect when the page is private. Empty to hide.","Input URL to redirect when the page is private. Empty to hide."
+"Enable/Disable Login Form When Page Is Private.","Enable/Disable Login Form When Page Is Private."
+"Select a cms static block to display when the page is private. Default not choose.","Select a cms static block to display when the page is private. Default not choose."
+"Live CSS Editor","Live CSS Editor"
+"General Settings (Live Css)","General Settings (Live Css)"
+"Enabled Live Css Tool","Enabled Live Css Tool"
+"Enable/Disable Live CSS Tool On Frontend (only admin user can save the css profile)","Enable/Disable Live CSS Tool On Frontend (only admin user can save the css profile)"
+"Select default live css profile","Select default live css profile"
+"Select default live css profile which allow load setting to change style in the site (there profiles were stored in the folder pub/pagebuilder/livecss/profiles/)","Select default live css profile which allow load setting to change style in the site (there profiles were stored in the folder pub/pagebuilder/livecss/profiles/)"
+"Allow Save Css Profile","Allow Save Css Profile"
+"Enable/Disable Save Css Customize Profile On Frontend","Enable/Disable Save Css Customize Profile On Frontend"
+"Allow Save Css Profile for Admins?","Allow Save Css Profile for Admins?"
+"Logged in admins to save css profile on frontend?","Logged in admins to save css profile on frontend?"
+"Allowed IPs","Allowed IPs"
+"IPs that can save css profile on frontend. Empty to allow all IPs.","IPs that can save css profile on frontend. Empty to allow all IPs."
+"Css Profile Folder Path","Css Profile Folder Path"
+"Input folder path to folder which stored customize css profiles (folder path should be under pub/ folder). Default: media/pagebuilder/livecss <br/> Or Default: pagebuilder/livecss/customize","Input folder path to folder which stored customize css profiles (folder path should be under pub/ folder). Default: media/pagebuilder/livecss <br/> Or Default: pagebuilder/livecss/customize"
+"Pattern Images Folder Path","Pattern Images Folder Path"
+"Input folder path to pattern images (folder path should be under pub/ folder). Default: pagebuilder/livecss/images/patterns","Input folder path to pattern images (folder path should be under pub/ folder). Default: pagebuilder/livecss/images/patterns"
+"Load Custom Css Profile","Load Custom Css Profile"
+"Select a css profile to load on frontend. The profile was created by live css editor tool and was stored in the folder pub/css/","Select a css profile to load on frontend. The profile was created by live css editor tool and was stored in the folder pub/css/"
+"Ves Base: Generate Element Profile","Ves Base: Generate Element Profile"
+"Ves Page Builder: Generate Element Profile","Ves Page Builder: Generate Element Profile"
+"Element Id","Element Id"
+"Choose Element Builder Item","Choose Element Builder Item"
+"Element Builder Code","Element Builder Code"
+"Input the shortcode of block builder","Input the shortcode of block builder"
+"Show Title","Show Title"
+"Disable Element Wrapper","Disable Element Wrapper"
+"Default: <strong>false</strong>. Enable to disable block wrapper for block builder on frontend, it will not show block title, just show generated layout.","Default: <strong>false</strong>. Enable to disable block wrapper for block builder on frontend, it will not show block title, just show generated layout."
+"Element Template","Element Template"
+"Input custom module template file path. For example: widget/blockbuilder/default.phtml Empty for default","Input custom module template file path. For example: widget/blockbuilder/default.phtml Empty for default"
+"Ves Base: Generate Page Builder Profile","Ves Base: Generate Page Builder Profile"
+"Ves Page Builder : Generate a page builder profile","Ves Page Builder : Generate a page builder profile"
+"Page Id","Page Id"
+"Choose Page Builder Item","Choose Page Builder Item"
+"Page Builder Code","Page Builder Code"
+"Input the shortcode of page builder profile","Input the shortcode of page builder profile"
+"Page Builder Template","Page Builder Template"
+"Input custom module template file path. For example: widget/pagebuilder/default.phtml Empty for default","Input custom module template file path. For example: widget/pagebuilder/default.phtml Empty for default"
+"Ves Base: Load Css/JS File","Ves Base: Load Css/JS File"
+"Load Custom css,js file","Load Custom css,js file"
+"Path to JS File","Path to JS File"
+"Input url of js file or path to js file. 
+					<br/>
+					Ex: <strong>http://domain.com/js/script.js</strong>
+					<br/>
+					Or
+					<br/>
+					<strong>Vendor_Module/js/script</strong>
+					","Input url of js file or path to js file. 
+					<br/>
+					Ex: <strong>http://domain.com/js/script.js</strong>
+					<br/>
+					Or
+					<br/>
+					<strong>Vendor_Module/js/script</strong>
+					"
+"Will generate custom css code on the position where the widget was inserted.","Will generate custom css code on the position where the widget was inserted."
+"Add New Profile","Add New Profile"
+"Delete items","Delete items"
+"Are you sure you wan't to delete selected items?","Are you sure you wan't to delete selected items?"
+Disable,Disable
+Enable,Enable
+"Convert To Template","Convert To Template"
+"Element Code","Element Code"
+"Element Shortcode","Element Shortcode"
+"Date Show From","Date Show From"
+"Date Show To","Date Show To"
+"Created Date","Created Date"
+"Modified Date","Modified Date"
+"Block Title","Block Title"
+"Block Code","Block Code"
+"Block Shortcode","Block Shortcode"
+"1 Column Full Width","1 Column Full Width"

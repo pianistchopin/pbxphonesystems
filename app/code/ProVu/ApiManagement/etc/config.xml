@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<products>
+			<options_price>
+				<price_discount1>10</price_discount1>
+				<price_discount2>10</price_discount2>
+				<price_discount3>10</price_discount3>
+			</options_price>
+		</products>
+	</default>
+</config>

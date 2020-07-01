@@ -1,0 +1,160 @@
+*{margin:0;Padding:0}
+
+.page-main-fluid { max-width: 100% !important; padding:0!important; margin: 0!important; overflow: hidden;}
+.page-main-fluid .widget.block-static-block { display:none; margin-bottom: 0 !imprtant;}
+.demo-page01 .widget-carousel{margin-bottom: 30px !important;}
+.demo-page01 .widget-carousel .item-content { 
+	position: relative;
+}
+.demo-page01 .widget-carousel .item-content .slidershow-info {
+	position: absolute;
+	top: 30%;
+	color: #fff;
+	text-align: center;
+	letter-spacing: 2px;
+	left:0;
+	right:0
+}
+
+.demo-page01 .widget-carousel .item-content .slidershow-info h3 {
+	font-size: 82px;
+	font-weight: 900;
+	letter-spacing: 5px;
+	text-transform: uppercase;
+}
+
+.demo-page01 .widget-carousel .item-content .slidershow-info p {
+	font-size: 22px;
+}
+
+.demo-page01 .widget-carousel .item-content .slidershow-info a {
+	color: #fff;
+	padding: 10px 45px;
+	margin-top: 50px;
+	font-size: 12px;
+	line-height: 30px;
+	background: #7bc317;
+}
+
+.demo-page01 .widget-images {margin-bottom: 30px !important;}
+.demo-page01 .widget-images .block-content { padding: 0;}
+.demo-page01 .widget-images .image-item .img-animation {
+	overflow: hidden;
+	position: relative;
+}
+
+.demo-page01 .widget-images .image-item .img-animation:before {
+	border: 1px solid #fff;
+    bottom: 20px;
+    content: "";
+    left: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1;
+    -webkit-transition: all .35s ease 0s;
+	-o-transition: all .35s ease 0s;
+	transition: all .35s ease 0s;
+	-webkit-transform: scale(1.1);
+	-ms-transform: scale(1.1);-o-transform: scale(1.1);transform: scale(1.1);
+	opacity: 0;  
+}
+
+.demo-page01 .widget-images .image-item .img-animation:hover:before {
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);-o-transform: scale(1);transform: scale(1);
+	opacity: 1;  
+}
+
+.demo-page01 .block-new-products {}
+.demo-page01 .block-new-products .block-title { text-align: center;}
+.demo-page01 .block-new-products .block-title strong { font-weight: 700; color: #000; text-transform: uppercase; font-size: 24px;}
+
+.demo-page01 .products-grid .product-item-info:hover, 
+.demo-page01 .products-grid .product-item-info.active {
+	box-shadow: none;
+	background: #f5f5f5;
+}
+.demo-page01 .products-grid .product-item-info .product-item-name { text-transform: uppercase; color:#000;}
+.demo-page01 .products-grid .product-item-info .product-item-actions {
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: all .35s ease 0s;
+	-o-transition: all .35s ease 0s;
+	transition: all .35s ease 0s;
+	-webkit-transform: scale(1.1);
+}
+
+.demo-page01 .products-grid .product-item-info:hover .product-item-actions {
+	opacity: 1;
+	visibility: visible;
+}
+
+.demo-page01 .widget-html {background: rgba(255, 255, 255, 0.9); margin: 50px 0 !important;}
+.demo-page01 .widget-html .tmls-item-info {
+	width: 80%;
+	font-size: 18px;
+	margin: 0 auto;
+}
+.demo-page01 .widget-html .tmls-item-info .tmls-item {
+	padding: 20px;
+	text-align: center;
+	font-style: italic;
+}
+
+.demo-page01 .widget-html .tmls-item-info .tmls-item .tmls-image img { 
+	border-radius: 50%;
+}
+
+.demo-page01 .widget-html .tmls-item-info .tmls-item .tmls-testimonial,
+.demo-page01 .widget-html .tmls-item-info .tmls-item .tmls-company { font-size: 14px; padding: 10px 0;}
+
+.img-responsive {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+.columns { display: block !important;}
+
+/* Large desktop */
+@media (min-width: 1200px) {}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+	.demo-page01 .widget-carousel .item-content .slidershow-info { top: 25%;letter-spacing: 1px;}
+	.demo-page01 .widget-carousel .item-content .slidershow-info h3 {
+	  	font-size: 40px;
+	  	margin: 0;
+	}
+	.demo-page01 .widget-carousel .item-content .slidershow-info p {
+	  	font-size: 16px;
+	}
+	.demo-page01 .widget-carousel .item-content .slidershow-info a {
+		padding: 10px 25px;
+		margin-top: 20px;
+	}
+	.demo-page01 .widget-carousel .owl-controls { display: none; margin: 0;}
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	.demo-page01 .widget-carousel .item-content .slidershow-info { top: 15%;letter-spacing: 1px;}
+	.demo-page01 .widget-carousel .item-content .slidershow-info h3 {
+	  	font-size: 24px;
+	  	margin: 0;
+	}
+	.demo-page01 .widget-carousel .item-content .slidershow-info p {
+	  	font-size: 14px;
+	}
+	.demo-page01 .widget-carousel .item-content .slidershow-info a {
+		padding: 5px 10px;
+		margin-top: 10px;
+	}
+	.demo-page01 .widget-carousel .owl-controls { display: none; margin: 0;}
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+	
+}

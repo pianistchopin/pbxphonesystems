@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_product" class="Ves\BaseWidget\Block\Widget\Singleproduct">
+        <label translate="true">Ves Base: Single Product Block</label>
+        <description>Show Single Product Information Block</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+
+            <parameter name="addition_cls" xsi:type="text" visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="id_path" xsi:type="block" visible="true" required="true">
+                <label translate="true">Product</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Product...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+
+            <parameter name="enable_wrapper" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show block wrapper</label>
+            </parameter>
+
+            <parameter name="show_title" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show block title</label>
+            </parameter>
+
+            <parameter name="show_product_title" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Product Title</label>
+            </parameter>
+
+            <parameter name="show_image" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Product Image</label>
+            </parameter>
+
+             <parameter name="image_size" xsi:type="text" visible="true">
+                <label translate="true">Image size</label>
+                <description translate="true"><![CDATA[Enter image size in pixels: 300x300 (Width x Height).]]></description>
+            </parameter>
+
+            <parameter name="show_swap" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Alternative Image</label>
+                <description translate="true"><![CDATA[Show alternative image on mouse hover over the product image.]]></description>
+            </parameter>
+
+            <parameter name="alt_image_column" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\AltImageColumn">
+                <label translate="true">Select Alternative Image By Column</label>
+                <description translate="true"><![CDATA[Which column of the product image gallery will mark alternative images of your products.]]></description>
+                <depends>
+                    <parameter name="show_swap" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="alt_image_column_value" xsi:type="text"  visible="true">
+                <label translate="true">Alternative Image Column Value</label>
+                <description translate="true"><![CDATA[Specify the value which will mark alternative images of your products. E.g.: if Select Alt. Image By Column is set to "Sort Order", specify the number which will mark (in "Sort Order" column of the product image gallery) alternative images, for example: "2".]]></description>
+                <depends>
+                    <parameter name="show_swap" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="show_sale_label" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Sale Label</label>
+            </parameter>
+
+            <parameter name="show_new_label" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display New Label</label>
+            </parameter>
+
+            <parameter name="show_short_description" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Short Description</label>
+            </parameter>
+
+            <parameter name="desc_maxchar" xsi:type="text" visible="true">
+                <label translate="true">Short Description Max Chars</label>
+                <description translate="true">For example: 100</description>
+            </parameter>
+
+            <parameter name="show_price" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Price</label>
+            </parameter>
+
+            <parameter name="show_addtocart" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Button Add To Cart</label>
+            </parameter>
+
+            <parameter name="show_timer_countdown" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Time Countdown</label>
+                <description translate="true">Only for special products.</description>
+            </parameter>
+
+            <parameter name="show_review" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Review</label>
+            </parameter>
+
+
+            <parameter name="show_wishlist" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Button Wishlist</label>
+            </parameter>
+
+            <parameter name="show_compare" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Button Compare</label>
+            </parameter>
+
+            <parameter name="show_quickview" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Quick View</label>
+            </parameter>
+
+            <parameter name="aspect_ratio" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Aspect Ratio When Resize Image</label>
+            </parameter>
+
+            <parameter name="template" xsi:type="text"  visible="true">
+                <label translate="true">Widget Template</label>
+                <description translate="true">Input custom module template file path. For example: widget/single_product.phtml Empty for default.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

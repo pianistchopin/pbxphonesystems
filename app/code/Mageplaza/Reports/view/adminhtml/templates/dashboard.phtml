@@ -1,0 +1,105 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_Reports
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\Reports\Block\Dashboard $block */
+/** @var \Mageplaza\Reports\Block\Dashboard\AbstractClass $card */
+
+$cards = $block->getCards();
+
+?>
+<div style="clear: both; height: 20px"></div>
+<div class="ar_dashboard">
+    <div class="date-range-picker"
+         data-mage-init='{"initDateRange":{"url":"<?= /** @noEscape */ $block->getUrl('mpreports/dashboard/index', ['_current' => true]) ?>","isCompare":<?= /** @noEscape */ $block->isCompare() ?>,"date":<?= /** @noEscape */ $block->getDate() ?>}}'>
+        <div id="daterange">
+            <i class="fa fa-calendar"></i>
+            <span></span>
+            <i class="fa fa-caret-down"></i>
+        </div>
+        <?php if ($block->isCompare()) : ?>
+            <div class="compare"><?= $block->escapeHtml(__('compare with')) ?></div>
+            <div id="compare-daterange">
+                <i class="fa fa-calendar"></i>
+                <span></span>
+                <i class="fa fa-caret-down"></i>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="dashboard-container row">
+        <div class="top-container">
+            <div class="mp-ar-card admin__action-dropdown-wrap admin__data-grid-action-columns"
+                 style="float: right">
+                <button id="mp-ar-card" class="admin__action-dropdown" type="button">
+                    <span class="admin__action-dropdown-text"><?= $block->escapeHtml(__('Card')) ?></span>
+                </button>
+                <div class="admin__action-dropdown-menu admin__data-grid-action-columns-menu _overflow">
+                    <div class="admin__action-dropdown-menu-header"></div>
+                    <div class="admin__action-dropdown-menu-content">
+                        <?php foreach ($cards as $card) : ?>
+                            <div class="admin__field-option" data-repeat-index="0">
+                                <input class="admin__control-checkbox"
+                                       type="checkbox" <?= $card->getVisible() ? 'checked' : '' ?>
+                                       id="card-<?= /** @noEscape */ $card->getCardId() ?>"
+                                       data-card-id="<?= /** @noEscape */ $card->getCardId() ?>">
+                                <label class="admin__field-label"
+                                       title="<?= $block->escapeHtml($card->getTitle()) ?>"
+                                       for="card-<?= /** @noEscape */ $card->getCardId() ?>">
+                                    <?= $block->escapeHtml($card->getTitle()) ?>
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?= $block->getChildHtml('mpreports_additional_header') ?>
+        </div>
+        <div style="clear: both; height: 20px"></div>
+        <div class="grid-stack"
+             data-mage-init='{"initGridStack":<?= \Mageplaza\Reports\Helper\Data::jsonEncode($block->getGridStackConfig()) ?>}'>
+            <?php foreach ($cards as $card) : ?>
+                <?php if ($card->getVisible()) : ?>
+                    <?= $block->getChildBlock('mp_card')->setCard($card)->toHtml() ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <script>
+                require(['jquery'], function ($) {
+                    $('.view-detail a').on('click', function (e) {
+                        var href = $(this).attr('href');
+                        if (href === '') {
+                            if (!$(this).parent().find('.upgrade-nof').length) {
+                                $(this).parent().append('<div class="upgrade-nof">' +
+                                    '<?= /** @noEscape */ __('Please upgrade to %1 version to see more detail', '<a href="https://www.mageplaza.com/magento-2-reports-extension/#pricing-table" target="_blank">Pro</a>') ?>'
+                                    + '</div>');
+                            }
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+                    });
+                    $('body').on('click', function (e) {
+                        if (!$(e.target).parents().hasClass('view-detail')) {
+                            $('.upgrade-nof').remove();
+                        }
+                    });
+                })
+            </script>
+        </div>
+    </div>
+</div>

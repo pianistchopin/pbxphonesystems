@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="ves_basewidget_countdowntimer" class="Ves\BaseWidget\Block\Widget\Countdowntimer">
+        <label translate="true">Ves Base: Banner Countdown Timer</label>
+        <description>Show a banner with countdown timer</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            <parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+            </parameter>
+            <parameter name="addition_cls" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+            <parameter name="title_name" xsi:type="text"  visible="true">
+                <label translate="true">Title of Name</label>
+                <description translate="true">Empty for hide.</description>
+            </parameter>
+            <parameter name="end_date" xsi:type="text"  visible="true">
+                <label translate="true">Expired Date:</label>
+                <description translate="true">Input date with format: M/d/yyyy for example: 09/30/2015.</description>
+            </parameter>
+            <parameter name="use_image_background" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Use Backgroupd Image</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+            <parameter name="file" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Background Image</label>
+                <description translate="true"><![CDATA[Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+                Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+                <depends><parameter name="use_image_background" value="1" /></depends>
+            </parameter>
+            <parameter name="image_size" xsi:type="text"  visible="true">
+                <label translate="true">Image size</label>
+                <description translate="true"><![CDATA[Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size. Empty to disable resize image]]></description>
+                <depends><parameter name="use_image_background" value="1" /></depends>
+            </parameter>
+            <parameter name="background_position_x" xsi:type="text"  visible="true">
+                <label translate="true">Background Positon X</label>
+                <description translate="true"><![CDATA[Default is center]]></description>
+                <depends><parameter name="use_image_background" value="1" /></depends>
+            </parameter>
+            <parameter name="background_position_y" xsi:type="text"  visible="true">
+                <label translate="true">Background Positon Y</label>
+                <description translate="true"><![CDATA[Default is center]]></description>
+                <depends><parameter name="use_image_background" value="1" /></depends>
+            </parameter>
+            <parameter name="background_color" xsi:type="text"  visible="true">
+                <label translate="true">Background Color</label>
+                <description translate="true"><![CDATA[Example: #CC0000, white,...]]></description>
+            </parameter>
+            <parameter name="show_link" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Link</label>
+            </parameter>
+            <parameter name="link_title" xsi:type="text"  visible="true">
+                <label translate="true">Link Title</label>
+                <description translate="true">Input link title. Empty for hide</description>
+                <depends><parameter name="show_link" value="1" /></depends>
+            </parameter>
+            <parameter name="class_link" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class For Link</label>
+                <depends><parameter name="show_link" value="1" /></depends>
+            </parameter>
+            <parameter name="url" xsi:type="text"  visible="true">
+                <label translate="true">Url Link</label>
+                <description translate="true">Input link url. Empty for hide</description>
+                <depends><parameter name="show_link" value="1" /></depends>
+            </parameter>
+            <parameter name="show_description" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Description</label>
+            </parameter>
+            <parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+                <depends><parameter name="show_description" value="1" /></depends>
+            </parameter>
+            <parameter name="show_date" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Expired Date</label>
+            </parameter>
+            <parameter name="show_timer_countdown" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Timer Countdown</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="template" xsi:type="select"  visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/countdowntimer.phtml" selected="true">
+                        <label translate="true">Countdown Timer Use Background Image (Default)</label>
+                    </option>
+                    <option name="default_image" value="widget/countdowntimer_image.phtml">
+                        <label translate="true">Countdown Timer Use Column Image</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

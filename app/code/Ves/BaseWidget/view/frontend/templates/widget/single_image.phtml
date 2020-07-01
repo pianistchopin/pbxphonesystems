@@ -1,0 +1,231 @@
+<?php
+/*
+* Ves Base Widget - Single image
+*
+* @package   vesbase
+* @version   5.0
+* @author    http://www.venustheme.com
+* @copyright Copyright (C) October 2013 venustheme.com <@emai:venustheme@gmail.com>
+*               <info@venustheme.com>.All rights reserved.
+* @license   GNU General Public License version 2
+*/
+$html = $this->getConfig('html');
+$html = str_replace(" ","+",$html);
+if(base64_decode($html, true) == true){
+   $html = base64_decode($html);
+}
+$all_helper = $this->helper("Ves\All\Helper\Data");
+$content_class = $this->getConfig('contentclass', '');
+$heading_class = $this->getConfig('heading_class', '');
+$custom_image_class = $this->getConfig('custom_image_class', '');
+$popup_type = $this->getConfig('popup_type', 'colorbox');
+
+$widget_id = "vessingleimage_".rand().time();
+
+$thumbnailurl_small = (isset($thumbnailurl_small) && $thumbnailurl_small)?$thumbnailurl_small:$thumbnailurl;
+$thumbnailurl_larger = (isset($thumbnailurl_larger) && $thumbnailurl_larger)?$thumbnailurl_larger:$thumbnailurl;
+
+$desc_position = $this->getConfig('desc_position', 'top');//top, bottom, left, right
+
+if( isset($thumbnailurl) ):
+	$link_title = $image_alt = (isset($widget_heading)&&!empty($widget_heading))?$widget_heading: __("Image");
+	if(isset($alt) && $alt) {
+		$link_title = $image_alt = trim($alt);
+	}
+
+	$holder_image = isset($holder_image)?$holder_image:"";
+?>
+<div class="ves-widget widget-images block <?php echo $addition_cls; ?> <?php echo isset($animation)&&$animation?$animation:''; ?> <?php echo isset($stylecls)&&$stylecls?'block-'.$stylecls:'';?>">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+		<div class="block-title <?php echo $heading_class; ?>">
+			<strong><span><?php echo $widget_heading; ?></span></strong>
+		</div>
+	<?php endif; ?>
+	<div class="widget-inner block-content clearfix">
+		<div class="image-item">
+			<?php if($html != '' && $this->getConfig('show_description', 1)){ ?>
+			<?php if(in_array($desc_position, array("top", "left", "right"))){ ?>
+			<div class="image-description <?php echo $content_class; ?> <?php echo 'content-'.$desc_position; ?>">
+				<?php 
+					$html = $this->getDataFilterHelper()->filter($html);
+					echo $html;
+				?>
+			</div>
+			<?php } ?>
+			<div class="content-image">
+			<?php } ?>
+			<?php if ($link_url && !$ispopup): ?>
+				<a href="<?php echo $link_url;?>" class="ves-btnlink img-animation" title="<?php echo $link_title;?>">
+					<img <?php echo $holder_image?'data-src="'.$holder_image.'"':''; ?> src="<?php echo $thumbnailurl;?>" <?php if($zoom_type): ?> id="<?php echo $widget_id; ?>" data-zoom-image="<?php echo $imageurl; ?>"<?php endif; ?> class="img-responsive <?php echo $custom_image_class; ?> <?php echo ($alignment?$alignment.'-block':'')." ".$image_style; ?>" alt="<?php echo $image_alt; ?>"/></a>
+				<?php else: ?>
+					<?php if ($ispopup): ?>
+					<a href="<?php echo $imageurl; ?>" class="ves-popup fancybox <?php echo $popup_type.'-play'; ?>" title="<?php echo $image_alt?$image_alt:__('Show Large Image');?>">
+					<?php endif; ?>
+					<span class="img-animation"><img <?php echo $holder_image?'data-src="'.$holder_image.'"':''; ?> data-defaultsrc="<?php echo $thumbnailurl; ?>" data-imagetsrc="<?php echo $imageurl; ?>" data-smallsrc="<?php echo $thumbnailurl_small; ?>" data-largersrc="<?php echo $thumbnailurl_larger; ?>" src="<?php echo $thumbnailurl; ?>" <?php if($zoom_type): ?> id="<?php echo $widget_id; ?>" data-zoom-image="<?php echo $imageurl; ?>" <?php endif; ?> class="img-responsive <?php echo $custom_image_class; ?> <?php echo ($alignment?$alignment.'-block':'')." ".$image_style; ?>" alt="<?php echo $image_alt; ?>"/></span>
+					<?php if ($ispopup): ?>
+					</a>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php if($html != '' && $this->getConfig('show_description', 1)){ ?>
+				</div>
+				<?php if($desc_position == "bottom"){ ?>
+				<div class="image-description <?php echo $content_class; ?> content-bottom">
+					<?php 
+						$html = $this->getDataFilterHelper()->filter($html);
+						echo $html;
+					?>
+				</div>
+				<?php } ?>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	<?php if($ispopup && $popup_type == "colorbox"): ?>
+	if($(".colorbox-play").length > 0) {
+		require([
+			'jquery'
+			<?php if($all_helper->getConfig("enable_colorbox")): ?>
+	        ,"Ves_All/lib/colorbox/jquery.colorbox.min"
+	        <?php endif; ?>
+			],function($){
+				/** 
+			     * 
+			     * Automatic apply colorbox popup
+			     */
+			    if($(".colorbox-play").length > 0) {
+			        $(".colorbox-play").each( function(){
+			            var element_id = $(this).attr("id");
+			            var popup_width = $(this).data('width');
+			            var popup_height = $(this).data('height');
+			            var popup_opacity = $(this).data('opacity');
+
+			            if(popup_width == "" || typeof(popup_width) == "undefined" ) {
+			                popup_width = false;
+			            }
+			            if(popup_height == "" || typeof(popup_height) == "undefined" ) {
+			                popup_height = false;
+			            }
+
+			            if(popup_opacity == "" || typeof(popup_opacity) == "undefined" ) {
+			                popup_opacity = 0.5;
+			            }
+
+			            if(popup_width && popup_height) {
+			                $(this).colorbox({
+			                    width: "'"+popup_width+"'", 
+			                    height: "'"+popup_height+"'",
+			                    overlayClose: true,
+			                    opacity: popup_opacity,
+			                    rel: false
+			                });
+			            } else if(popup_width && !popup_height) {
+			                $(this).colorbox({
+			                    width: "'"+popup_width+"'", 
+			                    overlayClose: true,
+			                    opacity: popup_opacity,
+			                    rel: false
+			                });
+			            } else if(popup_width && !popup_height) {
+			                $(this).colorbox({
+			                    height: "'"+popup_height+"'",
+			                    overlayClose: true,
+			                    opacity: popup_opacity,
+			                    rel: false
+			                });
+			            } else {
+			                $(this).colorbox({
+			                    overlayClose: true,
+			                    opacity: popup_opacity,
+			                    rel: false
+			                });
+			            }
+			        });
+			    }
+	    });
+	}
+	<?php elseif($ispopup && $popup_type == "fancybox"): ?>
+	if($(".fancybox-play").length > 0) {
+		require([
+			'jquery'
+			<?php if($all_helper->getConfig("enable_fancybox")): ?>
+	        ,"Ves_All/lib/fancybox/jquery.fancybox.pack"
+	        <?php endif; ?>
+	        <?php if($all_helper->getConfig("enable_fancybox_mousewell")): ?>
+	        ,"Ves_All/lib/fancybox/jquery.mousewheel-3.0.6.pack"
+	        <?php endif; ?>
+			],function($){
+				if($(".fancybox-play").length > 0) {
+			        $(".fancybox-play").each( function(){
+			            var element_id = $(this).attr("id");
+			            var popup_width = $(this).data('width');
+			            var popup_height = $(this).data('height');
+			            var popup_opacity = $(this).data('opacity');
+
+			            if(popup_width == "" || typeof(popup_width) == "undefined" ) {
+			                popup_width = false;
+			            }
+			            if(popup_height == "" || typeof(popup_height) == "undefined" ) {
+			                popup_height = false;
+			            }
+
+			            if(popup_opacity == "" || typeof(popup_opacity) == "undefined" ) {
+			                popup_opacity = 0.5;
+			            }
+
+			            if(popup_width && popup_height) {
+			                $(this).fancybox({
+			                    width: "'"+popup_width+"'", 
+			                    height: "'"+popup_height+"'",
+			                    opacity: popup_opacity,
+			                    openEffect  : 'none',
+			                    closeEffect : 'none'
+			                });
+			            } else if(popup_width && !popup_height) {
+			                $(this).fancybox({
+			                    width: "'"+popup_width+"'", 
+			                    opacity: popup_opacity,
+			                    openEffect  : 'none',
+			                    closeEffect : 'none'
+			                });
+			            } else if(popup_width && !popup_height) {
+			                $(this).fancybox({
+			                    height: "'"+popup_height+"'",
+			                    opacity: popup_opacity,
+			                    openEffect  : 'none',
+			                    closeEffect : 'none'
+			                });
+			            } else {
+			                $(this).fancybox({
+			                    opacity: popup_opacity,
+			                    openEffect  : 'none',
+			                    closeEffect : 'none'
+			                });
+			            }
+			        });
+			    }
+	    });
+	}
+	<?php endif; ?>
+	<?php if($zoom_type){ ?>
+		require([
+		'jquery',
+		'Ves_BaseWidget/js/jquery/jquery.elevateZoom-3.0.8.min'
+		],function($){
+			<?php if($zoom_type == "basic"): ?>
+				$("#<?php echo $widget_id; ?>").elevateZoom();
+			<?php elseif($zoom_type == "inner"): ?>
+				$("#<?php echo $widget_id; ?>").elevateZoom({ zoomType	: "inner", cursor: "crosshair" });
+			<?php elseif($zoom_type == "lens"): ?>
+				$("#<?php echo $widget_id; ?>").elevateZoom({ zoomType	: "lens", lensShape : "round", lensSize : <?php echo $lens_size?(int)$lens_size:200; ?> });
+			<?php endif; ?>
+		});
+		
+	<?php } ?>
+});
+});
+</script>
+<?php endif; ?>

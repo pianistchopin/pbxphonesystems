@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_alert" class="Ves\BaseWidget\Block\Widget\Alert">
+        <label translate="true">Ves Base: Alert</label>
+        <description>Create a Alert Message Box Based on Bootstrap 3 typo</description>
+        <parameters>
+            <parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content</label>
+                <description translate="true">Input html content.</description>
+            </parameter>
+
+            <parameter name="alert_type" xsi:type="select"  visible="true">
+                <label translate="true">Alert Type</label>
+                <description translate="true">Select a alert style</description>
+                <options>
+                    <option name="success" value="alert-success" selected="true">
+                        <label translate="true">Alert Success</label>
+                    </option>
+                    <option name="info" value="alert-info">
+                        <label translate="true">Alert Info</label>
+                    </option>
+                    <option name="warning" value="alert-warning">
+                        <label translate="true">Alert Warning</label>
+                    </option>
+                    <option name="danger" value="alert-danger">
+                        <label translate="true">Alert Danger</label>
+                    </option>
+                </options>
+            </parameter>
+            
+            <parameter name="addition_cls" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$show_description = $ves->getCategoryPageCfg('general_settings/show_description');
+?>
+<?php if ($show_description && $_description = $block->getCurrentCategory()->getDescription()): ?>
+    <div class="category-description">
+        <?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Output')->categoryAttribute($block->getCurrentCategory(), $_description, 'description') ?>
+    </div>
+<?php endif; ?>

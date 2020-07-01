@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+/** @var $helper \Magento\Search\Helper\Data */
+$helper = $this->helper('Magento\Search\Helper\Data');
+?>
+<?php
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$search = $ves->getHeaderCfg('search_settings/search');
+// SeachBox Design
+$searchbox_format = $ves->getHeaderCfg('search_settings/searchbox_format_type');
+$searchbox_text = $ves->getHeaderCfg('search_settings/searchbox_format_text');
+$searchbox_class = $ves->getHeaderCfg('search_settings/searchbox_format_class');
+$searchboxText = '<span class="hidden-xs">'.$searchbox_text.'</span>';
+$searchboxIcon = '<i class="fa '.$searchbox_class.'"></i>';
+?>
+<?php $searchboxHtml = ''; ?>
+<?php if((!$searchbox_format || $searchbox_format == 'text') && $searchbox_text){ // Only Text ?>
+<?php $searchboxHtml = $searchboxText; ?>
+<?php }elseif($searchbox_format == 'icon'){ // Icon, Text ?>
+<?php $searchboxHtml = $searchboxIcon; ?>
+<?php }elseif($searchbox_format == 'icon-text'){ // Icon, Text ?>
+<?php $searchboxHtml = $searchboxIcon.$searchboxText; ?>
+<?php }elseif($searchbox_format == 'text-icon'){ // Text, Icon ?>
+<?php $searchboxHtml = $searchboxText.$searchboxIcon; ?>
+<?php } ?>
+<?php if($search){ ?>
+<div class="block block-search">
+  <div class="block block-title"><strong><?php /* @escapeNotVerified */ echo __('Search'); ?></strong></div>
+  <div class="block block-content">
+    <form class="form minisearch" id="search_mini_form" action="<?php /* @escapeNotVerified */ echo $helper->getResultUrl() ?>" method="get">
+      <div class="field search">
+        <label class="label" for="search" data-role="minisearch-label">
+          <span><?php /* @escapeNotVerified */ echo __('Search'); ?></span>
+        </label>
+        <div class="control">
+          <input
+          id="search"
+          data-mage-init='{"quickSearch":{
+          "formSelector":"#search_mini_form",
+          "url":"<?php /* @escapeNotVerified */ echo $block->getUrl('search/ajax/suggest'); ?>",
+          "destinationSelector":"#search_autocomplete"}
+        }'
+        type="text"
+        name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
+        value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
+        placeholder="<?php /* @escapeNotVerified */ echo __('Search...'); ?>"
+        class="input-text"
+        maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
+        role="combobox"
+        aria-expanded="false"
+        aria-haspopup="false"
+        aria-autocomplete="both"
+        autocomplete="off"/>
+        <div id="search_autocomplete" class="search-autocomplete"></div>
+        <?php echo $block->getChildHtml() ?>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit"
+      title="<?php echo $block->escapeHtml(__('Search')) ?>"
+      class="action search">
+      <?php echo $searchboxHtml ?>
+    </button>
+  </div>
+</form>
+</div>
+</div>
+<?php } ?>

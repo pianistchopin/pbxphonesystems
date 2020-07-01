@@ -1,0 +1,167 @@
+<?php
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$sticky = $ves->getHeaderCfg("sticky_settings/sticky");
+$sticky_type = $ves->getHeaderCfg("sticky_settings/sticky_type");
+$logo = $ves->getHeaderCfg("sticky_settings/logo");
+$menu = $ves->getHeaderCfg("sticky_settings/menu");
+$search = $ves->getHeaderCfg("sticky_settings/search");
+$custom_block = $ves->getHeaderCfg("sticky_settings/custom_block");
+$topcart = $ves->getHeaderCfg("sticky_settings/topcart");
+$topbar = $ves->getHeaderCfg("sticky_settings/topbar");
+$enable_toplinks = $ves->getHeaderCfg("toplinks_settings/enable");
+$show_search = $ves->getHeaderCfg("search_settings/search");
+$show_topbar = $ves->getHeaderCfg("topbar/show_topbar");
+
+if($sticky_type == 'all'){
+	$logo = $menu = $search = $topcart = $toplinks = $topbar= true;	
+} 
+?>
+<div id="ves-header" class="header6">
+	<div class="wrapper">
+	<!-- Top bar -->
+	<?php if($show_topbar): ?>
+	<div class="panel page-topbar clearfix <?php echo $topbar?"sticky-item":"sticky-item-hidden"  ?>">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 hidden-sm hidden-xs">
+					<div class="setting-wrapper pull-left">
+						<?php echo $this->getChildHtml('setting_links') ?>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="pull-right hidden-xs hidden-sm">
+						<?php if($enable_toplinks){ ?>
+							<div class="header-links-wrapper pull-left">
+								<?php echo $this->getChildHtml('top_links') ?>
+							</div>
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="ves-inner">
+				<?php echo $this->getChildHtml('skip_to_content') ?>
+
+				<?php if($currency_block = $this->getChildHtml('currency')): ?>
+				<div class="switcher-currency-wrapper hidden-sm hidden-xs">
+					<?php echo $currency_block ?>
+				</div>
+				<?php endif; ?>
+				<?php if($store_language = $this->getChildHtml('store_language')): ?>
+				<div class="switcher-language-wrapper hidden-sm hidden-xs">
+					<?php echo $this->getChildHtml('store_language') ?>
+				</div>
+				<?php endif; ?>
+				<div class="pull-right">
+					<?php echo $this->getChildHtml('skip_to_content') ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+	<!-- header content -->
+	<div class="header-content clearfix">
+		<div class="ves-inner">
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+					<div class="logo-wrapper <?php echo $logo?"sticky-item":"sticky-item-hidden"  ?>">
+						<?php echo $this->getChildHtml('logo') ?>
+					</div>
+				</div>
+				
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding">
+					<?php if($show_search): ?>
+						<div class="search-wrapper">
+							<div class="dropdown-toggle hidden-md hidden-lg" data-toggle="dropdown">
+								<i class="fa fa-search">&nbsp;</i>
+							</div>
+							<div class="search-content" role="menu">
+								<?php echo $this->getChildHtml('vesTopSearch') ?>
+							</div> 
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+					<div class="pull-right minicart-warp <?php echo $topcart?"sticky-item":"sticky-item-hidden"  ?>"><?php echo $this->getChildHtml('minicart') ?>
+					</div>
+					<div class="hidden-sm hidden-xs block-header" style="margin-top: 8px;">
+						<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('cricket-block-header')->toHtml();?>
+					</div>
+				</div>
+			</div>
+			<?php if($custom_block = $this->getChildHtml("custom_block")): ?>
+			<div class="customblock-wrapper <?php echo $custom_block?"sticky-item":"sticky-item-hidden"  ?>">
+				<?php echo $custom_block; ?>
+			</div>
+			<?php endif; ?>
+		</div>
+		</div>
+	</div>
+ 	
+ 	<div class="container">
+	 	<div class="ves-inner">
+	 		<div class="header-bottom">
+				<!-- Menu top -->
+				<div class="ves-menutop clearfix <?php echo $menu?"sticky-item":"sticky-item-hidden" ?>">
+					<div class="ves-inner">
+						<?php echo $this->getChildHtml('catalog.topnav') ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php if($sticky){ ?>
+	<script type="text/javascript">
+		require([
+			'jquery',
+			'Ves_Themesettings/js/theme'
+			], function(){
+				
+				function getScroll () {
+				    var b = document.body;
+				    var e = document.documentElement;
+				    return {
+				        left: parseFloat( window.pageXOffset || b.scrollLeft || e.scrollLeft ),
+				        top: parseFloat( window.pageYOffset || b.scrollTop || e.scrollTop )
+				    };
+				}
+				jQuery(document).ready(function($) {
+					var h = jQuery('.page-header').height();
+					var myHeader = jQuery('.page-header');
+					var hasBreadcrumbs = false;
+					var breadcrumbs = jQuery(".breadcrumbs");
+					if(typeof(breadcrumbs) != "undefined" && breadcrumbs.length > 0) {
+						hasBreadcrumbs = true;
+					}
+					myHeader.data( 'position', myHeader.position() );
+
+					jQuery(window).scroll(function(){
+						var hPos = myHeader.data('position'), scroll = getScroll();
+						var h_px = jQuery("#ves-header", ".page-header").outerHeight(true)+"px";
+
+						if ( hPos.top < scroll.top) {
+							jQuery('.page-header').addClass("navbar-fixed-top keep-header");
+							var headerHeight = jQuery('.page-header').height();
+							<?php if($sticky_type == 'specify'){ ?>jQuery(".page-wrapper").css({"padding-top":headerHeight+"px"});<?php } ?>
+							jQuery(".sticky-item-hidden").css({"display":"none"});
+							if(!hasBreadcrumbs) {
+								jQuery("#maincontent").delay(1000).css("margin-top", h_px);
+							}
+						}else{
+							jQuery(".sticky-item-hidden").css({"display":""});
+							jQuery('.page-header').removeClass("navbar-fixed-top keep-header");
+							jQuery(".page-wrapper").css({"padding-top":""});
+							if(!hasBreadcrumbs) {
+								jQuery("#maincontent").delay(1000).css({"margin-top": ""});
+							}
+						}
+					});
+				});
+			});
+	</script>
+	<?php } ?>
+	<?php echo $this->getChildHtml('ves_navigation'); ?>
+</div>
+</div>

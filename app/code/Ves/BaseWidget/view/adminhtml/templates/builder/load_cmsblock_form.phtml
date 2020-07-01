@@ -1,0 +1,28 @@
+<?php
+$cms_blocks = $this->getCMSBlocks();
+?>
+<div class="fieldset admin__fieldset fieldset-wide fieldset-widget-options">
+   <div class="admin__field field required _required with-note">
+   		<label class="label admin__field-label" for="select_cmsblock_profile" ><span><?php echo __("Choose Static block"); ?></span></label>
+	    <div class="admin__field-control control">
+	       <select id="select_cmsblock_profile" name="block_id" class="widget-option required-entry _required select admin__control-select">
+	       	<?php if($cms_blocks) {
+		            		foreach($cms_blocks as $block) {
+		            			?>
+		            			<option value="<?php echo $block['value']; ?>"><?php echo $block['label']; ?></option>
+		            			<?php
+		            		}
+		            	} 
+		    ?>
+			</select>
+	        <div class="note admin__field-note" id="select_cmsblock_profile-note"><?php echo __("Choose CMS Static Block Item"); ?></div>
+	    </div>
+	</div>
+	<div class="admin__field field required _required with-note">
+	   <label class="label admin__field-label" for="input_element_template" ><span><?php echo __("Template"); ?></span></label>
+	    <div class="admin__field-control control">
+	        <input type="text" id="input_cmsblock_template" name="template" class="widget-option required-entry _required input-text admin__control-text" value="widget/static_block/default.phtml">
+	        <div class="note admin__field-note" id="input_element_template-note"><?php echo __("CMS Static Block Default Template. Default: widget/static_block/default.phtml");?></div>
+	    </div>
+	</div>
+</div>

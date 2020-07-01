@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_categories" class="Ves\BaseWidget\Block\Widget\Categories">
+        <label translate="true">Ves Base: List Categories</label>
+        <description>Ves Base - Create List Categories Link</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Title</label>
+                <description>This tile will be showed as header of widget block. Empty to disable </description>
+            </parameter>
+
+            <parameter name="cmsblock" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select Static Block</label>
+                <description translate="true">Choose Template for your module.</description>
+            </parameter>
+
+            <parameter name="pretext" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Pretext</label>
+                <description translate="true">Empty for hide. You put html text</description>
+            </parameter>
+
+            <parameter name="catsid" xsi:type="multiselect"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCategories">
+                <label translate="true">Choose Categories</label>
+                <description translate="true">Choose categories will show on frontend</description>
+            </parameter>
+
+            <parameter name="enable_image" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Image</label>
+            </parameter>
+
+            <parameter name="image_width" xsi:type="text" visible="true">
+                <label translate="true">Image Width</label>
+                <description translate="true">Category Image Width (default: 150)</description>
+                <value>150</value>
+            </parameter>
+            <parameter name="image_height" xsi:type="text" visible="true">
+                <label translate="true">Image Height</label>
+                <description translate="true">Category Image Height (default: 150)</description>
+                <value>150</value>
+            </parameter>
+            
+            <parameter name="enable_numbproduct" xsi:type="select"  visible="true"  source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Total Products</label>
+            </parameter>
+
+            <parameter name="enable_carousel" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show List Categories In Carousel</label>
+
+            </parameter>
+
+            <parameter name="show_navigator" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Carousel Navigator</label>
+            </parameter>
+
+            <parameter name="autoplay" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Autoplay Carousel</label>
+            </parameter>
+
+            <parameter name="interval" xsi:type="text" visible="true">
+                <label translate="true">Speed Of Carousel</label>
+                <description translate="true">Input seed of category carousel (default: 3000)</description>
+                <value>3000</value>
+            </parameter>
+
+            <parameter name="page_limit" xsi:type="text" visible="true">
+                <label translate="true">Categories Per Page</label>
+                <description translate="true">The maximum number of categories in each page (default: 3)</description>
+                <value>4</value>
+            </parameter>
+
+            <parameter name="cols" xsi:type="text" visible="true">
+                <label translate="true">Colums In Categories carousel</label>
+                <description translate="true">Number columns of categories in each page (default: 3)</description>
+                <value>4</value>
+            </parameter>
+
+            <parameter name="template_layout" xsi:type="select" visible="true">
+                <label translate="true">Template Layout</label>
+                <options>
+                    <option name="default" value="widget/categories.phtml" selected="true">
+                        <label translate="true">Default template</label>
+                    </option>
+                    <option name="category_links" value="widget/categories_list_links.phtml">
+                        <label translate="true">Categories List Links Template</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="template" xsi:type="text" visible="true">
+                <label translate="true">Custom Widget Template</label>
+                <description translate="true">Input custom module template file path. For example: widget/categories.phtml or widget/categories_owl.phtml Empty for default</description>
+            </parameter>
+
+        </parameters>
+    </widget>
+</widgets>

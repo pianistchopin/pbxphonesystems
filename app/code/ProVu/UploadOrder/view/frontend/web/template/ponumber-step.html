@@ -1,0 +1,23 @@
+<!--The 'step_code' value from the .js file should be used-->
+<li id="assignee_step_code" data-bind="fadeVisible: isVisible">
+    <div class="step-title" data-bind="i18n: 'Purchase Order Number'" data-role="title"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content">
+        <div>
+            <form id="formPonumber" name="formPonumber" method="post" style="margin-top: 20px;">
+                <p>Please input your purchase order number</p>
+                <input name="ponumber" id="ponumber"  type="text" />
+            </form>
+        </div>
+        <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+            <div class="actions-toolbar">
+                <div class="primary" style="margin-top: 20px;">
+                    <button data-role="opc-continue" type="submit" class="button action continue primary" id="ponumber_save_submit">
+                        <span><!-- ko i18n: 'Next'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>

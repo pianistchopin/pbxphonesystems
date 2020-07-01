@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceBlock name="product.info.details">
+			<block class="Magento\Catalog\Block\Product\View" name="deliveryinfo.tab" as="deliveryinfo" template="product/view/feature.phtml" group="detailed_info">
+				<arguments>
+					<argument translate="true" name="title" xsi:type="string">Features</argument>
+				</arguments>
+			</block>
+			<block class="Magento\Catalog\Block\Product\View" name="support.tab" as="supportinfo" template="product/view/support.phtml" group="detailed_info">
+				<arguments>
+					<argument translate="true" name="title" xsi:type="string">Support Downloads</argument>
+				</arguments>
+			</block>
+        </referenceBlock>
+	</body>
+</page>

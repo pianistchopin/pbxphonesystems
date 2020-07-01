@@ -1,0 +1,12 @@
+body.checkout-index-index .minicart-wrapper .action.showcart::before {
+	display: none!important;
+}
+body, body .page-wrapper {
+	font-family: "Heebo",sans-serif !important;
+}
+@media(min-width: 1440px) {
+	.catalog-product-view .page-wrapper > .breadcrumbs {
+		max-width: 1440px !important;
+		margin: 0 auto;
+	}
+}

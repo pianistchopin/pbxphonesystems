@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://venustheme.com/license
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Testimonial
+ * @copyright  Copyright (c) 2016 Landofcoder (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="vesalltab" translate="label" sortOrder="500">
+            <label><![CDATA[Venus - <a href="http://venustheme.com" title="Venustheme.com - Premium Magento Template Club">Venustheme.com</a>]]></label>
+        </tab>
+        <section id="testimonial" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Testimonial</label>
+            <tab>vesalltab</tab>
+            <resource>Ves_Testimonial::config_testimonial</resource>
+            <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="dateformat" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Date Format</label>
+                    <source_model>Ves\Testimonial\Model\Config\Source\DateFormat</source_model>
+                    <comment><![CDATA[Full: Tuesday, April 12, 1952 AD or 3:30:42pm PST<br/>LONG: January 12, 1952 or 3:30:32pm<br/>MEDIUM: Jan 12, 1952<br/>SHORT: 12/13/52 or 3:30pm]]></comment>
+                </field>
+                <field id="recaptcha_heading" translate="label comment" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>reCaptcha Settings</label>
+                    <frontend_model>Ves\Testimonial\Block\Adminhtml\System\Config\Form\Field\Heading1</frontend_model>
+                </field>
+                <field id="enable_retcaptcha" translate="label comment" type="select" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="recaptcha_site_key" translate="label comment" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>reCaptcha Site Key</label>
+                </field>
+                <field id="recaptcha_secret_key" translate="label comment" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>reCaptcha Secrect Key</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

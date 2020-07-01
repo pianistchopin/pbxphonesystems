@@ -1,0 +1,43 @@
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_basemagento" class="Ves\BaseWidget\Block\Widget\Basemagento">
+        <label translate="true">Ves Base: Core Magento Blocks</label>
+        <description>Generate Magento Blocks: top.links, breadcrumbs, wishlist_sidebar, form.subscribe, top.search, catalog.compare.sidebar, footer_links, copyright, category.products</description>
+        <parameters>
+            <parameter name="block_name" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCoreBlocks">
+                <label translate="true">Block Name</label>
+                <description translate="true">Choose a block to render.</description>
+            </parameter>
+            <parameter name="custom_block_name" xsi:type="text" visible="true">
+                <label translate="true">Or Input Block Name</label>
+                <description translate="true">Input a block name to render.</description>
+            </parameter>
+            <parameter name="custom_template" xsi:type="text" visible="true">
+                <label translate="true">Custom Template</label>
+                <description translate="true">Load Custom Template For The Block. For example: html/topmenu.phtml Empty for default.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

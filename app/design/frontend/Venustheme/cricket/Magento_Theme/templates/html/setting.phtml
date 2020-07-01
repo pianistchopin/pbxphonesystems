@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+$currency_custom = $this->getChildHtml('currency_custom');
+$store_language_custom = $this->getChildHtml('store_language_custom');
+
+if($currency_custom || $store_language_custom): 
+
+$id = $block->getIdModifier() ? '-' . $block->getIdModifier() : '';
+?>
+
+<div class="setting-links setting-language" id="language-links<?php echo $id?>">
+    <div class="actions dropdown options setting-links-options">
+        <div class="action toggle switcher-trigger" id="language-links-trigger<?php echo $id?>">
+            <strong><?php echo __('Language') ?></strong>
+        </div>
+
+        <ul class="dropdown setting-links-dropdown" data-mage-init='{"dropdownDialog":{
+        "appendTo":"#language-links<?php echo $id?> > .options",
+        "triggerTarget":"#language-links-trigger<?php echo $id?>",
+        "closeOnMouseLeave": false,
+        "triggerClass":"active",
+        "parentClass":"active",
+        "buttons":null}}'>
+            <?php if($store_language_custom): ?>
+            <li class="switcher-language-wrapper">
+                <?php echo $this->getChildHtml('store_language_custom') ?>
+            </li>
+            <?php endif; ?>
+        </ul>
+        
+    </div>
+</div>    
+
+<div class="setting-links" id="currency-links<?php echo $id?>">
+    <div class="actions dropdown options setting-links-options">
+        <div class="action toggle switcher-trigger" id="currency-links-trigger<?php echo $id?>">
+            <strong><?php echo __('Currency') ?></strong>
+        </div>
+
+        <ul class="dropdown setting-links-dropdown" data-mage-init='{"dropdownDialog":{
+        "appendTo":"#currency-links<?php echo $id?> > .options",
+        "triggerTarget":"#currency-links-trigger<?php echo $id?>",
+        "closeOnMouseLeave": false,
+        "triggerClass":"active",
+        "parentClass":"active",
+        "buttons":null}}'>
+            <?php if($currency_custom): ?>
+            <li class="switcher-currency-wrapper">
+                <?php echo $this->getChildHtml('currency_custom') ?>
+            </li>
+            <?php endif; ?>
+        </ul>
+        
+    </div>
+</div>
+<?php endif; ?>
+
+
+

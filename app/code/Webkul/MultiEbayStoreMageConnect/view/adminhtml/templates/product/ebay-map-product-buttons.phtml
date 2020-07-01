@@ -1,0 +1,24 @@
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+ <?php if ($block->getConfigValue('multiebaystoremageconnect/import_status/product_import_enable')) { ?>
+	 <div class="page-main-actions">
+		 <div class='wk-product-import-buttons'>
+			 <button id="wk-import-product" title="Save Ebay mapping" type="button" class="button wk-import-product primary">
+				 <span class="button">
+					 <span><?php echo __('Import Product From eBay'); ?></span>
+				 </span>
+			 </button>
+			 <button id="wk-run-profiler" title="Save Ebay mapping" type="button" class="button wk-run-profiler primary">
+				 <span class="button">
+					 <span><?php echo __('Run Profiler'); ?></span>
+				 </span>
+			 </button>
+		 </div>
+	 </div>
+ <?php } ?>

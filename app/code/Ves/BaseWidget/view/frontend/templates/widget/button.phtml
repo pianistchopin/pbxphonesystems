@@ -1,0 +1,61 @@
+<?php
+$helper         = $this->helper('Ves\BaseWidget\Helper\Data');
+$widget_heading = $this->getConfig('title');	
+$addition_cls   = $this->getConfig('addition_cls');
+$stylecls       =  $this->getConfig('stylecls');
+$button_title   = $this->getConfig('button_title');	
+$href           = $this->getConfig('href');
+if ($href && !preg_match("/^http\:\/\/|https\:\/\//", $href) && $href != "#" && (strpos($href, "javascript") !== false)) {
+	$href = str_replace(" ", "+", $href);
+	$href = base64_decode($href);
+
+	if($href && (null !== strpos($href, "{{"))) {
+		$href = $this->getDataFilterHelper()->filter($href);
+	}
+}
+$icon           = $this->getConfig('icon');
+$size           = $this->getConfig('size');
+$color_button   =  $this->getConfig('color_button');
+$button_classes  = explode("-", $color_button);
+$button_classes[0] = "action";
+$button_classes_str = implode(" ", $button_classes);
+$el_class       = $this->getConfig('el_class');
+//$color_button   = '';
+$content_html   = $this->getConfig('html');
+$content_html   = str_replace(" ", "+", $content_html);
+$content_html   = base64_decode($content_html);
+$content_html   = $this->getDataFilterHelper()->filter($content_html);
+$custom_size 	= '';
+switch ($size) {
+	case 'small':
+		$custom_size 	= 'btn-xs';
+		break;
+	case 'medium':
+		$custom_size 	= 'btn-sm';
+		break;
+	case 'larger':
+	case 'tall':
+		$custom_size 	= 'btn-lg';
+		break;
+	default:
+		# code...
+		break;
+}
+?>
+<?php if ($href): ?>
+	<div class="ves-widget widget-button block <?php echo $addition_cls; ?> <?php if (isset($stylecls)&&$stylecls) echo 'block-'.$stylecls;?>">
+		<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+			<div class="block-title">
+				<?php echo $widget_heading; ?>
+			</div>
+		<?php endif; ?>
+		<div class="widget-inner block-content">
+			<?php if ($button_title) { ?>
+			<a href="<?php echo $href; ?>" class="btn <?php echo $color_button." ".$el_class." ".$size." ".$custom_size. " ".$button_classes_str;?>" title="<?php echo $button_title;?>"<?php echo $content_html?(' '.$content_html):'';?>>
+				<i class="<?php echo $icon; ?>"></i>
+				<?php echo $button_title; ?>
+			</a>
+			<?php } ?>
+		</div>
+	</div>
+<?php endif; ?>

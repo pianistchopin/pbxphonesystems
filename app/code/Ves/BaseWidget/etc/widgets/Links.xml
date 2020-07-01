@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_links" class="Ves\BaseWidget\Block\Widget\Links">
+		<label translate="true">Ves Base: Links</label>
+		<description translate="true">Block Links Widget</description>
+		<parameters>
+
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+			</parameter>
+
+			<parameter name="addition_cls" xsi:type="text" visible="true">
+				<label translate="true">Addition Class</label>
+				<description translate="true">This class is used to make owner style for the widget.</description>
+			</parameter>
+
+			<parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+				<label translate="true">Widget Box Style</label>
+				<description translate="true">These classes are bootstrap typo contextual color classes</description>
+			</parameter>
+
+			<parameter name="ul_cls" xsi:type="text" visible="true">
+				<label translate="true">UL Class</label>
+				<description translate="true">This class is used for wrapper of list links (ul tag).</description>
+			</parameter>
+
+
+			<parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Collapse</label>
+
+			</parameter>
+
+			<parameter name="text_link_1" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 1</label>
+			</parameter>
+
+			<parameter name="link_1" xsi:type="text"  visible="true">
+				<label translate="true">Link 1</label>
+				<description translate="true">Input link url 1.</description>
+			</parameter>
+
+			<parameter name="link_icon_1" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 1</label>
+				<description translate="true">Enter Font Icon Class For Link 1.</description>
+			</parameter>
+
+			<parameter name="link_target_1" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 1</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_2" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 2</label>
+			</parameter>
+
+			<parameter name="link_2" xsi:type="text"  visible="true">
+				<label translate="true">Link 2</label>
+				<description translate="true">Input link url 2.</description>
+			</parameter>
+
+			<parameter name="link_icon_2" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 2</label>
+				<description translate="true">Enter Font Icon Class For Link 2.</description>
+			</parameter>
+
+			<parameter name="link_target_2" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 2</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_3" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 3</label>
+			</parameter>
+
+			<parameter name="link_3" xsi:type="text"  visible="true">
+				<label translate="true">Link 3</label>
+				<description translate="true">Input link url 3.</description>
+			</parameter>
+
+			<parameter name="link_icon_3" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 3</label>
+				<description translate="true">Enter Font Icon Class For Link 3.</description>
+			</parameter>
+
+			<parameter name="link_target_3" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 3</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_4" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 4</label>
+			</parameter>
+
+			<parameter name="link_4" xsi:type="text"  visible="true">
+				<label translate="true">Link 4</label>
+				<description translate="true">Input link url 4.</description>
+			</parameter>
+
+			<parameter name="link_icon_4" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 4</label>
+				<description translate="true">Enter Font Icon Class For Link 4.</description>
+			</parameter>
+
+			<parameter name="link_target_4" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 4</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_5" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 5</label>
+			</parameter>
+
+			<parameter name="link_5" xsi:type="text"  visible="true">
+				<label translate="true">Link 5</label>
+				<description translate="true">Input link url 5.</description>
+			</parameter>
+
+			<parameter name="link_icon_5" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 5</label>
+				<description translate="true">Enter Font Icon Class For Link 5.</description>
+			</parameter>
+
+			<parameter name="link_target_5" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 5</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_6" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 6</label>
+			</parameter>
+
+			<parameter name="link_6" xsi:type="text"  visible="true">
+				<label translate="true">Link 6</label>
+				<description translate="true">Input link url 6.</description>
+			</parameter>
+
+			<parameter name="link_icon_6" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 6</label>
+				<description translate="true">Enter Font Icon Class For Link 6.</description>
+			</parameter>
+
+			<parameter name="link_target_6" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 6</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+
+			<parameter name="text_link_7" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 7</label>
+			</parameter>
+
+			<parameter name="link_7" xsi:type="text"  visible="true">
+				<label translate="true">Link 7</label>
+				<description translate="true">Input link url 7.</description>
+			</parameter>
+
+			<parameter name="link_icon_7" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 7</label>
+				<description translate="true">Enter Font Icon Class For Link 7.</description>
+			</parameter>
+
+			<parameter name="link_target_7" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 7</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_8" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 8</label>
+			</parameter>
+
+			<parameter name="link_8" xsi:type="text"  visible="true">
+				<label translate="true">Link 8</label>
+				<description translate="true">Input link url 8.</description>
+			</parameter>
+
+			<parameter name="link_icon_8" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 8</label>
+				<description translate="true">Enter Font Icon Class For Link 8.</description>
+			</parameter>
+
+			<parameter name="link_target_8" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 8</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_9" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 9</label>
+			</parameter>
+
+			<parameter name="link_9" xsi:type="text"  visible="true">
+				<label translate="true">Link 9</label>
+				<description translate="true">Input link url 9.</description>
+			</parameter>
+
+			<parameter name="link_icon_9" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 9</label>
+				<description translate="true">Enter Font Icon Class For Link 9.</description>
+			</parameter>
+
+			<parameter name="link_target_9" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 9</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_10" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 10</label>
+			</parameter>
+
+			<parameter name="link_10" xsi:type="text"  visible="true">
+				<label translate="true">Link 1</label>
+				<description translate="true">Input link url 10.</description>
+			</parameter>
+
+			<parameter name="link_icon_10" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 1</label>
+				<description translate="true">Enter Font Icon Class For Link 10.</description>
+			</parameter>
+
+			<parameter name="link_target_10" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 10</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_11" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 11</label>
+			</parameter>
+
+			<parameter name="link_11" xsi:type="text"  visible="true">
+				<label translate="true">Link 11</label>
+				<description translate="true">Input link url 11.</description>
+			</parameter>
+
+			<parameter name="link_icon_11" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 11</label>
+				<description translate="true">Enter Font Icon Class For Link 11.</description>
+			</parameter>
+
+			<parameter name="link_target_11" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 11</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_12" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 12</label>
+			</parameter>
+
+			<parameter name="link_12" xsi:type="text"  visible="true">
+				<label translate="true">Link 12</label>
+				<description translate="true">Input link url 12.</description>
+			</parameter>
+
+			<parameter name="link_icon_12" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 12</label>
+				<description translate="true">Enter Font Icon Class For Link 12.</description>
+			</parameter>
+
+			<parameter name="link_target_12" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 12</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_13" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 13</label>
+			</parameter>
+
+			<parameter name="link_13" xsi:type="text"  visible="true">
+				<label translate="true">Link 13</label>
+				<description translate="true">Input link url 13.</description>
+			</parameter>
+
+			<parameter name="link_icon_13" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 13</label>
+				<description translate="true">Enter Font Icon Class For Link 13.</description>
+			</parameter>
+
+			<parameter name="link_target_13" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 13</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_14" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 14</label>
+			</parameter>
+
+			<parameter name="link_14" xsi:type="text"  visible="true">
+				<label translate="true">Link 14</label>
+				<description translate="true">Input link url 14.</description>
+			</parameter>
+
+			<parameter name="link_icon_14" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 14</label>
+				<description translate="true">Enter Font Icon Class For Link 14.</description>
+			</parameter>
+
+			<parameter name="link_target_14" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 14</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_15" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 15</label>
+			</parameter>
+
+			<parameter name="link_15" xsi:type="text"  visible="true">
+				<label translate="true">Link 15</label>
+				<description translate="true">Input link url 15.</description>
+			</parameter>
+
+			<parameter name="link_icon_15" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 1</label>
+				<description translate="true">Enter Font Icon Class For Link 15.</description>
+			</parameter>
+
+			<parameter name="link_target_15" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 15</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+			<parameter name="text_link_16" xsi:type="text"  visible="true">
+				<label translate="true">Text Link 16</label>
+			</parameter>
+
+			<parameter name="link_16" xsi:type="text"  visible="true">
+				<label translate="true">Link 16</label>
+				<description translate="true">Input link url 16.</description>
+			</parameter>
+
+			<parameter name="link_icon_16" xsi:type="text"  visible="true">
+				<label translate="true">Link Icon 16</label>
+				<description translate="true">Enter Font Icon Class For Link 16.</description>
+			</parameter>
+
+			<parameter name="link_target_16" xsi:type="select"  visible="true">
+				<label translate="true">Link Target 16</label>
+				<options>
+					<option name="self" value="_self" selected="true">
+						<label translate="true">Load in the same frame as it was clicked</label>
+					</option>
+					<option name="blank" value="_blank">
+						<label translate="true">Load in a new window</label>
+					</option>
+					<option name="parent" value="_parent">
+						<label translate="true">Load in the parent frameset</label>
+					</option>
+					<option name="top" value="_top">
+						<label translate="true">Load in the full body of the window</label>
+					</option>
+				</options>
+			</parameter>
+
+		</parameters>
+	</widget>
+</widgets>

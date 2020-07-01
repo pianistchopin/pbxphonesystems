@@ -1,0 +1,27 @@
+<?php
+    /**
+     * @category   Webkul
+     * @package    Webkul_MultiEbayStoreMageConnect
+     * @author     Webkul Software Private Limited
+     * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+     * @license    https://store.webkul.com/license.html
+     */
+    $ebayHelper = $this->helper('Webkul\MultiEbayStoreMageConnect\Helper\Data');
+    $ebayConfig = $ebayHelper->geteBayConfiguration();
+    $ruleId = $block->getRequest()->getParam('id');
+	$releventData = [
+		'sessionUrl' => $this->getUrl('multiebaystoremageconnect/ebayaccount/generateebaysession'),
+        'ruleId'	 => $ruleId,
+        'auth_url'   =>  $ebayConfig['auth_url']
+	];
+
+	$serializedData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($releventData);
+
+?>
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "Webkul_MultiEbayStoreMageConnect/js/authorize-ebay-user":<?php echo $serializedData ?>
+        }
+    }
+</script>

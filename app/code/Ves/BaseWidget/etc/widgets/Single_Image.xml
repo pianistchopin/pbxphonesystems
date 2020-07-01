@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_singleimage" class="Ves\BaseWidget\Block\Widget\Image">
+		<label translate="true">Ves Base: Single Image</label>
+		<description translate="true">Generate Single Image</description>
+		<parameters>
+			<parameter name="title" xsi:type="text" visible="true" >
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+			</parameter>
+			<parameter name="addition_cls" xsi:type="text"  visible="true" >
+				<label translate="true">Addition Class</label>
+				<description translate="true">This class is used to make owner style for the widget.</description>
+			</parameter>
+			<parameter name="heading_class" xsi:type="text"  visible="true" >
+				<label translate="true">Widget Title Class</label>
+				<description translate="true">Input css class for widget heading title.</description>
+			</parameter>
+			<parameter name="contentclass" xsi:type="text"  visible="true" >
+				<label translate="true">Description Class</label>
+				<description translate="true">Input css class for widget content.</description>
+			</parameter>
+
+			<parameter name="custom_image_class" xsi:type="text"  visible="true" >
+				<label translate="true">Custom Css Class For Image</label>
+				<description translate="true">Input css class for image tag.</description>
+			</parameter>
+			
+			<parameter name="file" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Image File</label>
+				<description translate="true"><![CDATA[Enter image path or use holder image (ex: <strong>holder.js/300x200</strong>). 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+			</parameter>
+			
+			<parameter name="image_size" xsi:type="text"  visible="true" >
+				<label translate="true">Image size</label>
+				<description translate="true"><![CDATA[Enter image size. Example: thumbnail, medium, large, full or other sizes defined by current theme. Alternatively enter image size in pixels: 200x100 (Width x Height). Leave empty to use 'thumbnail' size.]]></description>
+			</parameter>
+			<parameter name="alignment" xsi:type="select"  visible="true"  >
+				<label translate="true">Image Alignment</label>
+				<options>
+                    <option name="align_left" value="left" selected="true">
+                        <label translate="true">Align Left</label>
+                    </option>
+                    <option name="align_right" value="right">
+                        <label translate="true">Align Right</label>
+                    </option>
+                    <option name="align_center" value="center">
+                        <label translate="true">Align Center</label>
+                    </option>
+                </options>
+			</parameter>
+			<parameter name="image_style" xsi:type="select"  visible="true"  >
+				<label translate="true">Image Style</label>
+				<options>
+					<option name="default" value="" selected="true">
+                        <label translate="true">Default</label>
+                    </option>
+                    <option name="img-rounded" value="img-rounded">
+                        <label translate="true">Rounded</label>
+                    </option>
+                    <option name="img-circle" value="img-circle">
+                        <label translate="true">Circle</label>
+                    </option>
+                    <option name="img-thumbnail" value="img-thumbnail">
+                        <label translate="true">Thumbnail</label>
+                    </option>
+                </options>
+			</parameter>
+			<parameter name="alt" xsi:type="text"  visible="true">
+				<label translate="true">Image Alt Text</label>
+				<description translate="true">Input the text for alt attribute of image tag (it is for SEO optimizing)</description>
+			</parameter>
+
+			<parameter name="zoom_type" xsi:type="select"  visible="true">
+				<label translate="true">Uze Image Zoom</label>
+				<description translate="true">Enable image zoom when your image larger and you enable resize image (use image size)</description>
+				<options>
+                    <option name="disabled" value="0" selected="true">
+                        <label translate="true">Don't Use</label>
+                    </option>
+                    <option name="basic" value="basic">
+                        <label translate="true">Basic Zoom</label>
+                    </option>
+                    <option name="inner" value="inner">
+                        <label translate="true">Inner Zoom</label>
+                    </option>
+                    <option name="lens" value="lens">
+                        <label translate="true">Lens Zoom</label>
+                    </option>
+                </options>
+			</parameter>
+
+			<parameter name="lens_size" xsi:type="text"  visible="true">
+				<label translate="true">Zoom Lens Size</label>
+				<description translate="true">Input the zoom lens size (number value). Larger than: 100 . Default: 200</description>
+				<depends><parameter name="zoom_type" value="lens" /></depends>
+			</parameter>
+
+			<parameter name="show_description" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Image Description</label>
+			</parameter>
+			<parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+				<label translate="true">Image Description</label>
+			</parameter>
+			<parameter name="desc_position" xsi:type="select"  visible="true">
+				<label translate="true">Description Position</label>
+				<description translate="true">Choose position of description: top, bottom, left, right</description>
+				<options>
+                    <option name="top" value="top" selected="true">
+                        <label translate="true">Top</label>
+                    </option>
+                    <option name="bottom" value="bottom">
+                        <label translate="true">Bottom</label>
+                    </option>
+                    <option name="left" value="left">
+                        <label translate="true">Left</label>
+                    </option>
+                    <option name="right" value="right">
+                        <label translate="true">Right</label>
+                    </option>
+                </options>
+			</parameter>
+			<parameter name="popup" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+				<label translate="true">Enable Popup Image</label>
+			</parameter>
+
+			<parameter name="popup_type" xsi:type="select"  visible="true">
+				<label translate="true">Choose Popup Js</label>
+				<options>
+                    <option name="colorbox" value="colorbox" selected="true">
+                        <label translate="true">Colorbox Js</label>
+                    </option>
+                    <option name="fancybox" value="fancybox">
+                        <label translate="true">Fancybox Js</label>
+                    </option>
+                </options>
+			</parameter>
+			
+			<parameter name="link" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+				<label translate="true">Link</label>
+			</parameter>
+		</parameters>
+	</widget>
+</widgets>

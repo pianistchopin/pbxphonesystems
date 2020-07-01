@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceBlock name="page.main.title" template="Magento_Catalog::product/view/title.phtml"/>
+		<move element="page.main.title" destination="product.info.main" before="-"/>
+		<referenceContainer name="content.aside">
+			<block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" template="Magento_Catalog::product/list/items_carousel.phtml">
+				<arguments>
+					<argument name="type" xsi:type="string">related</argument>
+					<argument name="status" xsi:type="string">1</argument>
+					<argument name="replace" xsi:type="string">1</argument>
+				</arguments>
+			</block>
+			<block class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" template="Magento_Catalog::product/list/items_carousel.phtml">
+				<arguments>
+					<argument name="type" xsi:type="string">upsell</argument>
+					<argument name="status" xsi:type="string">1</argument>
+					<argument name="replace" xsi:type="string">1</argument>
+				</arguments>
+			</block>
+		</referenceContainer>
+		<referenceContainer name="product.info.main">
+			<block class="Ves\Themesettings\Block\Product\View" name="ves.product.info.main" template="Magento_Catalog::product/view/product_info_main.phtml"/>
+		</referenceContainer>
+		<move element="product.info.sku" as="product_info_sku" destination="ves.product.info.main"/>
+		<move element="product.info.review" as="product_info_review" destination="ves.product.info.main"/>
+		<move element="product.price.final" as="product_price_final" destination="ves.product.info.main"/>
+		<move element="product.price.tier" as="product_price_tier" destination="ves.product.info.main"/>
+		<move element="alert.urls" as="alert_urls" destination="ves.product.info.main"/>
+		<move element="product.info" as="product_info" destination="ves.product.info.main"/>
+		<move element="product.info.overview" as="product_info_overview" destination="ves.product.info.main"/>
+		<move element="require-cookie" as="require_cookie" destination="ves.product.info.main"/>
+		<move element="product.info.extrahint" as="product_info_extrahint" destination="ves.product.info.main"/>
+		<move element="product.info.type" as="product_info_type" destination="ves.product.info.main"/>
+		<container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint">
+            <container name="product.info.social" label="Product social links container" after="product.info.overview">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.categories" template="product/view/categories.phtml"/>
+            </container>
+        </container>
+	</body>
+</page>
+ 

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_PageBuilder
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="pagebuilder_listing_data_source" xsi:type="string">Ves\PageBuilder\Model\ResourceModel\Block\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<type name="Ves\PageBuilder\Model\ResourceModel\Block\Grid\Collection">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">ves_blockbuilder</argument>
+			<argument name="eventPrefix" xsi:type="string">ves_pagebuilder_grid_collection</argument>
+			<argument name="eventObject" xsi:type="string">pagebuilder_grid_collection</argument>
+			<argument name="resourceModel" xsi:type="string">Ves\PageBuilder\Model\ResourceModel\Block</argument>
+		</arguments>
+	</type>
+
+	<virtualType name="BlockbuilderGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+	<virtualType name="BlockbuilderGridDataProvider" type="Ves\PageBuilder\Ui\DataProvider\PageBuilder\BlockDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ves\PageBuilder\Model\ResourceModel\Block\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">BlockbuilderGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <!-- Page grid ui -->
+    <virtualType name="PagebuilderGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+	<virtualType name="PagebuilderGridDataProvider" type="Ves\PageBuilder\Ui\DataProvider\PageBuilder\PageDataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ves\PageBuilder\Model\ResourceModel\Block\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">PagebuilderGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+</config>

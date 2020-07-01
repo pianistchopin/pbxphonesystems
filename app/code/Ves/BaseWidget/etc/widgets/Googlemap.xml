@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_googlemap" class="Ves\BaseWidget\Block\Widget\Googlemap">
+		<label translate="true">Ves Base: Google Map</label>
+		<description translate="true">Create A Google Map</description>
+		<parameters>
+			<parameter name="google_api" xsi:type="text" visible="true">
+				<label translate="true">Google Map API</label>
+				<description translate="true"><![CDATA[Input your google map API Key. Read the guide to get the API key: <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_BLANK">Click Here</a><br/>For example our API Key: AIzaSyCFtkHGs5QxGd8CH2BJYgzWamomozzlctU]]></description>
+				<value>AIzaSyCFtkHGs5QxGd8CH2BJYgzWamomozzlctU</value>
+			</parameter>
+			<parameter name="latitude" xsi:type="text" visible="true">
+				<label translate="true">Latitude</label>
+				<description translate="true">Input Latitude. For example: 21.010904</description>
+			</parameter>
+
+			<parameter name="longitude" xsi:type="text" visible="true">
+				<label translate="true">Longitude</label>
+				<description translate="true">Input Longitude. For example: 105.787736</description>
+			</parameter>
+
+			<parameter name="zoom" xsi:type="text"  visible="true">
+				<label translate="true">Zoom</label>
+				<description translate="true">Input Zoom Value from 1-16</description>
+			</parameter>
+
+			<parameter name="width" xsi:type="text"  visible="true">
+				<label translate="true">Width</label>
+				<description translate="true">Input Map Width value. For example: 250px or 100%</description>
+			</parameter>
+
+			<parameter name="height" xsi:type="text"  visible="true">
+				<label translate="true">Height</label>
+				<description translate="true">Input Map Height value. For example: 200px or 100%</description>
+			</parameter>
+
+			<parameter name="description" xsi:type="text" visible="true">
+                <label translate="true">Description</label>
+            </parameter>
+
+            <parameter name="maker_icon" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+				<label translate="true">Maker Icon</label>
+				<description translate="true"><![CDATA[Input maker icon url. 
+					Or input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+			</parameter>
+
+		</parameters>
+	</widget>
+</widgets>

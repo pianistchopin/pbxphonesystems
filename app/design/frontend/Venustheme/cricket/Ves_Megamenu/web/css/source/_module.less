@@ -1,0 +1,436 @@
+// *****************************************************
+//  * @package Venus Theme Framework for Magento 2.x
+//  * @version 1.0
+//  * @author http://www.venustheme.com
+//  * @copyright Copyright (C) Augus 2015 VenusThemes.com <@email:venusthemes@gmail.com>.All rights reserved.
+//  * @license   GNU General Public License version 1
+// ******************************************************
+.navigation {
+	background: transparent!important;
+	border-top: 2px solid #333;
+	ul.ui-menu{padding: 0;}
+	ul > li, ol > li{margin-bottom: 0;}
+	.level0 {
+		margin: 0!important;
+		.level1.parent::before{top: 15px!important;}
+		> .level-top {
+			text-transform: uppercase;
+			padding: 0 28px!important;
+			line-height: 58px!important;
+		}
+		> .level1 {
+			&.parent {
+				position: relative; 
+				&:before {
+					position: absolute;
+					content: "\f105";
+					.size(20px, 20px);
+					right:0px;
+					top:10px;
+					font-family:"FontAwesome";
+				}
+			}
+		}
+		.submenu{
+			border: 1px solid #e6e6e6!important;
+			a{padding: 15px 20px!important;}
+		}
+	}
+	.ui-menu > li > a{
+		font-family: @font-headding-family;
+		color: @black!important;
+		font-weight: normal;
+		letter-spacing: 3px;
+	}
+	.ui-menu > li > a.level-top{font-size: @font-size-base + 2;}
+	.level0.active > .level-top, .level0.has-active > .level-top{
+		border: 0!important;
+		&::before{
+			content: "";
+			background: @theme-color-default;
+			position: absolute;
+			top: -2px;
+			left: 0;
+			width: 100%;
+			height: 2px;
+		}
+	}
+}
+
+.nav-toggle{
+	&::before{color: @white!important;}
+}
+
+/* Ves Megamenu */
+.ves-menutop{
+	position: relative;
+	.ves-megamenu{
+		background: transparent;
+		margin-bottom: 0;
+		p{margin: 0;}
+		.megamenu-header .links li, .megamenu-footer .links li{display: inline-block; padding: 0 5px;}
+		.cat-label.pin-top{top: -10px;}
+		.cat-label{font-family: @font-body-family; font-size: 11px; .border-radius(2px); font-weight: 500; line-height: 13px;}
+		&.menu-hover li .dropdown-menu{min-width: 230px;}
+		li.level0{
+			.rtl-float-left();
+			.rtl-border-right(rgba(0, 0, 0, 0.2));
+			> a{
+				font-family: @font-menu-family;
+				font-size: @font-size-base;
+				font-weight: 600;
+				letter-spacing: 1px;
+				color: @white; 
+				line-height: 62px;
+				padding: 0 35px;
+				position: relative;
+				&::after{
+					content: "";
+					background: @theme-color-default;
+					width: 0;
+					height: 3px;
+					position: absolute;
+					left: 0;
+					right: 0;
+					margin: auto;
+					bottom: 0;
+					.opacity(0);
+					.transition(all 0.3s ease 0s);
+				}
+				&.fa{font-family: @font-icon-family;}
+				i{font-size: 20px;}
+			}
+			&:last-child{border: 0!important;}
+			&.active, &:hover{
+				> a{
+					background: none;
+					color: @theme-color-default;
+					&::after{
+						.opacity(1);
+						width: 100%;
+					}
+				}
+			}
+		}
+		.nav-item.level1 .dropdown-menu{left: auto; top: 98%;}
+		.megamenu-widget{
+			.block-title{
+				margin-bottom: 15px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid @border-color__base;
+				color: #222;
+				font-size: 20px;
+				*{font-weight: 400; font-size: 20px;}
+			}
+			.block-content{padding: 0;}
+		}
+		.products-widget{
+			position: relative;
+			.owl-carousel{max-width: 100%!important;}
+			.owl-nav{
+				position: absolute;
+				.rtl-right(0);
+				top: 0;
+				width: 40px;
+				a{
+					float: left;
+					width: 20px;
+					cursor: pointer;
+					border: 1px solid transparent;
+					padding: 0;
+					text-align: center;
+					.transition(all 0.3s ease 0s);
+					&:hover{color: @theme-color-default; border-color: @theme-color-default;}
+				}
+			}
+			.product-item{
+				.rtl-border-right(@border-color__base);
+				&:last-child{border: 0!important;}
+			}
+		}
+		.dynamic-items li{padding: 15px 0;}
+		.dynamic-items li a{position: relative; font-weight: 400;}
+		.dynamic-item .products-widget{padding: 3px 3px 0;}
+		.dropdown-menu{
+			padding: 20px;
+			font-size: @font-size-base;
+			border-radius: 0;
+			.rtl-text-align-left();
+			.box-shadow(0 3px 8px rgba(0, 0, 0, 0.1));
+			.transition(all 0.3s ease 0s);
+			.megamenu-header{
+				border-bottom: 0;
+				margin-bottom: 0;
+				margin-top: 10px;
+			}
+			.subgroup.level1 > a{ 
+				color: #222;
+				font-size: 20px;
+				margin-bottom: 5px;
+				text-transform: none;
+			}
+			a:hover, .subgroup .subgroup .dropdown-mega a:hover{color: @theme-color-default;}
+			.owl-carousel .owl-stage-outer{padding: 3px 3px 0;}
+			.nav-item > a{
+				color: #555;
+				line-height: 28px;
+				font-weight: 400;
+				position: relative;
+				.transition(all 0.2s ease 0s);
+				.caret{
+					.rtl-right(-10px);
+					&::after{position: static; font-size: 15px; line-height: 15px;}
+				}
+				&:hover{color: @theme-color-default; .rtl-padding-left(2px); text-decoration: underline;}
+			}
+			.subgroup{
+				.megamenu-footer{
+					padding: 0;
+					background: none;
+					margin-top: 8px;
+				}
+			}
+		}
+		.dropdown:hover > .dropdown-menu{.transition(all 0.3s ease 0s);}
+		.caret{
+			border: 0;
+			width: 6px;
+			top: 0!important;
+			.rtl-right(5px);
+			&::after{
+				content: "\f2f2";
+				font-family: @font-icon-family-second;
+				position: absolute;
+				top: 0;
+				font-size: @font-size-base - 2;
+				.rtl-right(17px);
+			}
+		}
+	}
+	.ves-megamenu.nav-mobile{
+		padding: 0 10px;
+		.opener{
+			padding: 18px 15px;
+			.rtl-right(-8px);
+			&::before{
+				content: "\f107";
+			}
+			&.item-active:before{content: "\f106";}
+		}
+		.dropdown-menu{
+			background: none;
+			padding: 10px;
+			.nav-item > a{
+				padding: 6px 0;
+				&:hover{text-decoration: none;}
+			}
+			.subgroup.level1 > a{font-size: 16px;}
+			.opener{padding: 12px 10px;}
+			*{color: @white;}
+			.products-widget{
+				.product-item{border: 0!important;}
+				.product-item-info{background: none;}
+			}
+		}
+		li.active .submenu{background: none!important;}
+		li{
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			&.level0{
+				margin: 0;
+				border-left: 0!important;
+				border-right: 0!important;
+				> a{padding: 0 5px!important; line-height: 50px; font-weight: 600; text-transform: uppercase;}
+			}
+		}
+		.product-block .product-item-details .price-box .price{color: @white;}
+	}
+}
+
+/* Ves Vertical Menu */
+.vertical-menu{
+	background: #222;
+	position: relative;
+	margin-top: 8px;
+	.rtl-margin-right(14px);
+	> p{margin: 0;}
+	.block.ves-menu{
+		margin-bottom: 0;
+		background: none;
+		.block-title{
+			min-height: 44px; 
+			line-height: 44px;
+			padding: 0 20px;
+			margin: 0;
+			text-align: center!important;
+			strong{
+				&::before, &::after{
+					font-family: @font-icon-family;
+				    font-weight: normal;
+				    position: absolute;
+				}
+				&::before{
+					content: "\f0c9";
+					top: -2px;
+					color: @white;
+					font-size: 14px;
+					.rtl-left(25px);
+				}
+				&::after {
+				    color: #dd3e19;
+				    content: "\f107";
+				    .rtl-right(8%);
+				    top: -2px;
+				    font-size: 12px;
+				}
+			}
+			*{color: @white; font-size: @font-size-base + 1; font-weight: 400;}
+		}
+	}
+	.ves-vertical{
+		background: @white;
+		border: 1px solid @border-color__base;
+		display: none;
+		position: absolute;
+		z-index: 100;
+		padding: 0;
+		.icon-left{.rtl-margin-right(15px);}
+		li.level0{
+			.rtl-float-left();
+			width: 100%;
+			border-bottom: 1px solid @border-color__base;
+			> a{
+				background: none;
+				font-size: @font-size-base;
+				font-weight: 300;
+				color: #666!important;
+				width: 100%;
+				line-height: normal;
+				text-transform: none;
+				border: 0;
+				padding: 15px;
+			  	.caret{
+					position: absolute;
+					.rtl-right(5px);
+					top: 50%;
+					line-height: 50px;
+					border-top-color: #ccc;
+					display: block;
+				}
+			}
+			&.active > a{color: @theme-color-default!important;}
+			&:hover > a{
+				color: @theme-color-default!important;
+				transition: all 0.3s;
+			}
+		}
+		li.dropdown{position: relative!important;}
+		.dynamic-items li{padding: 20px 0;}
+		.dropdown-menu{
+			border: 1px solid @border-color__base;
+			border-radius: 0;
+			.transition(opacity 0.3s ease 0s);
+    		.box-shadow(4px 2px 6px rgba(0, 0, 0, 0.2));
+		}
+		.dropdown:hover > .dropdown-menu{
+			.transition(opacity 0.3s ease 0s);
+		}
+	}
+	&:hover{
+		.ves-vertical{display: block;}
+	}
+}
+
+.ves-vertical.menu-click{
+	min-width: 100px;
+	margin-bottom: 0;
+	.nav-item{
+		.opener{
+			padding: 0;
+			line-height: 30px;
+			.rtl-right(0);
+			top: 8px;
+			&::before{
+				content: "\f107";
+				font-size: 12px;
+			}
+			&.item-active:before{content: "\f106";}
+		}
+		.dropdown-menu{
+			display: none; 
+			max-width:100% !important; 
+			min-width:100% !important;
+			.opacity(1);
+			visibility: visible;
+			position: static;
+			padding: 0;
+			.nav-item{
+				line-height: 20px;
+				> a{
+					line-height: 30px;
+					font-size: @font-size-base;
+					font-weight: 500;
+					padding: 0;
+					.rtl-float-left();
+					width: 100%;
+					.transition(opacity 0.3s ease 0s);
+					.opener{top: 0; padding: 0;}
+					&:hover{
+						&::before{
+							content: "\f111";
+							font-family: @font-icon-family;
+							font-size: 4px;
+							color: @theme-color-default;
+							position: absolute;
+							.rtl-left(-5px);
+							top: 0;
+						}
+					}
+				}
+			}
+			.dropdown-submenu{.rtl-padding-left(5px);}
+		} 
+		&.level0{
+			border-bottom: 1px solid @border-color__base;
+			> a{
+				text-transform: none;
+				border: 0;
+				color: #333;
+				font-weight: 500;
+				padding: 0 6px;
+				&::before{
+					content: "\f16c";
+					font-family: @font-icon-family-second;
+					.rtl-padding-right(10px);
+					color: #888;
+					.rtl-float-left();
+				}
+			}
+			&:last-child{border-bottom: 0;}
+			&.active{
+				.opener{
+					&::before{content: "\f106";}
+					&.item-active:before{content: "\f107";}
+				}
+				.dropdown-menu{display: block; background: @white!important;}
+			}
+			&.active, &:hover, &:focus{
+				a{color: #333;}
+				> a{background: none;}
+			}
+			> .dropdown-menu{padding: 0 20px 15px;}
+		}
+	}
+	li{
+		.clearfix();
+		line-height: 36px;
+		&.level0 > a > span:not(.caret):not(.opener){float: none !important;}
+		a{
+			font-size: @font-size-base + 1;
+		}
+	}
+	.dropdown-menu .subgroup.level1 .dropdown-mega{display: none;} 
+}
+
+.ves-megamenu.ves-horizontal{
+	.icon-left{.rtl-margin-right(10px);}
+}

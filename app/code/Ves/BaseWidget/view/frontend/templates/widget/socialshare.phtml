@@ -1,0 +1,135 @@
+<?php
+	$modid = rand().time();
+	
+	$enable_collapse = $this->getConfig("enable_collapse", 0);
+	$enable_facebook = $this->getConfig("enable_facebook", 1);
+	$enable_twitter = $this->getConfig("enable_twitter", 1);
+	$enable_googleplus = $this->getConfig("enable_googleplus", 1);
+	$enable_linkedin = $this->getConfig("enable_linkedin", 1);
+	$enable_pinterest = $this->getConfig("enable_pinterest", 1);
+	$enable_onlyicon = $this->getConfig("enable_onlyicon", 1);
+
+	$app_id = $this->getConfig("fb_app_id", "579922788744604");
+
+	$is_product_share = $this->getConfig("is_product_share", 0);
+	$_config_productName = $this->getConfig("item_title", "");
+	$_config_productName = trim($_config_productName);
+	$_config_productImageUrl = $this->getConfig("item_image", "");
+	$_config_productImageUrl = trim($_config_productImageUrl);
+	$_config_productUrl = $this->getConfig("item_url", "");
+	$_config_productUrl = trim($_config_productUrl);
+	$_config_productSammary = $this->getConfig("item_desciption", "");
+	$_config_productSammary = trim($_config_productSammary);
+	$_config_sourceName =  $this->getStoreName();
+	$_config_sourceName = trim($_config_sourceName);
+
+	$_productName = "";
+	$_productImageUrl = "";
+	$_productUrl = "";
+	$_productSammary = "";
+	$_sourceName = "";
+
+	$_helper = $this->helper('Magento\Catalog\Helper\Output');
+	if($is_product_share) {
+		$_product = $this->getProduct();
+		$_productName = trim($_helper->productAttribute($_product, $_product->getName(), 'name'));
+
+		//Product image
+		//$image = 'category_page_grid' or 'category_page_list';
+		$image = 'category_page_grid';
+		$_imagehelper = $this->helper('Magento\Catalog\Helper\Image');
+		$productImage = $_imagehelper->init($_product, $image)->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(400)->getUrl();
+		$_productImageUrl = trim($productImage);
+		$_productUrl = trim($_product->getProductUrl());
+		$_productSammary = $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description');
+	}
+
+	if($_config_productName) {
+		$_productName = $_config_productName;
+	}
+
+	if($_config_productImageUrl) {
+		$_productImageUrl = $_config_productImageUrl;
+	}
+
+	if($_config_productUrl) {
+		$_productUrl = $_config_productUrl;
+	}
+
+	if($_config_productSammary) {
+		$_productSammary = $_config_productSammary;
+	}
+
+	if($_config_sourceName) {
+		$_sourceName = $_config_sourceName;
+	}
+
+	if(!$_productUrl) {
+		$_productUrl = $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+	}
+	$_productName = urlencode(trim($_productName));
+	$_productImageUrl = urlencode(trim($_productImageUrl));
+	$_productUrl = urlencode(trim($_productUrl));
+	$_productSammary = urlencode(trim($_productSammary));
+	$_sourceName = urlencode(trim($_sourceName));
+	
+?>
+<div class="ves-widget widget-socialshare block">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+		<?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-socialshare<?php echo $modid; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<?php endif; ?>
+	<div id="widget-socialshare<?php echo $modid; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+
+		<ul class="social-sharing-links">
+		    <?php if($enable_facebook): ?>
+		    <li>
+		        <?php $_u = 'href=' . $_productUrl . '&picture=' . $_productImageUrl . '&title=' . $_productName . '&description=' . $_productSammary; ?>
+		        <a href="<?php echo 'https://www.facebook.com/dialog/share?app_id='.$app_id.'&display=popup&' . $_u; ?>" target="_blank" title="<?php echo __('Share on Facebook') ?>" class="link-facebook">
+		            <i class="fa fa-facebook"><?php if(!$enable_onlyicon): ?><?php echo __('Share Facebook') ?><?php endif; ?></i>
+		        </a>
+		    </li>
+			<?php endif; ?>
+			<?php if($enable_twitter): ?>
+		    <li>
+		        <a href="<?php echo 'http://twitter.com/home?status=' . $_productName . '+' . $_productUrl; ?>" target="_blank" title="<?php echo __('Share on Twitter') ?>" class="link-twitter"><i class="fa fa-twitter"><?php if(!$enable_onlyicon): ?><?php echo __('Share on Twitter') ?><?php endif; ?></i></a>
+		    </li>
+			<?php endif; ?>
+			<?php if($enable_googleplus): ?>
+		    <li>
+			    <a class="share plus link-plus" title="<?php echo __('Google Plus');?>" href="https://plus.google.com/share?url=<?php echo $_productUrl; ?>" target="_BLANK" rel="nofollow"><i class="fa fa-google-plus"><?php if(!$enable_onlyicon): ?><?php echo __('Google');?><?php endif; ?></i></a>
+			</li>
+			<?php endif; ?>
+			<?php if($enable_pinterest): ?>
+			<li>
+			    <a class="share pinterest link-pinterest" title="<?php echo __('Pinterest');?>" href="http://pinterest.com/pin/create/button/?url=<?php echo $_productUrl; ?>&media=<?php echo $_productImageUrl;?>&description=<?php echo $_productName;?>"  target="_BLANK" rel="nofollow"><i class="fa fa-pinterest"><?php if(!$enable_onlyicon): ?><?php echo __('Pinterest');?><?php endif;?></i></a>
+			</li>
+		    <?php endif; ?>
+		    <?php if($enable_linkedin): ?>
+		    <li>
+		        <a href="<?php echo 'https://www.linkedin.com/shareArticle?mini=true&title=' . $_productName . '&summary=' . $_productSammary.'&source='.$_sourceName.'&url='.$_productUrl; ?>" target="_blank" title="<?php echo __('Share on Linkedin') ?>" class="link-linkedin"><i class="fa fa-linkedin"><?php if(!$enable_onlyicon): ?><?php echo __('Share on Linkedin') ?><?php endif; ?></i></a>
+		    </li>
+			<?php endif; ?>
+		</ul>
+		
+ </div>
+</div>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	require([
+		'jquery'
+		<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		<?php endif; ?>
+		],function($){
+			
+		});
+	});
+});
+</script>
+<?php endif; ?>
+<div style="clear:both;"></div>

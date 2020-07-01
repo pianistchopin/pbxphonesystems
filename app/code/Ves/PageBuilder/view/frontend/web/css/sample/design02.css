@@ -1,0 +1,29 @@
+*{margin:0;padding:0}
+
+.page-main-fluid { max-width: 100% !important; padding:0!important; margin: 0!important; overflow: hidden;}
+
+.columns { display: block !important;}
+
+
+/* Large desktop */
+@media (min-width: 1200px) {}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+   
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+    
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+    
+}
+
+/* Custom width content*/
+@media (min-width: 1200px) {
+}
+

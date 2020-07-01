@@ -1,0 +1,6 @@
+<?php
+$helper = $this->helper('Ves\Testimonial\Helper\Data');
+$testimonial_style = $helper->getConfig('general/testimonial_style');
+if($testimonial_style == 'list'){
+	echo $block->getPagerHtml();
+}

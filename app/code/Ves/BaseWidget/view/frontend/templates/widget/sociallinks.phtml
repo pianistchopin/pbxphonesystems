@@ -1,0 +1,128 @@
+<?php
+	$modid = rand().time();
+	$enable_collapse = $this->getConfig("enable_collapse", 0);
+?>
+<div class="ves-widget widget-sociallinks block">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)): ?>
+	<div class="block-title">
+		<?php if($enable_collapse): ?><span class="opener hidden-lg hidden-md" data-toggle="collapse" data-target="#widget-sociallinks<?php echo $modid; ?>"><i class="fa fa-angle-down"></i></span><?php endif; ?>
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<?php endif; ?>
+	<div id="widget-sociallinks<?php echo $modid; ?>" class="widget-inner block-content <?php if($enable_collapse): ?> widget-enanle-collapse collapse in <?php endif; ?>">
+		<ul>
+			<?php 
+			if($facebook_link){ ?>
+			<li class="facebook"><a class="fa fa-facebook" href="<?php echo 'http://facebook.com/'.$facebook_link ?>" title="<?php echo __("Facebook"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($twitter_link){ ?>
+			<li class="twitter"><a class="fa fa-twitter" href="<?php echo 'https://twitter.com/'.$twitter_link ?>" title="<?php echo __("Twitter"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($pinterest_link){ ?>
+			<li class="pinterest"><a class="fa fa-pinterest" href="<?php echo 'https://pinterest.com/'.$pinterest_link ?>" title="<?php echo __("Pinterest"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($google_plus){ ?>
+			<li class="google-plus"><a class="fa fa-google-plus" href="<?php echo 'https://plus.google.com/'.$google_plus ?>" title="<?php echo __("Google Plus"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($youtube){ ?>
+			<li class="youtube"><a class="fa fa-youtube" href="<?php echo 'https://youtube.com/'.$youtube ?>" title="<?php echo __("Youtube"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($skype){ ?>
+			<li class="skype"><a class="fa fa-skype" href="<?php echo 'https://skype.com/'.$skype ?>" title="<?php echo __("Skype"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($vimeo){ ?>
+			<li class="vimeo"><a class="fa fa-vimeo-square" href="<?php echo 'https://vimeo.com/'.$vimeo ?>" title="<?php echo __("Vimeo"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($instagram){ ?>
+			<li class="instagram"><a class="fa fa-instagram" href="<?php echo 'https://instagram.com/'.$instagram ?>" title="<?php echo __("Instagram"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if($linkedin){ ?>
+			<li class="linkedin"><a class="fa fa-linkedin" href="<?php echo 'https://linkedin.com/'.$linkedin ?>" title="<?php echo __("Linkedin"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($fivepx) && $fivepx){ ?>
+			<li class="fivepx"><a class="fa fa-500px" href="<?php echo 'https://500px.com/'.$fivepx ?>" title="<?php echo __("500px"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($amazon) && $amazon){ ?>
+			<li class="amazon"><a class="fa fa-amazon" href="<?php echo 'http://www.amazon.com/'.$amazon ?>" title="<?php echo __("Amazon"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($weibo) && $weibo){ ?>
+			<li class="weibo"><a class="fa fa-weibo" href="<?php echo 'http://weibo.com/'.$weibo ?>" title="<?php echo __("Weibo"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($reddit) && $reddit){ ?>
+			<li class="reddit"><a class="fa fa-reddit" href="<?php echo 'https://reddit.com/'.$reddit ?>" title="<?php echo __("Reddit"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($vine) && $vine){ ?>
+			<li class="vine"><a class="fa fa-vine" href="<?php echo 'https://vine.co/'.$vine ?>" title="<?php echo __("Vine"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($whatsapp) && $whatsapp){ ?>
+			<li class="whatsapp"><a class="fa fa-whatsapp" href="whatsapp://send?text=<?php echo $block->escapeHtml($whatsapp) ?>" title="<?php echo __("Whatsapp"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($tumblr) && $tumblr){ ?>
+			<li class="tumblr"><a class="fa fa-tumblr" href="<?php echo 'https://www.tumblr.com/'.$tumblr ?>" title="<?php echo __("Tumblr"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($foursquare) && $foursquare){ ?>
+			<li class="foursquare"><a class="fa fa-foursquare" href="<?php echo 'https://foursquare.com/'.$foursquare ?>" title="<?php echo __("Foursquare"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($dribbble) && $dribbble){ ?>
+			<li class="dribbble"><a class="fa fa-dribbble" href="<?php echo 'https://dribbble.com/'.$dribbble ?>" title="<?php echo __("Dribbble"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($behance) && $behance){ ?>
+			<li class="behance"><a class="fa fa-behance" href="<?php echo 'https://www.behance.net/'.$behance ?>" title="<?php echo __("Behance"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($delicious) && $delicious){ ?>
+			<li class="delicious"><a class="fa fa-delicious" href="<?php echo 'http://delicious.com/'.$delicious ?>" title="<?php echo __("Delicious"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($slideshare) && $slideshare){ ?>
+			<li class="slideshare"><a class="fa fa-slideshare" href="<?php echo 'http://slideshare.net/'.$slideshare ?>" title="<?php echo __("Slideshare"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($steam) && $steam){ ?>
+			<li class="steam"><a class="fa fa-steam" href="<?php echo 'http://store.steampowered.com/'.$steam ?>" title="<?php echo __("Steam"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($yelp) && $yelp){ ?>
+			<li class="yelp"><a class="fa fa-yelp" href="<?php echo 'http://www.yelp.com/'.$yelp ?>" title="<?php echo __("Yelp"); ?>"></a></li>
+			<?php } ?>
+			<?php 
+			if(isset($flickr) && $flickr){ ?>
+			<li class="flickr"><a class="fa fa-flickr" href="<?php echo 'https://www.flickr.com/'.$flickr ?>" title="<?php echo __("Flickr"); ?>"></a></li>
+			<?php } ?>
+		</ul>
+	</div>
+</div>
+<?php if($enable_collapse): ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+	require([
+		'jquery'
+		<?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_bootstrap_js")): ?>
+		,"Ves_All/lib/bootstrap/js/bootstrap.min"
+		<?php endif; ?>
+		],function($){
+			
+		});
+	});
+});
+</script>
+<?php endif; ?>

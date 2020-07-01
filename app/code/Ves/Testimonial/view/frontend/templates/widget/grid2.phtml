@@ -1,0 +1,268 @@
+<?php 
+$imageHelper  = $this->helper("Ves\Testimonial\Helper\Image");
+$helper       = $this->helper("Ves\Testimonial\Helper\Data");
+$collection   = $this->getTestimonialCollection();
+$blockId      = rand().time();
+$tabId        = 'testimonials'.$blockId;
+$tmls_pretext = $this->getConfig('tmls_pretext');
+$widget_class = $this->getConfig('widget_class');
+
+// General Setings
+$testimonial_color   = $this->getConfig('testimonial_color');
+$testimonial_bgcolor = $this->getConfig('testimonial_bgcolor');
+$testimonial_bordercolor = $this->getConfig('testimonial_bordercolor');
+$contetnStyle = '';
+if($testimonial_color) $contetnStyle .= 'color:' . $testimonial_color . ';';
+if($testimonial_bgcolor) $contetnStyle .= 'background-color:' . $testimonial_bgcolor . ';';
+if($testimonial_bordercolor) $contetnStyle .= 'border-color:' . $testimonial_bordercolor . ';';
+if($contetnStyle) $contetnStyle = 'style="' . $contetnStyle . '"';
+$widget_title        = $this->getConfig('widget_title');
+$show_name           = $this->getConfig('show_name');
+$nickname_color      = $this->getConfig('nickname_color');
+$show_email          = $this->getConfig('show_email');
+$show_company        = $this->getConfig('show_company');
+$show_title          = $this->getConfig('show_title');
+$title_color         = $this->getConfig('title_color');
+$show_rating         = $this->getConfig('show_rating');
+$show_date           = $this->getConfig('show_date');
+$show_socialnetworks = $this->getConfig('show_socialnetworks');
+$show_job            = $this->getConfig('show_job');
+$show_address        = $this->getConfig('show_address');
+$show_image          = $this->getConfig('show_image');
+$image_width         = (int)$this->getConfig('image_width');
+$image_height        = (int)$this->getConfig('image_height');
+$custom_height       = (int)$this->getConfig('custom_height');
+$show_readmore       = $this->getConfig('show_readmore');
+$readmoreStyle = '';
+if($testimonial_color) $readmoreStyle .= 'color:' . $testimonial_color . ';';
+if($readmoreStyle) $readmoreStyle = 'style="' . $readmoreStyle . '"';
+$readmore_char       = (int)$this->getConfig('readmore_char');
+$color               = $this->getConfig('color');
+
+// OWL Carousel
+$number_item_percolumn = (int)$this->getConfig('number_item_percolumn');
+$large_max_items       = (int)$this->getConfig('large_max_items',6);
+$large_items           = (int)$this->getConfig('large_items',5);
+$portrait_items        = (int)$this->getConfig('portrait_items',4);
+$tablet_items          = (int)$this->getConfig('tablet_items',4);
+$tablet_small_items    = (int)$this->getConfig('tablet_small_items',2);
+$mobile_items          = (int)$this->getConfig('mobile_items',1);
+$autoplay              = $this->getConfig('autoplay');
+$autoplay_timeout      = (int)$this->getConfig('autoplay_timeout',3000);
+$dots                  = $this->getConfig('dots');
+$nav                   = $this->getConfig('nav');
+$nav_next              = $this->getConfig('nav_next');
+$nav_pre               = $this->getConfig('nav_pre');
+$rtl                   = $this->getConfig('rtl');
+$loop                  = $this->getConfig('loop');
+$ajaxBlockId           = 'testimonial-carousel-'.$blockId;
+$height_type           = $this->getConfig('height_type');
+$total                 = $collection->count();
+if($total%$number_item_percolumn == 0){
+	$column = $total/$number_item_percolumn;
+}else{
+	$column = floor($total/$number_item_percolumn)+1;
+}
+$_postCollection = [];
+$i = $x = 0;
+foreach ($collection as $_post) {
+	if($i<$column){
+		$i++;
+	}else{
+		$i = 1;
+		$x++;
+	}
+	$_postCollection[$i][$x] = $_post;
+}
+$blockClass = '';
+foreach ($_postCollection as $_columnCollection) {
+	if($number_item_percolumn>1 && count($_columnCollection)>=$number_item_percolumn){
+		$blockClass = 'tmls-carousel-multi'; break;
+	}
+}
+?>
+<div id="<?php echo $tabId;?>" class="block widget tmls-widget tmls-grid2 style3 <?php echo $widget_class; ?>">
+	<?php if($widget_title || $tmls_pretext){ ?>
+	<div class="block-title content-heading">
+		<?php if($widget_title){ ?><h2 class="title"><?php echo $widget_title ?></h2><?php } ?>
+		<?php if($tmls_pretext){ ?><p class="info"><?php echo $tmls_pretext; ?></p><?php } ?>
+	</div>
+	<?php } ?>
+	<?php if($tmls_pretext){ ?>
+	<div class="tmls-pretext"><?php echo $tmls_pretext; ?></div>
+	<?php } ?>
+	<div class="tab-content" id="<?php echo $ajaxBlockId ?>" >
+		<?php if ($total): ?>
+			<?php $count = count($_columnCollection); $i = 1; $x = 0; ?>
+			<?php $gridColumn = $this->getConfig('grid_column'); if(!$gridColumn) $gridColumn = 1; ?>
+			<?php foreach ($collection as $obj){ ?>
+
+
+			<?php if( $gridColumn == 1 || $x%$gridColumn == 0){ ?>
+			<div class="row">
+				<?php } ?>
+				<div class="col-lg-<?php echo 12/$gridColumn ?> col-md-<?php echo 12/$gridColumn ?> col-sm-12 col-xs-12 tmls-item <?php if($x>0 && $x == ( $count-1 )){ ?>last<?php } ?>" <?php if($custom_height){ ?>style="height: <?php echo $custom_height ?>px"<?php } ?>>
+
+					<div class="tmls-box" <?php echo $contetnStyle ?>>
+
+						<?php // Title ?>
+						<?php if($show_title): ?>
+							<div class="tmls-title" <?php if($title_color){ ?>style="color:<?php echo $title_color; ?>"<?php } ?>><span><?php echo $obj->getTitle();?></span></div>
+						<?php endif; ?>
+
+						<?php // Conent ?>
+						<?php if($content = $obj->getTestimonial()): ?> 
+							<div class="tmls-testimonial">
+								<?php if($show_readmore && (strlen($content) > $readmore_char)){ ?><div class="tmls-excerpttext"><?php } ?>
+								<?php $excerpttext = ''; ?>
+								<?php if($show_readmore){
+									if(strlen($content) > $readmore_char){
+										$excerpttext = $helper->subString($content);
+									}
+								} ?>
+								<?php echo $excerpttext?$excerpttext:$content;?>
+									<?php if($show_readmore && (strlen($content) > $readmore_char)){ ?>
+									<a href="javascript:void(0);" <?php echo $readmoreStyle ?> class="tmls-readmorelink"><?php echo __('Read More') ?></a>
+								</div><?php } ?>
+								<?php if($show_readmore && (strlen($content) > $readmore_char)){ ?>
+								<div class="tmls-fulltext"><p><?php echo $content;?></p></div>
+								<?php } ?>
+							</div>
+							<?php $content = ''; ?>
+						<?php endif;?>
+						<span class="tmls-arrow">
+							<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="11px" viewBox="0 0 20 11" enable-background="new 0 0 20 11" xml:space="preserve">
+								<polygon fill="<?php echo ($testimonial_bgcolor)?$testimonial_bgcolor:'#FFF' ?>" points="10,10.05 2,0 10.002,0 18.005,0 "></polygon>
+								<polyline fill="none" stroke="<?php echo $testimonial_bordercolor?$testimonial_bordercolor:'#DDDDDD'; ?>" stroke-miterlimit="10" points="20,0.5 18,0.5 10,10.05 2,0.5 0,0.5 "></polyline>
+							</svg>
+						</span>
+					</div>
+
+
+
+					<div class="tmls-item-wrapp">
+						<div class="tmls-left">
+							<?php // Image ?>
+							<?php if($show_image && ($imgSrc = $obj->getImage())): ?>
+								<div class="tmls-image">
+									<?php
+									if($image_width && $image_height){
+										$imgSrc = $imageHelper->resizeImage($imgSrc, $image_width, $image_height);
+									}else{
+										$imgSrc = $helper->getMediaUrl() . $imgSrc;
+									}
+									?>
+									<img src="<?php echo $imgSrc ?>" alt="<?php echo $obj->getName();?>"/>
+								</div>
+							<?php endif;?>
+						</div>
+
+
+						<div class="tmls-right">
+							<?php // Nick Name ?>
+							<?php if($show_name):?>
+								<div class="tmls-name" <?php if($nickname_color){ ?>style="color:<?php echo $nickname_color ?>"<?php } ?>><?php echo $obj->getName();?></div>
+							<?php endif;?>
+
+							<?php // Social Networks ?>
+							<?php //if($show_socialnetworks){ ?>
+							<div class="tmls-socialnetworks">
+								<?php
+								$linkedin = $obj->getLinkedin();
+								$facebook = $obj->getFacebook();
+								$twitter  = $obj->getTwitter();
+								$youtube  = $obj->getYoutube();
+								$vimeo    = $obj->getVimeo();
+								$google   = $obj->getGoogleplus();
+								?>
+								<?php if($linkedin || $facebook || $twitter || $youtube || $vimeo || $google || $show_email){ ?>
+								<ul class="list-social">
+									<?php if($linkedin){ ?><li class="icon-social"><a class="facebook" href="<?php echo $facebook ?>"> <i class="fa fa-facebook"></i> </a></li><?php } ?>
+									<?php if($google){ ?><li class="icon-social"><a class="google" href="<?php echo $google ?>"> <i class="fa fa-google-plus"></i></a></li><?php } ?>
+									<?php if($twitter){ ?><li class="icon-social"><a class="twitter" href="<?php echo $twitter ?>"> <i class="fa fa-twitter"></i></a></li><?php } ?>
+									<?php if($youtube){ ?><li class="icon-social"><a class="youtube" href="<?php echo $youtube ?>"> <i class="fa fa-youtube"></i> </a></li><?php } ?>
+									<?php if($linkedin){ ?><li class="icon-social"><a class="linkedin" href="<?php echo $linkedin ?>"> <i class="fa fa-linkedin"></i></a></li><?php } ?>
+									<?php if($vimeo){ ?><li class="icon-social"><a class="vimeo" href="<?php echo $vimeo ?>"> <i class="fa fa-vimeo"></i> </a></li><?php } ?>
+									<?php if($show_email){ ?><li class="icon-social"><a class="email" href="mailto:<?php echo $obj->getEmail() ?>"> <i class="fa fa-envelope"></i></a></li><?php } ?>
+									</ul>
+									<?php } ?>
+								</div>
+								<?php //} ?>
+
+								<?php if($show_date || $show_address || $show_name): ?>
+									<div class="tmls-meta">
+										<?php if($show_date): ?>
+											<span class="tmls-date"><?php echo $obj->getCreateTime();?></span>
+										<?php endif;?>
+										<?php if($show_address): ?>
+											<span class="tmls-address"><?php echo $obj->getAddress();?></span>
+										<?php endif;?>
+
+										<?php // WebSite & Company ?>
+										<?php if( ($show_company && $obj->getCompanyName()) || ($show_job && $obj->getJob()) ){ ?>
+										<div class="tmls-company">
+											<?php if($show_job && $obj->getJob()){ echo $obj->getJob() . ' / '; } ?>
+											<?php if(($show_company && $obj->getCompanyName())){ ?>
+											<?php $companySite = $obj->getCompanyWebsite(); ?>
+											<?php if($companySite){ ?><a href="<?php echo $companySite ?>" title="<?php echo $obj->getCompanyName(); ?>"><?php } ?>
+											<span class="tmls-company-website"><?php echo $obj->getCompanyName();?></span>
+											<?php if($companySite){ ?></a><?php } ?>
+											<?php } ?>
+										</div>
+										<?php }?>
+									</div>
+								<?php endif;?>
+								<?php // Rating ?>
+								<?php if($show_rating){ ?>
+								<div class="tmls-rating">
+									<?php
+									$star = $obj->getRating();
+									for($k=1;$k<6;$k++){
+										if($star+0.5>$k){
+											$class="star_".$k." ratings_blank ratings_over";
+										}else{
+											$class="star_".$k." ratings_blank";
+										}
+										echo '<div class="'.$class.'"></div>';
+									}
+									?>
+								</div>
+								<?php } ?>
+
+							</div>
+
+						</div>
+
+
+					</div>
+					<?php if( $gridColumn == 1 || ($x+1)%$gridColumn == 0 || $i == $total ) {  ?>
+				</div>
+				<?php } ?>
+
+
+
+
+				<?php $x++; ?>
+				<?php } ?>
+
+			<?php endif; ?>
+			
+
+		</div>
+		<?php if($this->getConfig('grid_pagination')){ ?>
+		<?php  echo $block->getPagerHtml(); ?>
+		<?php } ?>
+		<script type="text/javascript">
+			require(['jquery'], function($){
+				$('#<?php echo $tabId ?> .tmls-readmorelink').click(function() {
+					var parent = $(this).parents('.tmls-testimonial');
+					$(parent).find('.tmls-excerpttext').hide();
+					$(parent).find('.tmls-fulltext').fadeIn('slow');
+				});
+				$('#<?php echo $tabId ?> .tmls-item').mouseleave(function() {
+					$(this).find('.tmls-excerpttext').fadeIn('slow');
+					$(this).find('.tmls-fulltext').hide();
+				});
+			});
+		</script>
+	</div>

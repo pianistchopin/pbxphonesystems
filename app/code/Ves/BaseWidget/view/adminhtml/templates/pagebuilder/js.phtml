@@ -1,0 +1,135 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+$urlwidgets = $this->getListWidgetsUrl("layout_html");
+$urlwidget = $this->getWidgetFormUrl();
+$urlwidgetdata = $this->getWidgetDataUrl();
+$block_data = $this->getBlockData();
+$urlelements = $this->getListElementsUrl("layout_html");
+$urlelement = $this->getElementFormUrl();
+$urlcmsblocks = $this->getListCMSBlocksUrl("layout_html");
+$urlcmsblock = $this->getCMSBlockFormUrl();
+$placeholder = "";
+
+$module_url = $this->getCurrentModuleUrl();
+
+$module_view_image_dir = $module_url."/adminhtml/web/css/";
+
+$max_columns = 12;
+$gutter = 30;
+$coldwith = 54;
+$enable_bootstrap_24cols = $this->getConfig("general/enable_bootstrap24");
+if($enable_bootstrap_24cols) {
+	$max_columns = 24;
+	$gutter = 10;
+	$coldwith = 34;
+}
+?>
+<script type="text/javascript">
+	var SKIN_URL = "<?php echo $this->getBaseMediaUrl().'ves_basewidget/'; ?>";
+
+	var config = { 
+		      	  urlwidgets:'<?php echo str_replace("&amp;","&", $urlwidgets);?>',
+		          urlwidget:'<?php echo str_replace("&amp;","&", $urlwidget);?>',
+		          urlwidgetdata:'<?php echo str_replace("&amp;","&", $urlwidgetdata);?>',
+		          urlelements:'<?php echo str_replace("&amp;","&", $urlelements);?>',
+		          urlelement:'<?php echo str_replace("&amp;","&", $urlelement);?>',
+		          urlcmsblocks: '<?php echo str_replace("&amp;","&", $urlcmsblocks);?>',
+		          imageurl : '<?php echo $this->getBaseMediaUrl(); ?>',
+		          placeholder:'<?php echo $placeholder; ?>',
+		          gutter	   :   '<?php echo (int)$gutter; ?>',
+				  coldwith   :   '<?php echo (int)$coldwith; ?>',
+		          col: '<?php echo (int)$max_columns; ?>'
+		      };
+
+<?php echo $this->getChildHtml("basewidget.builder.js"); ?>
+
+require(['jquery'],function($){
+   $(document).ready(function(){
+	require([
+            'jquery',
+            /*'jquery/jquery-ui',*/
+            'Ves_BaseWidget/js/jquery/jquery.browser',
+            'Ves_BaseWidget/js/jquery/jquery.colorpicker',
+            'Ves_BaseWidget/js/clipboard/clipboard.min',
+            'Ves_BaseWidget/js/jquery/jquery.ajax.localstorage.cache',
+            'Ves_BaseWidget/js/jquery/ui/jquery-ui.min',
+            'mage/adminhtml/wysiwyg/widget',
+            /*'Ves_BaseWidget/js/jquery/jquery.nestable',*/
+            /*'Ves_BaseWidget/js/jquery/jquery.browser',*/
+            'Ves_BaseWidget/js/elfinder/js/elfinder.min',
+            'Ves_BaseWidget/js/bootstrap336/bootstrap',
+            'Ves_BaseWidget/js/common',
+            'Ves_BaseWidget/js/jquery/jquery.cookie',
+            'Ves_BaseWidget/js/jquery/jquery.colorpicker',
+            'Ves_BaseWidget/js/tooltipster/tooltipster.bundle.min',
+            'Ves_BaseWidget/js/builder/widget',
+            'Ves_BaseWidget/js/builder/script'
+        ], function(jQuery){
+            //code js at here
+           
+            if(jQuery('#block_alias').val() == "") {
+			    var slider_alias = jQuery("#block_title").val().toLowerCase().replace(/ +/g,'-').replace(/[^a-z0-9-_]/g,'').trim();
+			    jQuery('#block_alias').val(slider_alias);
+			}
+
+			<?php if(!$block_data->getId()): ?>
+			jQuery("#block_title").keyup(function(){
+
+			   var slider_alias = jQuery(this).val().toLowerCase().replace(/ +/g,'-').replace(/[^a-z0-9-_]/g,'').trim();
+			   jQuery("#block_alias").val(slider_alias);
+				
+			})
+			<?php endif; ?>
+
+			/*Init block design tab*/
+			jQuery(document).ready(function(){
+				//jQuery("#wpo-widgetform").parent().toggleClass("hidden");
+
+				jQuery(".layout-builder-wrapper").each( function(){
+
+				    jQuery( jQuery(".layout-builder", this) ).WPO_Layout( config, jQuery(".hidden-content-layout",this).val() );
+
+				} );
+				/*Choose backup layout then refresh layout builder*/
+				if(jQuery("#block_load_sample_layout").length > 0) {
+					jQuery("#block_load_sample_layout").change(function(){
+						var current_option = jQuery(this).val();
+						console.log("\n"+current_option);
+						if(current_option && jQuery("#"+current_option+"_params").length > 0) {
+							jQuery(".layout-builder-wrapper").each( function(){
+								jQuery(".layout-builder", this).html("");
+							    jQuery( jQuery(".layout-builder", this) ).WPO_Layout( config, jQuery("#"+current_option+"_params").val() );
+
+							} );
+						}
+					})
+				}
+			})
+			/*End Init block design tab*/
+
+        });
+	});
+});
+	function viewSourceCode() {
+    	//Load shortcode
+    	if(jQuery(".block-sourcecode textarea").hasClass("hidden")){
+    		triggerSaveForm(2);
+    	}
+    	jQuery("#layout-builder").toggleClass("hidden");
+    	jQuery("#layout-builder").toggleClass("loadlayout");
+    	jQuery(".block-sourcecode textarea").toggleClass("hidden");
+    	jQuery(".block-sourcecode").toggleClass("show-block");
+    	
+    	if(jQuery("#layout-builder").hasClass("loadlayout")){
+    		//Re init
+    		jQuery("#layout-builder").html("");
+			jQuery( jQuery("#layout-builder") ).WPO_Layout( config, jQuery(".block-sourcecode textarea").first().val() );
+    	}
+    }
+</script>

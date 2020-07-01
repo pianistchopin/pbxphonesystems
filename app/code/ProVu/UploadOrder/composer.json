@@ -1,0 +1,22 @@
+{
+    "name": "provu/module-uploadorder",
+    "description": "Upload Order Data to Provu when order is purchased",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "info@mage2gen.com",
+            "name": "Mage2Gen"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ProVu\\UploadOrder\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

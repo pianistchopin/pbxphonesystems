@@ -1,0 +1,15 @@
+<?php 
+	$generated_css = $this->generatePageStyles();
+	$custom_css = (isset($custom_css) && $custom_css)?$custom_css: "";
+?>
+<?php if( $custom_css || ($generated_css)) : ?>
+<!-- Page Builder Custom CSS-->
+<style type="text/css">
+	/*Custom Css */
+	<?php echo $custom_css; ?>
+	/*Generated Css */
+	<?php echo $generated_css; ?>
+</style>
+<?php
+ endif; 
+?>

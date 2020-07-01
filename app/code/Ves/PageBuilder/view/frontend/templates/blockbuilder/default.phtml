@@ -1,0 +1,29 @@
+<?php
+$is_container = isset($is_container)?$is_container:0;
+//$is_container = 0;
+$rows = $layouts; 
+$level = 1;
+$block_id = isset($block_id)?$block_id:"";
+if(file_exists(__DIR__.DIRECTORY_SEPARATOR."row.phtml")) {
+	$row_phtml = "row.phtml";
+} else {
+	$row_phtml = $this->getBlockRowFilePath();
+}
+$row_phtml = $row_phtml?$row_phtml:"row.phtml";
+if($row_phtml) {
+?>
+<?php if($disable_wrapper){ //Disable block wrapper ?>
+<?php require $row_phtml; ?>
+<?php } else { ?>
+<div class="block vesbuilder-block <?php echo $block_id." ".$class; ?>">
+	<?php if( trim($heading) && $show_title ){ ?>
+	<div class="block-title"><span><?php echo $heading; ?></span></div>
+	<?php } ?>
+	<div class="block-content">
+		<div id="ves-blockbuilder<?php echo rand().time();?>" class="<?php echo $class?$class."-content":""; ?>">
+ 			<?php require $row_phtml; ?>
+ 	  	</div>
+	</div>
+</div>
+<?php } ?>
+<?php } ?>

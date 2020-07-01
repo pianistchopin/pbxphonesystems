@@ -1,0 +1,75 @@
+h2.bss_h2 {
+	margin-top: 0px;
+	border: 0px;
+	padding-bottom: 5px;
+	float: left;
+	width: 100%;
+	border-bottom: 1px #3fbc6c solid;
+}
+h3.bss_product_list {
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap; 
+	font-size: 14px;
+	margin: 5px 0 5px 0; 
+	padding: 5px 5px 3px 0;  
+	text-transform: capitalize;
+}
+.col-2 ul {
+	margin: 0px;
+}
+h3.bss_product_list:hover {
+	color: red;
+}
+
+.bss_h3 a{
+	width: 100%;
+	float: left;
+	font-size: 20px;
+	color: #000;
+	margin: 5px 0 5px 0;
+}
+
+@media all and (min-width: 1224px){
+	.col-3 {
+	width: 33%;
+	float: left;
+	}
+}
+
+@media all and (max-width: 1223px) and (min-width: 720px) {
+	.col-3 {
+		width: 50%;
+		float: left;
+	}
+}
+@media all and (max-width: 719px) {
+	.col-3 {
+		width: 100%;
+		float: left;
+	}
+}
+@media all and (max-width: 719px){
+	.col-2 {
+		width: 100%;
+		float: left;
+	}
+
+}
+	.col-1 {
+		width: 100%;
+		margin: 0 0 20px 0;
+		float: left;
+	}
+@media all and (min-width: 720px) {
+	.col-2 {
+		width: 50%;
+		float: left;
+	}
+
+}
+.grid {
+	width: 100%;
+	margin: 0px 0 20px 0;
+	float: left;
+}

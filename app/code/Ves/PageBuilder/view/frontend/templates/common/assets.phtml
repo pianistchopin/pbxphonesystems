@@ -1,0 +1,23 @@
+<?php
+$js_path = $this->getConfig("js_path");
+$custom_css = $this->getCustomCss();
+
+if($js_path) {
+	?>
+<script type="text/javascript">
+	require([
+		"jquery",
+		"<?php echo $js_path; ?>"
+		],function($){
+			
+		});
+</script>
+<?php
+}
+
+if($custom_css){
+?>
+<style type="text/css">
+<?php echo $custom_css; ?>
+</style>
+<?php } ?>

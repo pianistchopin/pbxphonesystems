@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+	</head>
+	<update handle="vespagebuilder_admin_default"/>
+	<update handle="editor"/>
+	<body>
+		<referenceContainer name="content">
+			<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit" name="page_edit_page"/>
+		</referenceContainer>
+		<referenceContainer name="left">
+			<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tabs" name="page_edit_tabs">
+				<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Main" name="page_edit_tab_main"/>
+				<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Design" name="page_edit_tab_design"/>
+				<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Cms" name="page_edit_tab_cms"/>
+				<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Settings" name="page_edit_tab_settings"/>
+				<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Style" name="page_edit_tab_style"/>
+
+				<action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">page_edit_tab_main</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">design_section</argument>
+                    <argument name="block" xsi:type="string">page_edit_tab_design</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">cms_section</argument>
+                    <argument name="block" xsi:type="string">page_edit_tab_cms</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">settings_section</argument>
+                    <argument name="block" xsi:type="string">page_edit_tab_settings</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">style_section</argument>
+                    <argument name="block" xsi:type="string">page_edit_tab_style</argument>
+                </action>
+                <action method="addTab">
+	                <argument name="name" xsi:type="string">google-experiment</argument>
+	                <argument name="block" xsi:type="string">Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\Tab\Googleoptimizer</argument>
+	            </action>
+			</block>
+		</referenceContainer>
+	</body>
+</page>

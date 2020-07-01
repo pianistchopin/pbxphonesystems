@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_feedreader" class="Ves\BaseWidget\Block\Widget\FeedReader">
+		<label translate="true">Ves Base: Feed Reader</label>
+		<description translate="true">Adds a FeedReader block</description>
+		<parameters>
+
+			<parameter name="uri" xsi:type="text"  visible="true">
+				<label translate="true">Feed URI</label>
+				<description translate="true"><![CDATA[Input Feed URI or RSS feed url]]></description>
+			</parameter>
+
+			<parameter name="item_count" xsi:type="text"  visible="true">
+				<label translate="true">Item Count</label>
+				<value>5</value>
+			</parameter>
+
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. If empty, the feed's title will be used</description>
+			</parameter>
+
+			<parameter name="is_truncate" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Truncate Description</label>
+            </parameter>
+
+            <parameter name="max_chars" xsi:type="text"  visible="true">
+				<label translate="true">Max Chars Of Description Will Show</label>
+				<value>80</value>
+			</parameter>
+
+			<parameter name="strip_html" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Strip Html Tags In Description</label>
+            </parameter>
+
+			<parameter name="template" xsi:type="select"  visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/feedreader_sidebar.phtml" selected="true">
+                        <label translate="true">Feed Reader Sidebar (Default)</label>
+                    </option>
+                    <option name="default_carousel" value="widget/feedreader_carousel.phtml">
+                        <label translate="true">Feed Reader Sidebar - Carousel</label>
+                    </option>
+                </options>
+            </parameter>
+
+             <parameter name="carousel_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Setting</label>
+            </parameter>
+
+            <parameter name="loop" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Loop Carousel</label>
+                <description translate="true">Default should be Yes</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="show_navigator" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Button Navigation</label>
+                <description translate="true">Default should be Yes</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="dots" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show dots navigations</label>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="margin_item" xsi:type="text"  visible="true">
+                <label translate="true">Margin Each Items</label>
+                <description translate="true">Default 0</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="single_item" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Single Item</label>
+                <description translate="true">Default should be Yes</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="auto_play" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Play</label>
+           		<description translate="true">Default should be No</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+            <parameter name="autospeed" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Speed</label>
+                <description translate="true">Set speed of autoplay when enable auto play option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 1000</description>
+  				<depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>	
+            </parameter>
+
+            <parameter name="autoplay_timeout" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Timeout</label>
+                <description translate="true">Set speed of autoplay when enable auto play timeout option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 3000</description>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+                <value>3000</value>
+            </parameter>
+
+            <parameter name="autoplay_hover" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Pause On Hover</label>
+                <depends><parameter name="template" value="widget/feedreader_carousel.phtml" /></depends>
+            </parameter>
+
+		</parameters>
+	</widget>
+</widgets>

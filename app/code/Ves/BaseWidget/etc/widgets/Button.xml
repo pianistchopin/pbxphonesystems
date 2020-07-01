@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+	<widget id="ves_base_button" class="Ves\BaseWidget\Block\Widget\Button">
+		<label translate="true">Ves Base: Button</label>
+		<description translate="true">Generate button</description>
+		<parameters>
+			<parameter name="title" xsi:type="text" visible="true">
+				<label translate="true">Widget Title</label>
+				<description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+			</parameter>
+			<parameter name="addition_cls" xsi:type="text"  visible="true">
+				<label translate="true">Addition Class</label>
+				<description translate="true">This class is used to make owner style for the widget.</description>
+			</parameter>
+			<parameter name="button_title" xsi:type="text"  visible="true">
+				<label translate="true">Text on the button</label>
+				<description translate="true">will be showed on button.</description>
+			</parameter>
+			<parameter name="href" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+				<label translate="true">URL (link)</label>
+				<description translate="true">Button Link.</description>
+			</parameter>
+
+			<parameter name="color_button" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListButtonType">
+				<label translate="true">Button Type</label>
+				<description translate="true">Select types suitable for your button.</description>
+			</parameter>
+			<parameter name="icon" xsi:type="text"  visible="true">
+				<label translate="true">Button Icon</label>
+				<description translate="true"><![CDATA[Button icon. You can input Font Awesome Icon at here. For example: <strong>fa fa-home</strong><br/>More information font awesome icon at here: <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_BLANK">https://fortawesome.github.io/Font-Awesome/icons/</a>]]></description>
+			</parameter>
+			<parameter name="size" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListButtonSize">
+				<label translate="true">Button Size</label>
+				<description translate="true">Select size suitable for your button.</description>
+			</parameter>
+			<parameter name="el_class" xsi:type="text"  visible="true">
+				<label translate="true">Extra class name</label>
+				<description translate="true">If you wish to style particular content element differently, then use this field to add a class name and then refer to it in your css file.</description>
+			</parameter>
+			
+			<parameter name="html" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+                <label translate="true">Custom button attributes</label>
+                <description translate="true"><![CDATA[Input custom html attribute of the button. You can input event click for button. <br/>For example: onclick="callTheFunction();" ]]></description>
+            </parameter>
+
+		</parameters>
+	</widget>
+</widgets>

@@ -1,0 +1,62 @@
+<?php
+$enable_bootstrap_24cols = $this->getConfig("general/enable_bootstrap24");
+$grid_layout_image_class = "grid-editor";
+$col_design_number = 4;
+$col_grid_number = 3;
+$col_action_number = 3;
+if($enable_bootstrap_24cols) {
+	$grid_layout_image_class = "grid24-editor";
+	$col_design_number = 8;
+	$col_grid_number = 6;
+	$col_action_number = 6;
+}
+
+?>
+<div id="screenview" class="">
+	<div class="row">  
+	   <div class="col-lg-<?php echo $col_design_number; ?>"> <div class="screenview-title"><?php echo __("Design In"); ?></div>
+	     <div class="btn-group button-alignments">
+	        <button  class="btn btn-default active ptstooltip" data-option="large-screen" type="button" data-toggle="tooltip" data-placement="top" title="<?php echo __("Large Devices, Wide Screens");?>"><span class="fa fa-desktop"></span></button>
+	        <button  class="btn btn-default ptstooltip" data-option="medium-screen" type="button" data-toggle="tooltip" data-placement="top" title="<?php echo __("Medium Devices, Desktops");?>"><span class="fa fa-laptop"></span></button>
+	        <button   class="btn btn-default ptstooltip"  data-option="tablet-screen" type="button" data-toggle="tooltip" data-placement="top" title="<?php echo __("Small Devices, Tablets");?>"> <span class="fa fa-tablet"></span></button>
+	        <button  class="btn btn-default ptstooltip"  data-option="mobile-screen"  type="button" data-toggle="tooltip" data-placement="top" title="<?php echo __("Extra Small Devices, Phones");?>"><span class="fa fa-mobile"></span> </button>
+	      </div> 
+	    </div>
+	    <div class="col-lg-<?php echo $col_grid_number; ?>">
+                  <div><?php echo __('Enable Grid');?></div>
+                  <div>
+                    <div class="btn-group button-enablegrid">
+                      <button data-toggle="tooltip" class="btn btn-default ptstooltip" onclick="jQuery('#layout-builder').addClass('<?php echo $grid_layout_image_class; ?>');jQuery('#top-grid-pattern').addClass('<?php echo $grid_layout_image_class; ?>');jQuery('#top-grid-pattern').removeClass('hidden');" title="<?php echo __("Show Grid Layout");?>" type="button"><span class="fa fa-check-square"></span></button>
+                      <button data-toggle="tooltip" class="btn btn-default ptstooltip" onclick="jQuery('#layout-builder').removeClass('<?php echo $grid_layout_image_class; ?>');jQuery('#top-grid-pattern').removeClass('<?php echo $grid_layout_image_class; ?>');jQuery('#top-grid-pattern').addClass('hidden');" title="<?php echo __("Disable Grid Layout");?>" type="button"><span class="fa fa-check-square-o"></span></button>
+                    </div> 
+                  </div>
+        </div>
+
+        <div class="col-lg-<?php echo $col_action_number; ?>">
+        	<div class="pull-right">
+                  <div><?php echo __('Action');?></div>
+                  <div>
+                    <div class="btn-group button-enablegrid">
+                      <button data-toggle="tooltip" class="btn btn-primary previewcode" onclick="return viewSourceCode()" title="<?php echo __("Toggle Show/Hide Design Code");?>" type="button"><span class="fa fa-code"></span> <?php echo __("Toggle Code");?></button>
+                    </div> 
+                  </div>
+            </div>
+        </div>
+       
+	</div>
+</div>
+
+<hr>
+<div role="tabpanel" id="blockmodule-tab">
+ 	<div class="tab-content">
+ 		<div role="tabpanel" class="tab-pane active" id="blockmodule">
+			<div class="module-group" id="contentblockmodule">
+		 		<div class="layout-builder-wrapper <?php echo $enable_bootstrap_24cols?'wrapper-width-cols24':''; ?>">
+		 			<div id="top-grid-pattern" class="hidden" style="<?php if(!$enable_bootstrap_24cols) { echo 'display:none!important;'; } ?>">&nbsp;</div>
+		 			<div id="layout-builder" class="layout-builder loadlayout"></div>
+		 			<div class="hidden-block block-sourcecode"><textarea name="params" id="layout_html" class="textarea hidden-content-layout hidden" style="width: 400px; height: 200px"><?php echo $params; ?></textarea><br/><span><?php echo __("Parse JSON Data Online:"); ?></span> <a href="http://www.jsoneditoronline.org/" target="_BLANK"><?php echo __("Parse It");?></a></div>
+		 		</div> 
+			</div>
+		</div>
+	</div>
+</div>

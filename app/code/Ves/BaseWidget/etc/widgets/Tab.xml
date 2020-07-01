@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_tab" class="Ves\BaseWidget\Block\Widget\Tab">
+        <label translate="true">Ves Base: Tab</label>
+        <description>Create Content Tab List</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true" >
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            <parameter name="addition_cls" xsi:type="text" visible="true" >
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+            <parameter name="stylecls" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Icon Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="layout_type" xsi:type="select"  visible="true">
+                <label translate="true">Tab Type</label>
+                <description translate="true">Select a kind of tab JS</description>
+                <options>
+                    <option name="magento" value="widget/tab_magento.phtml">
+                        <label translate="true">Magento tab JS</label>
+                    </option>
+                    <option name="bootstrap" value="widget/tab.phtml" selected="true">
+                        <label translate="true">Bootstrap tab JS</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="header_1" xsi:type="text" visible="true" >
+                <label translate="true">Header 1</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_1" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 1</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_1" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 1</label>
+                <description translate="true">Enter Content 1</description>
+            </parameter>
+
+
+            <parameter name="header_2" xsi:type="text" visible="true" >
+                <label translate="true">Header 2</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_2" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 2</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_2" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 2</label>
+                <description translate="true">Enter Content 2</description>
+            </parameter>
+
+            <parameter name="header_3" xsi:type="text" visible="true" >
+                <label translate="true">Header 3</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_3" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 3</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_3" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 3</label>
+                <description translate="true">Enter Content 3</description>
+            </parameter>
+
+            <parameter name="header_4" xsi:type="text" visible="true" >
+                <label translate="true">Header 4</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_4" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 4</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_4" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 4</label>
+                <description translate="true">Enter Content 4</description>
+            </parameter>
+
+            <parameter name="header_5" xsi:type="text" visible="true" >
+                <label translate="true">Header 5</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_5" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 5</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_5" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 5</label>
+                <description translate="true">Enter Content 5</description>
+            </parameter>
+
+            <parameter name="header_6" xsi:type="text" visible="true" >
+                <label translate="true">Header 6</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_6" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 6</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_6" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 6</label>
+                <description translate="true">Enter Content 6</description>
+            </parameter>
+
+            <parameter name="header_7" xsi:type="text" visible="true" >
+                <label translate="true">Header 7</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_7" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 7</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_7" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 7</label>
+                <description translate="true">Enter Content 7</description>
+            </parameter>
+
+            <parameter name="header_8" xsi:type="text" visible="true" >
+                <label translate="true">Header 8</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_8" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 8</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_8" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 8</label>
+                <description translate="true">Enter Content 8</description>
+            </parameter>
+
+            <parameter name="header_9" xsi:type="text" visible="true" >
+                <label translate="true">Header 9</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_9" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 9</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_9" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 9</label>
+                <description translate="true">Enter Content 9</description>
+            </parameter>
+
+            <parameter name="header_10" xsi:type="text" visible="true" >
+                <label translate="true">Header 10</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_10" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 10</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_10" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 10</label>
+                <description translate="true">Enter Content 10</description>
+            </parameter>
+
+            <parameter name="header_11" xsi:type="text" visible="true" >
+                <label translate="true">Header 11</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_11" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 11</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_11" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 11</label>
+                <description translate="true">Enter Content 11</description>
+            </parameter>
+
+            <parameter name="header_12" xsi:type="text" visible="true" >
+                <label translate="true">Header 12</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_12" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 12</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_12" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 12</label>
+                <description translate="true">Enter Content 12</description>
+            </parameter>
+            <parameter name="header_13" xsi:type="text" visible="true" >
+                <label translate="true">Header 13</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_13" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 13</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_13" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 13</label>
+                <description translate="true">Enter Content 13</description>
+            </parameter>
+
+            <parameter name="header_14" xsi:type="text" visible="true" >
+                <label translate="true">Header 14</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_14" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 14</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_14" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 14</label>
+                <description translate="true">Enter Content 14</description>
+            </parameter>
+
+            <parameter name="header_15" xsi:type="text" visible="true" >
+                <label translate="true">Header 15</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_15" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 15</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_15" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 15</label>
+                <description translate="true">Enter Content 15</description>
+            </parameter>
+
+            <parameter name="header_16" xsi:type="text" visible="true" >
+                <label translate="true">Header 16</label>
+                <description translate="true">Tab Header.</description>
+            </parameter>
+
+            <parameter name="cms_16" xsi:type="select"  visible="true"  source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 16</label>
+                <description translate="true">Use CMS static block for accordion content.</description>
+            </parameter>
+
+            <parameter name="content_16" xsi:type="conditions" visible="true"  class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 16</label>
+                <description translate="true">Enter Content 16</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

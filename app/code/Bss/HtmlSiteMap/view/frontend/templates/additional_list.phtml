@@ -1,0 +1,63 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    BSS_HtmlSiteMap
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+    
+    $helper = $block->getHelper();
+
+    //Additional Link
+    $additionUrl = $helper->getAdditionUrl();
+    $titleAddition = $helper->titleAddition();
+    $openNewTab = $helper->openNewTab();
+    $additionUrlCount = $additionUrl;
+    $count = 0;
+    while ($count >= 0) {
+        $countString = strpos($additionUrl, ']');
+        if ($countString == false) {
+            break;
+        }
+        $count++;
+        $additionLink[$count] = substr($additionUrl, 1, $countString - 1);
+        $additionUrl = substr($additionUrl, $countString, strlen($additionUrl));
+        $additionUrl = strstr($additionUrl, '[');
+    }
+
+    if ($additionUrlCount != null): ?>
+        <h2 class="bss_h2"><?php echo $titleAddition; ?></h2>
+        <div class="grid">
+        <?php
+        foreach ($additionLink as $value => $link): ?>
+            <?php
+            if ($value % 2 == 1): ?>
+                    <div class="col-3"><h3 class="bss_product_list">
+                    <a href="<?php echo $link; ?>"
+            <?php
+            else: ?> title="<?php echo $link; ?>"
+                <?php
+                if ($openNewTab == 1) {
+                    echo 'target="_blank"';
+                } ?>><?php echo $link; ?></a>
+                    </h3></div>
+                <?php
+            endif; ?>
+            <?php
+        endforeach; ?>
+        </div>
+    <?php
+    endif; 
+?>

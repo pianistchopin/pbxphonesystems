@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_accordionbg" class="Ves\BaseWidget\Block\Widget\Accordionbg">
+        <label translate="true">Ves Base: Accordion With Background</label>
+        <description>Create Accordion Background List</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+
+            <parameter name="addition_cls" xsi:type="text"  visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Widget Box Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="heading_type" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListHeadingType">
+                <label translate="true">Heading Type</label>
+                <description translate="true">Select accordion title heading type.</description>
+            </parameter>
+
+            <parameter name="header_1" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea"  visible="true">
+                <label translate="true">Header 1</label>
+            </parameter>
+
+            <parameter name="class_1" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 1</label>
+            </parameter>
+
+            <parameter name="image_1" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 1</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_1" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 1</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_1" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 1</label>
+                <description translate="true">Enter Content 1</description>
+            </parameter>
+
+            <parameter name="header_2" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea"  visible="true">
+                <label translate="true">Header 2</label>
+            </parameter>
+
+            <parameter name="class_2" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 2</label>
+            </parameter>
+
+            <parameter name="image_2" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 2</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_2" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 2</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_2" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 2</label>
+                <description translate="true">Enter Content 2</description>
+            </parameter>
+
+            <parameter name="header_3" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea"  visible="true">
+                <label translate="true">Header 3</label>
+            </parameter>
+
+            <parameter name="class_3" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 3</label>
+            </parameter>
+
+           <parameter name="image_3" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 3</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_3" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 3</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_3" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 3</label>
+                <description translate="true">Enter Content 3</description>
+            </parameter>
+
+            <parameter name="header_4" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 4</label>
+            </parameter>
+
+            <parameter name="class_4" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 4</label>
+            </parameter>
+
+            <parameter name="image_4" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 4</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_4" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 4</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_4" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 4</label>
+                <description translate="true">Enter Content 4</description>
+            </parameter>
+
+            <parameter name="header_5" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 5</label>
+            </parameter>
+
+            <parameter name="class_5" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 5</label>
+            </parameter>
+
+            <parameter name="image_5" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 5</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_5" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 5</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_5" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 5</label>
+                <description translate="true">Enter Content 5</description>
+            </parameter>
+
+            <parameter name="header_6" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 6</label>
+            </parameter>
+
+            <parameter name="class_6" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 6</label>
+            </parameter>
+
+            <parameter name="image_6" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 6</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_6" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 6</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_6" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 6</label>
+                <description translate="true">Enter Content 6</description>
+            </parameter>
+
+            <parameter name="header_7" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 7</label>
+            </parameter>
+
+            <parameter name="class_7" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 7</label>
+            </parameter>
+
+            <parameter name="image_7" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 7</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_7" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 7</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_7" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 7</label>
+                <description translate="true">Enter Content 7</description>
+            </parameter>
+
+            <parameter name="header_8" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 8</label>
+            </parameter>
+
+            <parameter name="class_8" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 8</label>
+            </parameter>
+
+            <parameter name="image_8" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 8</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_8" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 8</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_8" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 8</label>
+                <description translate="true">Enter Content 8</description>
+            </parameter>
+
+            <parameter name="header_9" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 9</label>
+            </parameter>
+
+            <parameter name="class_9" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 9</label>
+            </parameter>
+
+            <parameter name="image_9" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 9</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_9" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 9</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_9" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 9</label>
+                <description translate="true">Enter Content 9</description>
+            </parameter>
+
+            <parameter name="header_10" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 10</label>
+            </parameter>
+
+            <parameter name="class_10" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 10</label>
+            </parameter>
+
+            <parameter name="image_10" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 10</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_10" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 10</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_10" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 10</label>
+                <description translate="true">Enter Content 10</description>
+            </parameter>
+
+            <parameter name="header_11" xsi:type="conditions" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea" visible="true">
+                <label translate="true">Header 11</label>
+            </parameter>
+
+            <parameter name="class_11" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 11</label>
+            </parameter>
+
+            <parameter name="image_11" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 11</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_11" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 11</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_11" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 11</label>
+                <description translate="true">Enter Content 11</description>
+            </parameter>
+
+            <parameter name="header_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Textarea">
+                <label translate="true">Header 1</label>
+            </parameter>
+
+            <parameter name="class_12" xsi:type="text"  visible="true">
+                <label translate="true">Item Class 12</label>
+            </parameter>
+
+            <parameter name="image_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\Mediachooser">
+                <label translate="true">Item Background Image 12</label>
+                <description translate="true"><![CDATA[Input image name with path.<br/>Example: <strong>image_name.jpg(png|gif|jpeg|svg)</strong> or <strong>subfolder/image_name.jpg(png|gif|jpeg|svg)</strong>.The "subfolder" is child folder in <strong>your_webroot_folder/pub/media/</strong>]]></description>
+            </parameter>
+
+            <parameter name="cms_12" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListCms">
+                <label translate="true">Select CMS static block 12</label>
+                <description translate="true">Use CMS static block for accordion content</description>
+            </parameter>
+
+            <parameter name="content_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 12</label>
+                <description translate="true">Enter Content 12</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

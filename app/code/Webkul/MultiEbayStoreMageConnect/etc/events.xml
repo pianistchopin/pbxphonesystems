@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_submit_all_after">
+        <observer name="webkul_multiebaystoremageconnect_sales_order_place_after_observer" instance="Webkul\MultiEbayStoreMageConnect\Observer\SalesOrderPlaceAfterObserver" />
+    </event>
+    <event name="sales_order_shipment_track_save_after">
+        <observer name="webkul_multiebaystoremageconnect_sales_order_shipment_save_after" instance="Webkul\MultiEbayStoreMageConnect\Observer\SalesOrderShipmentTrackSaveAfter" />
+    </event>
+    <event name="catalog_product_save_after">
+        <observer name="webkul_multiebaystoremageconnect_catalog_product_save_after" instance="Webkul\MultiEbayStoreMageConnect\Observer\CatalogProductSaveAfter" />
+    </event>
+
+    <!-- fire when config value save of multiebay -->
+    <event name="admin_system_config_changed_section_multiebaystoremageconnect">
+        <observer name="webkul_multiebaystoremageconnect_admin_system_config_changed_section_multiebaystoremageconnect" instance="Webkul\MultiEbayStoreMageConnect\Observer\AdminSystemConfigChangedObserver" shared="false" />
+    </event>
+</config>

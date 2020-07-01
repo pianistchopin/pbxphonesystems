@@ -1,0 +1,185 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$data = $this->helper('Ves\Themesettings\Helper\Data');
+
+$mode = $ves->getProductPageCfg('tab_settings/mode');
+$enable_description = $ves->getProductPageCfg('tab_settings/enable_description');
+$enable_addtioninfo = $ves->getProductPageCfg('tab_settings/enable_addtioninfo');
+$enable_reviews = $ves->getProductPageCfg('tab_settings/enable_reviews');
+$show_review_count = $ves->getProductPageCfg('tab_settings/show_review_count');
+$enable_related = $ves->getProductPageCfg('tab_settings/enable_related');
+$relatedproducts_number_item = $ves->getProductPageCfg('tab_settings/relatedproducts_number_item');
+$relatedproducts_breakpoints = $ves->getProductPageCfg('tab_settings/relatedproducts_breakpoints');
+$replace_relatedproducts = $ves->getProductPageCfg('tab_settings/replace_relatedproducts');
+$relatedproducts_staticblock = $ves->getProductPageCfg('tab_settings/relatedproducts_staticblock');
+$enable_upsell = $ves->getProductPageCfg('tab_settings/enable_upsell');
+$upsellproducts_number_item = $ves->getProductPageCfg('tab_settings/upsellproducts_number_item');
+$upsellproducts_breakpoints = $ves->getProductPageCfg('tab_settings/upsellproducts_breakpoints');
+$replace_upsellproducts = $ves->getProductPageCfg('tab_settings/replace_upsellproducts');
+$upsellproducts_staticblock = $ves->getProductPageCfg('tab_settings/upsellproducts_staticblock');
+$product_attrs = $ves->getProductPageCfg('tab_settings/product_attrs');
+$cms_block_ids = $ves->getProductPageCfg('tab_settings/cms_block_ids');
+$customtab = $ves->getProductPageCfg('tab_settings/customtab');
+$customtab_title = $ves->getProductPageCfg('tab_settings/customtab_title');
+$customtab_staticblock = $ves->getProductPageCfg('tab_settings/customtab_staticblock');
+$customtab_content = $ves->getProductPageCfg('tab_settings/customtab_content');
+
+
+$_product = $block->getProduct();
+
+if(!$enable_description){
+    $block->unsetChild('product.info.description');
+}
+
+if(!$enable_addtioninfo){
+    $block->unsetChild('additional');
+}
+
+if(!$enable_reviews){
+    $block->unsetChild('reviews');
+}
+
+$layout = $block->getLayout();
+if($enable_related){
+    $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Related',"relatedproducts_tab")
+    ->setData('type','related')
+    ->setTitle('Related Products')
+    ->setBlockAlias('relatedproducts_tab')
+    ->setData('replace',1)
+    ->setTemplate('Magento_Catalog::product/list/items_carousel.phtml');
+    $layout->setChild('product.info.details', 'relatedproducts_tab', 'relatedproducts_tab');
+    $layout->addToParentGroup('relatedproducts_tab','detailed_info');
+}
+
+if($enable_upsell){
+    $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Upsell',"upsellproducts_tab")
+    ->setData('type','upsell')
+    ->setTitle('Upsell Products')
+    ->setBlockAlias('upsellproducts_tab')
+    ->setData('replace',1)
+    ->setTemplate('Magento_Catalog::product/list/items_carousel.phtml');
+    $layout->setChild('product.info.details', 'upsellproducts_tab', 'upsellproducts_tab');
+    $layout->addToParentGroup('upsellproducts_tab','detailed_info');
+}
+
+// CustomTab Attributes
+if($product_attrs!=''){
+    $helper = $this->helper('Magento\Catalog\Helper\Output');
+    $customAttribute = unserialize($product_attrs);
+    if(is_array($customAttribute) && count($customAttribute)>0){
+        foreach ($customAttribute as $k => $v) {
+            if(!isset($v['code'])) continue;
+            $tabAlias = "ves-custom-".$v['code'].time();
+            $html = $_product->getData($v['code']);
+            if(is_array($html)){
+                $html = implode(', ', $html);
+            }
+            $html = $data->filter($html);
+
+            $layout->createBlock('Magento\Framework\View\Element\Template',$tabAlias)
+            ->setData('type','upsell')
+            ->setTitle($v['name'])
+            ->setBlockAlias($tabAlias)
+            ->setData('html', $html)
+            ->setTemplate('Ves_Themesettings::product/attribute.phtml');
+            $layout->setChild('product.info.details', $tabAlias, $tabAlias);
+            $layout->addToParentGroup($tabAlias,'detailed_info');
+        }
+    }
+}
+
+// CustomTab CMS Block IDs Attributes
+if($cms_block_ids!=''){
+    $helper = $this->helper('Magento\Catalog\Helper\Output');
+    $customCmsAttribute = unserialize($cms_block_ids);
+    if(is_array($customCmsAttribute) && count($customCmsAttribute)>0){
+        foreach ($customCmsAttribute as $k => $v) {
+            if(!isset($v['code'])) continue;
+            $tabAlias = "ves-cms-custom-".$v['code'].time();
+            $html = $html = $layout->createBlock('Magento\Cms\Block\Block')->setBlockId($v['code'])->toHtml();
+            if(is_array($html)){
+                $html = implode(', ', $html);
+            }
+            $html = $data->filter($html);
+
+            $layout->createBlock('Magento\Framework\View\Element\Template',$tabAlias)
+            ->setData('type','upsell')
+            ->setTitle($v['name'])
+            ->setBlockAlias($tabAlias)
+            ->setData('html', $html)
+            ->setTemplate('Ves_Themesettings::product/attribute.phtml');
+            $layout->setChild('product.info.details', $tabAlias, $tabAlias);
+            $layout->addToParentGroup($tabAlias,'detailed_info');
+        }
+    }
+}
+
+// Custom Tab
+if($customtab && $customtab_title != ''){
+    $tabAlias = "ves-custom-tab".time();
+    $html = '';
+    if($customtab_staticblock != ''){
+        $html = $layout->createBlock('Magento\Cms\Block\Block')->setBlockId($customtab_staticblock)->toHtml();
+    }
+    if($customtab_staticblock == 'pretext_html' && $customtab_content != ''){
+        $html = $customtab_content;
+    }
+    $html = $data->filter($html);
+    $layout->createBlock('Magento\Framework\View\Element\Template',$tabAlias)
+    ->setData('type','upsell')
+    ->setTitle($customtab_title)
+    ->setBlockAlias($tabAlias)
+    ->setData('html', $html)
+    ->setTemplate('Ves_Themesettings::product/attribute.phtml');
+    $layout->setChild('product.info.details', $tabAlias, $tabAlias);
+    $layout->addToParentGroup($tabAlias,'detailed_info');
+}
+
+?>
+<?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')):?>
+    <div class="product info detailed">
+        <?php $layout = $block->getLayout(); ?>
+        
+        <div class="product data <?php if($mode=='tabs'){ ?>items<?php } ?>"
+            <?php if($mode=='tabs'){ ?>data-mage-init='{"tabs":{"openedState":"active"}}'<?php } ?>
+                <?php if($mode=='accordion'){ ?>data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "multipleCollapsible": false}}'<?php } ?>
+                    >
+                    <?php foreach ($detailedInfoGroup as $name):?>
+                        <?php
+                        $html = $layout->renderElement($name);
+                        if (!trim($html)) {
+                            continue;
+                        }
+                        $alias = $layout->getElementAlias($name);
+                        $label = $block->getChildData($alias, 'title');
+                        ?>
+                        <?php if($mode=='accordion'){ ?><div data-role="collapsible"><?php } ?>
+
+                        <div class="data item title"
+                        aria-labeledby="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>-title"
+                        <?php if($mode=='tabs'){ ?>data-role="collapsible"<?php } ?>
+                        <?php if($mode=='accordion'){ ?>data-role="title"<?php } ?>
+                        id="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>">
+                        <a class="data switch"
+                        tabindex="-1"
+                        data-toggle="switch"
+                        href="#<?php /* @escapeNotVerified */ echo $alias; ?>"
+                        id="tab-label-<?php /* @escapeNotVerified */ echo $alias;?>-title">
+                        <?php /* @escapeNotVerified */ echo $label; ?>
+                    </a>
+                </div>
+                <div class="data item content" id="<?php /* @escapeNotVerified */ echo $alias; ?>" data-role="content">
+                    <?php /* @escapeNotVerified */ echo $html; ?>
+                </div>
+                <?php if($mode=='accordion'){ ?></div><?php } ?>
+            <?php endforeach;?>
+        </div>
+
+    </div>
+<?php endif; ?>

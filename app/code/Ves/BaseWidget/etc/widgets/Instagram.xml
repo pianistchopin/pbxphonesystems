@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Venustheme
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Venustheme.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.venustheme.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category   Venustheme
+ * @package    Ves_Brand
+ * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
+ * @license    http://www.venustheme.com/LICENSE-1.0.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="ves_base_instagram" class="Ves\BaseWidget\Block\Widget\Instagram">
+        <label translate="true">Ves Base: Instagram</label>
+        <description translate="true">Create Instagram Widget</description>
+        <parameters>
+
+            <parameter name="show" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enabled</label>
+            </parameter>
+
+            <parameter name="custom_id" xsi:type="text" visible="true">
+                <label translate="true">Custom Block Id</label>
+            </parameter>
+
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+
+            <parameter name="enable_collapse" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Collapse</label>
+
+            </parameter>
+
+            <parameter name="cmsblock" xsi:type="select" visible="true" sort_order="40" source_model="Ves\BaseWidget\Model\Config\Source\Staticblock">
+                <label translate="true">Select Static Block</label>
+                <description translate="true">Select Static block as pretext.</description>
+            </parameter>
+            
+            <parameter name="pretext" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Pretext</label>
+                <description translate="true">Empty for hide. You put html text</description>
+            </parameter>
+
+            <parameter name="auth_token" xsi:type="text"  visible="true">
+                <label translate="true">Instagram Access Token</label>
+                <description translate="true"><![CDATA[Please follow <a href="http://www.venustheme.com/how-to-get-instagram-access-token/" target="_BLANK">this tutorial</a> to get your access token of your instagram's app. <br/> For example: <strong>1673521893.2e41da5.92ad74b9e49d4501b32781cdb79598cd</strong>]]></description>
+            </parameter>
+
+            <parameter name="instagram_imagesize" xsi:type="text"  visible="true">
+                <label translate="true">Image Instagram Size, it is used in scroller module</label>
+                <description translate="true"><![CDATA[Formart WidthxHeight, for example: 150x150]]></description>
+            </parameter>
+
+            <parameter name="limit" xsi:type="text"  visible="true">
+                <label translate="true">Limit</label>
+                <description translate="true">Default: 20</description>
+            </parameter>
+
+            <parameter name="options" xsi:type="select"  visible="true">
+                <label translate="true">Get Instagram by</label>
+                <description translate="true">Choose Type Instagram.</description>
+                <options>
+                    <option name="username" value="username" selected="true">
+                        <label translate="true">User Name</label>
+                    </option>
+                    <option name="hastag" value="hastag">
+                        <label translate="true">Hastag</label>
+                    </option>
+                    <option name="location" value="location">
+                        <label translate="true">Location</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="username" xsi:type="text"  visible="true">
+                <label translate="true">Username</label>
+                <description translate="true">Default: venusthemes</description>
+                <depends>
+                    <parameter name="options" value="username" />
+                </depends>
+            </parameter>
+
+            <parameter name="hastagname" xsi:type="text"  visible="true">
+                <label translate="true">Hastag name</label>
+                <description translate="true">Default: fashion</description>
+                <depends>
+                    <parameter name="options" value="hastag" />
+                </depends>
+            </parameter>
+
+            <parameter name="default_latitude" xsi:type="text"  visible="true">
+                <label translate="true">Default Latitude</label>
+                <description translate="true">You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 21.030897</description>
+                <depends>
+                    <parameter name="options" value="location" />
+                </depends>
+            </parameter>
+
+            <parameter name="default_longitude" xsi:type="text"  visible="true">
+                <label translate="true">Default Longitude</label>
+                <description translate="true">You can get Longitude,Latitude on link here: http://universimmedia.pagesperso-orange.fr/geo/loc.htm. Default: 105.775575</description>
+                <depends>
+                    <parameter name="options" value="location" />
+                </depends>
+            </parameter>
+
+            <parameter name="distance" xsi:type="text"  visible="true">
+                <label translate="true">Distance</label>
+                <description translate="true">Distance in meter (max. distance: 5km = 5000). Default: 1000</description>
+                <depends>
+                    <parameter name="options" value="location" />
+                </depends>
+            </parameter>
+
+            <parameter name="carousel_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Setting</label>
+            </parameter>
+
+            <parameter name="enable_owl_carousel" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Use OWL Carousel</label>
+                <description translate="true">Default should be false</description>
+            </parameter>
+
+            <parameter name="rtl" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Right To Left</label>
+                <description translate="true">Default should be Yes</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="loop" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Loop Carousel</label>
+                <description translate="true">Default should be Yes</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="show_navigator" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Button Navigation</label>
+                <description translate="true">Default should be Yes</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="enable_custom_nav" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Custom Nav</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="next_icon_class" xsi:type="text"  visible="true">
+                <label translate="true">Next Icon Class</label>
+                <description translate="true">input icon class. For example: fa fa-angle-right</description>
+                <depends><parameter name="enable_custom_nav" value="1" /></depends>
+                <value>fa fa-angle-right</value>
+
+            </parameter>
+
+            <parameter name="previous_icon_class" xsi:type="text"  visible="true">
+                <label translate="true">Previous Icon Class</label>
+                <description translate="true">input icon class. For example: fa fa-angle-left</description>
+                <depends><parameter name="enable_custom_nav" value="1" /></depends>
+                <value>fa fa-angle-left</value>
+            </parameter>
+
+            <parameter name="dots" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show dots navigations</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="lazyload" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Lazy Load</label>
+                <description translate="true"><![CDATA[Lazy load images. data-src and data-src-retina for highres. Also load images into background inline style if element is not <img>]]></description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="mouse_drag" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Mouse Drag</label>
+                <description translate="true">Default should be Yes</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="touch_drag" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Touch Drag</label>
+                <description translate="true">Default should be Yes</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="pulldrag" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Pull Drag</label>
+                <description translate="true"><![CDATA[Stage pull to edge.]]></description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="slide_by" xsi:type="text"  visible="true">
+                <label translate="true">Slide By</label>
+                <description translate="true">Number Items will slide on a time. Default: 1</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="margin_item" xsi:type="text"  visible="true">
+                <label translate="true">Margin Each Items</label>
+                <description translate="true">Default 0</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+     
+            <parameter name="default_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Default)</label>
+                <description translate="true">Show number items when screen size between 1199px and 980px</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+ 
+            </parameter>
+
+            <parameter name="mobile_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones)</label>
+                <description translate="true">Show number items when screen size bellow 480px</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="tablet_small_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones to Small tablets)</label>
+                <description translate="true">Show number items when screen size between 641px and 480px</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="tablet_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Phones to tablets)</label>
+                <description translate="true">Show number items when screen size between 768px and 641px</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="portrait_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Portrait tablets)</label>
+                <description translate="true">Show number items when screen size between 979px and 769px</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="large_items" xsi:type="text" visible="true">
+                <label translate="true">Number Columns On Page (Large display)</label>
+                <description translate="true">Show number items when screen size 1200px and up</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="autowidth" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Width</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="auto_play" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Play</label>
+                <description translate="true">Default should be No</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="animatein" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\AnimateCssIn">
+                <label translate="true">animateIn</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="animateout" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\AnimateCssOut">
+                <label translate="true">animateOut</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="animatecss_preview" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\AnimateCssPreview">
+                <label translate="true">Preview</label>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="autospeed" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Speed</label>
+                <description translate="true">Set speed of autoplay when enable auto play option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 1000</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>  
+            </parameter>
+
+            <parameter name="autoplay_timeout" xsi:type="text" visible="true">
+                <label translate="true">Autoplay Timeout</label>
+                <description translate="true">Set speed of autoplay when enable auto play timeout option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 3000</description>
+                <depends><parameter name="auto_play" value="1" /></depends>
+                <value>3000</value>
+            </parameter>
+
+            <parameter name="interval" xsi:type="text" visible="true">
+                <label translate="true">Navigation Speed</label>
+                <description translate="true">Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="dots_speed" xsi:type="text" visible="true">
+                <label translate="true">Dots Speed</label>
+                <description translate="true">Set speed of dot when enable dot speed option. Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default: 800</description>
+                <depends>
+                    <parameter name="enable_owl_carousel" value="1" />
+                </depends>
+            </parameter>
+
+            <parameter name="autoplay_hover" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Pause On Hover</label>
+                <depends><parameter name="auto_play" value="1" /></depends>
+            </parameter>
+
+            <parameter name="template" xsi:type="text"  visible="true">
+                <label translate="true">Template</label>
+                <description translate="true">Input custom module template file path. For example: widget/instagram.phtml Empty for default</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

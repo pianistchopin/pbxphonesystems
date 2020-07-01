@@ -1,0 +1,176 @@
+<?php
+/*
+* Ves Base Widget - Categories List
+*
+* @package   vesbase
+* @version   5.0
+* @author    http://www.venustheme.com
+* @copyright Copyright (C) October 2013 venustheme.com <@emai:venustheme@gmail.com>
+*               <info@venustheme.com>.All rights reserved.
+* @license   GNU General Public License version 2
+*/
+$_catalogCatgoryHelper = $this->helper('Magento\Catalog\Helper\Category');
+
+$moduleId = rand().time();
+$catIds = explode(',', $catsid);
+$cols = (isset($cols) && $cols)?(int)$cols:4;
+$item_cols = round(12/$cols);
+$auto_play_mode = (int)$autoplay;
+$auto_play = $auto_play_mode?"true":"false";
+$cms = isset($cms)?$cms:"";
+$autoSpeed = 1000;
+$autoplay_timeout = 800;
+$pulldrag = true;
+$animateIn = false;
+$animateOut = false;
+$autoplay_hover = true;
+$autowidth = true;
+$autoheight = false;
+$loop = true;
+$single_item = false;
+?>
+<div class="ves-widget widget-categories widget-categories-owl owlcarousel block <?php echo $addition_cls; ?> <?php echo isset($stylecls)&&$stylecls?'block-'.$stylecls:'';?>">
+	<?php if (isset($widget_heading)&&!empty($widget_heading)){ ?>
+	<div class="block-title">
+		<strong><span><?php echo $widget_heading; ?></span></strong>
+	</div>
+	<?php } ?>
+	<!-- Show pretext -->
+	<?php if( $pretext && !$cms ) { ?>
+	<div class="pretext"><?php echo $pretext;?></div>
+	<?php } elseif($cms) { ?>
+	<div class="pretext"><?php echo $cms;?></div>
+	<?php } ?>
+	<!-- End Show pretext -->
+	<div class="widget-inner block-content clearfix">
+		<?php if($catIds){ ?>
+			<div class="box-categories owl-carousel" id="categoriesowlcarousel<?php echo $moduleId;?>">
+	            <?php $k=0; foreach( $catIds as $i => $_cate_id ) { ?>
+				<?php
+		        	$category = $this->getCategoryInfo($_cate_id);
+		        	if(!$category || !$_catalogCatgoryHelper->canShow($category))
+						continue;
+
+					$k=$k+1;
+		        ?>
+		        <div class="item <?php if($k==0) {?>first<?php } elseif($i == (count($catIds) -1 )) {?>last<?php } ?>">
+		        	<ul>
+		        		<?php if($enable_image && $category->getImage()){
+		        			  $category_image = $this->getCategoryImage( $category, $image_width, $image_height, $cate_image );
+		        			  if($category_image){
+		        		?>
+			        		<li><a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category); ?>"><img src="<?php echo $category_image; ?>" alt="<?php echo $category->getName(); ?>"></a></li>
+			        		<?php } ?>
+		        		<?php } ?>
+		        		<li><a href="<?php echo $_catalogCatgoryHelper->getCategoryUrl($category)?>">
+	                            <?php echo $category->getName()?>
+	                            <?php if($enable_numbproduct){ ?>
+	                                (<?php echo $category->getProductCount() ?>)
+	                            <?php } ?>
+	                    </a></li>
+		        	</ul>
+		        </div>	
+		        <?php } ?>
+			</div>
+			<?php if($show_navigator) { ?>
+			<div class="customNavigation">
+                <a class="carousel-prev<?php echo $moduleId ?> carousel-prev" href="javascript:;" title="<?php echo __("Prev"); ?>"><i class="fa fa-angle-left"></i></a></a>
+                <a class="carousel-next<?php echo $moduleId ?> carousel-next" href="javascript:;" title="<?php echo __("Next"); ?>"><i class="fa fa-angle-right"></i></a>
+            </div>
+			<?php } ?>
+			<script type="text/javascript">
+				require(['jquery'],function($){
+				            $(document).ready(function(){
+				                  require([
+				                  'jquery'
+				                   <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_owlcarousel")): ?>
+				                  ,"Ves_All/lib/owl.carousel/owl.carousel.min"
+				                  <?php endif; ?>
+				                  ],function($){
+				                      var widgetowlcarousel = jQuery('#categoriesowlcarousel<?php echo $moduleId;?>');
+				                          widgetowlcarousel.owlCarousel({
+				                              autoplay: <?php echo $auto_play_mode?'true':'false';?>,
+				                              <?php if ($autoSpeed): ?>
+				                              autoplaySpeed: <?php echo $autoSpeed; ?>,
+				                              <?php endif; ?>
+				                              autoplayTimeout: <?php echo (int)$autoplay_timeout ?>,
+				                              <?php if ($animateIn): ?>
+				                              animateIn: <?php echo $animateIn?'"'.$animateIn.'"':"false"; ?>,
+				                              <?php endif; ?>
+				                              <?php if ($animateOut): ?>
+				                              animateOut: <?php echo $animateOut?'"'.$animateOut.'"':"false"; ?>,
+				                              <?php endif; ?>
+				                              autoplayHoverPause: <?php echo $autoplay_hover?"true":"false"; ?>,
+				                              nav: false,
+				                              autoWidth: <?php echo $autowidth?"true":"false"; ?>,
+				                              autoHeight: <?php echo $autoheight?"true":"false"; ?>,
+				                              slideBy: <?php echo $cols; ?>,
+				                              loop: true,
+				                              margin: 0,
+				                              navSpeed:  false,
+				                              dots: true,
+				                              dotsSpeed: false,
+				                              mouseDrag: true,
+				                              touchDrag: true,
+				                              pullDrag: true,
+				                              lazyLoad: false,
+				                              <?php if($single_item){ ?>
+				                              items: 1,
+				                              responsive: {
+				                                    0:{
+				                                          items:1
+				                                    },
+				                                    600:{
+				                                          items:1
+				                                    },
+				                                    1000:{
+				                                          items:1
+				                                    }
+				                              },
+				                              <?php }else{ ?>
+				                              items: <?php echo $cols?(int)$cols:4; ?>,
+				                              responsive: {
+				                                    0: {
+				                                          items: 1,
+				                                          loop: true
+				                                    },
+				                                    600: {
+				                                          items: <?php echo $cols?((int)$cols-2):2; ?>,
+				                                          loop: true
+				                                    },
+				                                    767: {
+				                                          items: <?php echo $cols?((int)$cols-2):2; ?>,
+				                                          loop: true
+				                                    },
+				                                    1000: {
+				                                          items: <?php echo $cols?((int)$cols-1):3; ?>,
+				                                          loop: true
+				                                    },
+				                                    1200: {
+				                                          items: <?php echo $cols?(int)$cols:4; ?>,
+				                                          loop: true
+				                                    },
+				                                    1900: {
+				                                          items: <?php echo $cols?((int)$cols+1):5; ?>,
+				                                          loop: true
+				                                    }
+				                              },
+				                             <?php } ?>
+				                            singleItem: <?php echo $single_item?'true':'false';?>
+				                          });
+
+				                        <?php if($show_navigator){ // owl custom navigation trigger ?>
+				                        jQuery(".carousel-prev<?php echo $moduleId ?>").click(function () {
+				                              widgetowlcarousel.trigger('prev.owl.carousel');
+				                              });
+				                        jQuery(".carousel-next<?php echo $moduleId ?>").click(function () {
+				                              widgetowlcarousel.trigger('next.owl.carousel');
+				                        });
+				                        <?php } ?>    
+				                  });
+				            })
+				      });
+		</script>
+		<?php } ?>
+	</div>
+</div>

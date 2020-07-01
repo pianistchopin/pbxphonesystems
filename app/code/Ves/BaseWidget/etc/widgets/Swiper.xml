@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+
+    <widget id="ves_basewidget_swiper" class="Ves\BaseWidget\Block\Widget\Swiper">
+        <label translate="true">Ves Base: Content Swiper Slider</label>
+        <description translate="true">Create Content Swiper Slider</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Title</label>
+                <description translate="true">This tile will be showed as header of widget block. Empty to disable</description>
+            </parameter>
+            <parameter name="addition_cls" xsi:type="text" visible="true">
+                <label translate="true">Addition Class</label>
+                <description translate="true">This class is used to make owner style for the widget.</description>
+            </parameter>
+
+            <parameter name="stylecls" xsi:type="select"  visible="true" source_model="Ves\BaseWidget\Model\Source\ListStyle">
+                <label translate="true">Icon Style</label>
+                <description translate="true">These classes are bootstrap typo contextual color classes.</description>
+            </parameter>
+
+            <parameter name="template" xsi:type="text"  visible="true">
+                <label translate="true">Widget Template</label>
+                <description translate="true">Input custom module template file path. For example: widget/swiper.phtml Empty for default.</description>
+            </parameter>
+
+
+            <parameter name="carousel_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Setting</label>
+            </parameter>
+
+            <parameter name="effect" xsi:type="select"  visible="true">
+                <label translate="true">Effect</label>
+                <options>
+                    <option name="slide" value="slide" selected="true">
+                        <label translate="true">Slide</label>
+                    </option>
+                    <option name="fade" value="fade">
+                        <label translate="true">Fade</label>
+                    </option>
+                    <option name="cube" value="cube">
+                        <label translate="true">Cube</label>
+                    </option>
+                    <option name="coverflow" value="coverflow">
+                        <label translate="true">Coverflow</label>
+                    </option>
+                </options>
+            </parameter>
+
+            <parameter name="direction" xsi:type="select"  visible="true">
+                <label translate="true">Direction</label>
+                <options>
+                    <option name="horizontal" value="horizontal" selected="true">
+                        <label translate="true">Horizontal</label>
+                    </option>
+                    <option name="vertical" value="vertical">
+                        <label translate="true">Vertical</label>
+                    </option>
+                </options>
+            </parameter>
+
+           <parameter name="rtl" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Right To Left</label>
+                
+            </parameter>
+
+            <parameter name="freemode" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Freemode</label>
+                <description translate="true">If true then slides will not have fixed positions</description>
+                
+            </parameter>
+
+            <parameter name="loop" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Loop Carousel</label>
+                
+            </parameter>
+
+            <parameter name="show_navigator" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Button Navigation</label>
+                
+            </parameter>
+
+            <parameter name="show_pagination" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Pagination</label>
+                <description translate="true">Default should be Yes</description>
+            </parameter>
+
+            <parameter name="show_scrollbar" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Enable Scroll Bar</label>
+               
+            </parameter>
+
+            <parameter name="slider_height" xsi:type="text" visible="true">
+                <label translate="true">Slide Height</label>
+                <description translate="true">Input number to make height of swiper slide in px. For example: 500</description>
+            </parameter>
+
+            <parameter name="slide_by" xsi:type="text" visible="true">
+                <label translate="true">Slide By</label>
+                <description translate="true">Number Items will slide on a time. For example: 2,3,4,5,6,.. Default: auto</description>
+            </parameter>
+
+            <parameter name="space" xsi:type="text" visible="true">
+                <label translate="true">Distance Between Slides</label>
+                <description translate="true">Distance between slides in px. Default: 0</description>
+            </parameter>
+
+            <parameter name="speed" xsi:type="text" visible="true">
+                <label translate="true">Speed</label>
+                <description translate="true">Duration of transition between slides (in ms). Default: 300</description>
+            </parameter>
+
+            <parameter name="auto_play" xsi:type="select"  visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Auto Play</label>
+                
+            </parameter>
+
+            <parameter name="interval" xsi:type="text" visible="true">
+                <label translate="true">Interval</label>
+                <description translate="true">Determines the duration of the transition in milliseconds.If less than 10, the number is interpreted as a speed (pixels/millisecond).This is probably desirable when scrolling items with variable sizes. Default value: 3000</description>
+            </parameter>
+
+            <parameter name="carousel_items_heading" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\System\Config\Form\Field\Heading">
+                <label translate="true">Carousel Items</label>
+            </parameter>
+
+           <parameter name="size_1" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 1</label>
+            </parameter>
+
+            <parameter name="content_1" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 1</label>
+            </parameter>
+
+
+            <parameter name="size_2" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 2</label>
+            </parameter>
+
+            <parameter name="content_2" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 2</label>
+            </parameter>
+
+            <parameter name="size_3" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 3</label>
+            </parameter>
+
+            <parameter name="content_3" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 3</label>
+            </parameter>
+
+           <parameter name="size_4" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 4</label>
+            </parameter>
+
+            <parameter name="content_4" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 4</label>
+            </parameter>
+
+            <parameter name="size_5" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 5</label>
+            </parameter>
+
+            <parameter name="content_5" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 5</label>
+            </parameter>
+
+            <parameter name="size_6" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 6</label>
+            </parameter>
+
+            <parameter name="content_6" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 6</label>
+            </parameter>
+
+            <parameter name="size_7" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 7</label>
+            </parameter>
+
+            <parameter name="content_7" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 7</label>
+            </parameter>
+
+            <parameter name="size_8" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 8</label>
+            </parameter>
+
+            <parameter name="content_8" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 8</label>
+            </parameter>
+
+            <parameter name="size_9" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 9</label>
+            </parameter>
+
+            <parameter name="content_9" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 9</label>
+            </parameter>
+
+            <parameter name="size_10" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 10</label>
+            </parameter>
+
+            <parameter name="content_10" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 10</label>
+            </parameter>
+
+            <parameter name="size_11" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 11</label>
+            </parameter>
+
+            <parameter name="content_11" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 11</label>
+            </parameter>
+
+            <parameter name="size_12" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 12</label>
+            </parameter>
+
+            <parameter name="content_12" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 12</label>
+            </parameter>
+
+            <parameter name="size_13" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 13</label>
+            </parameter>
+
+            <parameter name="content_13" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 13</label>
+            </parameter>
+
+            <parameter name="size_14" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 14</label>
+            </parameter>
+
+            <parameter name="content_14" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 14</label>
+            </parameter>
+
+            <parameter name="size_15" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 15</label>
+            </parameter>
+
+            <parameter name="content_15" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 15</label>
+            </parameter>
+
+            <parameter name="size_16" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 16</label>
+            </parameter>
+
+            <parameter name="content_16" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 16</label>
+            </parameter>
+
+            <parameter name="size_17" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 17</label>
+            </parameter>
+
+            <parameter name="content_17" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 17</label>
+            </parameter>
+
+            <parameter name="size_18" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 18</label>
+            </parameter>
+
+            <parameter name="content_18" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 18</label>
+            </parameter>
+
+            <parameter name="size_19" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 1</label>
+            </parameter>
+
+            <parameter name="content_19" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 19</label>
+            </parameter>
+
+            <parameter name="size_20" xsi:type="select" visible="true" source_model="Ves\BaseWidget\Model\Source\ListSize">
+                <label translate="true">Box Size Of Item 20</label>
+            </parameter>
+
+            <parameter name="content_20" xsi:type="conditions" visible="true" class="Ves\BaseWidget\Block\Adminhtml\Widget\Form\Field\WysiwygEditor">
+                <label translate="true">Content 20</label>
+            </parameter>
+
+        </parameters>
+    </widget>
+</widgets>

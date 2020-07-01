@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Cms\Model\Wysiwyg\CompositeConfigProvider" type="Webkul\MultiEbayStoreMageConnect\Model\Wysiwyg\CompositeConfigProvider" />
+    <virtualType name="Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\Ebayaccounts\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_multiebay_seller_details</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\Ebayaccounts</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\ListingTemplate\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_multiebay_listing_template</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\ListingTemplate</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\PriceRule\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">wk_multiebay_product_pricerule</argument>
+            <argument name="resourceModel" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\PriceRule</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="multiebayconnect_account_list_data_source" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\Ebayaccounts\Grid\Collection</item>
+                <item name="multiebayconnect_templates_list_data_source" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\ListingTemplate\Grid\Collection</item>
+                <item name="multiebayconnect_pricerule_list_data_source" xsi:type="string">Webkul\MultiEbayStoreMageConnect\Model\ResourceModel\PriceRule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Webkul\MultiEbayStoreMageConnect\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Webkul\MultiEbayStoreMageConnect\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">customLogHandler</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Webkul\MultiEbayStoreMageConnect\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\EbayaccountsInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Ebayaccounts" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\EbayaccountsRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\EbayaccountsRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\EbaycategoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Ebaycategory" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\EbaycategoryRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\EbaycategoryRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\ProductmapInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Productmap" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\ProductmapRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\ProductmapRepository" />
+    <!--preference for="Webkul\MultiEbayStoreMageConnect\Api\ProductmapRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\ProductmapRepository" /-->
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\ImportedtmpproductInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Importedtmpproduct" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\ImportedtmpproductRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\ImportedtmpproductRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\OrdermapInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Ordermap" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\OrdermapRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\OrdermapRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\EbaycategorymapInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Ebaycategorymap" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\EbaycategorymapRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\EbaycategorymapRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\CategoriesspecificationInterface" type="Webkul\MultiEbayStoreMageConnect\Model\Categoriesspecification" />
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\CategoriesspecificationRepositoryInterface" type="Webkul\MultiEbayStoreMageConnect\Model\CategoriesspecificationRepository" />
+
+    <preference for="Webkul\MultiEbayStoreMageConnect\Api\Data\ListingTemplateInterface" type="Webkul\MultiEbayStoreMageConnect\Model\ListingTemplate" />
+</config>

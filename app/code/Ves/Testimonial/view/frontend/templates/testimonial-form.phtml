@@ -1,0 +1,107 @@
+<?php
+$helper = $this->helper('Ves\Testimonial\Helper\Data');
+$enableCatpcha = $helper->getConfig("general/enable_retcaptcha");
+?>
+<form class="form" action="<?php echo $block->getUrl('testimonial/testimonial/form')?>" id="testimonial-form" method="post" enctype="multipart/form-data" data-hasrequired="* Required Fields" data-mage-init='{"validation":{}}'>
+    <fieldset class="fieldset">
+        <legend class="legend"><span><h2><?php echo __('Submit Your Testimonial'); ?></h2></span></legend><br>
+        <div class="field name required">
+            <label class="label" for="name"><span><?php echo __('Nickname'); ?></span></label>
+            <div class="control">
+                <input name="name" id="name" title="<?php echo __('Nickname'); ?>" class="input-text" type="text" data-validate="{required:true}" aria-required="true">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="email"><span><?php echo __('Email'); ?></span></label>
+            <div class="control">
+                <input name="email" id="email" title="<?php echo __('Email'); ?>" class="input-text" type="text" data-validate="{required:true,'validate-email':true}" aria-required="true">
+            </div>
+        </div>        
+        <div class="field image required">
+            <label class="label" for="image"><span><?php echo __('Upload Avatar'); ?></span></label>
+            <div class="control">
+                <input name="image" id="image" title="<?php echo __('Upload Avatar'); ?>" class="input-text" type="file" aria-required="true">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="company"><span><?php echo __('Company'); ?></span></label>
+            <div class="control">
+                <input name="company" id="company" title="<?php echo __('Company'); ?>" class="input-text" type="text" data-validate="{required:false}" aria-required="false">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="website"><span><?php echo __('Website'); ?></span></label>
+            <div class="control">
+                <input name="website" id="website" title="<?php echo __('Website'); ?>" class="input-text" type="text" data-validate="{required:false}" aria-required="false">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="address"><span><?php echo __('Address'); ?></span></label>
+            <div class="control">
+                <input name="address" id="address" title="<?php echo __('Address'); ?>" class="input-text" type="text" data-validate="{required:false}" aria-required="false">
+            </div>
+        </div>
+        <div class="field name required">
+            <label class="label" for="title"><span><?php echo __('Title'); ?></span></label>
+            <div class="control">
+                <input name="title" id="title" title="<?php echo __('Address'); ?>" class="input-text" type="text" data-validate="{required:true}" aria-required="true">
+            </div>
+        </div>
+        <div class="field comment required">
+            <label class="label" for="testimonial"><span><?php echo __('Let us know your thoughts'); ?></span></label>
+            <div class="control">
+                <textarea name="testimonial" id="testimonial" title="<?php echo __('What’s on your mind?'); ?>" class="input-text main_txt_area" cols="5" rows="3" data-validate="{required:true}" aria-required="true"></textarea>
+            </div>
+        </div>
+        <div class="field comment required">
+            <label class="label" for="rating"><span><?php echo __('Rating'); ?></span></label>
+            <div class="control" id="stars-default">
+                <div id="rating_1" class="ratings">
+                    <div id="1" class="star_1 ratings_stars "></div>
+                    <div id="2" class="star_2 ratings_stars "></div>
+                    <div id="3" class="star_3 ratings_stars "></div>
+                    <div id="4" class="star_4 ratings_stars "></div>
+                    <div id="5" class="star_5 ratings_stars "></div> 
+                </div>
+                <input name="rating" id="total_votes" title="<?php echo __('Rating'); ?>" class="input-text" type="hidden">
+            </div>
+        </div>
+        <?php if($enableCatpcha){ ?>
+        <div class="field recaptcha">
+            <div class="g-recaptcha" data-sitekey="<?php echo $helper->getCaptchaSiteKey();?>"></div>
+        </div>
+        <?php } ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" id="return_url" name="return_url" value="<?php echo $block->getUrl('testimonial/testimonial/view');?>">
+            <button type="submit" title="<?php echo __('Submit'); ?>" name="submit"class="action submit primary testimonial">
+                <span><?php echo __('Submit'); ?></span>
+            </button>
+            <button type="reset" class="button" value="Reset"><span><span><?php echo __('Reset'); ?></span></span></button>
+        </div>
+    </div>
+</form>
+<?php if($enableCatpcha){ ?>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<?php } ?>
+<script type="text/javascript">
+require(['jquery'],function($){
+    $(document).ready(function(){
+      require([
+        'jquery',
+        'Magento_Customer/js/customer-data',
+        'Ves_Testimonial/js/testimonial_rating',
+        ],
+        function(customerData){
+            jQuery(document).ready(function($) {
+                $('.ratings_stars').bind('click', function() { 
+                    var id=$(this).parent().attr("id");
+                    var num=$(this).attr("id");
+                    $('#total_votes').val(num);
+                });
+            });
+        });
+    });
+});
+</script>

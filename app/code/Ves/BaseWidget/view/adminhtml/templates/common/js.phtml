@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<script type="text/javascript">
+	var base_media_url = "<?php echo $this->getBaseMediaUrl() ?>";
+	var base_secure_media_url = "<?php echo $this->getBaseSecureMediaUrl() ?>";
+    var elfinder_connector = "<?php echo $this->getConnectorUrl(); ?>";
+
+    var changeElFieldImage = function(obj, id) {
+	    var a = jQuery(obj).val().replace(base_media_url, "");
+	    var ra = jQuery(obj).val();
+	    a = a.replace(base_secure_media_url, "");
+	    jQuery(obj).val(a);
+	    
+	    jQuery(id + "_image").attr( "src", ra );
+	    jQuery(id + "_image").attr( "alt", a);
+	    jQuery(id + "_link").attr( "href", ra );
+	    jQuery(id + "_link").show();
+	};
+
+	function toggleEditor() {
+        jQuery("#wpo-widgetform").parent().toggleClass("hidden");
+    }
+    
+
+    function changeFieldImage(obj, id) {
+	    var a = obj.value.replace(base_media_url, "");
+	    a = a.replace(base_secure_media_url, "");
+	    document.getElementById(id).value=a;
+	    document.getElementById(id+'_image').src=obj.value;
+	    if(jQuery('#filemanager-modal').length > 0)
+	    	jQuery('#filemanager-modal').modal('toggle');
+	}
+
+    require([
+            'jquery'
+        ], function($){
+            //code js at here
+            $('.text-danger').each(function() {
+                var element = $(this).parent().parent();
+                
+                if (element.hasClass('form-group')) {
+                    element.addClass('has-error');
+                }
+            });
+        });
+</script>

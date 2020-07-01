@@ -1,0 +1,66 @@
+<!-- 
+/**
+ * @category   Webkul
+ * @package    Webkul_MultiEbayStoreMageConnect
+ * @author     Webkul Software Private Limited
+ * @copyright  Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license    https://store.webkul.com/license.html
+ */  -->
+<?php
+
+	$params = $this->getRequest()->getParams();
+	$productList= $block->getProductsListForImportIneBay();
+	$productCount = count($productList);
+?>
+<fieldset class="fieldset">
+	<div class="wk-mu-note wk-mu-box">
+		<?php echo __('Starting Execution'); ?>...
+	</div>
+	<div class="wk-mu-notice wk-mu-box">
+		<?php echo __("Please don't close or refresh the window while exporting product(s)."); ?>
+	</div>
+	<div class="wk-mu-success wk-mu-box">
+		<?php echo __('Total '); ?><?php echo $productCount; ?><?php echo __(' product(s) to export'); ?>.
+	</div>
+	<?php if($productCount > 0): ?>
+		<div class="wk-mu-info-bar">
+			<?php __('Exporting '); ?> <span class="wk-current">1</span> of <?php echo $productCount;?>
+			<img id="loader-image" src="<?php echo $block->getViewFileUrl('Webkul_MultiEbayStoreMageConnect::images/loader.gif') ?>" />
+		</div>
+		<div class="wk-mu-progress-bar">
+			<div class="wk-mu-progress-bar-current"></div>
+		</div>
+		<div class="wk-mu-error-msg-container">
+		</div>
+	<?php else: ?>
+		<div class="wk-mu-note wk-mu-box">
+			<?php echo __('No product to export.'); ?>
+		</div>
+		<div class="wk-mu-note wk-mu-box">
+			<?php echo __('Finsihed Execution.'); ?>
+		</div>
+	<?php endif; ?>
+</fieldset>
+<?php
+	$releventData = [
+		'importUrl' => $this->getUrl('*/*/createproductonebay'),
+		'backUrl'	=> $this->getUrl('multiebaystoremageconnect/ebayaccount/edit',['id'=>$params['rule_id'],'active_tab' => 'importinebay']),
+		'fieldsetSelector'	=> '.fieldset',
+		'progressBarSelector'	=> '.wk-mu-progress-bar-current',
+		'infoBarSelector'	=> '.wk-mu-info-bar',
+		'currentSelector'	=> '.wk-current',
+		'ebayProductCount'		=> $productCount,
+		'ruleId'			=> $params['rule_id'],
+		'productJson'		=> json_encode($productList)
+	];
+
+	$serializedData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($releventData);
+?>
+
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "Webkul_MultiEbayStoreMageConnect/js/ebay-product-profiler-plugin":<?php echo $serializedData ?>
+        }
+    }
+</script>

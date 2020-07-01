@@ -1,0 +1,115 @@
+<?php 
+$imageHelper = $this->helper("Ves\Testimonial\Helper\Image");
+$testimonialCollection = $this->getTestimonialCollection();
+$blockId = rand().time();
+$tabId = 'testimonials'.$blockId;
+
+// General Setings
+$widget_title = $this->getConfig('widget_title');
+$show_name = $this->getConfig('show_name');
+$show_email = $this->getConfig('show_email');
+$show_website = $this->getConfig('show_website');
+$show_company = $this->getConfig('show_company');
+$show_title = $this->getConfig('show_title');
+// OWL Carousel
+$number_item_percolumn = (int)$this->getConfig('number_item_percolumn',200);
+$large_max_items = (int)$this->getConfig('large_max_items',6);
+$large_items = (int)$this->getConfig('large_items',5);
+$portrait_items = (int)$this->getConfig('portrait_items',4);
+$tablet_items = (int)$this->getConfig('tablet_items',4);
+$tablet_small_items = (int)$this->getConfig('tablet_small_items',2);
+$mobile_items = (int)$this->getConfig('mobile_items',1);
+$autoplay = $this->getConfig('autoplay');
+$autoplay_timeout = (int)$this->getConfig('autoplay_timeout',3000);
+$dots = $this->getConfig('dots');
+$nav = $this->getConfig('nav');
+$nav_next = $this->getConfig('nav_next');
+$nav_pre = $this->getConfig('nav_pre');
+$rtl = $this->getConfig('rtl',false);
+$loop = $this->getConfig('loop');
+$ajaxBlockId = 'testimonial-carousel-'.$blockId;
+$height_type = $this->getConfig('height_type');
+?>
+<div id="<?php echo $tabId;?>" class="block widget testimonial-widget">
+    <?php if($widget_title){ ?>
+    <div class="block-title">
+        <h1><?php echo $widget_title ?></h1>
+    </div>
+    <?php } ?>
+    <div class="tab-content testimonial-owlcarousel-play"
+    id="<?php echo $ajaxBlockId ?>"
+    data-nav="<?php echo $nav?'true':'false'; ?>"
+    data-dots="<?php echo $dots?'true':'false'; ?>"
+    data-autoplay="<?php echo $autoplay?'true':'false'; ?>"
+    data-autoplay-timeout="<?php echo $autoplay_timeout; ?>"
+    data-mobile-items="<?php echo $mobile_items; ?>"
+    data-tablet-small-items="<?php echo $tablet_small_items; ?>"
+    data-tablet-items="<?php echo $tablet_small_items; ?>"
+    data-portrait-items="<?php echo $portrait_items; ?>"
+    data-large-items="<?php echo $large_items; ?>"
+    data-large-max-items="<?php echo $large_max_items; ?>"
+    data-rtl="<?php echo $rtl?"true":"false" ?>"
+    data-loop="<?php echo $loop?"true":"false" ?>"
+    data-nav-text-owlpre="<?php echo $nav_pre ?>"
+    data-nav-text-owlnext="<?php echo $nav_next ?>"
+    <?php if($height_type){ ?>data-height-type="<?php echo $height_type ?>"<?php } ?>
+    >
+    <div class="owl-carousel">
+        <?php if ($testimonialCollection->getSize()): ?>
+            <?php foreach($testimonialCollection as $obj):?>
+                <div class="testimonial-item-info">
+                    <div class="tmls-image">
+                        <img src="<?php echo $imageHelper->resizeImage($obj->getImage(), '100', '100') ?>" alt="avatar image"/>
+                    </div>
+                    <div class="tmls-testimonial"><p><?php echo $obj->getTestimonial();?></p></div>
+                    <?php if($show_title == '1'):?>
+                        <div class="tmls-title"><span><?php echo $obj->getTitle();?></span></div>
+                    <?php endif;?>
+                    <?php if($show_name == '1'):?>
+                        <div class="tmls-name"><p><?php echo $obj->getName();?></p></div>
+                    <?php endif;?>
+                    <?php if($show_website || $show_company == '1'):?>
+                        <div class="tmls-company-website">
+                            <?php if($show_company){ ?><span><?php echo $obj->getCompany();?></span><?php } ?> / <?php if($show_website){ ?><a href="<?php echo $obj->getWebsite(); ?>"><?php echo $obj->getWebsite();?></a><?php } ?>
+                        </div>
+                    <?php endif;?>
+                    <?php if($show_email == '1'):?>
+                        <div class="tmls-name"><p><?php echo $obj->getEmail();?></p></div>
+                    <?php endif;?>
+                    <div class="tmls-name">
+                        <?php
+                        $star = $obj->getRating();
+                        for($k=1;$k<6;$k++){
+                          if($star+0.5>$k){
+                            $class="star_".$k." ratings_blank ratings_over";
+                        }else{
+                         $class="star_".$k." ratings_blank";
+                     }
+                     echo '<div class="'.$class.'"></div>';
+                 }
+                 ?>
+             </div>
+
+         </div>
+     <?php endforeach; ?>
+ <?php else: ?>
+   <p><?php echo __('No testimonials found.'); ?></p>
+<?php endif;?>
+</div>
+</div>
+</div>    
+<script type="text/javascript">
+require(['jquery'],function($){
+        $(document).ready(function(){
+        require([
+            'jquery',
+            <?php if($this->helper("Ves\All\Helper\Data")->getConfig("enable_owlcarousel")): ?>
+            "Ves_All/lib/owl.carousel/owl.carousel.min",
+        <?php endif; ?>
+        'Ves_Testimonial/js/testimonial-carousel',
+        ], function () {
+            tmlsOwlCarousel("<?php echo '#'.$ajaxBlockId ?>", ".owl-carousel");
+        });
+    });
+});
+</script>

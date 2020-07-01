@@ -1,0 +1,205 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+
+$_product = $block->getProduct();
+$data = $this->helper('Ves\Themesettings\Helper\Data');
+$ves = $this->helper('Ves\Themesettings\Helper\Theme');
+$show_newlabel = $ves->getProductPageCfg('element_settings/show_newlabel');
+$show_salelabel = $ves->getProductPageCfg('element_settings/show_salelabel');
+$thumb_layout = $ves->getProductPageCfg('element_settings/thumb_layout');
+$thumb_location = $ves->getProductPageCfg('element_settings/thumb_location');
+$enable_zoom = $ves->getProductPageCfg('element_settings/show_zoom');
+$enable_zoom = (int)$enable_zoom;
+$zoom_magnify = $ves->getProductPageCfg('element_settings/zoom_magnify');
+$zoom_magnify = $zoom_magnify?(int)$zoom_magnify:1;
+?>
+<?php // Sale Icon, New Icon Block ?>
+<?php if($show_newlabel || $show_salelabel){ ?>
+<div class="icon">
+    <?php
+    if($show_salelabel) {
+        $specialprice = $_product->getSpecialPrice();
+        $specialPriceFromDate = $_product->getSpecialFromDate();
+        $specialPriceToDate = $_product->getSpecialToDate();
+        $today =  time();
+        if ($specialprice) {
+            if(($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate)) || ($today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)) || (is_null($specialPriceFromDate) && $today <= strtotime($specialPriceToDate)) || (is_null($specialPriceFromDate) && is_null($specialPriceToDate))) {
+                ?>
+                <span class="onsale"><span><?php echo __("Sale");?></span></span>
+                <?php
+            }
+        }
+    }
+    if($show_newlabel) {
+        $is_new = $data->checkProductIsNew( $_product );
+        if($is_new) { ?>
+        <span class="new-icon"><span><?php echo __("New");?></span></span>
+        <?php
+    }
+}
+?>
+</div>
+<?php } ?>
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+    <div data-role="loader" class="loading-mask">
+        <div class="loader">
+            <img src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+                 alt="<?= /* @escapeNotVerified */ __('Loading...') ?>">
+        </div>
+    </div>
+</div>
+<!--Fix for jumping content. Loader must be the same size as gallery.-->
+<script>
+    var config = {
+            "width": <?= /* @escapeNotVerified */ $block->getImageAttribute('product_page_image_medium', 'width') ?>,
+            "thumbheight": <?php /* @escapeNotVerified */ echo $block->getImageAttribute('product_page_image_small', 'height')
+                        ?: $block->getImageAttribute('product_page_image_small', 'width'); ?>,
+            "navtype": "<?= /* @escapeNotVerified */ $block->getVar("gallery/navtype") ?>",
+            "height": <?= /* @escapeNotVerified */ $block->getImageAttribute('product_page_image_medium', 'height') ?>
+        },
+        thumbBarHeight = 0,
+        loader = document.querySelectorAll('[data-gallery-role="gallery-placeholder"] [data-role="loader"]')[0];
+
+    if (config.navtype === 'horizontal') {
+        thumbBarHeight = config.thumbheight;
+    }
+
+    loader.style.paddingBottom = ( config.height / config.width * 100) + "%";
+</script>
+<script type="text/x-magento-init">
+    {
+        "[data-gallery-role=gallery-placeholder]": {
+            "mage/gallery/gallery": {
+                "mixins":["magnifier/magnify"],
+                "magnifierOpts": <?= /* @escapeNotVerified */ $block->getMagnifier() ?>,
+                "data": <?= /* @escapeNotVerified */ $block->getGalleryImagesJson() ?>,
+                "options": {
+                    "nav": "<?= /* @escapeNotVerified */ $block->getVar("gallery/nav") ?>",
+		    		"navposition": "<?php /* @escapeNotVerified */ echo $thumb_location; ?>",
+                    <?php if (($block->getVar("gallery/loop"))): ?>
+                        "loop": <?= /* @escapeNotVerified */ $block->getVar("gallery/loop") ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/keyboard"))): ?>
+                        "keyboard": <?= /* @escapeNotVerified */ $block->getVar("gallery/keyboard") ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/arrows"))): ?>
+                        "arrows": <?= /* @escapeNotVerified */ $block->getVar("gallery/arrows") ?>,
+                    <?php endif; ?>
+                    <?php if (($block->getVar("gallery/allowfullscreen"))): ?>
+                        "allowfullscreen": <?= /* @escapeNotVerified */ $block->getVar("gallery/allowfullscreen") ?>,
+                    <?php endif; ?>
+                    <?php /* if (($block->getVar("gallery/caption"))): ?>
+                        "showCaption": <?= /* @escapeNotVerified  $block->getVar("gallery/caption") ?>,
+                    <?php endif; */?>
+                    "width": "<?= /* @escapeNotVerified */ $block->getImageAttribute('product_page_image_medium', 'width') ?>",
+                    "thumbwidth": "<?= /* @escapeNotVerified */ $block->getImageAttribute('product_page_image_small', 'width') ?>",
+                    <?php if ($block->getImageAttribute('product_page_image_small', 'height') || $block->getImageAttribute('product_page_image_small', 'width')): ?>
+                        "thumbheight": <?php /* @escapeNotVerified */ echo $block->getImageAttribute('product_page_image_small', 'height')
+                        ?: $block->getImageAttribute('product_page_image_small', 'width'); ?>,
+                    <?php endif; ?>
+                    <?php if ($block->getImageAttribute('product_page_image_medium', 'height') || $block->getImageAttribute('product_page_image_medium', 'width')): ?>
+                        "height": <?php /* @escapeNotVerified */ echo $block->getImageAttribute('product_page_image_medium', 'height')
+                        ?: $block->getImageAttribute('product_page_image_medium', 'width'); ?>,
+                    <?php endif; ?>
+                    <?php if ($block->getVar("gallery/transition/duration")): ?>
+                        "transitionduration": <?= /* @escapeNotVerified */ $block->getVar("gallery/transition/duration") ?>,
+                    <?php endif; ?>
+                    "transition": "<?= /* @escapeNotVerified */ $block->getVar("gallery/transition/effect") ?>",
+                    <?php if (($block->getVar("gallery/navarrows"))): ?>
+                        "navarrows": <?= /* @escapeNotVerified */ $block->getVar("gallery/navarrows") ?>,
+                    <?php endif; ?>
+                    "navtype": "<?= /* @escapeNotVerified */ $block->getVar("gallery/navtype") ?>",
+                    "navdir": "<?php /* @escapeNotVerified */  echo $thumb_layout; ?>"
+                },
+                "fullscreen": {
+                    "nav": "<?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/nav") ?>",
+                    <?php if ($block->getVar("gallery/fullscreen/loop")): ?>
+                        "loop": <?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/loop") ?>,
+                    <?php endif; ?>
+                    "navdir": "<?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/navdir") ?>",
+                    <?php if ($block->getVar("gallery/transition/navarrows")): ?>
+                        "navarrows": <?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/navarrows") ?>,
+                    <?php endif; ?>
+                    "navtype": "<?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/navtype") ?>",
+                    <?php if ($block->getVar("gallery/fullscreen/arrows")): ?>
+                        "arrows": <?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/arrows") ?>,
+                    <?php endif; ?>
+                    <?php /*if ($block->getVar("gallery/fullscreen/caption")): ?>
+                       "showCaption": <?= /* @escapeNotVerified $block->getVar("gallery/fullscreen/caption") ?>,
+                    <?php endif; */?>
+                    <?php if ($block->getVar("gallery/fullscreen/transition/duration")): ?>
+                        "transitionduration": <?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/transition/duration") ?>,
+                    <?php endif; ?>
+                    "transition": "<?= /* @escapeNotVerified */ $block->getVar("gallery/fullscreen/transition/effect") ?>"
+                },
+                "breakpoints": <?= /* @escapeNotVerified */ $block->getBreakpoints() ?>
+            }
+        }
+    }
+</script>
+<?php if($enable_zoom): ?>
+<script type="text/javascript">
+require([
+    'jquery',
+    'Magento_Catalog/js/jquery.zoom.min'
+], function ($, zoom) {
+    var loaded = false;
+    $('.product.media .gallery-placeholder').bind("DOMSubtreeModified",function(){
+        $('.product.media .fotorama').on('fotorama:ready', function (e, fotorama, extra) {
+            //console.log('fotorama is loaded');
+            loaded = false;
+            $('.product.media .fotorama').on('fotorama:load', function (e, fotorama, extra) {
+                if(!loaded){
+                    $('.product.media .fotorama__stage .fotorama__loaded--img').trigger('zoom.destroy');
+                    $('.product.media .fotorama__stage .fotorama__active').zoom({
+                        touch:false,
+                        magnify:<?php echo $zoom_magnify; ?>
+                    });
+                    loaded = true;
+                }
+            });
+            $('.product.media .fotorama').off('fotorama:showend').on('fotorama:showend', function (e, fotorama, extra) {
+                $('.product.media .fotorama__stage .fotorama__loaded--img').trigger('zoom.destroy');
+                $('.product.media .fotorama__stage .fotorama__active').zoom({
+                    touch:false,
+                    magnify:<?php echo $zoom_magnify; ?>
+                });
+            });
+            $('.fotorama').off('fotorama:fullscreenenter').on('fotorama:fullscreenenter', function (e, fotorama, extra) {
+                $('.product.media .fotorama__stage .fotorama__loaded--img').trigger('zoom.destroy');
+                $('img.zoomImg').remove();
+            });
+            $('.fotorama').off('fotorama:fullscreenexit').on('fotorama:fullscreenexit', function (e, fotorama, extra) {
+                $('.product.media .fotorama__stage .fotorama__loaded--img').trigger('zoom.destroy');
+                $('img.zoomImg').remove();
+                $('img.fotorama__img').not('.fotorama__img--full').each(function(){
+                    $(this).after($(this).parent().children("img.fotorama__img--full"));
+                });
+                $('.product.media .fotorama__stage .fotorama__active').zoom({
+                    touch:false,
+                    magnify:<?php echo $zoom_magnify; ?>
+                });
+                $('.product.media .fotorama').off('fotorama:showend').on('fotorama:showend', function (e, fotorama, extra) {
+                    $('.product.media .fotorama__stage .fotorama__loaded--img').trigger('zoom.destroy');
+                    $('.product.media .fotorama__stage .fotorama__active').zoom({
+                        touch:false,
+                        magnify:<?php echo $zoom_magnify; ?>
+                    });
+                });
+            });
+        });
+    });
+});
+</script>
+<?php endif; ?>

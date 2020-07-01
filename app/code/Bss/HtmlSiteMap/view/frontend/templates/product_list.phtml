@@ -1,0 +1,43 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    BSS_HtmlSiteMap
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+$helper = $block->getHelper();
+
+//Product Link
+$enableProduct = $helper->enableProduct();
+$titleProduct = $helper->titleProduct();
+
+if($enableProduct == 1): ?>
+    <h2 class="bss_h2"><?php echo $titleProduct; ?></h2>
+    <div class="grid"> 
+        <?php
+        $productCollection = $block->getProductCollection();
+        foreach ($productCollection as $product) {
+            echo $product->getData("id");
+            echo '<div class="col-3">
+                    <h3 class="bss_product_list">
+                    <a href="'.$product->getUrlModel()->getUrl($product).'"
+                    title = "'.$product->getName().'">'.$product->getName().'</a>
+                    </h3>
+                </div>';
+        }
+        ?>
+    </div>
+<?php
+endif; ?>

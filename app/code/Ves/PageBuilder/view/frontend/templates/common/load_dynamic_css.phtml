@@ -1,0 +1,32 @@
+<?php
+	$pub_url = $this->getBaseUrl();
+	$pub_url .= "pub/";
+	$livess_folder_path = "pagebuilder/livecss/";
+	//Path to customize css profile
+	$path_css_profile = $this->getConfig("veslivecss/general/path_css_profile");
+	$path_css_profile = !empty($path_css_profile)?$path_css_profile:"media/pagebuilder/livecss";
+
+	$enable_livecss = $this->getConfig("veslivecss/general/show");
+	$css_profile = $this->getConfig("veslivecss/general/css_profile");
+
+
+?>
+<?php if( $enable_livecss ) : ?>
+<!-- Page live CSS-->
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $pub_url.$livess_folder_path."css/fonts.css"; ?>">
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $pub_url.$livess_folder_path."css/style.css"; ?>">
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $pub_url.$livess_folder_path."css/paneltool.css"; ?>">
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $pub_url.$livess_folder_path."colorpicker/css/colorpicker.css"; ?>">
+<?php
+ endif; 
+?>
+<?php if( $css_profile ) : ?>
+<!-- Page live profile CSS -->
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $pub_url.$path_css_profile."/".$css_profile;?>">
+<!-- Do not use there css files for current version
+<link rel="stylesheet" type="text/css"  media="screen and (min-width: 768px)" href="<?php echo $pub_url.$livess_folder_path."customize/".$css_profile."-l.css";?>">
+<link rel="stylesheet" type="text/css"  media="screen and (max-width: 480px)" href="<?php echo $pub_url.$livess_folder_path."customize/".$css_profile."-m.css";?>">
+-->
+<?php
+ endif; 
+?>

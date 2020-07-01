@@ -1,0 +1,63 @@
+<?php
+  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+  $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+  $urlBuilder = $objectManager->create("Magento\Customer\Model\Url");
+  $is_logged = false;
+  ?>
+<div id="signup-mpdal" style="width: 600px;display: none;">
+      <?php echo $block->getChildHtml('formregister'); ?>
+      <div class="modal-footer">
+          <small><?php echo __("Already signed up?");?> <a href="javascript:void(0);" class="btn-signin"><?php echo __("Login here");?></a>.</small>
+      </div>
+</div>
+
+<div id="signin-mpdal" style="width: 600px;display: none;">
+      <?php echo $block->getChildHtml('formlogin'); ?>
+</div>
+<script>
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+        var dataForm = $('#form-validate');
+        dataForm.mage('validation', {});
+    });
+</script>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                modalClass: 'vesmodal',
+                responsive: true,
+                innerScroll: true,
+                title: ''
+            };
+            $('.signup').click(function(event) {
+              var popup = modal(options, $('#signup-mpdal'));
+              $('#signup-mpdal').modal('openModal');
+            });
+            $('.signin').click(function(event) {
+              var popup = modal(options, $('#signin-mpdal'));
+              $('#signin-mpdal').modal('openModal');
+            });
+            $('.btn-signin').click(function(event) {
+              $('#signup-mpdal').modal('closeModal');
+              $('.signin').trigger("click");
+            });
+        }
+    );
+</script>
+
+<?php
+  if($customerSession->isLoggedIn()) {
+    // customer login action
+  } else { }
+?>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="provu_api" sortOrder="999" translate="label">
+			<label>Provu Api</label>
+		</tab>
+		<section id="products" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>Products</label>
+			<tab>provu_api</tab>
+			<resource>ProVu_ApiManagement::config_provu_apimanagement</resource>
+			<group id="options_price" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">
+				<label>Price Discount</label>
+				<field id="price_discount1" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Price Discount1 (Percent)</label>
+					<comment>(£0-£50) Will be used to calculate Magento Price</comment>
+				</field>
+				<field id="price_discount2" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Price Discount2 (Percent)</label>
+					<comment>(£51-£100) Will be used to calculate Magento Price</comment>
+				</field>
+				<field id="price_discount3" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Price Discount3 (Percent)</label>
+					<comment>(£101-) Will be used to calculate Magento Price</comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

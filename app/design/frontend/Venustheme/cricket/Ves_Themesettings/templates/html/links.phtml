@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php
+$ves = $this->_ves;
+$vesData = $this->_vesData;
+$html = '';
+$id = $block->getIdModifier() ? '-' . $block->getIdModifier() : time().rand();
+
+
+?>
+
+<div class="header-links" id="header-links<?php echo $id?>">
+    <?php if($vesData->isLoggedIn()){ ?>
+        <?php
+        $postData = $vesData->getObjectManager()->create('Magento\Framework\Data\Helper\PostHelper');
+        $logoutData = $postData->getPostData($block->getUrl('customer/account/logout/'));
+        $dataPostParam = sprintf(" data-post='%s'", $logoutData);
+    ?>
+    <div class="actions dropdown options header-links-options">
+        <div class="action toggle switcher-trigger" id="header-links-trigger<?php echo $id?>">
+            <strong><i class="zmdi zmdi-account">&nbsp;</i><?php echo __('My Account') ?></strong>
+        </div>
+        <ul class="dropdown header-links-dropdown" data-mage-init='{"dropdownDialog":{
+        "appendTo":"#header-links<?php echo $id?> > .options",
+        "triggerTarget":"#header-links-trigger<?php echo $id?>",
+        "closeOnMouseLeave": false,
+        "triggerClass":"active",
+        "parentClass":"active",
+        "buttons":null}}'>
+            <?php
+            foreach ($this->getLinks() as $link) {
+                $html .= $this->renderLink($link);
+            }
+            echo $html;
+            ?>
+            <?php
+            $custom_links = unserialize($ves->getHeaderCfg('toplinks_settings/custom_links'));
+            unset($custom_links['__empty']);
+            foreach ($custom_links as $_link) { ?>
+            <li class="<?php echo $_link['classes'] ?>" >
+                <a href="<?php echo $vesData->filter($_link['link']) ?>" target="<?php echo $_link['target'] ?>"><?php echo $_link['title'] ?></a>
+            </li>
+            <?php } ?>
+        </ul>
+    </div>
+    <?php }else{ ?>
+        <ul class="actions options header-links-options link-login">
+            <?php
+            foreach ($this->getLinks() as $link) {
+                $html .= $this->renderLink($link);
+            }
+            //echo $html;
+            ?>
+            <?php
+            /*$custom_links = unserialize($ves->getHeaderCfg('toplinks_settings/custom_links'));
+            unset($custom_links['__empty']);
+            foreach ($custom_links as $_link) { ?>
+            <li class="<?php echo $_link['classes'] ?>" >
+                <a href="<?php echo $vesData->filter($_link['link']) ?>" target="<?php echo $_link['target'] ?>"><?php echo $_link['title'] ?></a>
+            </li>
+            <?php }*/ ?>
+
+            <li class="signup"><a href="javascript:void(0);"><i class="zmdi zmdi-edit">&nbsp;</i><?php echo __('Register'); ?></a>
+            <li data-label="or" class="authorization-link signin"><a href="javascript:void(0);"><i class="zmdi zmdi-lock-outline">&nbsp;</i><?php echo __('Login'); ?></a></li>
+        </ul>
+    <?php } ?>
+</div>
+
