@@ -1,0 +1,40 @@
+url pbxphonesystems.co.uk
+
+159.242.127.214
+
+
+admin: pbxphonesystems.co.uk/admin
+uname :admin
+pw: password123!
+
+------------------------------------------------------
+https://ncrlink.co.uk:2031/
+------------------------------------------------------
+unam: root
+pw: !support@
+
+
+------------------------------------------------------
+https://ncrlink.co.uk:2083/
+------------------------------------------------------
+u: root
+!support@
+
+
+root ssh, ftp-----------------------
+159.242.127.214
+port: 9443
+u:root
+!support@
+
+pbx ssh ftp------------------------
+port 9443
+u:pbx
+!support@
+
+
+ebay info----------------------------------
+melsoaps@gmail.com
+
+Pass: !support@
+

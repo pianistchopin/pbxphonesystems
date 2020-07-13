@@ -220,6 +220,7 @@ return [
         'Amazon_Payment' => 1,
         'Bss_HtmlSiteMap' => 1,
         'Dotdigitalgroup_Email' => 1,
+        'Ess_M2ePro' => 1,
         'Klarna_Core' => 1,
         'Klarna_Ordermanagement' => 1,
         'Klarna_Kp' => 1,
@@ -258,7 +259,7 @@ return [
         'Ves_Testimonial' => 0,
         'Ves_Themesettings' => 0,
         'WebShopApps_MatrixRate' => 1,
-        'Webkul_MultiEbayStoreMageConnect' => 1,
+        'Webkul_MultiEbayStoreMageConnect' => 0,
         'WeltPixel_Backend' => 1,
         'WeltPixel_GoogleCards' => 1,
         'Yotpo_Yotpo' => 1
