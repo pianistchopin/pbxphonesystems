@@ -26,12 +26,38 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
     {
         parent::eventAfterExecuting();
 
-        if (!empty($this->params['params']['remove'])) {
-            /** @var \Ess\M2ePro\Model\Listing\Product\RemoveHandler $removeHandler */
-            $removeHandler = $this->modelFactory->getObject('Listing_Product_RemoveHandler');
-            $removeHandler->setListingProduct($this->listingProduct);
-            $removeHandler->process();
+        $responseData = $this->getPreparedResponseData();
+
+        if (!empty($this->params['params']['remove']) &&
+            (!empty($this->params['is_realtime']) || !empty($responseData['request_time']))
+        ) {
+            $this->listingProduct->setData('status', \Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED);
+            $this->listingProduct->delete();
         }
+    }
+
+    protected function inspectProduct()
+    {
+        if (empty($this->params['params']['remove'])) {
+            parent::inspectProduct();
+            return;
+        }
+
+        $responseData = $this->getPreparedResponseData();
+        if (!empty($this->params['is_realtime']) || !empty($responseData['request_time'])) {
+            return;
+        }
+
+        $configurator = $this->getConfigurator();
+        if (!empty($responseData['start_processing_date'])) {
+            $configurator->setParams(['start_processing_date' => $responseData['start_processing_date']]);
+        }
+
+        $this->processAdditionalAction(
+            \Ess\M2ePro\Model\Listing\Product::ACTION_STOP,
+            $configurator,
+            $this->params['params']
+        );
     }
 
     //########################################
@@ -41,7 +67,8 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
         if (!empty($data['already_stop'])) {
             $this->getResponseObject()->processSuccess($data, $params);
 
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
+            // M2ePro\TRANSLATIONS
+            // Item was already Stopped on eBay
             $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
             $message->initFromPreparedData(
                 'Item was already Stopped on eBay',

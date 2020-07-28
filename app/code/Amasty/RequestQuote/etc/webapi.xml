@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/amasty_quote/updateRemark" method="PUT">
+        <service class="Amasty\RequestQuote\Api\RemarkServiceInterface" method="save"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/approve/:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteRepositoryInterface" method="approve"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::approve" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/expire/:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteRepositoryInterface" method="expire"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::close" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/search" method="GET">
+        <service class="Amasty\RequestQuote\Api\QuoteRepositoryInterface" method="getRequestsList"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::manage_quotes" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/quote/note/customer:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteRepositoryInterface" method="addCustomerNote"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::manage_quotes" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/quote/note/admin:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteRepositoryInterface" method="addAdminNote"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::manage_quotes" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/quote_item/note/customer:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteItemRepositoryInterface" method="addCustomerNote"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::manage_quotes" />
+        </resources>
+    </route>
+    <route url="/V1/amasty_quote/quote_item/note/admin:quoteId" method="PUT">
+        <service class="Amasty\RequestQuote\Api\QuoteItemRepositoryInterface" method="addAdminNote"/>
+        <resources>
+            <resource ref="Amasty_RequestQuote::manage_quotes" />
+        </resources>
+    </route>
+</routes>

@@ -1,0 +1,174 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Adminhtml\Quote\View\Info $block */
+?>
+<?php
+$quote = $block->getQuote();
+
+$quoteAdminDate = $block->formatDate(
+    $block->getQuoteAdminDate($quote->getData('submited_date')),
+    \IntlDateFormatter::MEDIUM,
+    true
+);
+
+$quoteStoreDate = $block->formatDate(
+    $quote->getCreatedAt(),
+    \IntlDateFormatter::MEDIUM,
+    true,
+    $block->getTimezoneForStore($quote->getStore())
+);
+?>
+
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Quote & Account Information')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <?php /* Quote Information */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title">
+                    <?= $block->escapeHtml(__('Quote # %1', $quote->getIncrementId())) ?>
+                </span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-information-table">
+                <tr>
+                    <th><?= $block->escapeHtml(__('Quote Date')) ?></th>
+                    <td><?= $block->escapeHtml($quoteAdminDate) ?></td>
+                </tr>
+                <?php if ($quoteAdminDate != $quoteStoreDate):?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Quote Date (%1)', $block->getTimezoneForStore($quote->getStore()))) ?></th>
+                        <td><?= $block->escapeHtml($quoteStoreDate) ?></td>
+                    </tr>
+                <?php endif;?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Status')) ?></th>
+                    <td><span id="order_status"><?= $block->escapeHtml($quote->getStatusLabel()) ?></span></td>
+                </tr>
+                <?php if ($block->isExpiredShow()) : ?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Expiry Date')) ?></th>
+                    <td><span id="quote_expiry"><?= $block->getExpiredDate() ?></span></td>
+                </tr>
+                <?php endif; ?>
+                <?php if ($block->isReminderShow()) : ?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Reminder Date')) ?></th>
+                    <td><span id="quote_remondir"><?= $block->getReminderDate() ?></span></td>
+                </tr>
+                <?php endif; ?>
+                <?= $block->getChildHtml() ?>
+                <?php if ($block->isSingleStoreMode() == false):?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Created From')) ?></th>
+                        <td><?= $block->escapeHtml($block->getQuoteStoreName(), ['br']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($quote->getRelationChildId()): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Link to the New Quote')) ?></th>
+                        <td>
+                            <a href="<?= $block->escapeHtml($block->getViewUrl($quote->getRelationChildId())) ?>">
+                                <?= $block->escapeHtml($quote->getRelationChildRealId()) ?>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($block->getOrder()->getId()): ?>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Order Id')) ?></th>
+                    <td>
+                        <a href="<?= $block->escapeHtml($block->getOrderViewUrl()) ?>">
+                            <?= $block->escapeHtml($block->getOrder()->getIncrementId()) ?>
+                        </a>
+                    </td>
+                </tr>
+                <?php endif; ?>
+                <?php if ($quote->getRelationParentId()): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Link to the Previous Quote')) ?></th>
+                        <td>
+                            <a href="<?= $block->escapeHtml($block->getViewUrl($quote->getRelationParentId())) ?>">
+                                <?= $block->escapeHtml($quote->getRelationParentRealId()) ?>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($quote->getRemoteIp() && $block->shouldDisplayCustomerIp()): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Placed from IP')) ?></th>
+                        <td><?= $block->escapeHtml($quote->getRemoteIp()); echo $quote->getXForwardedFor() ? ' (' . $block->escapeHtml($quote->getXForwardedFor()) . ')' : ''; ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($quote->getGlobalCurrencyCode() != $quote->getBaseCurrencyCode()): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('%1 / %2 rate:', $quote->getGlobalCurrencyCode(), $quote->getBaseCurrencyCode())) ?></th>
+                        <td><?= $block->escapeHtml($quote->getBaseToGlobalRate()) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if ($quote->getBaseCurrencyCode() != $quote->getQuoteCurrencyCode()): ?>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('%1 / %2 rate:', $quote->getQuoteCurrencyCode(), $quote->getBaseCurrencyCode())) ?></th>
+                        <td><?= $block->escapeHtml($quote->getBaseToQuoteRate()) ?></td>
+                    </tr>
+                <?php endif; ?>
+            </table>
+            </div>
+        </div>
+
+        <div class="admin__page-section-item order-account-information">
+            <?php /* Account Information */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Account Information')) ?></span>
+                <div class="actions">
+                    <?php if ($customerUrl = $block->getCustomerViewUrl()) : ?>
+                        <a href="<?= /* @noEscape */ $block->getCustomerViewUrl() ?>" target="_blank">
+                            <?= $block->escapeHtml(__('Edit Customer')) ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary order-account-information-table">
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Customer Name')) ?></th>
+                        <td>
+                            <?php if ($customerUrl = $block->getCustomerViewUrl()): ?>
+                                <a href="<?= $block->escapeUrl($customerUrl) ?>" target="_blank">
+                                    <span><?= $block->escapeHtml($quote->getCustomerName()) ?></span>
+                                </a>
+                            <?php else: ?>
+                                <?= $block->escapeHtml($quote->getCustomerName()) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Email')) ?></th>
+                        <td><a href="mailto:<?php echo $block->escapeHtml($quote->getCustomerEmail()) ?>"><?php echo $block->escapeHtml($quote->getCustomerEmail()) ?></a></td>
+                    </tr>
+                    <?php if ($groupName = $block->getCustomerGroupName()) : ?>
+                        <tr>
+                            <th><?= $block->escapeHtml(__('Customer Group')) ?></th>
+                            <td><?= $block->escapeHtml($groupName) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php foreach ($block->getCustomerAccountData() as $data):?>
+                        <tr>
+                            <th><?= $block->escapeHtml($data['label']) ?></th>
+                            <td><?= $block->escapeHtml($data['value'], ['br']) ?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    <?= $block->getChildHtml('extra_customer_info') ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

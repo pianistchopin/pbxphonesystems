@@ -80,9 +80,7 @@ class Reserve extends \Ess\M2ePro\Model\AbstractModel
         }
 
         $this->placeReserve->execute(
-            $convertedItems,
-            $salesChannel,
-            $this->salesEventFactory->create($salesEventData)
+            $convertedItems, $salesChannel, $this->salesEventFactory->create($salesEventData)
         );
     }
 

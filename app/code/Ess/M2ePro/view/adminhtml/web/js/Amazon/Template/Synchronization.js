@@ -56,10 +56,6 @@ define([
                     return true;
                 }
 
-                if (AmazonTemplateSynchronizationObj.isStopModeDisabled()) {
-                    return true;
-                }
-
                 if ($('stop_status_disabled').value == 1 && $('relist_status_enabled').value == 0) {
                     return false;
                 }
@@ -70,10 +66,6 @@ define([
             jQuery.validator.addMethod('M2ePro-validate-stop-relist-conditions-stock-availability', function(value, el) {
 
                 if (AmazonTemplateSynchronizationObj.isRelistModeDisabled()) {
-                    return true;
-                }
-
-                if (AmazonTemplateSynchronizationObj.isStopModeDisabled()) {
                     return true;
                 }
 
@@ -90,10 +82,6 @@ define([
                     return true;
                 }
 
-                if (AmazonTemplateSynchronizationObj.isStopModeDisabled()) {
-                    return true;
-                }
-
                 var stopMaxQty = 0,
                     relistMinQty = 0;
 
@@ -101,27 +89,27 @@ define([
 
                 switch (parseInt($('stop_qty_' + qtyType).value)) {
 
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_NONE'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_NONE'):
                         return true;
                         break;
 
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_LESS'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_LESS'):
                         stopMaxQty = parseInt($('stop_qty_' + qtyType + '_value').value);
                         break;
 
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_BETWEEN'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_BETWEEN'):
                         stopMaxQty = parseInt($('stop_qty_' + qtyType + '_value_max').value);
                         break;
                 }
 
                 switch (parseInt($('relist_qty_' + qtyType).value)) {
 
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_NONE'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_NONE'):
                         return false;
                         break;
 
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_MORE'):
-                    case M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_BETWEEN'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_MORE'):
+                    case M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_BETWEEN'):
                         relistMinQty = parseInt($('relist_qty_' + qtyType + '_value').value);
                         break;
                 }
@@ -158,12 +146,6 @@ define([
                 .observe('change', AmazonTemplateSynchronizationObj.reviseQtyMaxAppliedValueMode_change)
                 .simulate('change');
 
-            $('revise_update_details')
-                .observe('change', AmazonTemplateSynchronizationObj.reviseDetailsOrImagesMode_change);
-
-            $('revise_update_images')
-                .observe('change', AmazonTemplateSynchronizationObj.reviseDetailsOrImagesMode_change);
-
             $('revise_update_price').observe('change', AmazonTemplateSynchronizationObj.revisePrice_change)
                 .simulate('change');
 
@@ -171,7 +153,6 @@ define([
                 .simulate('change');
 
             //stop
-            $('stop_mode').observe('change', AmazonTemplateSynchronizationObj.stopMode_change).simulate('change');
             $('stop_qty_magento').observe('change', AmazonTemplateSynchronizationObj.stopQty_change).simulate('change');
             $('stop_qty_calculated').observe('change', AmazonTemplateSynchronizationObj.stopQty_change).simulate('change');
             $('stop_advanced_rules_mode').observe('change', AmazonTemplateSynchronizationObj.stopAdvancedRules_change).simulate('change');
@@ -182,11 +163,6 @@ define([
         isRelistModeDisabled: function()
         {
             return $('relist_mode').value == 0;
-        },
-
-        isStopModeDisabled: function()
-        {
-            return $('stop_mode').value == 0;
         },
 
         // ---------------------------------------
@@ -214,13 +190,13 @@ define([
             valueContainer.hide();
             valueMaxContainer.hide();
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_LESS') ||
-                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_MORE')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_LESS') ||
+                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_MORE')) {
                 item.innerHTML = M2ePro.translator.translate('Quantity');
                 valueContainer.show();
             }
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_BETWEEN')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::STOP_QTY_BETWEEN')) {
                 item.innerHTML = M2ePro.translator.translate('Min Quantity');
                 valueContainer.show();
                 valueMaxContainer.show();
@@ -248,12 +224,15 @@ define([
             var rulesContainer         = $('magento_block_amazon_template_synchronization_list_rules'),
                 advancedRulesContainer = $('magento_block_amazon_template_synchronization_list_advanced_filters');
 
-            rulesContainer.hide();
-            advancedRulesContainer.hide();
-
-            if ($('list_mode').value == 1) {
+            if ($('list_mode').value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::LIST_MODE_NONE')) {
+                rulesContainer.hide();
+                advancedRulesContainer.hide();
+            } else if ($('list_mode').value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::LIST_MODE_YES')) {
                 rulesContainer.show();
                 advancedRulesContainer.show();
+            } else {
+                rulesContainer.hide();
+                advancedRulesContainer.hide();
             }
         },
 
@@ -268,13 +247,13 @@ define([
             valueContainer.hide();
             valueMaxContainer.hide();
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_LESS') ||
-                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_MORE')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::LIST_QTY_LESS') ||
+                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::LIST_QTY_MORE')) {
                 item.innerHTML = M2ePro.translator.translate('Quantity');
                 valueContainer.show();
             }
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_BETWEEN')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::LIST_QTY_BETWEEN')) {
                 item.innerHTML = M2ePro.translator.translate('Min Quantity');
                 valueContainer.show();
                 valueMaxContainer.show();
@@ -301,17 +280,25 @@ define([
         {
             var rulesContainer         = $('magento_block_amazon_template_synchronization_relist_rules'),
                 advancedRulesContainer = $('magento_block_amazon_template_synchronization_relist_advanced_filters'),
-                userLockContainer      = $('relist_filter_user_lock_tr_container');
+                userLockContainer      = $('relist_filter_user_lock_tr_container'),
+                sendDataContainer      = $('relist_send_data_tr_container');
 
-            userLockContainer.hide();
-            rulesContainer.hide();
-            advancedRulesContainer.hide();
-
-           if ($('relist_mode').value == 1) {
+            if ($('relist_mode').value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_MODE_NONE')) {
+                userLockContainer.hide();
+                sendDataContainer.hide();
+                rulesContainer.hide();
+                advancedRulesContainer.hide();
+            } else if ($('relist_mode').value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_MODE_YES')) {
                 userLockContainer.show();
+                sendDataContainer.show();
                 rulesContainer.show();
                 advancedRulesContainer.show();
-           }
+            } else {
+                userLockContainer.hide();
+                sendDataContainer.hide();
+                rulesContainer.hide();
+                advancedRulesContainer.hide();
+            }
         },
 
         relistQty_change: function()
@@ -325,13 +312,13 @@ define([
             valueContainer.hide();
             valueMaxContainer.hide();
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_LESS') ||
-                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_MORE')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_LESS') ||
+                this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_MORE')) {
                 item.innerHTML = M2ePro.translator.translate('Quantity');
                 valueContainer.show();
             }
 
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Template_Synchronization::QTY_MODE_BETWEEN')) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::RELIST_QTY_BETWEEN')) {
                 item.innerHTML = M2ePro.translator.translate('Min Quantity');
                 valueContainer.show();
                 valueMaxContainer.show();
@@ -356,7 +343,7 @@ define([
 
         reviseQty_change: function()
         {
-            if (this.value == 1) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_UPDATE_QTY_YES')) {
                 $('revise_update_qty_max_applied_value_mode_tr').show();
                 $('revise_update_qty_max_applied_value_line_tr').show();
                 $('revise_update_qty_max_applied_value_mode').simulate('change');
@@ -364,7 +351,7 @@ define([
                 $('revise_update_qty_max_applied_value_mode_tr').hide();
                 $('revise_update_qty_max_applied_value_line_tr').hide();
                 $('revise_update_qty_max_applied_value_tr').hide();
-                $('revise_update_qty_max_applied_value_mode').value = 0;
+                $('revise_update_qty_max_applied_value_mode').value = M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_MAX_AFFECTED_QTY_MODE_OFF');
             }
         },
 
@@ -374,7 +361,7 @@ define([
 
             $('revise_update_qty_max_applied_value_tr').hide();
 
-            if (this.value == 1) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_MAX_AFFECTED_QTY_MODE_ON')) {
                 $('revise_update_qty_max_applied_value_tr').show();
             } else if (!event.cancelable) {
                 self.openReviseMaxAppliedQtyDisableConfirmationPopUp();
@@ -423,51 +410,9 @@ define([
 
         // ---------------------------------------
 
-        reviseDetailsOrImagesMode_change: function()
-        {
-            var self = AmazonTemplateSynchronizationObj;
-
-            if (this.value == 1) {
-                self.openReviseDetailsOrImagesEnableConfirmationPopUp(this);
-            }
-        },
-
-        openReviseDetailsOrImagesEnableConfirmationPopUp: function(elem)
-        {
-            var popupTemplate = jQuery('#revise_update_details_or_images_confirmation_popup_template').clone();
-
-            popupTemplate.confirm({
-                title: M2ePro.translator.translate('Are you sure?'),
-                actions: {
-                    confirm: function () {
-                        return true;
-                    },
-                    cancel: function()
-                    {
-                        elem.selectedIndex = 0;
-                    }
-                },
-                buttons: [{
-                    text: M2ePro.translator.translate('Cancel'),
-                    class: 'action-secondary action-dismiss',
-                    click: function (event) {
-                        this.closeModal(event);
-                    }
-                }, {
-                    text: M2ePro.translator.translate('Confirm'),
-                    class: 'action-primary action-accept',
-                    click: function (event) {
-                        this.closeModal(event, true);
-                    }
-                }]
-            });
-        },
-
-        // ---------------------------------------
-
         revisePrice_change: function()
         {
-            if (this.value == 1) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_UPDATE_PRICE_YES')) {
                 $('revise_update_price_max_allowed_deviation_mode_tr').show();
                 $('revise_update_price_max_allowed_deviation_tr').show();
                 $('revise_update_price_line').show();
@@ -476,7 +421,7 @@ define([
                 $('revise_update_price_max_allowed_deviation_mode_tr').hide();
                 $('revise_update_price_max_allowed_deviation_tr').hide();
                 $('revise_update_price_line').hide();
-                $('revise_update_price_max_allowed_deviation_mode').value = 0;
+                $('revise_update_price_max_allowed_deviation_mode').value = M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_MAX_ALLOWED_PRICE_DEVIATION_MODE_OFF');
             }
         },
 
@@ -486,7 +431,7 @@ define([
 
             $('revise_update_price_max_allowed_deviation_tr').hide();
 
-            if (this.value == 1) {
+            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Template_Synchronization::REVISE_MAX_ALLOWED_PRICE_DEVIATION_MODE_ON')) {
                 $('revise_update_price_max_allowed_deviation_tr').show();
             } else if (!event.cancelable) {
                 self.openReviseMaxAllowedDeviationPriceDisableConfirmationPopUp();
@@ -531,22 +476,6 @@ define([
         {
             $('revise_update_price_max_allowed_deviation_mode').selectedIndex = 0;
             $('revise_update_price_max_allowed_deviation_mode').simulate('change');
-        },
-
-        //----------------------------------------
-
-        stopMode_change: function ()
-        {
-            var rulesContainer         = $('magento_block_amazon_template_synchronization_stop_rules'),
-                advancedRulesContainer = $('magento_block_amazon_template_synchronization_stop_advanced_filters');
-
-            rulesContainer.hide();
-            advancedRulesContainer.hide();
-
-            if ($('stop_mode').value == 1) {
-                rulesContainer.show();
-                advancedRulesContainer.show();
-            }
         }
 
         // ---------------------------------------

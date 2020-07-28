@@ -9,7 +9,6 @@
 namespace Ess\M2ePro\Block\Adminhtml\Ebay\Template\Synchronization\Edit\Form\Tabs;
 
 use Ess\M2ePro\Model\Ebay\Template\Synchronization;
-use Ess\M2ePro\Model\Template\Synchronization as TemplateSynchronization;
 use Magento\Framework\Message\MessageInterface;
 
 /**
@@ -44,32 +43,7 @@ class StopRules extends AbstractTab
         );
 
         $fieldset = $form->addFieldset(
-            'magento_block_ebay_template_synchronization_form_data_stop_filters',
-            [
-                'legend' => $this->__('General'),
-                'collapsable' => false,
-            ]
-        );
-
-        $fieldset->addField(
-            'stop_mode',
-            self::SELECT,
-            [
-                'name' => 'synchronization[stop_mode]',
-                'label' => $this->__('Stop Action'),
-                'value' => $formData['stop_mode'],
-                'values' => [
-                    0 => $this->__('Disabled'),
-                    1 => $this->__('Enabled'),
-                ],
-                'tooltip' => $this->__(
-                    'Enable to automatically stop the Item(s) when the Stop Conditions are met.'
-                )
-            ]
-        );
-
-        $fieldset = $form->addFieldset(
-            'magento_block_ebay_template_synchronization_stop_rules',
+            'magento_block_ebay_template_synchronization_form_data_stop_rules',
             [
                 'legend' => $this->__('Stop Conditions'),
                 'collapsable' => false,
@@ -103,8 +77,8 @@ class StopRules extends AbstractTab
                 'label' => $this->__('Stop When Status Disabled'),
                 'value' => $formData['stop_status_disabled'],
                 'values' => [
-                    0 => $this->__('No'),
-                    1 => $this->__('Yes'),
+                    Synchronization::STOP_STATUS_DISABLED_NONE => $this->__('No'),
+                    Synchronization::STOP_STATUS_DISABLED_YES => $this->__('Yes'),
                 ],
                 'tooltip' => $this->__(
                     'Automatically stops an Item that is on eBay if Status is changed to \'Disabled\' in Magento.'
@@ -120,8 +94,8 @@ class StopRules extends AbstractTab
                 'label' => $this->__('Stop When Out Of Stock'),
                 'value' => $formData['stop_out_off_stock'],
                 'values' => [
-                    0 => $this->__('No'),
-                    1 => $this->__('Yes'),
+                    Synchronization::STOP_OUT_OFF_STOCK_NONE => $this->__('No'),
+                    Synchronization::STOP_OUT_OFF_STOCK_YES => $this->__('Yes'),
                 ],
                 'tooltip' => $this->__(
                     'Automatically stops an Item that is on eBay if Stock Availability is changed
@@ -138,9 +112,9 @@ class StopRules extends AbstractTab
                 'label' => $this->__('Stop When Magento Quantity Is'),
                 'value' => $formData['stop_qty_magento'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('No Action'),
-                    TemplateSynchronization::QTY_MODE_LESS => $this->__('Less or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::STOP_QTY_NONE => $this->__('No Action'),
+                    Synchronization::STOP_QTY_LESS => $this->__('Less or Equal'),
+                    Synchronization::STOP_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     'Automatically stops an Item on eBay if Magento Quantity is changed <b>and</b> it
@@ -183,9 +157,9 @@ class StopRules extends AbstractTab
                 'label' => $this->__('Stop When Calculated Quantity Is'),
                 'value' => $formData['stop_qty_calculated'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('No Action'),
-                    TemplateSynchronization::QTY_MODE_LESS => $this->__('Less or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::STOP_QTY_NONE => $this->__('No Action'),
+                    Synchronization::STOP_QTY_LESS => $this->__('Less or Equal'),
+                    Synchronization::STOP_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     'Automatically stops an Item on eBay if calculated Quantity according to the
@@ -255,8 +229,8 @@ class StopRules extends AbstractTab
                 'label' => $this->__('Stop When Meet'),
                 'value' => $formData['stop_advanced_rules_mode'],
                 'values' => [
-                    0 => $this->__('No'),
-                    1  => $this->__('Yes'),
+                    Synchronization::ADVANCED_RULES_MODE_NONE => $this->__('No'),
+                    Synchronization::ADVANCED_RULES_MODE_YES  => $this->__('Yes'),
                 ],
             ]
         );

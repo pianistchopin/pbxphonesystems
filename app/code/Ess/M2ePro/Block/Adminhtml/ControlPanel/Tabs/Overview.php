@@ -9,6 +9,9 @@
 namespace Ess\M2ePro\Block\Adminhtml\ControlPanel\Tabs;
 
 use Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm;
+use Ess\M2ePro\Helper\Client;
+use Ess\M2ePro\Helper\Magento;
+use Ess\M2ePro\Helper\Module as ModuleHelper;
 
 /**
  * Class \Ess\M2ePro\Block\Adminhtml\ControlPanel\Tabs\Overview
@@ -21,7 +24,11 @@ class Overview extends AbstractForm
     {
         parent::_construct();
 
+        // Initialization block
+        // ---------------------------------------
         $this->setId('controlPanelOverview');
+        // ---------------------------------------
+
         $this->setTemplate('control_panel/tabs/overview.phtml');
     }
 

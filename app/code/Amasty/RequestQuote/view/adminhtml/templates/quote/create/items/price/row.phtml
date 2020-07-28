@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Items\Grid $block */
+
+$_item = $block->getItem();
+?>
+
+<div class="price-excl-tax">
+    <?= /* @escapeNotVerified */ $block->formatPrice($_item->getRowTotal()) ?>
+</div>

@@ -5,14 +5,14 @@ define([
 
         // ---------------------------------------
 
-        tryToMove: function (listingId)
+        getLogViewUrl: function(rowId)
         {
-            this.movingHandler.submit(listingId, this.onSuccess);
-        },
+            var idField = M2ePro.php.constant('\\Ess\\M2ePro\\Block\\Adminhtml\\Log\\Listing\\Other\\AbstractGrid::LISTING_ID_FIELD');
 
-        onSuccess: function (listingId)
-        {
-            setLocation(M2ePro.url.get('categorySettings', {id: listingId}));
+            var params = {};
+            params[idField] = rowId;
+
+            return M2ePro.url.get('walmart_log_listing_other/index', params);
         }
 
         // ---------------------------------------

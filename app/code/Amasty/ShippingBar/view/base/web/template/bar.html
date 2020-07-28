@@ -1,0 +1,55 @@
+<!--ko if: isVisible -->
+<div class="amasty-shipbar container"
+     data-bind="style: { 'pointer-events' : contentVisibility() ? 'all': 'none' }, css: additionalClass, afterRender: initMoving">
+    <!--ko if: haveCustomStyle()-->
+    <style data-bind="html: customStyle">
+    </style>
+    <!-- /ko -->
+    <div class="main-container" >
+        <!--ko if: isCarVisible() -->
+        <div class="amasty-shipbar-car" css="'closed': !contentVisibility()">
+            <svg class="amshipbar-mobile" viewBox="0 0 32 25" xmlns="http://www.w3.org/2000/svg" data-bind="click: contentVisibility.bind(null,true)">
+                <path data-bind="style: { 'fill' : barBackground }" d="M29.998 22H28a4 4 0 1 0-8 0h-8a4 4 0 1 0-8 0H2.002A1.992 1.992 0 0 1 0 20.009v-7.012c0-.28.14-.673.314-.89l5.372-6.714C5.863 5.17 6.22 5 6.49 5H12V2.005C12 .894 12.891 0 13.99 0h16.02C31.101 0 32 .891 32 1.991V20.01A1.995 1.995 0 0 1 29.998 22zM12 13V7H7l-5 6h10zm-1 9a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm16 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path data-bind="style: { 'fill' : extraColor }" d="M16.855 10.452h1.64v-.689h-1.64v-1.07H18.7V8H16v4.147h.855v-1.695zm3.195.177h.681l.778 1.518h.917v-.04l-.897-1.694c.14-.063.26-.138.359-.225a1.07 1.07 0 0 0 .196-.225c.123-.19.185-.427.185-.71 0-.399-.133-.707-.399-.925-.265-.219-.643-.328-1.133-.328h-1.541v4.147h.854V10.63zm5.366-.28h-1.64v1.112H25.7v.686h-2.78V8h2.775v.692h-1.92v.989h1.64v.669zm1.641 0h1.64v-.668h-1.64v-.989h1.92V8h-2.774v4.147h2.78v-.686h-1.926V10.35zm-6.317-.412h-.69V8.692h.687c.106 0 .2.012.28.037.094.027.17.071.23.131.112.112.168.266.168.462a.59.59 0 0 1-.177.453c-.118.108-.284.162-.498.162z"/>
+            </svg>
+        </div>
+        <!-- /ko -->
+        <!--ko if: contentVisibility -->
+        <div class="bar-content" data-bind="style: { 'backgroundColor' : barBackground }" css="'no-border': !isCarVisible()">
+            <!--ko if: haveAction()-->
+            <a class="link" data-bind="attr: { href: actionLink }" target="_blank"></a>
+            <!-- /ko -->
+            <div class="content">
+            <span class="label-content"
+                  data-bind="
+                   html: getLabelContent(),
+                   style: {
+                       'color' : textColor,
+                       'font-size' : getFontSize(),
+                       'font-family' : fontFamily
+                }"
+            ></span>
+                <!--ko if: hasTermContent()-->
+                <!--ko ifnot: helpFlag -->
+                <svg class="extra" data-bind="click: helpFlag.bind(null, true), style: { 'fill' : extraColor }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 508.52 508.52">
+                    <path d="M254.26 0C113.845 0 0 113.845 0 254.26s113.845 254.26 254.26 254.26 254.26-113.845 254.26-254.26S394.675 0 254.26 0zm31.782 381.39c0 17.544-14.239 31.782-31.782 31.782s-31.782-14.239-31.782-31.782V222.477c0-17.544 14.239-31.782 31.782-31.782s31.782 14.239 31.782 31.782V381.39zM254.26 159.421c-17.544 0-31.782-14.239-31.782-31.782s14.239-31.782 31.782-31.782 31.782 14.239 31.782 31.782-14.238 31.782-31.782 31.782z"/>
+                </svg>
+                <!-- /ko -->
+                <!--ko if: helpFlag-->
+                <svg class="extra" data-bind="click: helpFlag.bind(null, false), style: { 'fill' : extraColor }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 476.737 476.737">
+                    <path d="M238.369 0C106.726 0 0 106.726 0 238.369c0 131.675 106.726 238.369 238.369 238.369 131.675 0 238.369-106.694 238.369-238.369C476.737 106.726 370.043 0 238.369 0zm110.444 150.395l-88.578 88.61 78.407 87.338c6.198 6.198 6.198 16.304 0 22.47-6.166 6.198-16.273 6.198-22.438 0l-78.407-87.338-87.37 87.338c-6.198 6.198-16.273 6.198-22.47 0-6.198-6.166-6.198-16.273 0-22.47l88.578-88.578-78.376-87.37c-6.198-6.198-6.198-16.273 0-22.47s16.273-6.198 22.47 0l78.407 87.37 87.338-87.37c6.198-6.198 16.273-6.198 22.47 0 6.198 6.197 6.166 16.272-.031 22.47z"/>
+                </svg>
+                <!-- /ko -->
+                <!-- /ko -->
+            </div>
+            <!--ko if: isCloseable() -->
+            <div class="close-button">
+                <svg class="extra" data-bind="click: contentVisibility.bind(null,false), style: { 'fill' : extraColor }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220"><path d="M132 110l84-84c6-6 6-16 0-22-6-5-16-5-22 0l-84 85L26 4A15 15 0 0 0 4 26l85 84-85 84a15 15 0 0 0 22 22l84-84 84 84c6 6 16 6 22 0s6-16 0-22l-84-84z"/>
+                </svg>
+            </div>
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->

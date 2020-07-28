@@ -18,7 +18,13 @@ class OrderPlaceAfter implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-		$poNumber = $_SESSION['ponumber'];
+        if(isset($_SESSION['ponumber'])){
+            $poNumber = $_SESSION['ponumber'];
+        }
+        else{
+            $poNumber = 0;
+        }
+
 
 		$order->setPoNumber($poNumber);
 		$this->uploadOrderToProvu($order, $poNumber);

@@ -2,31 +2,31 @@ define([
     'jquery',
     'Magento_Ui/js/modal/modal',
     'M2ePro/Plugin/Messages',
-    'M2ePro/Action',
-    'M2ePro/Plugin/ProgressBar',
-    'M2ePro/Plugin/AreaWrapper'
+    'M2ePro/Action'
 ], function (jQuery, modal, MessagesObj) {
     window.ListingMoving = Class.create(Action, {
 
         // ---------------------------------------
 
-        setProgressBar: function (progressBarId) {
-            this.progressBarObj = new ProgressBar(progressBarId);
-        },
+        options: {},
 
-        setGridWrapper: function (wrapperId) {
-            this.wrapperObj = new AreaWrapper(wrapperId);
+        setOptions: function (options) {
+            this.options = Object.extend(this.options, options);
+            return this;
         },
 
         // ---------------------------------------
 
         run: function () {
-            this.getGridHtml(this.gridHandler.getSelectedProductsArray());
+            this.getGridHtml(
+                this.gridHandler.getSelectedProductsArray()
+            );
         },
 
         // ---------------------------------------
 
-        openPopUp: function (gridHtml, popup_title, buttons) {
+        openPopUp: function (gridHtml, popup_title, buttons)
+        {
             var self = this;
 
             if (typeof buttons === 'undefined') {
@@ -69,131 +69,126 @@ define([
         // ---------------------------------------
 
         getGridHtml: function (selectedProducts) {
-            this.selectedProducts = selectedProducts;
-            this.gridHandler.unselectAll();
+            var self = this;
+
             MessagesObj.clear();
-            $('listing_container_errors_summary').hide();
 
-            this.progressBarObj.reset();
-            this.progressBarObj.setTitle('Preparing for Product Moving');
-            this.progressBarObj.setStatus('Products are being prepared for Moving. Please wait…');
-            this.progressBarObj.show();
-            this.scrollPageToTop();
+            self.selectedProducts = selectedProducts;
+            self.gridHandler.unselectAll();
 
-            $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
-            this.wrapperObj.lock();
+            var callback = function (response) {
+                new Ajax.Request(self.options.url.get('moveToListingGridHtml'), {
+                    method: 'get',
+                    parameters: {
+                        componentMode: self.options.customData.componentMode,
+                        accountId: response.accountId,
+                        marketplaceId: response.marketplaceId,
+                        ignoreListings: self.options.customData.ignoreListings
+                    },
+                    onSuccess: function (transport) {
+                        var title = selectedProducts.length == 1 ?
+                        self.options.translator.translate('popup_title_single', self.gridHandler.getProductNameByRowId(selectedProducts[0])) :
+                            self.options.translator.translate('popup_title');
+                        self.openPopUp(transport.responseText, title);
+                    }
+                });
+            };
 
-            var productsByParts = this.makeProductsParts();
-            this.prepareData(productsByParts, productsByParts.length, 1);
-        },
-
-        makeProductsParts: function() {
-            var self = this;
-
-            var productsInPart = 500;
-            var parts = [];
-
-            if (self.selectedProducts.length < productsInPart) {
-                var part = [];
-                part[0] = self.selectedProducts;
-                return parts[0] = part;
-            }
-
-            var result = [];
-            for (var i = 0; i < self.selectedProducts.length; i++) {
-                if (result.length === 0 || result[result.length-1].length === productsInPart) {
-                    result[result.length] = [];
-                }
-                result[result.length-1][result[result.length-1].length] = self.selectedProducts[i];
-            }
-
-            return result;
-        },
-
-        prepareData: function(parts, partsCount, isFirstPart) {
-            var self = this;
-
-            if (parts.length === 0) {
-                return;
-            }
-
-            var isLastPart  = parts.length === 1 ? 1 : 0;
-            var part = parts.splice(0, 1);
-            var currentPart = part[0];
-
-            new Ajax.Request(M2ePro.url.get('prepareData'), {
+            new Ajax.Request(self.options.url.get('prepareData'), {
                 method: 'post',
                 parameters: {
-                    componentMode: M2ePro.customData.componentMode,
-                    is_first_part: isFirstPart,
-                    is_last_part : isLastPart,
-                    products_part: implode(',', currentPart)
+                    componentMode: self.options.customData.componentMode,
+                    selectedProducts: Object.toJSON(self.selectedProducts)
                 },
-                onSuccess: (function (transport) {
+                onSuccess: function (transport) {
 
-                    var percents = (100 / partsCount) * (partsCount - parts.length);
-
-                    if (percents <= 0) {
-                        self.progressBarObj.setPercents(0, 0);
-                    } else if (percents >= 100) {
-                        self.progressBarObj.setPercents(100, 0);
-                        self.progressBarObj.setStatus('Products are almost prepared for Moving...');
+                    if (transport.responseText == 1) {
+                        self.alert(self.options.translator.translate('select_only_mapped_products'));
+                    } else if (transport.responseText == 2) {
+                        self.alert(self.options.translator.translate('select_the_same_type_products'));
                     } else {
-                        self.progressBarObj.setPercents(percents, 1);
-                    }
+                        var response = transport.responseText.evalJSON();
 
-                    var response = transport.responseText.evalJSON();
-                    if (!response.result) {
-
-                        self.completeProgressBar();
-                        if (typeof response.message !== 'undefined') {
-                            MessagesObj.addErrorMessage(response.message);
+                        if (response.offerListingCreation) {
+                            return self.offerListingCreation(
+                                response.accountId,
+                                response.marketplaceId,
+                                function () {
+                                    callback.call(self, response);
+                                }
+                            );
                         }
-                        return;
+
+                        callback.call(self, response);
                     }
-
-                    if (isLastPart) {
-
-                        self.accountId = response.accountId;
-                        self.marketplaceId = response.marketplaceId;
-
-                        self.moveToListingGrid();
-                        return;
-                    }
-
-                    setTimeout(function () {
-                        self.prepareData(parts, partsCount, 0);
-                    }, 500);
-                })
-            });
-        },
-
-        moveToListingGrid: function () {
-            var self = this;
-
-            new Ajax.Request(M2ePro.url.get('moveToListingGridHtml'), {
-                method: 'get',
-                parameters: {
-                    componentMode : M2ePro.customData.componentMode,
-                    accountId     : self.accountId,
-                    marketplaceId : self.marketplaceId,
-                    ignoreListings: M2ePro.customData.ignoreListings
-                },
-                onSuccess: (function (transport) {
-                    self.completeProgressBar();
-                    self.openPopUp(transport.responseText, M2ePro.translator.translate('popup_title'));
-                })
+                }
             });
         },
 
         // ---------------------------------------
 
-        submit: function (listingId, onSuccess) {
+        tryToSubmit: function (listingId) {
             var self = this;
-            new Ajax.Request(M2ePro.url.get('moveToListing'), {
+
+            new Ajax.Request(this.options.url.get('tryToMoveToListing'), {
                 method: 'post',
                 parameters: {
-                    componentMode: M2ePro.customData.componentMode,
+                    componentMode: this.options.customData.componentMode,
+                    selectedProducts: Object.toJSON(this.selectedProducts),
+                    listingId: listingId
+                },
+                onSuccess: (function (transport) {
+
+                    var response = transport.responseText.evalJSON();
+
+                    if (response.result == 'success') {
+                        return this.submit(listingId);
+                    }
+
+                    new Ajax.Request(this.options.url.get('getFailedProductsHtml'), {
+                        method: 'get',
+                        parameters: {
+                            componentMode: this.options.customData.componentMode,
+                            failed_products: Object.toJSON(response.failed_products)
+                        },
+                        onSuccess: (function (transport) {
+
+                            this.popUp.modal('closeModal');
+                            this.openPopUp(
+                                transport.responseText,
+                                this.options.translator.translate('failed_products_popup_title'),
+                                [{
+                                    class: 'back',
+                                    text: M2ePro.translator.translate('Back'),
+                                    click: function (event) {
+                                        this.closeModal(event);
+                                        self.getGridHtml(self.selectedProducts);
+                                    }
+                                }, {
+                                    text: M2ePro.translator.translate('Continue'),
+                                    class: 'action-primary',
+                                    click: function () {
+                                        self.submit(listingId);
+                                    }
+                                }]
+                            );
+
+                        }).bind(this)
+                    });
+
+                }).bind(this)
+            });
+        },
+
+        // ---------------------------------------
+
+        submit: function (listingId) {
+            var self = this;
+            new Ajax.Request(self.options.url.get('moveToListing'), {
+                method: 'post',
+                parameters: {
+                    componentMode: self.options.customData.componentMode,
+                    selectedProducts: Object.toJSON(self.selectedProducts),
                     listingId: listingId
                 },
                 onSuccess: function (transport) {
@@ -203,23 +198,50 @@ define([
 
                     var response = transport.responseText.evalJSON();
 
-                    if (response.result) {
-                        onSuccess.bind(self.gridHandler)(listingId);
-                        if (response.message) {
-                            if (response.isFailed) {
-                                MessagesObj.addErrorMessage(response.message);
-                            } else {
-                                MessagesObj.addSuccessMessage(response.message);
-                            }
-                        }
+                    if (response.result == 'success') {
+                        self.gridHandler.unselectAllAndReload();
+                        MessagesObj.addSuccessMessage(self.options.translator.translate('successfully_moved'));
                         return;
                     }
 
-                    self.gridHandler.unselectAllAndReload();
-                    if (response.message) {
-                        MessagesObj.addErrorMessage(response.message);
+                    var message = '';
+                    if (response.errors == self.selectedProducts.length) { // all items failed
+                        message = self.options.translator.translate('products_were_not_moved');
+                    } else {
+                        message = self.options.translator.translate('some_products_were_not_moved');
+                        self.gridHandler.unselectAllAndReload();
                     }
 
+                    MessagesObj.addErrorMessage(str_replace('%url%', self.options.url.get('logViewUrl'), message));
+                }
+            });
+        },
+
+        // ---------------------------------------
+
+        offerListingCreation: function (accountId, marketplaceId, callback) {
+
+            var self = this;
+
+            self.confirm({
+                content: self.options.translator.translate('create_listing'),
+                actions: {
+                    confirm: function () {
+                        new Ajax.Request(self.options.url.get('createDefaultListing'), {
+                            method: 'post',
+                            parameters: {
+                                componentMode: self.options.customData.componentMode,
+                                accountId: accountId,
+                                marketplaceId: marketplaceId
+                            },
+                            onSuccess: function (transport) {
+                                callback.call(self);
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        return callback.call(self);
+                    }
                 }
             });
         },
@@ -227,6 +249,7 @@ define([
         // ---------------------------------------
 
         startListingCreation: function (url, response) {
+            var self = this;
             var win = window.open(url);
 
             var intervalId = setInterval(function () {
@@ -238,15 +261,6 @@ define([
 
                 listingMovingGridJsObject.reload();
             }, 1000);
-        },
-
-        // ---------------------------------------
-
-        completeProgressBar: function () {
-            this.progressBarObj.hide();
-            this.progressBarObj.reset();
-            this.wrapperObj.unlock();
-            $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
         }
 
         // ---------------------------------------

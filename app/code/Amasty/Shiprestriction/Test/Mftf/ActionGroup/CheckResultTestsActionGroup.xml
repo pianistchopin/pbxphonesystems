@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckShippingMethod">
+        <arguments>
+            <argument name="shippingMethods"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <seeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckNoShippingMethod">
+        <arguments>
+            <argument name="shippingMethods"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckShippingMethodWithCountryStateZip">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+            <argument name="state"/>
+            <argument name="zip"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <selectOption selector="{{FrontCartSection.SelectCountryShipping}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry"/>
+        <selectOption selector="{{FrontCartSection.SelectStateShipping}}"
+                      userInput="{{state}}"
+                      stepKey="selectShippingState"/>
+        <fillField selector="{{FrontCartSection.ZipShipping}}" userInput="{{zip}}" stepKey="enterZip"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <seeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkFreeShipping"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad5"/>
+    </actionGroup>
+
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckNoShippingMethodWithCountryStateZip">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+            <argument name="state"/>
+            <argument name="zip"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <selectOption selector="{{FrontCartSection.SelectCountryShipping}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry"/>
+        <selectOption selector="{{FrontCartSection.SelectStateShipping}}"
+                      userInput="{{state}}"
+                      stepKey="selectShippingState"/>
+        <fillField selector="{{FrontCartSection.ZipShipping}}" userInput="{{zip}}" stepKey="enterZip"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad5"/>
+    </actionGroup>
+
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckShippingMethodWithCountry">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart2"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart2"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <selectOption selector="{{FrontCartSection.SelectCountryShipping}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <seeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check Shipping Methods on the cart-->
+    <actionGroup name="StorefrontCheckNoShippingMethodWithCountry">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart2"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart2"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <selectOption selector="{{FrontCartSection.SelectCountryShipping}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check error message on the cart-->
+    <actionGroup name="StorefrontCheckNoShippingMethodWithErrorMessage">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="shippingMethodTitle"/>
+            <argument name="errorMessage"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <seeElement selector="//dt[@class='item-title']/span[text()='{{shippingMethodTitle}}']/parent::dt/following-sibling::*[1]//div[text()='{{errorMessage}}']"
+                    stepKey="checkErrorMessage"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check error message on the cart-->
+    <actionGroup name="StorefrontCheckNoShippingWithMessageAndCustomAddress">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="shippingMethodTitle"/>
+            <argument name="errorMessage"/>
+            <argument name="country"/>
+            <argument name="state"/>
+            <argument name="zip"/>
+        </arguments>
+        <amOnPage url="{{FrontCartPage.url}}" stepKey="navigateToShoppingCart1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="OpenTabWithShippingInCart"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad2"/>
+        <selectOption selector="{{FrontCartSection.SelectCountryShipping}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry"/>
+        <selectOption selector="{{FrontCartSection.SelectStateShipping}}"
+                      userInput="{{state}}"
+                      stepKey="selectShippingState"/>
+        <fillField selector="{{FrontCartSection.ZipShipping}}" userInput="{{zip}}" stepKey="enterZip"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.ShippingMethodsLoader}}" stepKey="waitWhenNotVisibleLoaderShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <waitForElementNotVisible selector="{{FrontCartSection.CartTotalLoader}}" stepKey="waitWhenNotVisibleLoaderTotals"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+        <seeElement selector="//dt[@class='item-title']/span[text()='{{shippingMethodTitle}}']/parent::dt/following-sibling::*[1]//div[text()='{{errorMessage}}']"
+                    stepKey="checkErrorMessage"/>
+        <click selector="{{FrontCartSection.EstimateShippingAndTax}}" stepKey="CloseTabWithShippingInCart"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Check Admin Area-->
+    <actionGroup name="AdminCheckNoShippingMethodsInAdminArea" extends="AdminCreateOrderChooseUserAndAddProducts">
+        <!--Extends from Action Group in Base-->
+        <arguments>
+            <argument name="shippingMethods"/>
+        </arguments>
+        <scrollTo selector="{{AdminCreateOrderSection.PaymentAndShippingSection}}" stepKey="scrollToSectionShippingAndPayment"/>
+        <click selector="{{AdminCreateOrderSection.GetShippingMethodsButton}}" stepKey="waitForGetShippingMethods"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad6"/>
+        <wait time="2" stepKey="waitForLoadMethods1"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad7"/>
+        <wait time="1" stepKey="waitForLoadMethods2"/>
+        <dontSeeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkNoShippingMethod"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad5"/>
+    </actionGroup>
+
+
+    <!-- Check Admin Area-->
+    <actionGroup name="AdminCheckShippingMethodsInAdminArea" extends="AdminCreateOrderChooseUserAndAddProducts">
+        <!--Extends from Action Group in Base-->
+        <arguments>
+            <argument name="shippingMethods"/>
+        </arguments>
+        <scrollTo selector="{{AdminCreateOrderSection.PaymentAndShippingSection}}" stepKey="scrollToSectionShippingAndPayment"/>
+        <click selector="{{AdminCreateOrderSection.GetShippingMethodsButton}}" stepKey="waitForGetShippingMethods"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad6"/>
+        <wait time="2" stepKey="waitForLoadMethods1"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad7"/>
+        <wait time="1" stepKey="waitForLoadMethods2"/>
+        <seeElement selector="//label[@for='{{shippingMethods.shippingMethodsName}}']" stepKey="checkHaveShippingMethod"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad5"/>
+    </actionGroup>
+
+
+    <!-- Check Success Message After Created Order-->
+    <actionGroup name="AdminCheckSuccessMessageAfterCreatedOrder">
+        <waitForPageLoad time="50" stepKey="waitForPageLoad1"/>
+        <seeElement selector="{{SuccessPageSection.SuccessMessageCreatedOrderInAdminArea}}" stepKey="checkSuccessMessage"/>
+    </actionGroup>
+
+
+    <!--Check Shipping Methods On Checkout Page-->
+    <actionGroup name="StorefrontCheckShippingMethodOnCheckoutShippingPage">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+            <argument name="state"/>
+            <argument name="zip"/>
+            <argument name="city"/>
+        </arguments>
+        <amOnPage url="{{CheckoutShippingPage.url}}" stepKey="navigateToCheckoutShippingPage"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <selectOption selector="{{CheckoutShippingAddressSection.SelectForCountry}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry"/>
+        <selectOption selector="{{CheckoutShippingAddressSection.SelectForRegion}}"
+                      userInput="{{state}}"
+                      stepKey="selectShippingState"/>
+        <fillField selector="{{CheckoutShippingAddressSection.City}}" userInput="{{city}}" stepKey="enterCity"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <fillField selector="{{CheckoutShippingAddressSection.Postcode}}" userInput="{{zip}}" stepKey="enterZip"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <wait time="3" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <scrollTo selector="{{CheckoutShippingAddressSection.Next}}" stepKey="ScrollToDownPage"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad4"/>
+        <seeElement selector="//input[@value='{{shippingMethods}}']" stepKey="CheckShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+
+    <!--Check Shipping Methods On Checkout Page-->
+    <actionGroup name="StorefrontCheckNoShippingMethodOnCheckoutShippingPage">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="country"/>
+            <argument name="state"/>
+            <argument name="zip"/>
+            <argument name="city"/>
+        </arguments>
+        <amOnPage url="{{CheckoutShippingPage.url}}" stepKey="navigateToCheckoutShippingPage"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <selectOption selector="{{CheckoutShippingAddressSection.SelectForCountry}}"
+                      userInput="{{country}}"
+                      stepKey="selectShippingCountry"/>
+        <selectOption selector="{{CheckoutShippingAddressSection.SelectForRegion}}"
+                      userInput="{{state}}"
+                      stepKey="selectShippingState"/>
+        <fillField selector="{{CheckoutShippingAddressSection.City}}" userInput="{{city}}" stepKey="enterCity"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <fillField selector="{{CheckoutShippingAddressSection.Postcode}}" userInput="{{zip}}" stepKey="enterZip"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <wait time="3" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <dontSeeElement selector="//input[@value='{{shippingMethods}}']" stepKey="CheckShippingMethod"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad4"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+
+    <!--Check Shipping Methods On Checkout Page-->
+    <actionGroup name="StorefrontCheckNoShippingMethodWithErrorMessageOnCheckout">
+        <arguments>
+            <argument name="shippingMethods"/>
+            <argument name="shippingMethodTitle"/>
+            <argument name="errorMessage"/>
+        </arguments>
+        <amOnPage url="{{CheckoutShippingPage.url}}" stepKey="navigateToStorefrontCheckoutShippingPage"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad1"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad1"/>
+        <wait time="1" stepKey="waitForLoadShipping"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad2"/>
+        <dontSeeElement selector="//input[@value='{{shippingMethods}}']" stepKey="CheckShippingMethod"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad2"/>
+        <waitForAjaxLoad stepKey="waitForAjaxLoad3"/>
+        <seeElement selector="//tr[@class='row']/td[text()='{{shippingMethodTitle}}']/parent::tr//following-sibling::tr[@class='row row-error']//div[text()='{{errorMessage}}']"
+                    stepKey="checkErrorMessage"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+</actionGroups>

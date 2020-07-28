@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_create_item_price"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items" template="Amasty_RequestQuote::quote/edit/items.phtml" name="items">
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items\Grid" template="Amasty_RequestQuote::quote/edit/items/grid.phtml" name="items_grid">
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

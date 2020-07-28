@@ -1,0 +1,15 @@
+<!--@subject {{trans "Email alert for promotion quote requests"}} @-->
+<!--@vars
+{
+"var viewUrl":"Url for view quote",
+"var customerName":"Customer Name"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hello %name," name=$customerName}}</p>
+<p>{{trans "Special promotion. "}}</p>
+<p>{{trans "Click"}} <a href="{{var viewUrl}}">{{trans "here"}}</a> {{trans "to view"}}.</p>
+<p>{{trans "Thank you!"}}</p>
+
+{{template config_path="design/email/footer_template"}}

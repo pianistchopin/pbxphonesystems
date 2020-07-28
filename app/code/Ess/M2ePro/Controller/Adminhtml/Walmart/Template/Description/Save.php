@@ -114,53 +114,26 @@ class Save extends Template
 
         // Add or update model
         // ---------------------------------------
-        $descriptionTemplate = $this->walmartFactory->getObject('Template\Description');
-
-        $id && $descriptionTemplate->load($id);
+        $model = $this->walmartFactory->getObject('Template\Description');
 
         $oldData = [];
-        if ($descriptionTemplate->getId()) {
 
-            /** @var \Ess\M2ePro\Model\Walmart\Template\Description\SnapshotBuilder $snapshotBuilder */
-            $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Description_SnapshotBuilder');
-            $snapshotBuilder->setModel($descriptionTemplate);
+        if ($id) {
+            $model->load($id);
 
-            $oldData = $snapshotBuilder->getSnapshot();
+            $oldData = array_merge($model->getDataSnapshot(), $model->getChildObject()->getDataSnapshot());
         }
 
-        $descriptionTemplate->addData($data)->save();
-        $descriptionTemplate->getChildObject()->addData(array_merge(
-            [$descriptionTemplate->getResource()->getChildPrimary(Walmart::NICK) => $descriptionTemplate->getId()],
+        $model->addData($data)->save();
+        $model->getChildObject()->addData(array_merge(
+            [$model->getResource()->getChildPrimary(Walmart::NICK) => $model->getId()],
             $data
         ));
 
-        $descriptionTemplate->save();
+        $model->save();
 
-        // Is Need Synchronize
-        // ---------------------------------------
-        /** @var \Ess\M2ePro\Model\Walmart\Template\Description\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Description_SnapshotBuilder');
-        $snapshotBuilder->setModel($descriptionTemplate);
-        $newData = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Walmart\Template\Description\Diff $diff */
-        $diff = $this->modelFactory->getObject('Walmart_Template_Description_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        /** @var \Ess\M2ePro\Model\Walmart\Template\Description\AffectedListingsProducts $affectedListingsProducts */
-        $affectedListingsProducts = $this->modelFactory->getObject(
-            'Walmart_Template_Description_AffectedListingsProducts'
-        );
-        $affectedListingsProducts->setModel($descriptionTemplate);
-
-        /** @var \Ess\M2ePro\Model\Walmart\Template\Description\ChangeProcessor $changeProcessor */
-        $changeProcessor = $this->modelFactory->getObject('Walmart_Template_Description_ChangeProcessor');
-        $changeProcessor->process(
-            $diff,
-            $affectedListingsProducts->getObjectsData(['id', 'status'])
-        );
-        // ---------------------------------------
+        $newData = array_merge($model->getDataSnapshot(), $model->getChildObject()->getDataSnapshot());
+        $model->getChildObject()->setSynchStatusNeed($newData, $oldData);
 
         if ($this->isAjax()) {
             $this->setJsonContent([
@@ -169,7 +142,7 @@ class Save extends Template
             return $this->getResult();
         }
 
-        $id = $descriptionTemplate->getId();
+        $id = $model->getId();
         // ---------------------------------------
 
         $this->messageManager->addSuccess($this->__('Policy was successfully saved'));

@@ -1,0 +1,371 @@
+N/A,N/A
+"Submit Quote","Submit Quote"
+"Are you sure you want to cancel this quote?","Are you sure you want to cancel this quote?"
+Cancel,Cancel
+"Order Comment","Order Comment"
+"Please select a customer","Please select a customer"
+"Account Information","Account Information"
+"Edit Quote #%1","Edit Quote #%1"
+"Create New Quote for %1 in %2","Create New Quote for %1 in %2"
+"Create New Quote in %1","Create New Quote in %1"
+"Create New Quote for %1","Create New Quote for %1"
+"Create New Quote for New Customer","Create New Quote for New Customer"
+"Items Quoted","Items Quoted"
+"This product is disabled.","This product is disabled."
+"Buy %1 for price %2","Buy %1 for price %2"
+"Item ordered qty","Item ordered qty"
+"%1 with %2 discount each","%1 with %2 discount each"
+"%1 for %2","%1 for %2"
+"* - Enter custom price including tax","* - Enter custom price including tax"
+"* - Enter custom price excluding tax","* - Enter custom price excluding tax"
+Configure,Configure
+"This product does not have any configurable options","This product does not have any configurable options"
+"Newsletter Subscription","Newsletter Subscription"
+"Please select products","Please select products"
+"Add Selected Product(s) to Quote","Add Selected Product(s) to Quote"
+ID,ID
+Product,Product
+SKU,SKU
+Price,Price
+Select,Select
+Quantity,Quantity
+"Please select a store","Please select a store"
+"Quote Totals","Quote Totals"
+"Shipping Incl. Tax (%1)","Shipping Incl. Tax (%1)"
+"Shipping Excl. Tax (%1)","Shipping Excl. Tax (%1)"
+"Save Quote","Save Quote"
+"Quote Comment","Quote Comment"
+"Please correct the parent block for this block.","Please correct the parent block for this block."
+" [deleted]"," [deleted]"
+"Quote Items","Quote Items"
+"Item qty","Item qty"
+"Enter custom price including tax","Enter custom price including tax"
+"Enter custom price excluding tax","Enter custom price excluding tax"
+Information,Information
+"Quote Information","Quote Information"
+"Quote Edit","Quote Edit"
+Subtotal,Subtotal
+"Grand Total","Grand Total"
+"Cancel / Close","Cancel / Close"
+Approve,Approve
+"Convert To Order","Convert To Order"
+Edit,Edit
+"Invalid parent block for this block","Invalid parent block for this block"
+"Quote View","Quote View"
+Installed,Installed
+"Not Installed","Not Installed"
+"Please update Amasty Base module. Re-upload it and replace all the files.","Please update Amasty Base module. Re-upload it and replace all the files."
+"Add to Quote","Add to Quote"
+"Request Quote closed","Request Quote closed"
+"Can't close Request Quote","Can't close Request Quote"
+"My Quotes","My Quotes"
+"Quote # %1","Quote # %1"
+Sales,Sales
+Quotes,Quotes
+"This quote no longer exists.","This quote no longer exists."
+"Your session has been expired. Please try again","Your session has been expired. Please try again"
+"You have not approved the quote.","You have not approved the quote."
+"You approved the quote.","You approved the quote."
+"You have not close the quote.","You have not close the quote."
+"You closed the quote.","You closed the quote."
+"You have not closed the quote.","You have not closed the quote."
+"The quote item ID needs to be received. Set the ID and try again.","The quote item ID needs to be received. Set the ID and try again."
+"The quote item needs to be loaded. Load the item and try again.","The quote item needs to be loaded. Load the item and try again."
+"Something went wrong","Something went wrong"
+"Requested quote does not exist","Requested quote does not exist"
+"Order does not exist","Order does not exist"
+"New Quote","New Quote"
+"You created the quote.","You created the quote."
+"Quote saving error: %1","Quote saving error: %1"
+"Edit Quote","Edit Quote"
+"Quote item id is not received.","Quote item id is not received."
+"Quote item is not loaded.","Quote item is not loaded."
+"You updated the quote.","You updated the quote."
+"%1 quote(s) cannot be updated.","%1 quote(s) cannot be updated."
+"You cannot update the quote(s).","You cannot update the quote(s)."
+"We updated %1 quote(s).","We updated %1 quote(s)."
+"%1 quote(s) cannot be canceled.","%1 quote(s) cannot be canceled."
+"You cannot cancel the quote(s).","You cannot cancel the quote(s)."
+"We canceled %1 quote(s).","We canceled %1 quote(s)."
+"You can not create the order.","You can not create the order."
+"Exception occurred during order load","Exception occurred during order load"
+"You must login or register to add items to your quote cart.","You must login or register to add items to your quote cart."
+"You added %1 to your quote cart.","You added %1 to your quote cart."
+"We can't add this item to your quote cart right now.","We can't add this item to your quote cart right now."
+"Out of stock","Out of stock"
+"We can't add this item to your shopping cart right now.","We can't add this item to your shopping cart right now."
+"We can't find the quote item.","We can't find the quote item."
+"We cannot configure the product.","We cannot configure the product."
+"We can't remove the item.","We can't remove the item."
+"Quote Cart","Quote Cart"
+"%1 was updated in your quote cart.","%1 was updated in your quote cart."
+"We can't update the item right now.","We can't update the item right now."
+"We can't update the shopping cart.","We can't update the shopping cart."
+"You must confirm your account. Please check your email for the confirmation link or <a href=""%1"">click here</a> for a new link.","You must confirm your account. Please check your email for the confirmation link or <a href=""%1"">click here</a> for a new link."
+"The account is locked.","The account is locked."
+"It is possible to process one Quote at a time. You have already added Quote in your cart. Please proceed to checkout.","It is possible to process one Quote at a time. You have already added Quote in your cart. Please proceed to checkout."
+"Something wrong.","Something wrong."
+"This is approved quote.","This is approved quote."
+"Login for quote","Login for quote"
+"We can't save the cron expression.","We can't save the cron expression."
+"The Gift Card can not be converted from shopping cart to quote.","The Gift Card can not be converted from shopping cart to quote."
+"One or several Products can not be converted from shopping cart to quote.","One or several Products can not be converted from shopping cart to quote."
+"We can't find this wish list.","We can't find this wish list."
+"We could not add a product to cart by the ID ""%1"".","We could not add a product to cart by the ID ""%1""."
+"The qty value is required to update quote item.","The qty value is required to update quote item."
+"The price value is required to update quote item.","The price value is required to update quote item."
+None,None
+"%1 (Default)","%1 (Default)"
+"Not Logged In","Not Logged In"
+Pending,Pending
+Approved,Approved
+Complete,Complete
+Canceled,Canceled
+Expired,Expired
+"Created from admin","Created from admin"
+New,New
+Show,Show
+Hide,Hide
+Yes(customize),Yes(customize)
+Yes(instantly),Yes(instantly)
+No,No
+"It is not possible to edit items quantity of the approved Quote.","It is not possible to edit items quantity of the approved Quote."
+"It is not possible to edit items qty of the approved Quote.","It is not possible to edit items qty of the approved Quote."
+"Can't update item which moved from quote request.","Can't update item which moved from quote request."
+"Clone as Quote","Clone as Quote"
+View,View
+Ordered,Ordered
+Invoiced,Invoiced
+Shipped,Shipped
+Refunded,Refunded
+"Quote Comments","Quote Comments"
+"Quote Total","Quote Total"
+"Quote History","Quote History"
+"Quote Currency:","Quote Currency:"
+Qty,Qty
+"Row Subtotal","Row Subtotal"
+Action,Action
+"No ordered items","No ordered items"
+"Update Items and Quantities","Update Items and Quantities"
+"Incl. Tax","Incl. Tax"
+"Excl. Tax","Excl. Tax"
+"Total %1 product(s)","Total %1 product(s)"
+Subtotal:,Subtotal:
+"Tier Pricing","Tier Pricing"
+"Custom Price","Custom Price"
+"Please select","Please select"
+Remove,Remove
+"Subscribe to Newsletter","Subscribe to Newsletter"
+"Grand Total Excl. Tax","Grand Total Excl. Tax"
+"Grand Total Incl. Tax","Grand Total Incl. Tax"
+"Subtotal (Excl. Tax)","Subtotal (Excl. Tax)"
+"Subtotal (Incl. Tax)","Subtotal (Incl. Tax)"
+"Customer Name: %1","Customer Name: %1"
+"Created From: %1","Created From: %1"
+"Gift Message","Gift Message"
+From:,From:
+To:,To:
+Message:,Message:
+"Discount (%1)","Discount (%1)"
+Discount,Discount
+"Shipping &amp; Handling","Shipping &amp; Handling"
+Tax,Tax
+"Address Information","Address Information"
+"Payment &amp; Shipping Information","Payment &amp; Shipping Information"
+"Order Total","Order Total"
+"Order History","Order History"
+"Order Currency:","Order Currency:"
+"Same As Billing Address","Same As Billing Address"
+"Select from existing customer addresses:","Select from existing customer addresses:"
+"Add New Address","Add New Address"
+"Save in address book","Save in address book"
+"You don't need to select a shipping address.","You don't need to select a shipping address."
+Remarks,Remarks
+"Customer Remarks","Customer Remarks"
+"Admin Remarks","Admin Remarks"
+"Quote & Account Information","Quote & Account Information"
+"Quote Date","Quote Date"
+"Quote Date (%1)","Quote Date (%1)"
+Status,Status
+"Expiry Date","Expiry Date"
+"Reminder Date","Reminder Date"
+"Created From","Created From"
+"Link to the New Quote","Link to the New Quote"
+"Link to the Previous Quote","Link to the Previous Quote"
+"Placed from IP","Placed from IP"
+"%1 / %2 rate:","%1 / %2 rate:"
+"Edit Customer","Edit Customer"
+"Customer Name","Customer Name"
+Email,Email
+"Customer Group","Customer Group"
+"Customer Note:","Customer Note:"
+"Administrator Note:","Administrator Note:"
+"Add Note","Add Note"
+"records found","records found"
+selected,selected
+"per page","per page"
+"Previous page","Previous page"
+"of %1","of %1"
+"Next page","Next page"
+Customer,Customer
+"Notification Not Applicable","Notification Not Applicable"
+Notified,Notified
+"Not Notified","Not Notified"
+"Notes for this Quote","Notes for this Quote"
+"Comment added","Comment added"
+"Remarks for this Quote","Remarks for this Quote"
+"Total Due","Total Due"
+"Total Paid","Total Paid"
+"Total Refunded","Total Refunded"
+"Total Tax","Total Tax"
+"Gift Message for the Entire Order","Gift Message for the Entire Order"
+"From Name","From Name"
+"To Name","To Name"
+"Order Id","Order Id"
+Delete,Delete
+"Сustomer Remarks:","Сustomer Remarks:"
+"Administrator Remarks:","Administrator Remarks:"
+"Quote #","Quote #"
+Date,Date
+Actions,Actions
+"Move to Cart","Move to Cart"
+"You have placed no quotes.","You have placed no quotes."
+"Product Name","Product Name"
+"Items Ordered","Items Ordered"
+"Order ID","Order ID"
+"# %1","# %1"
+"Move to Shopping Cart","Move to Shopping Cart"
+"Move to Checkout","Move to Checkout"
+"<span>Creation Date:</span> %1","<span>Creation Date:</span> %1"
+"Shopping Cart Items","Shopping Cart Items"
+Item,Item
+"Continue Shopping","Continue Shopping"
+"Clear Quote","Clear Quote"
+"Update Quote","Update Quote"
+"See price before order confirmation.","See price before order confirmation."
+"What's this?","What's this?"
+"You have no items in your quote cart.","You have no items in your quote cart."
+"Click <a href=""%1"">here</a> to continue shopping.","Click <a href=""%1"">here</a> to continue shopping."
+"Request a Quote","Request a Quote"
+"My Quote","My Quote"
+"Customer Email","Customer Email"
+"There are no quote requests.","There are no quote requests."
+Items,Items
+"Print receipt","Print receipt"
+"Thank you for your interest!","Thank you for your interest!"
+"Your Quote Request # is: %1.","Your Quote Request # is: %1."
+"Your Quote Request # is: <span>%1</span>.","Your Quote Request # is: <span>%1</span>."
+"We'll email you a Quote Request confirmation email with a link to track progress.","We'll email you a Quote Request confirmation email with a link to track progress."
+"Email alert for new quote requests","Email alert for new quote requests"
+"Hello,","Hello,"
+"This is an automatic notification about a new quote request(s) made. ","This is an automatic notification about a new quote request(s) made. "
+Quotes:,Quotes:
+"Thank you!","Thank you!"
+"Email alert for approved quote requests","Email alert for approved quote requests"
+"Hello %name,","Hello %name,"
+"Your quote request from %store_name has been approved. You can check the status of your quote request and proceed to checkout by ","Your quote request from %store_name has been approved. You can check the status of your quote request and proceed to checkout by "
+"logging into your account","logging into your account"
+"The Quote Proposal will expire on %expiredDate","The Quote Proposal will expire on %expiredDate"
+"Email alert for canceled quote requests","Email alert for canceled quote requests"
+"Your quote request from %store_name has been canceled.  You can check the status of your quote request by ","Your quote request from %store_name has been canceled.  You can check the status of your quote request by "
+"Unfortunately your quote has been declined. ","Unfortunately your quote has been declined. "
+"Email alert for modified quote requests","Email alert for modified quote requests"
+"Your quote request from %store_name has been modified.  You can check the status of your quote request by  ","Your quote request from %store_name has been modified.  You can check the status of your quote request by  "
+"Email alert for expired quote requests","Email alert for expired quote requests"
+"Your quote request from %store_name has been expired. You can check the status of your quote request by ","Your quote request from %store_name has been expired. You can check the status of your quote request by "
+"Quote request for %store_name has been created. You can check the status of your quote request and proceed to checkout by ","Quote request for %store_name has been created. You can check the status of your quote request and proceed to checkout by "
+"Your quote request from %store_name=$store.getFrontendName() has been modified.  You can check the status of your quote request by  ","Your quote request from %store_name=$store.getFrontendName() has been modified.  You can check the status of your quote request by  "
+"Email alert for promotion quote requests","Email alert for promotion quote requests"
+"Special promotion. ","Special promotion. "
+Click,Click
+here,here
+"to view","to view"
+"Email alert for reminder quote requests","Email alert for reminder quote requests"
+"Hello %customer_name,","Hello %customer_name,"
+"Proposal is about to expire. Please review the price proposal and move","Proposal is about to expire. Please review the price proposal and move"
+"your quote","your quote"
+"to the cart to finalize the purchase!","to the cart to finalize the purchase!"
+"Email alert for submitted quote request","Email alert for submitted quote request"
+"Thank you for your quote request from %store_name.","Thank you for your quote request from %store_name."
+"You can check the status of your quote request by <a href=""%view_url"">logging into your account</a>.","You can check the status of your quote request by <a href=""%view_url"">logging into your account</a>."
+"Your Quote Request <span class=""no-link"">#%increment_id</span>","Your Quote Request <span class=""no-link"">#%increment_id</span>"
+"Placed on <span class=""no-link"">%created_at</span>","Placed on <span class=""no-link"">%created_at</span>"
+"Email Address","Email Address"
+Password,Password
+"You already have an account with us. Sign in or continue as guest.","You already have an account with us. Sign in or continue as guest."
+Login,Login
+"Forgot Your Password?","Forgot Your Password?"
+"Cart Subtotal","Cart Subtotal"
+"Edit Order","Edit Order"
+Ok,Ok
+"Add Products","Add Products"
+"You have item changes","You have item changes"
+Adding...,Adding...
+"Are you sure you would like to remove this item from the quote cart?","Are you sure you would like to remove this item from the quote cart?"
+Operations,Operations
+"Amasty Quotes","Amasty Quotes"
+Create,Create
+Cancel/Close,Cancel/Close
+Order,Order
+"Create from Magento Quote","Create from Magento Quote"
+"Create Quote from Order","Create Quote from Order"
+"Amasty Request a Quote","Amasty Request a Quote"
+General,General
+"Enable 'Request a Quote'","Enable 'Request a Quote'"
+"'Add to Quote' button on Product Page","'Add to Quote' button on Product Page"
+"'Add to Quote' button on Category Page","'Add to Quote' button on Category Page"
+"Disable Quotation for Categories","Disable Quotation for Categories"
+"'Add to Quote' button will be hidden for each product from the selected categories. This setting is applied to product list and product page.","'Add to Quote' button will be hidden for each product from the selected categories. This setting is applied to product list and product page."
+"Allow Quote Request for Customer Groups","Allow Quote Request for Customer Groups"
+"If 'Not Logged In' option is chosen, guest users will insert email addresses upon quote submission and accounts will be created automatically.","If 'Not Logged In' option is chosen, guest users will insert email addresses upon quote submission and accounts will be created automatically."
+"Inform Guests","Inform Guests"
+"Show 'Login for quote' button for guests","Show 'Login for quote' button for guests"
+"Button Text","Button Text"
+"Expiration & Reminder","Expiration & Reminder"
+"Quote Expiration","Quote Expiration"
+"Set default period in days for quote to be valid once approved. For zero and higher this value can be set for each quote individually. Keep empty to disable this feature.","Set default period in days for quote to be valid once approved. For zero and higher this value can be set for each quote individually. Keep empty to disable this feature."
+"Send Reminder Email after Day(s)","Send Reminder Email after Day(s)"
+"Set default period in days to send reminder once quote approved. For zero and higher this value can be set for each quote individually. Keep empty to disable reminder.","Set default period in days to send reminder once quote approved. For zero and higher this value can be set for each quote individually. Keep empty to disable reminder."
+"Admin Notifications","Admin Notifications"
+"Send Email Reports for New Quote Requests","Send Email Reports for New Quote Requests"
+Frequency,Frequency
+"Start Time","Start Time"
+"Admin Email Address","Admin Email Address"
+"Input an email address, the extension will send notifications to.","Input an email address, the extension will send notifications to."
+"Email Template to Notify Admin","Email Template to Notify Admin"
+"Select the appropriate template for the email notifications.","Select the appropriate template for the email notifications."
+"Email Sender","Email Sender"
+"Customer Notifications","Customer Notifications"
+"Email Template for Submitted Quote","Email Template for Submitted Quote"
+"Email Template for Approved Quote","Email Template for Approved Quote"
+"Email Template for Modified Quote","Email Template for Modified Quote"
+"Email Template for Canceled Quote","Email Template for Canceled Quote"
+"Email Template for Expired Quote","Email Template for Expired Quote"
+"Email Template for Reminder","Email Template for Reminder"
+"Hide Price","Hide Price"
+"Hide price and disable ordering. See more details <a target=""_blank"" href=""https://amasty.com/hide-price-for-magento-2.html?utm_source=extension&utm_medium=link&utm_campaign=quote-hide-price-m2"">here</a>.","Hide price and disable ordering. See more details <a target=""_blank"" href=""https://amasty.com/hide-price-for-magento-2.html?utm_source=extension&utm_medium=link&utm_campaign=quote-hide-price-m2"">here</a>."
+Name,Name
+Phone,Phone
+"ZIP/Post Code","ZIP/Post Code"
+Country,Country
+State/Province,State/Province
+"Signed-up Point","Signed-up Point"
+Website,Website
+"Product Price","Product Price"
+"Row Total","Row Total"
+"Create New Quote","Create New Quote"
+"All Store Views","All Store Views"
+"Purchase Point","Purchase Point"
+"Purchase Date","Purchase Date"
+"Grand Total (Base)","Grand Total (Base)"
+"Quote Summary","Quote Summary"
+FPT,FPT
+"Quote Total Excl. Tax","Quote Total Excl. Tax"
+"Quote Total Incl. Tax","Quote Total Incl. Tax"
+"Enter your details","Enter your details"
+"First Name","First Name"
+"Last Name","Last Name"
+"We'll send notifications about the quote to the inserted email address.
+                                                                        Please kindly note that new account will be created automatically after quote submission.","We'll send notifications about the quote to the inserted email address.
+                                                                        Please kindly note that new account will be created automatically after quote submission."
+"Your quote request has been received!","Your quote request has been received!"

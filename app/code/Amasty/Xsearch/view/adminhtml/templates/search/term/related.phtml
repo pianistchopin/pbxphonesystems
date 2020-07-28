@@ -1,0 +1,34 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+?>
+<?php
+
+/** @var \Amasty\Xsearh\Block\Adminhtml\RelatedTerms $block */
+
+/** @var \Amasty\Xsearch\Block\Adminhtml\RelatedTerms\Grid $blockGrid */
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+
+<fieldset class="fieldset admin__fieldset " id="grid_fieldset">
+    <legend class="admin__legend legend">
+        <span><?= __('Related Terms')?></span>
+    </legend><br>
+
+<?= $block->getGridHtml() ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Amasty_Xsearch/js/search/term/assign-related": {
+                "selectedTerms": <?= /* @escapeNotVerified */ $block->getTermsJson() ?>,
+                "gridJsObjectName": <?= /* @escapeNotVerified */ '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+</script>
+</fieldset>

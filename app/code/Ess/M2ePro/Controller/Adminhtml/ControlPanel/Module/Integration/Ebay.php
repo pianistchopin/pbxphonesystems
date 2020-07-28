@@ -17,6 +17,7 @@ use Ess\M2ePro\Helper\Component\Ebay as EbayHelper;
  */
 class Ebay extends Command
 {
+    private $synchConfig;
     private $formKey;
     private $csvParser;
     private $phpEnvironmentRequest;
@@ -25,12 +26,14 @@ class Ebay extends Command
     //########################################
 
     public function __construct(
+        \Ess\M2ePro\Model\Config\Manager\Synchronization $synchConfig,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Framework\File\Csv $csvParser,
         \Magento\Framework\HTTP\PhpEnvironment\Request $phpEnvironmentRequest,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         Context $context
     ) {
+        $this->synchConfig = $synchConfig;
         $this->formKey = $formKey;
         $this->csvParser = $csvParser;
         $this->phpEnvironmentRequest = $phpEnvironmentRequest;

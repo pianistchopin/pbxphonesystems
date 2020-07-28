@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_RequestQuote::quotes_operation" title="Amasty Request a Quote" translate="title" module="Amasty_RequestQuote" sortOrder="50" parent="Magento_Sales::sales" resource="Amasty_RequestQuote::quotes_operation" />
+        <add id="Amasty_RequestQuote::manage_quotes" title="Quotes" translate="title" module="Amasty_RequestQuote" sortOrder="10" parent="Amasty_RequestQuote::quotes_operation" action="amasty_quote/quote" resource="Amasty_RequestQuote::manage_quotes"/>
+    </menu>
+</config>

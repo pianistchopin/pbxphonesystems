@@ -15,11 +15,7 @@ use Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid;
  */
 class Grid extends AbstractGrid
 {
-    /** @var $itemsCollection \Ess\M2ePro\Model\ResourceModel\Order\Item\Collection */
     private $itemsCollection = null;
-
-    /** @var $notesCollection \Ess\M2ePro\Model\ResourceModel\Order\Note\Collection */
-    protected $notesCollection = null;
 
     protected $resourceConnection;
     protected $ebayFactory;
@@ -101,12 +97,7 @@ class Grid extends AbstractGrid
 
     protected function _afterLoadCollection()
     {
-        $this->itemsCollection = $this->ebayFactory->getObject('Order\Item')
-            ->getCollection()
-            ->addFieldToFilter('order_id', ['in' => $this->getCollection()->getColumnValues('id')]);
-
-        $this->notesCollection = $this->activeRecordFactory->getObject('Order\Note')
-            ->getCollection()
+        $this->itemsCollection = $this->ebayFactory->getObject('Order\Item')->getCollection()
             ->addFieldToFilter('order_id', ['in' => $this->getCollection()->getColumnValues('id')]);
 
         return parent::_afterLoadCollection();
@@ -279,12 +270,6 @@ class Grid extends AbstractGrid
             'url'      => $this->getUrl('*/order/resubmitShippingInfo'),
             'confirm'  => $this->__('Are you sure?')
         ], 'general');
-
-        $this->getMassactionBlock()->addItem('create_order', [
-            'label'    => $this->__('Create Magento Order'),
-            'url'      => $this->getUrl('*/ebay_order/CreateMagentoOrder'),
-            'confirm'  => $this->__('Are you sure?')
-        ], 'general');
         // ---------------------------------------
 
         if (!$this->getHelper('Component_Ebay_PickupStore')->isFeatureEnabled()) {
@@ -379,30 +364,10 @@ class Grid extends AbstractGrid
 
     public function callbackColumnEbayOrder($value, $row, $column, $isExport)
     {
-        $returnString = $row->getChildObject()->getData('ebay_order_id');
+        $returnString = str_replace('-', '-<br/>', $row->getChildObject()->getData('ebay_order_id'));
 
         if ($row->getChildObject()->getData('selling_manager_id') > 0) {
             $returnString .= '<br/> [ <b>SM: </b> # ' . $row->getChildObject()->getData('selling_manager_id') . ' ]';
-        }
-
-        /** @var $notes \Ess\M2ePro\Model\Order\Note[] */
-        $notes = $this->notesCollection->getItemsByColumnValue('order_id', $row->getData('id'));
-
-        if ($notes) {
-            $htmlNotesCount = $this->__(
-                'You have a custom note for the order. It can be reviewed on the order detail page.'
-            );
-
-            $returnString .= <<<HTML
-<div class="note_icon admin__field-tooltip">
-    <a class="admin__field-tooltip-note-action" href="javascript://"></a>
-    <div class="admin__field-tooltip-content" style="right: -4.4rem">
-        <div class="ebay-identifiers">
-           {$htmlNotesCount}
-        </div>
-    </div>
-</div>
-HTML;
         }
 
         if (!$this->getHelper('Component_Ebay_PickupStore')->isFeatureEnabled()) {

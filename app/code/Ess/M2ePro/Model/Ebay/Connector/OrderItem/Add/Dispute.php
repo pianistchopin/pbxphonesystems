@@ -13,12 +13,19 @@ namespace Ess\M2ePro\Model\Ebay\Connector\OrderItem\Add;
  */
 class Dispute extends \Ess\M2ePro\Model\Ebay\Connector\Command\RealTime
 {
+    // M2ePro\TRANSLATIONS
+    // Dispute cannot be opened. Reason: Dispute explanation is not defined.
+    // Dispute cannot be opened. Reason: Dispute reason is not defined.
+    // Unpaid Item Process was not open for Item #%id%. Reason: %msg%
+    // Unpaid Item Process was not open for Item #%id%. Reason: eBay failure. Please try again later.
+    // Unpaid Item Process for Item #%id% has been initiated.
+
     const DISPUTE_EXPLANATION_BUYER_HAS_NOT_PAID = 'BuyerNotPaid';
 
     /** @var $orderItem \Ess\M2ePro\Model\Order\Item */
     private $orderItem;
 
-    //########################################
+    // ########################################
 
     public function setOrderItem(\Ess\M2ePro\Model\Order\Item $orderItem)
     {
@@ -28,7 +35,7 @@ class Dispute extends \Ess\M2ePro\Model\Ebay\Connector\Command\RealTime
         return $this;
     }
 
-    //########################################
+    // ########################################
 
     protected function getCommand()
     {
@@ -56,7 +63,7 @@ class Dispute extends \Ess\M2ePro\Model\Ebay\Connector\Command\RealTime
         return true;
     }
 
-    public function getRequestData()
+    protected function getRequestData()
     {
         $requestData = [
             'item_id'        => $this->orderItem->getChildObject()->getItemId(),
@@ -131,5 +138,5 @@ class Dispute extends \Ess\M2ePro\Model\Ebay\Connector\Command\RealTime
         ]);
     }
 
-    //########################################
+    // ########################################
 }

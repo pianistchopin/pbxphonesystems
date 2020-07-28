@@ -1,0 +1,23 @@
+<div class="admin__field-control" visible="visible">
+    <textarea class="admin__control-textarea" data-bind="
+        value: $data.value,
+        valueUpdate: $data.valueUpdate,
+        hasFocus: $data.focused,
+        attr: {
+            name: $data.inputName,
+            cols: $data.cols,
+            rows: $data.rows,
+            id: $data.uid,
+            disabled: $data.disabled
+        }"
+            />
+    <label class="admin__field-error" if="$data.error" attr="for: $data.uid" text="$data.error"/>
+    <div class="admin__field-note">
+        <span data-bind="i18n: 'Enter comma separated or ranges. Example: AB1-AF1,AS1.'"/>
+    </div>
+    <button attr="{disabled: $data.disabled, 'data-action': 'convert_textarea'}"
+            type="button"
+            click="switchToTable">
+        <span text="parentComponent().toTableLabel"/>
+    </button>
+</div>

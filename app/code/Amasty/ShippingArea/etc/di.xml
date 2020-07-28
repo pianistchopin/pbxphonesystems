@@ -1,0 +1,4 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\ShippingArea\Api\Data\AreaInterface" type="Amasty\ShippingArea\Model\Area" />
+    <preference for="Amasty\ShippingArea\Api\AreaRepositoryInterface" type="Amasty\ShippingArea\Model\AreaRepository" />
+</config>

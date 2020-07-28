@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionShippingAreaTwoExclude">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Shipping Area With Two Exclude"/>
+            <description value="Check Shipping Area With Two Exclude"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-18"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="aaa"/>
+            <group value="ShiprestrictionShippingAreaTwoExclude"/>
+        </annotations>
+
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.no"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.default"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="DeleteAllShippingAreas" stepKey="DeleteAllShippingAreas"/>
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="ReturnDefaultSetting"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!-- Create Shipping Area Rule-->
+        <actionGroup ref="CreateShippingAreaWithCitiesAndZip" stepKey="CreateShippingArea">
+            <argument name="shippingArea" value="shippingAreaWithTwoExcludeRestriction"/>
+            <argument name="forStatesValue" value="shippingAreaValue.include"/>
+            <argument name="forCities" value="shippingAreaValue.exclude"/>
+            <argument name="forZip" value="shippingAreaValue.exclude"/>
+        </actionGroup>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithTwoMethods" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionShippingAreaTwoExclude"/>
+        </actionGroup>
+
+        <!-- Add Condition Shipping Area In Rule-->
+        <actionGroup ref="AdminEditShippingRestrictionAddConditionsShippingArea" stepKey="addShippingAreaInRule">
+            <argument name="shippingRestriction" value="shiprestrictionShippingAreaTwoExclude"/>
+            <argument name="shippingArea" value="shippingAreaWithTwoExcludeRestriction"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama and Zip 24999 In Checkout-->
+        <actionGroup ref="StorefrontCheckShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutOne">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodOne"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingOne"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutTwo">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodTwo"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingOne"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama and Zip 25000 In Checkout-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutThree">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodOne"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingTwo"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutFour">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodTwo"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingTwo"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama and Zip 25050 In Checkout-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutFive">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodOne"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingThree"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutSix">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodTwo"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingThree"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama and Zip 25051 In Checkout-->
+        <actionGroup ref="StorefrontCheckShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutSeven">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodOne"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingFour"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutEight">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodTwo"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingFour"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama and Zip 25025 In Checkout-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutNine">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodOne"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingFive"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethodOnCheckoutShippingPage" stepKey="checkFlatRateInCheckoutTen">
+            <argument name="shippingMethods" value="shiprestrictionShippingAreaTwoExclude.shippingMethodTwo"/>
+            <argument name="country" value="shiprestrictionShippingAreaTwoExclude.countryShipping"/>
+            <argument name="state" value="shiprestrictionShippingAreaTwoExclude.stateShipping"/>
+            <argument name="zip" value="shiprestrictionShippingAreaTwoExclude.zipShippingFive"/>
+            <argument name="city" value="shiprestrictionShippingAreaTwoExclude.cityShipping"/>
+        </actionGroup>
+
+    </test>
+</tests>

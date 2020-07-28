@@ -1,0 +1,77 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $quote = $block->getQuote() ?>
+<div>
+<?= __('Customer Name: %1', $block->escapeHtml($quote->getCustomerFirstname() ? $quote->getCustomerName() : $quote->getBillingAddress()->getName())) ?><br />
+<?= __('Created From: %1', $block->escapeHtml($quote->getStore()->getGroup()->getName())) ?><br />
+</div>
+<table cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+    <thead>
+        <tr>
+            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
+            <th align="center" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
+            <th align="right" bgcolor="#d9e5ee" width="10%" style="padding:3px 9px">Subtotal</th>
+        </tr>
+    </thead>
+
+    <tbody>
+<?php $i = 0; foreach ($quote->getAllItems() as $item): $i++ ?>
+        <tr <?= $i%2 ? 'bgcolor="#eeeded"' : '' ?>>
+            <td align="left" valign="top" style="padding:3px 9px"><strong><?= $block->escapeHtml($item->getName()) ?></strong>
+            <?php if ($item->getGiftMessageId() && $giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($item->getGiftMessageId())): ?>
+            <br /><strong><?= /* @escapeNotVerified */ __('Gift Message') ?></strong>
+            <br /><?= /* @escapeNotVerified */ __('From:') ?> <?= $block->escapeHtml($giftMessage->getSender()) ?>
+            <br /><?= /* @escapeNotVerified */ __('To:') ?> <?= $block->escapeHtml($giftMessage->getRecipient()) ?>
+            <br /><?= /* @escapeNotVerified */ __('Message:') ?><br /> <?= $block->escapeHtml($giftMessage->getMessage()) ?>
+            <?php endif; ?>
+            </td>
+            <td align="center" valign="top" style="padding:3px 9px"><?= /* @escapeNotVerified */ $item->getQtyOrdered()*1 ?></td>
+            <td align="right" valign="top" style="padding:3px 9px"><?= /* @escapeNotVerified */ $quote->formatPrice($item->getRowTotal()) ?></td>
+        </tr>
+<?php endforeach ?>
+    </tbody>
+
+    <tfoot>
+    <?php if ($quote->getGiftMessageId() && $giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($quote->getGiftMessageId())): ?>
+        <tr>
+            <td colspan="3" align="left" style="padding:3px 9px">
+            <strong><?= /* @escapeNotVerified */ __('Gift Message') ?></strong>
+            <br /><?= /* @escapeNotVerified */ __('From:') ?> <?= $block->escapeHtml($giftMessage->getSender()) ?>
+            <br /><?= /* @escapeNotVerified */ __('To:') ?> <?= $block->escapeHtml($giftMessage->getRecipient()) ?>
+            <br /><?= /* @escapeNotVerified */ __('Message:') ?><br /> <?= $block->escapeHtml($giftMessage->getMessage()) ?>
+            </td>
+        </tr>
+     <?php endif; ?>
+        <tr>
+            <td colspan="2" align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ __('Subtotal') ?></td>
+            <td align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ $quote->formatPrice($quote->getSubtotal()) ?></td>
+        </tr>
+        <?php if ($quote->getDiscountAmount() > 0): ?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ (($quote->getCouponCode()) ? __('Discount (%1)', $quote->getCouponCode()) : __('Discount')) ?></td>
+                <td align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ $quote->formatPrice(0.00 - $quote->getDiscountAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <?php if ($quote->getShippingAmount() || $quote->getShippingDescription()) : ?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ __('Shipping &amp; Handling') ?></td>
+                <td align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ $quote->formatPrice($quote->getShippingAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <?php if ($quote->getTaxAmount() > 0): ?>
+            <tr>
+                <td colspan="2" align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ __('Tax') ?></td>
+                <td align="right" style="padding:3px 9px"><?= /* @escapeNotVerified */ $quote->formatPrice($quote->getTaxAmount()) ?></td>
+            </tr>
+        <?php endif; ?>
+        <tr bgcolor="#DEE5E8">
+            <td colspan="2" align="right" style="padding:3px 9px"><strong><big><?= /* @escapeNotVerified */ __('Grand Total') ?></big></strong></td>
+            <td align="right" style="padding:6px 9px"><strong><big><?= /* @escapeNotVerified */ $quote->formatPrice($quote->getGrandTotal()) ?></big></strong></td>
+        </tr>
+    </tfoot>
+</table>

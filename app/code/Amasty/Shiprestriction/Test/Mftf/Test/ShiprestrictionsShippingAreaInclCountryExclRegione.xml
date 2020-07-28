@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionShippingAreaInclCountryExclRegion">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Shipping Area Include Country And Exclude Region"/>
+            <description value="Check Apply Rules From Admin Area"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-20"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="aaa"/>
+            <group value="ShiprestrictionShippingAreaInclCountryExclRegion"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.no"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.default"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="DeleteAllShippingAreas" stepKey="DeleteAllShippingAreas"/>
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="ReturnDefaultSetting"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+
+        <!-- Create Shipping Area Rule-->
+        <actionGroup ref="CreateShippingAreaOnlyWithRegions" stepKey="CreateShippingArea">
+            <argument name="shippingArea" value="shippingAreaInclCountryExclRegionRestriction"/>
+            <argument name="forStatesValue" value="shippingAreaValue.exclude"/>
+        </actionGroup>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithTwoMethods" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionShippingAreaInclCountryExclRegion"/>
+        </actionGroup>
+
+        <!-- Add Condition Shipping Area In Rule-->
+        <actionGroup ref="AdminEditShippingRestrictionAddConditionsShippingArea" stepKey="addShippingAreaInRule">
+            <argument name="shippingRestriction" value="shiprestrictionShippingAreaInclCountryExclRegion"/>
+            <argument name="shippingArea" value="shippingAreaInclCountryExclRegionRestriction"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+        </actionGroup>
+
+        <!--Check Shipping with UK -->
+        <actionGroup ref="StorefrontCheckShippingMethodWithCountry" stepKey="checkShippingWithCountryOne">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingOne"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, Alabama -->
+        <actionGroup ref="StorefrontCheckShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateOne">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingOne"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateTwo">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingOne"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+
+        <!--Check Shipping Price with US, California -->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateThree">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingTwo"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateFour">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingTwo"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+
+
+        <!--Check Shipping Price with US, Arizona -->
+        <actionGroup ref="StorefrontCheckShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateFive">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingThree"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethodWithCountryStateZip" stepKey="checkShippingWithStateSix">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+            <argument name="country" value="shiprestrictionShippingAreaInclCountryExclRegion.countryShippingTwo"/>
+            <argument name="state" value="shiprestrictionShippingAreaInclCountryExclRegion.stateShippingThree"/>
+            <argument name="zip" value="shiprestrictionShippingAreaInclCountryExclRegion.zipShipping"/>
+        </actionGroup>
+
+    </test>
+</tests>

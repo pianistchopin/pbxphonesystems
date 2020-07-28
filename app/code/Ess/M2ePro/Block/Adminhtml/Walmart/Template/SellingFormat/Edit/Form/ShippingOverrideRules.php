@@ -22,7 +22,7 @@ class ShippingOverrideRules extends \Ess\M2ePro\Block\Adminhtml\Magento\Abstract
 
     private $parentForm;
     private $renderer;
-    public $allAttributes = [];
+    public $generalFromAllAttributeSets = [];
 
     //########################################
 
@@ -42,9 +42,9 @@ class ShippingOverrideRules extends \Ess\M2ePro\Block\Adminhtml\Magento\Abstract
         return $this;
     }
 
-    public function setAllAttributes(array $attributes)
+    public function setGeneralFromAllAttributeSets(array $attributes)
     {
-        $this->allAttributes = $attributes;
+        $this->generalFromAllAttributeSets = $attributes;
         return $this;
     }
 
@@ -313,7 +313,7 @@ class ShippingOverrideRules extends \Ess\M2ePro\Block\Adminhtml\Magento\Abstract
     {
         $optionsResult = [];
 
-        foreach ($this->allAttributes as $attribute) {
+        foreach ($this->generalFromAllAttributeSets as $attribute) {
             $optionsResult[] = [
                 'value' => $attribute['code'],
                 'label' => $this->escapeHtml($attribute['label'])

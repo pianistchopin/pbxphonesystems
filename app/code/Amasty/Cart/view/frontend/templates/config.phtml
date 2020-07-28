@@ -1,0 +1,47 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
+ * @package Amasty_Cart
+ */
+?>
+<?php
+    /** @var \Amasty\Cart\Block\Config  $this */
+    $helper = $this->getHelper();
+?>
+<script>
+    require([
+        'jquery',
+        'Magento_Catalog/product/view/validation',
+        'Amasty_Cart/js/amcart',
+        'Amasty_Cart/js/amcartinfo'
+    ], function ($) {
+        window.amasty_cart_options = <?php echo $helper->jsParam($this); ?>;
+        var selector = '#product_addtocart_form:not([amcart-observed]), form[data-role="tocart-form"]:not([amcart-observed])';
+        if ($(selector).length == 0) {
+            selector = '.action.tocart';
+        }
+        
+        $(selector).each(function( key, form ) {
+            form = $(form);
+            if(!form.attr('amcart-observed')) {
+                form.amCart(window.amasty_cart_options);
+                form.attr('amcart-observed', true);
+            }
+        });
+
+        <?php if ($helper->isShowProductQty()) : ?>
+            var infoMessage = "<?= $this->escapeHtml($helper->getInfoMessage()) ?>";
+            $('[data-block=\'minicart\']').amCartInfo({'infoMessage': infoMessage});
+        <?php endif; ?>
+    });
+
+    <?php if ($helper->isActionsAjax()) : ?>
+    require([
+        'jquery',
+        'Amasty_Cart/js/dataPostAjax'
+    ], function ($) {
+        $(document).dataPostAjax({'postTrigger': <?= $this->getDataPostSelector() ?>});
+    });
+    <?php endif; ?>
+</script>

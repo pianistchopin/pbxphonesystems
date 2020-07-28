@@ -9,7 +9,6 @@
 namespace Ess\M2ePro\Block\Adminhtml\Ebay\Template\Synchronization\Edit\Form\Tabs;
 
 use Ess\M2ePro\Model\Ebay\Template\Synchronization;
-use Ess\M2ePro\Model\Template\Synchronization as TemplateSynchronization;
 
 /**
  * Class \Ess\M2ePro\Block\Adminhtml\Ebay\Template\Synchronization\Edit\Form\Tabs\ListRules
@@ -93,8 +92,8 @@ HTML
                 'label' => $this->__('List Action'),
                 'value' => $formData['list_mode'],
                 'values' => [
-                    0 => $this->__('Disabled'),
-                    1 => $this->__('Enabled'),
+                    Synchronization::LIST_MODE_NONE => $this->__('Disabled'),
+                    Synchronization::LIST_MODE_YES => $this->__('Enabled'),
                 ]
             ]
         );
@@ -115,8 +114,8 @@ HTML
                 'label' => $this->__('Product Status'),
                 'value' => $formData['list_status_enabled'],
                 'values' => [
-                    0 => $this->__('Any'),
-                    1 => $this->__('Enabled'),
+                    Synchronization::LIST_STATUS_ENABLED_NONE => $this->__('Any'),
+                    Synchronization::LIST_STATUS_ENABLED_YES => $this->__('Enabled'),
                 ],
                 'tooltip' => $this->__(
                     '<p><strong>Enabled:</strong> List Items on eBay automatically if they have status Enabled
@@ -134,8 +133,8 @@ HTML
                 'label' => $this->__('Stock Availability'),
                 'value' => $formData['list_is_in_stock'],
                 'values' => [
-                    0 => $this->__('Any'),
-                    1 => $this->__('In Stock'),
+                    Synchronization::LIST_IS_IN_STOCK_NONE => $this->__('Any'),
+                    Synchronization::LIST_IS_IN_STOCK_YES => $this->__('In Stock'),
                 ],
                 'tooltip' => $this->__(
                     '<b>In Stock:</b> List Items automatically if Products are in Stock. (Recommended.)<br/>
@@ -152,9 +151,9 @@ HTML
                 'label' => $this->__('Magento Quantity'),
                 'value' => $formData['list_qty_magento'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('Any'),
-                    TemplateSynchronization::QTY_MODE_MORE => $this->__('More or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::LIST_QTY_NONE => $this->__('Any'),
+                    Synchronization::LIST_QTY_MORE => $this->__('More or Equal'),
+                    Synchronization::LIST_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     '<p><strong>Any:</strong> List Items automatically with any Quantity available.</p>
@@ -200,9 +199,9 @@ HTML
                 'label' => $this->__('Calculated Quantity'),
                 'value' => $formData['list_qty_calculated'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('Any'),
-                    TemplateSynchronization::QTY_MODE_MORE => $this->__('More or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::LIST_QTY_NONE => $this->__('Any'),
+                    Synchronization::LIST_QTY_MORE => $this->__('More or Equal'),
+                    Synchronization::LIST_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     '<p><strong>Any:</strong> List Items automatically with any Quantity available.</p>
@@ -276,8 +275,8 @@ HTML
                 'label' => $this->__('Mode'),
                 'value' => $formData['list_advanced_rules_mode'],
                 'values' => [
-                    0 => $this->__('Disabled'),
-                    1 => $this->__('Enabled'),
+                    Synchronization::ADVANCED_RULES_MODE_NONE => $this->__('Disabled'),
+                    Synchronization::ADVANCED_RULES_MODE_YES  => $this->__('Enabled'),
                 ],
             ]
         );

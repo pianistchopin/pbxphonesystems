@@ -44,7 +44,9 @@ define([
                 reviseAction: this.actionHandler.reviseAction.bind(this.actionHandler),
                 stopAction: this.actionHandler.stopAction.bind(this.actionHandler),
                 stopAndRemoveAction: this.actionHandler.stopAndRemoveAction.bind(this.actionHandler),
-                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler)
+                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler),
+                startTranslateAction: this.actionHandler.startTranslateAction.bind(this.actionHandler),
+                stopTranslateAction: this.actionHandler.stopTranslateAction.bind(this.actionHandler)
             };
 
             this.movingHandler = new ListingMoving(this);
@@ -72,13 +74,22 @@ define([
                     this.templateDescriptionHandler.unassignFromTemplateDescription(id)
                 }).bind(this),
 
-                assignTemplateShippingIdAction: (function(id) {
+                assignTemplateShippingTemplateIdAction: (function(id) {
                     id = id || this.getSelectedProductsString();
-                    this.templateShippingHandler.openPopUp(id)
+                    this.templateShippingHandler.openPopUp(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_TEMPLATE'))
                 }).bind(this),
-                unassignTemplateShippingIdAction: (function(id) {
+                unassignTemplateShippingTemplateIdAction: (function(id) {
                     id = id || this.getSelectedProductsString();
-                    this.templateShippingHandler.unassign(id)
+                    this.templateShippingHandler.unassign(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_TEMPLATE'))
+                }).bind(this),
+
+                assignTemplateShippingOverrideIdAction: (function(id) {
+                    id = id || this.getSelectedProductsString();
+                    this.templateShippingHandler.openPopUp(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_OVERRIDE'))
+                }).bind(this),
+                unassignTemplateShippingOverrideIdAction: (function(id) {
+                    id = id || this.getSelectedProductsString();
+                    this.templateShippingHandler.unassign(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_OVERRIDE'))
                 }).bind(this),
 
                 assignTemplateProductTaxCodeIdAction: (function(id) {
@@ -121,16 +132,6 @@ define([
                 unassignGeneralIdAction: (function() { this.productSearchHandler.unmapFromGeneralId(this.getSelectedProductsString())}).bind(this)
 
             });
-        },
-
-        // ---------------------------------------
-
-        tryToMove: function (listingId) {
-            this.movingHandler.submit(listingId, this.onSuccess)
-        },
-
-        onSuccess: function () {
-            this.unselectAllAndReload();
         },
 
         // ---------------------------------------
@@ -182,14 +183,30 @@ define([
 
         // ---------------------------------------
 
-        unassignTemplateShippingIdActionConfrim: function (id)
+        unassignTemplateShippingTemplateIdActionConfrim: function (id)
         {
             var self = this;
 
             self.confirm({
                 actions: {
                     confirm: function () {
-                        self.templateShippingHandler.unassign(id);
+                        self.templateShippingHandler.unassign(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_TEMPLATE'));
+                    },
+                    cancel: function () {
+                        return false;
+                    }
+                }
+            });
+        },
+
+        unassignTemplateShippingOverrideIdActionConfrim: function (id)
+        {
+            var self = this;
+
+            self.confirm({
+                actions: {
+                    confirm: function () {
+                        self.templateShippingHandler.unassign(id, M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_OVERRIDE'));
                     },
                     cancel: function () {
                         return false;

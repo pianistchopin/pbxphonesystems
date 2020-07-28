@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="admin.scope.col.wrap" htmlClass="admin__old" />
+        <referenceContainer name="content">
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit" name="amasty_quote_edit"/>
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Backend\Block\Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
+            <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" name="after.body.start.product_composite_configure" template="Magento_Catalog::catalog/product/composite/configure.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Configuration" template="Amasty_RequestQuote::quote/edit/js.phtml" name="edit"/>
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Tabs" name="amasty_quote_tabs">
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Tab\Info" name="quote_tab_info" template="Amasty_RequestQuote::quote/edit/tab/info.phtml">
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Messages" name="quote_messages"/>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Info" name="quote_info" template="Amasty_RequestQuote::quote/edit/info.phtml">
+                        <container name="extra_customer_info"/>
+                    </block>
+                    <container name="order_additional_info"/>
+
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items" template="Amasty_RequestQuote::quote/edit/items.phtml" name="quote_items">
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items\Grid" template="Amasty_RequestQuote::quote/edit/items/grid.phtml" name="items_grid">
+                        </block>
+                    </block>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Search" template="Amasty_RequestQuote::quote/edit/abstract.phtml" name="search">
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Search\Grid" name="search_grid" as="grid"/>
+                    </block>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Totals" name="quote_totals" template="Amasty_RequestQuote::quote/edit/totals.phtml"/>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\History" name="quote_history" template="Amasty_RequestQuote::quote/edit/history.phtml"/>
+                </block>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">quote_info</argument>
+                    <argument name="block" xsi:type="string">quote_tab_info</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="sales_page_head_components" template="Magento_Sales::page/js/components.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

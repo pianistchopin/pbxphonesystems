@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+?>
+<?php
+/**
+ * @var \Amasty\Stockstatus\Block\Adminhtml\Product\Attribute\Logo $block
+ */
+?>
+<?php
+$selector = '';
+foreach ($block->getAffectedIds() as $attributeId) {
+    $selector .= 'tr[title*="attribute_id/' . $attributeId . '"] .col-frontend_label,';
+}
+$selector = rtrim($selector, ',');
+?>
+<style>
+        <?= $selector ?> {
+            background: url(<?= $block->getLogoUrl() ?>) no-repeat 97%;
+        }
+</style>
+

@@ -33,8 +33,9 @@ class BeforeToken extends InstallationEbay
             $connectorObj = $dispatcherObject->getVirtualConnector(
                 'account',
                 'get',
-                'grandAccessUrl',
-                ['back_url' => $backUrl, 'mode' => $accountMode],
+                'authUrl',
+                ['back_url' => $backUrl,
+                    'mode' => $accountMode],
                 null,
                 null,
                 null
@@ -44,6 +45,8 @@ class BeforeToken extends InstallationEbay
             $response = $connectorObj->getResponseData();
         } catch (\Exception $exception) {
             $this->getHelper('Module\Exception')->process($exception);
+            // M2ePro_TRANSLATIONS
+            // The eBay token obtaining is currently unavailable.<br/>Reason: %error_message%
             $error = 'The eBay token obtaining is currently unavailable.<br/>Reason: %error_message%';
             $error = $this->__($error, $exception->getMessage());
 

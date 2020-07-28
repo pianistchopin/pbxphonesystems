@@ -14,6 +14,11 @@ class EbayItemUUID extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['ebay_listing_product'];
+    }
+
     public function execute()
     {
         $this->getTableModifier('ebay_listing_product')

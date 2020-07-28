@@ -21,8 +21,9 @@ class Form extends AbstractForm
     public $templateModel;
     public $formData = [];
 
+    public $generalAttributesByInputTypes = [];
     public $allAttributesByInputTypes     = [];
-    public $allAttributes             = [];
+    public $generalAttributes             = [];
 
     //########################################
 
@@ -53,15 +54,19 @@ class Form extends AbstractForm
 
         /** @var \Ess\M2ePro\Helper\Magento\Attribute $magentoAttributeHelper */
         $magentoAttributeHelper  = $this->getHelper('Magento\Attribute');
+        $allAttributes           = $magentoAttributeHelper->getAll();
 
-        $this->allAttributes = $magentoAttributeHelper->getAll();
+        $this->generalAttributes = $magentoAttributeHelper->getGeneralFromAllAttributeSets();
+        $this->generalAttributesByInputTypes = [
+            'text'        => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['text']),
+            'text_select' => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['text', 'select']),
+            'text_price'  => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['text', 'price']),
+            'text_date'   => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['text', 'date']),
+            'text_weight' => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['text', 'weight']),
+            'boolean'     => $magentoAttributeHelper->filterByInputTypes($this->generalAttributes, ['boolean']),
+        ];
         $this->allAttributesByInputTypes = [
-            'text'        => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text']),
-            'text_select' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'select']),
-            'text_price'  => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'price']),
-            'text_date'   => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'date']),
-            'text_weight' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'weight']),
-            'boolean'     => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['boolean']),
+            'text_select' => $magentoAttributeHelper->filterByInputTypes($allAttributes, ['text', 'select']),
         ];
     }
 
@@ -133,7 +138,8 @@ HTML
                 'title' => $this->__('Marketplace'),
                 'values' => $this->getMarketplaceDataToOptions(),
                 'value' => $this->formData['marketplace_id'],
-                'required' => true
+                'required' => true,
+                'disabled' => !empty($this->formData['id'])
             ]
         );
 
@@ -913,7 +919,7 @@ HTML
     public function getMarketplaceDataToOptions()
     {
         $optionsResult = [
-            ['value' => '', 'label' => '', 'style' => 'display: none;']
+            ['value' => '', 'label' => '']
         ];
 
         foreach ($this->getHelper('Component\Walmart')->getMarketplacesAvailableForApiCreation() as $marketplace) {
@@ -1196,8 +1202,8 @@ HTML
     {
         return $this->createBlock('Walmart_Template_SellingFormat_Edit_Form_Promotions')
                     ->setParentForm($form)
-                    ->setAttributesByInputType('text_date', $this->allAttributesByInputTypes['text_date'])
-                    ->setAttributesByInputType('text_price', $this->allAttributesByInputTypes['text_price'])
+                    ->setAttributesByInputType('text_date', $this->generalAttributesByInputTypes['text_date'])
+                    ->setAttributesByInputType('text_price', $this->generalAttributesByInputTypes['text_price'])
                     ->toHtml();
     }
 
@@ -1205,7 +1211,7 @@ HTML
     {
         return $this->createBlock('Walmart_Template_SellingFormat_Edit_Form_ShippingOverrideRules')
                      ->setParentForm($form)
-                     ->setAllAttributes($this->allAttributes)
+                     ->setGeneralFromAllAttributeSets($this->generalAttributes)
                      ->toHtml();
     }
 
@@ -1554,7 +1560,7 @@ JS
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData[$attributeName],
-            $this->allAttributesByInputTypes[$attributeType],
+            $this->generalAttributesByInputTypes[$attributeType],
             $attributeMode
         );
 
@@ -1599,14 +1605,14 @@ JS
 
     public function getAttributesByInputTypesOptions($value, $attributeType, $conditionCallback = false)
     {
-        if (!isset($this->allAttributesByInputTypes[$attributeType])) {
+        if (!isset($this->generalAttributesByInputTypes[$attributeType])) {
             return [];
         }
 
         $optionsResult = [];
         $helper = $this->getHelper('Data');
 
-        foreach ($this->allAttributesByInputTypes[$attributeType] as $attribute) {
+        foreach ($this->generalAttributesByInputTypes[$attributeType] as $attribute) {
             $tmpOption = [
                 'value' => $value,
                 'label' => $helper->escapeHtml($attribute['label']),

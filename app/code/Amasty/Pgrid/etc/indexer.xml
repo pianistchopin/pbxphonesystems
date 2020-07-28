@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../Indexer/etc/indexer.xsd">
+    <indexer id="amasty_pgrid_qty_sold" view_id="amasty_pgrid_qty_sold" class="Amasty\Pgrid\Model\Indexer\QtySold">
+        <title translate="true">Amasty: Product Grid - Qty Sold</title>
+        <description translate="true">Rebuild qty sold value</description>
+    </indexer>
+</config>

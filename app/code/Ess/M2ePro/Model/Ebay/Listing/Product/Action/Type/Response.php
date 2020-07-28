@@ -18,7 +18,7 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
     /**
      * @var array
      */
-    protected $params = [];
+    private $params = [];
 
     /**
      * @var \Ess\M2ePro\Model\Listing\Product
@@ -313,13 +313,10 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
 
                 $data = [
                     'online_sku'   => $requestVariation['sku'],
+                    'online_price' => $requestVariation['price'],
                     'add'          => 0,
                     'delete'       => 0,
                 ];
-
-                if (isset($requestVariation['price'])) {
-                    $data['online_price'] = $requestVariation['price'];
-                }
 
                 /** @var EbayVariation $ebayVariation */
                 $ebayVariation = $variation->getChildObject();
@@ -330,13 +327,10 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
                 $variation->getChildObject()->addData($data)->save();
 
                 if (!empty($requestVariation['details'])) {
-                    $variationAdditionalData = $variation->getAdditionalData();
-                    $variationAdditionalData['online_product_details'] = $requestVariation['details'];
+                    $additionalData = $variation->getAdditionalData();
+                    $additionalData['online_product_details'] = $requestVariation['details'];
 
-                    $variation->setData(
-                        'additional_data',
-                        $this->getHelper('Data')->jsonEncode($variationAdditionalData)
-                    );
+                    $variation->setData('additional_data', $this->getHelper('Data')->jsonEncode($additionalData));
                     $variation->save();
                 }
             }
@@ -353,7 +347,6 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
             ($this->getRequestData()->hasVariations() && $this->getRequestData()->getVariationQty() <= 0)) {
             $data['status'] = \Ess\M2ePro\Model\Listing\Product::STATUS_HIDDEN;
         }
-
         return $data;
     }
 
@@ -408,9 +401,12 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
             $data['online_buyitnow_price'] = null;
 
             if ($this->getRequestData()->hasVariations()) {
-                // out_of_stock_control_result key is not presented in request data,
-                // if request was performed before code upgrade
-                $calculateWithEmptyQty = $this->getEbayListingProduct()->isOutOfStockControlEnabled();
+                if (!$this->getRequestData()->hasOutOfStockControlResult()) {
+                    $calculateWithEmptyQty = $this->getEbayListingProduct()->getOutOfStockControl();
+                } else {
+                    $calculateWithEmptyQty = $this->getRequestData()->getOutOfStockControlResult();
+                }
+
                 $data['online_current_price'] = $this->getRequestData()->getVariationPrice($calculateWithEmptyQty);
             } elseif ($this->getRequestData()->hasPriceFixed()) {
                 $data['online_current_price'] = $this->getRequestData()->getPriceFixed();
@@ -420,11 +416,9 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
                 $data['online_start_price'] = $this->getRequestData()->getPriceStart();
                 $data['online_current_price'] = $this->getRequestData()->getPriceStart();
             }
-
             if ($this->getRequestData()->hasPriceReserve()) {
                 $data['online_reserve_price'] = $this->getRequestData()->getPriceReserve();
             }
-
             if ($this->getRequestData()->hasPriceBuyItNow()) {
                 $data['online_buyitnow_price'] = $this->getRequestData()->getPriceBuyItNow();
             }
@@ -443,14 +437,6 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
             $data['online_title'] = $this->getRequestData()->getTitle();
         }
 
-        if ($this->getRequestData()->hasSubtitle()) {
-            $data['online_sub_title'] = $this->getRequestData()->getSubtitle();
-        }
-
-        if ($this->getRequestData()->hasDescription()) {
-            $data['online_description'] = $this->getRequestData()->getDescription();
-        }
-
         if ($this->getRequestData()->hasDuration()) {
             $data['online_duration'] = $this->getRequestData()->getDuration();
         }
@@ -462,9 +448,9 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
             );
 
             if ($tempPath) {
-                $data['online_main_category'] = $tempPath.' ('.$this->getRequestData()->getPrimaryCategory().')';
+                $data['online_category'] = $tempPath.' ('.$this->getRequestData()->getPrimaryCategory().')';
             } else {
-                $data['online_main_category'] = $this->getRequestData()->getPrimaryCategory();
+                $data['online_category'] = $this->getRequestData()->getPrimaryCategory();
             }
         }
 
@@ -472,6 +458,19 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
     }
 
     // ---------------------------------------
+
+    protected function appendOutOfStockValues($data)
+    {
+        if (!isset($data['additional_data'])) {
+            $data['additional_data'] = $this->getListingProduct()->getAdditionalData();
+        }
+
+        if ($this->getRequestData()->hasOutOfStockControl()) {
+            $data['additional_data']['out_of_stock_control'] = $this->getRequestData()->getOutOfStockControl();
+        }
+
+        return $data;
+    }
 
     protected function appendItemFeesValues($data, $response)
     {
@@ -503,7 +502,7 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
         return $data;
     }
 
-    protected function appendGalleryImagesValues($data, $response)
+    protected function appendGalleryImagesValues($data, $response, $responseParams)
     {
         if (!isset($data['additional_data'])) {
             $data['additional_data'] = $this->getListingProduct()->getAdditionalData();
@@ -511,6 +510,27 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
 
         if (isset($response['is_eps_ebay_images_mode'])) {
             $data['additional_data']['is_eps_ebay_images_mode'] = $response['is_eps_ebay_images_mode'];
+        }
+
+        if (!isset($responseParams['is_images_upload_error']) || !$responseParams['is_images_upload_error']) {
+            $metadata = $this->getRequestMetaData();
+
+            if ($this->getRequestData()->hasImages()) {
+                $key = 'ebay_product_images_hash';
+                $imagesData = $this->getRequestData()->getImages();
+
+                if (!empty($metadata[$key]) && isset($imagesData['images'])) {
+                    $data['additional_data'][$key] = $metadata[$key];
+                }
+            }
+
+            if ($this->getRequestData()->hasVariationsImages()) {
+                $key = 'ebay_product_variation_images_hash';
+
+                if (!empty($metadata[$key])) {
+                    $data['additional_data'][$key] = $metadata[$key];
+                }
+            }
         }
 
         return $data;
@@ -571,78 +591,6 @@ abstract class Response extends \Ess\M2ePro\Model\AbstractModel
     {
         $metadata = $this->getRequestMetaData();
         $data["online_is_auction_type"] = !$metadata["is_listing_type_fixed"];
-
-        return $data;
-    }
-
-    protected function appendImagesValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['images_data'])) {
-            return $data;
-        }
-
-        $data['online_images'] = $this->getHelper('Data')->jsonEncode($requestMetadata['images_data']);
-
-        return $data;
-    }
-
-    protected function appendCategoriesValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['categories_data'])) {
-            return $data;
-        }
-
-        $data['online_categories_data'] = $this->getHelper('Data')->jsonEncode($requestMetadata['categories_data']);
-
-        return $data;
-    }
-
-    protected function appendPaymentValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['payment_data'])) {
-            return $data;
-        }
-
-        $data['online_payment_data'] = $this->getHelper('Data')->jsonEncode($requestMetadata['payment_data']);
-
-        return $data;
-    }
-
-    protected function appendShippingValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['shipping_data'])) {
-            return $data;
-        }
-
-        $data['online_shipping_data'] = $this->getHelper('Data')->jsonEncode($requestMetadata['shipping_data']);
-
-        return $data;
-    }
-
-    protected function appendReturnValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['return_data'])) {
-            return $data;
-        }
-
-        $data['online_return_data'] = $this->getHelper('Data')->jsonEncode($requestMetadata['return_data']);
-
-        return $data;
-    }
-
-    protected function appendOtherValues($data)
-    {
-        $requestMetadata = $this->getRequestMetaData();
-        if (!isset($requestMetadata['other_data'])) {
-            return $data;
-        }
-
-        $data['online_other_data'] = $this->getHelper('Data')->jsonEncode($requestMetadata['other_data']);
 
         return $data;
     }

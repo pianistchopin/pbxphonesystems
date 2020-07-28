@@ -56,7 +56,7 @@ class Map extends Listing
             $productOtherId
         );
 
-        $productOtherInstance->mapProduct($productId);
+        $productOtherInstance->mapProduct($productId, \Ess\M2ePro\Helper\Data::INITIATOR_USER);
 
         $this->setAjaxContent('0', false);
         return $this->getResult();

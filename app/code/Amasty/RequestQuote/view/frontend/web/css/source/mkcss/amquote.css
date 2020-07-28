@@ -1,0 +1,297 @@
+@media all and (min-width: 768px), print {
+  .amquote-addto-button {
+    width: 49%;
+  }
+  .products.list .amquote-action-wrap .action.tocart {
+    width: 48%;
+  }
+  .amquote-cart-wrapper.minicart-wrapper {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  .amquote-cart-wrapper.minicart-wrapper .amquote-showcart.action:before {
+    margin: 0 5px 0 20px;
+  }
+  .amquote-cart-wrapper.minicart-wrapper .block-minicart {
+    right: -20px;
+    width: 390px;
+  }
+  .amquote-cart-wrapper.minicart-wrapper .block-minicart:after,
+  .amquote-cart-wrapper.minicart-wrapper .block-minicart:before {
+    transform: none;
+  }
+  .quote-details {
+    padding: 0;
+  }
+}
+.amquote-addto-button {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 15px;
+  padding: 14px 17px;
+  border: 1px solid #1979c3;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 2.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: #1979c3;
+  background: none;
+  box-shadow: none;
+  vertical-align: top;
+  cursor: pointer;
+}
+.amquote-addto-button:hover,
+.amquote-addto-button:active,
+.amquote-addto-button:focus {
+  background: #1979c3;
+  border: 1px solid #1979c3;
+  color: #fff;
+  box-shadow: none;
+}
+.amquote-addto-button.-small {
+  padding: 10px 0;
+  line-height: 1;
+  border-radius: 0;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  transition: display 0.3s ease;
+}
+.amquote-addto-button.-guest.-small {
+  white-space: normal;
+}
+.products.list .amquote-action-wrap .action.tocart {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+.amquote-action-wrap.product-item-actions .actions-primary {
+  display: block;
+}
+.amquote-action-wrap.product-item-actions .actions-primary + .actions-secondary {
+  display: block;
+  padding: 0;
+  width: inherit;
+  text-align: center;
+}
+.page-products .amquote-action-wrap.product-item-actions {
+  margin-top: 0;
+}
+.amquote-cart-wrapper.minicart-wrapper {
+  display: inline-block;
+  float: right;
+  margin-right: 4px;
+  margin-bottom: 3px;
+}
+.amquote-cart-wrapper.minicart-wrapper.-active .block-quotecart {
+  position: absolute;
+}
+.amquote-cart-wrapper.minicart-wrapper .block-minicart {
+  right: -30px;
+  width: 270px;
+}
+.amquote-cart-wrapper.minicart-wrapper .block-minicart:after,
+.amquote-cart-wrapper.minicart-wrapper .block-minicart:before {
+  transform: translateX(-10px);
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart {
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart.action:before {
+  content: '';
+  display: inline-block;
+  margin: 0;
+  width: 23px;
+  height: 30px;
+  line-height: 28px;
+  overflow: hidden;
+  speak: none;
+  text-align: center;
+  vertical-align: top;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNSAyNSI+PHBhdGggZmlsbD0iIzc1NzU3NSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjQgMjFoLTFsLS4wMTItMTEuNTEyQS40ODguNDg4IDAgMCAwIDIyLjUgOUgyMFYxLjVhLjQ4OC40ODggMCAwIDAtLjQ4OC0uNDg4SDkuNDg4QS40ODguNDg4IDAgMCAwIDkgMS41VjIwaC0uMzM3QTMuNTE1IDMuNTE1IDAgMCAwIDcgMTguMzM3VjEuMzU5QzcgLjU1MSA2LjUgMCA1LjY2NCAwSDFTMCAwIDAgMXMxIDEgMSAxaDR2MTYuMDM1QTMuNSAzLjUgMCAxIDAgOC42NjMgMjNIMjRzMSAwIDEtMWMwLTEuMDAxLTEtMS0xLTF6bS0xMy4wMDEgMGwtLjAwMS0xMEgxNGwuMDAxIDQuMjM2YS40ODguNDg4IDAgMCAwIC43ODEuMzlsMS4xMzctMS4yNDUgMS4zMDEgMS4yNDZhLjQ4OC40ODggMCAwIDAgLjc4LS4zOTF2LTQuMjM1TDIxIDExdjkuOTk5TDEwLjk5OSAyMXptMS45OS0xNS4zNThhLjQ4OC40ODggMCAwIDAgLjc1OC40MDZsLjcwNi0uNzk3Ljc4OC43OTZBLjQ4Ny40ODcgMCAwIDAgMTYgNS42NFYzaDJ2NmgtN1YzaDEuOTg4djIuNjQyeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+) no-repeat center;
+  transition: opacity 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart:hover:before {
+  opacity: 0.75;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart > .text,
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart .counter-label {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart .counter-number {
+  text-shadow: 0 0 7px #000;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart .counter.qty.empty {
+  display: none;
+}
+.amquote-cart-wrapper.minicart-wrapper .amquote-showcart .counter.qty {
+  display: inline-block;
+  margin: 3px 0 0;
+  padding: 0 3px;
+  min-width: 18px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 2px;
+  overflow: hidden;
+  text-align: center;
+  white-space: normal;
+  background: #ff5501;
+  color: #fff;
+}
+.amquote-cart-wrapper.minicart-wrapper .block-quotecart {
+  padding-bottom: 0;
+}
+.amquote-cart-wrapper.minicart-wrapper .block-quotecart .cart-item-qty {
+  margin-right: 3px;
+}
+.amquote-cart-wrapper.minicart-wrapper .minicart-widgets {
+  margin: 0;
+}
+.amquote-cart-wrapper.minicart-wrapper .block-quotecart .subtitle.empty {
+  padding: 30px 0 50px;
+}
+.table-wrapper.cart .data.table .col.price,
+.table-wrapper.cart .data.table .col.qty,
+.table-wrapper.cart .col.price.qty {
+  text-align: center;
+  white-space: normal;
+}
+.table-wrapper.cart .item-info .col.qty {
+  white-space: normal;
+}
+.table-wrapper.cart .col.price .control .amquotereq-input {
+  width: 80px;
+  height: 36px;
+  margin-top: -7px;
+  padding: 0;
+  text-align: center;
+}
+.table-wrapper.cart .amquotereq-input + .mage-error {
+  line-height: normal;
+  font-weight: normal;
+}
+.table-wrapper.cart .col.price .input-text,
+.table-wrapper.cart .col.qty .input-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #666;
+}
+.table-wrapper.cart .textarea.add-note {
+  display: none;
+}
+.table-wrapper.cart .add-note-quote {
+  cursor: pointer;
+}
+.quote-details {
+  padding: 0 15px;
+}
+.quote-details .title {
+  display: block;
+  margin: 12px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+  font-size: 2.4rem;
+  font-weight: 300;
+}
+.quote-details .control {
+  margin-top: 10px;
+}
+.quote-details .form-login {
+  border-bottom: 1px solid #cccccc;
+}
+.account-quote-buttons {
+  margin-bottom: 15px;
+}
+.amasty-quote-account-view .table-wrapper table .quote-item-notes,
+.amasty_quote-account-view .table-wrapper table .quote-item-notes {
+  border-top: none;
+}
+.amasty-quote-account-view ul.note-list li,
+.amasty_quote-account-view ul.note-list li {
+  display: inline-block;
+  width: 48%;
+}
+.amasty-quote-account-index .quote-products-toolbar .pager .pages,
+.amasty_quote-account-index .quote-products-toolbar .pager .pages,
+.amasty-quote-account-index .quote-products-toolbar .pager .limiter,
+.amasty_quote-account-index .quote-products-toolbar .pager .limiter {
+  display: inline-block;
+  position: relative;
+  width: auto;
+}
+.amasty-quote-update .control.price {
+  position: relative;
+  min-width: 95px;
+  line-height: 22px;
+}
+.amasty-quote-update .amquote-price-label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+#update-quote-cart {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+}
+.quote-interest-message {
+  font-weight: bold;
+}
+.cart-summary._sticky {
+  margin-bottom: 20vh;
+}
+.cart-summary .checkout-methods-items .amasty-quote-link {
+  width: 100%;
+  line-height: 2.2rem;
+  font-size: 1.8rem;
+  text-decoration: none;
+}
+.amquote-cell-container {
+  width: 50%;
+  font-weight: bold;
+}
+.amquote-cell-container .amquote-note {
+  font-weight: normal;
+  word-break: break-word;
+  word-wrap: break-word;
+}
+.amquote-cell-container::before {
+  content: none !important;
+}
+.amquote-report-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0;
+}
+.amquote-report-container .amquote-item {
+  min-width: 200px;
+  margin-right: 20px;
+  font-weight: bold;
+}
+.amquote-report-container .amquote-item:last-child {
+  margin-right: 0;
+}
+.amquote-report-container .amquote-comment {
+  font-weight: normal;
+  word-break: break-word;
+  word-wrap: break-word;
+}

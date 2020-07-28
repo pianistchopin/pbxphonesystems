@@ -134,48 +134,32 @@ class Save extends Template
 
         // Add or update model
         // ---------------------------------------
-        $sellingFormatTemplate = $this->walmartFactory->getObject('Template\SellingFormat');
-
-        $id && $sellingFormatTemplate->load($id);
+        $model = $this->walmartFactory->getObject('Template\SellingFormat');
 
         $oldData = [];
 
-        if ($sellingFormatTemplate->getId()) {
-            /** @var \Ess\M2ePro\Model\Walmart\Template\SellingFormat\SnapshotBuilder $snapshotBuilder */
-            $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_SellingFormat_SnapshotBuilder');
-            $snapshotBuilder->setModel($sellingFormatTemplate);
-            $oldData = $snapshotBuilder->getSnapshot();
+        if ($id) {
+            $model->load($id);
+
+            $oldData = array_merge(
+                $model->getDataSnapshot(),
+                $model->getChildObject()->getDataSnapshot()
+            );
         }
 
-        $sellingFormatTemplate->addData($data)->save();
-        $sellingFormatTemplate->getChildObject()->addData(array_merge(
-            [$sellingFormatTemplate->getResource()->getChildPrimary(Walmart::NICK) => $sellingFormatTemplate->getId()],
+        $model->addData($data)->save();
+        $model->getChildObject()->addData(array_merge(
+            [$model->getResource()->getChildPrimary(Walmart::NICK) => $model->getId()],
             $data
         ));
 
-        $sellingFormatTemplate->save();
+        $model->save();
 
-        $this->updateServices($post, $sellingFormatTemplate->getId());
-        $this->updatePromotions($post, $sellingFormatTemplate->getId());
+        $this->updateServices($post, $model->getId());
+        $this->updatePromotions($post, $model->getId());
 
-        $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_SellingFormat_SnapshotBuilder');
-        $snapshotBuilder->setModel($sellingFormatTemplate);
-        $newData = $snapshotBuilder->getSnapshot();
-
-        $diff = $this->modelFactory->getObject('Walmart_Template_SellingFormat_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        $affectedListingsProducts = $this->modelFactory->getObject(
-            'Walmart_Template_SellingFormat_AffectedListingsProducts'
-        );
-        $affectedListingsProducts->setModel($sellingFormatTemplate);
-
-        $changeProcessor = $this->modelFactory->getObject('Walmart_Template_SellingFormat_ChangeProcessor');
-        $changeProcessor->process(
-            $diff,
-            $affectedListingsProducts->getObjectsData(['id', 'status'], ['only_physical_units' => true])
-        );
+        $newData = array_merge($model->getDataSnapshot(), $model->getChildObject()->getDataSnapshot());
+        $model->getChildObject()->setSynchStatusNeed($newData, $oldData);
 
         if ($this->isAjax()) {
             $this->setJsonContent([
@@ -184,7 +168,7 @@ class Save extends Template
             return $this->getResult();
         }
 
-        $id = $sellingFormatTemplate->getId();
+        $id = $model->getId();
         // ---------------------------------------
 
         $this->messageManager->addSuccess($this->__('Policy was successfully saved'));

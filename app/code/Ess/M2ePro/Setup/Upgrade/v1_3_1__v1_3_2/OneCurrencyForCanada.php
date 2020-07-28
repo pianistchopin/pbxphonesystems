@@ -14,6 +14,11 @@ class OneCurrencyForCanada extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['ebay_marketplace'];
+    }
+
     public function execute()
     {
         $mainTableName = $this->getFullTableName("ebay_marketplace");

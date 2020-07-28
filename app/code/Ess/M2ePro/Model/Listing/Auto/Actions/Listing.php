@@ -16,11 +16,6 @@ use Ess\M2ePro\Model\Listing\Product;
  */
 abstract class Listing extends \Ess\M2ePro\Model\AbstractModel
 {
-    const INSTRUCTION_TYPE_STOP            = 'auto_actions_stop';
-    const INSTRUCTION_TYPE_STOP_AND_REMOVE = 'auto_actions_stop_and_remove';
-
-    const INSTRUCTION_INITIATOR = 'auto_actions';
-
     /**
      * @var null|\Ess\M2ePro\Model\Listing
      */
@@ -78,30 +73,22 @@ abstract class Listing extends \Ess\M2ePro\Model\AbstractModel
                 return;
             }
 
-            if ($deletingMode == \Ess\M2ePro\Model\Listing::DELETING_MODE_STOP && !$listingProduct->isStoppable()) {
-                continue;
-            }
-
             try {
-                $instructionType = self::INSTRUCTION_TYPE_STOP;
-
-                if ($deletingMode == \Ess\M2ePro\Model\Listing::DELETING_MODE_STOP_REMOVE) {
-                    $instructionType = self::INSTRUCTION_TYPE_STOP_AND_REMOVE;
+                if ($deletingMode == \Ess\M2ePro\Model\Listing::DELETING_MODE_STOP) {
+                    $listingProduct->isStoppable() && $this->activeRecordFactory->getObject('StopQueue')->add(
+                        $listingProduct
+                    );
                 }
 
-                $instruction = $this->activeRecordFactory->getObject('Listing_Product_Instruction');
-                $instruction->setData(
-                    [
-                        'listing_product_id' => $listingProduct->getId(),
-                        'component'          => $listingProduct->getComponentMode(),
-                        'type'               => $instructionType,
-                        'initiator'          => self::INSTRUCTION_INITIATOR,
-                        'priority'           => $listingProduct->isStoppable() ? 60 : 0,
-                    ]
-                );
-                $instruction->save();
+                if ($deletingMode == \Ess\M2ePro\Model\Listing::DELETING_MODE_STOP_REMOVE) {
+                    $listingProduct->isStoppable() && $this->activeRecordFactory->getObject('StopQueue')->add(
+                        $listingProduct
+                    );
+                    $listingProduct->addData(['status'=>\Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED])
+                        ->save();
+                    $listingProduct->delete();
+                }
             } catch (\Exception $exception) {
-                $this->getHelper('Module\Exception')->process($exception);
             }
         }
     }
@@ -140,6 +127,8 @@ abstract class Listing extends \Ess\M2ePro\Model\AbstractModel
             \Ess\M2ePro\Helper\Data::INITIATOR_UNKNOWN,
             null,
             \Ess\M2ePro\Model\Listing\Log::ACTION_ADD_PRODUCT_TO_MAGENTO,
+            // M2ePro_TRANSLATIONS
+            // Product was successfully Added
             'Product was successfully Added',
             \Ess\M2ePro\Model\Log\AbstractModel::TYPE_NOTICE,
             \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_LOW

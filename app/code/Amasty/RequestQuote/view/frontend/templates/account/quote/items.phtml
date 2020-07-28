@@ -1,0 +1,95 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var \Amasty\RequestQuote\Block\Account\Quote\Items $block */ ?>
+<div class="order-details-items ordered">
+    <div class="table-wrapper order-items">
+        <table class="data table table-order-items" id="my-orders-table" summary="<?= /* @escapeNotVerified */ __('Items Ordered') ?>">
+            <caption class="table-caption"><?= /* @escapeNotVerified */ __('Items Ordered') ?></caption>
+            <thead>
+            <?php if($block->isPagerDisplayed()): ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-top" class="order-pager-wrapper order-pager-wrapper-top">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <tr>
+                <th class="col name"><?= /* @escapeNotVerified */ __('Product Name') ?></th>
+                <th class="col sku"><?= /* @escapeNotVerified */ __('SKU') ?></th>
+                <th class="col price"><?= /* @escapeNotVerified */ __('Price') ?></th>
+                <th class="col qty"><?= /* @escapeNotVerified */ __('Qty') ?></th>
+                <th class="col subtotal"><?= /* @escapeNotVerified */ __('Subtotal') ?></th>
+            </tr>
+            </thead>
+            <?php $items = $block->getItems(); ?>
+            <?php foreach ($items as $item): ?>
+                <?php if ($item->getParentItem()) continue; ?>
+                <tbody>
+                <?= $block->getItemHtml($item) ?>
+                </tbody>
+                <tbody class="quote-item-notes">
+                <?php if ($item->getNotes()): ?>
+                    <tr>
+                        <td colspan="2" class="amquote-cell-container">
+                            <?php if($item->getNotes()->getCustomerNote()): ?>
+                            <?= $block->escapeHtml(__('Customer Note:')) ?>
+                            <div class="item-note amquote-note">
+                                <?= nl2br($block->escapeHtml($item->getNotes()->getCustomerNote())); ?>
+                            </div>
+                            <?php endif;?>
+                        </td>
+                        <td colspan="3" class="amquote-cell-container">
+                            <?php if ($item->getNotes()->getAdminNote()): ?>
+                                <?= $block->escapeHtml(__('Administrator Note:')) ?>
+                                <div class="item-note amquote-note">
+                                    <?= nl2br($block->escapeHtml($item->getNotes()->getAdminNote())); ?>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+            <?php endforeach; ?>
+            <tfoot>
+            <?php if($block->isPagerDisplayed()): ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-bottom" class="order-pager-wrapper order-pager-wrapper-bottom">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <?= $block->getChildHtml('quote_totals') ?>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="account-quote-buttons">
+<?php if ($block->isQuoteComplete()) : ?>
+    <?= __('Order ID') ?>: <a href="<?= $block->getOrderViewUrl() ?>"><?= __('# %1', $block->getQuote()->getReservedOrderId()) ?></a>
+<?php endif; ?>
+<?php if ($block->isMoveShowed()) : ?>
+    <button type="submit"
+            title="<?= /* @escapeNotVerified */ __('Move to Shopping Cart') ?>"
+            class="action tocart primary"
+            amcart-observed="true"
+            data-post='<?= /* @escapeNotVerified */
+                $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+                    ->getPostData($block->getMoveUrl())
+            ?>'><span><?= /* @escapeNotVerified */ __('Move to Shopping Cart') ?></span>
+    </button>
+    <button type="submit"
+            title="<?= /* @escapeNotVerified */ __('Move to Checkout') ?>"
+            class="action tocart primary"
+            amcart-observed="true"
+            data-post='<?= /* @escapeNotVerified */
+            $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+                ->getPostData($block->getMoveUrl(['redirect_url' => 'checkout']))
+            ?>'><span><?= /* @escapeNotVerified */ __('Move to Checkout') ?></span>
+    </button>
+<?php endif; ?>
+</div>

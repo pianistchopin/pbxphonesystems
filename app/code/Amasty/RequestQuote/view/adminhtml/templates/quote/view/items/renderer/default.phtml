@@ -1,0 +1,37 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var \Amasty\RequestQuote\Block\Adminhtml\Quote\View\Items\Renderer\DefaultRenderer $block */ ?>
+<?php $item = $block->getItem() ?>
+<?php $block->setPriceDataObject($item) ?>
+<tr>
+    <?php $i = 0;
+    $columns = $block->getColumns();
+    $lastItemNumber = count($columns) ?>
+    <?php foreach ($columns as $columnName => $columnClass):?>
+        <?php $i++; ?>
+        <td class="<?= /* @noEscape */ $columnClass ?><?= /* @noEscape */ ($i === $lastItemNumber ? ' last' : '') ?>"><?= /* @escapeNotVerified */ $block->getColumnHtml($item, $columnName) ?></td>
+    <?php endforeach; ?>
+</tr>
+<?php if($itemQuestion = $block->getItemQuestion($item)): ?>
+    <tr class="row-notes-error">
+        <td colspan="2">
+            <strong><?= __('Customer Note:')?></strong>
+            <div class="customer-note">
+                <?= nl2br($block->escapeHtml($itemQuestion)) ?>
+            </div>
+        </td>
+        <td colspan="10">
+            <?php if($answer = $block->getItemAnswer($item)): ?>
+                <strong><?= __('Administrator Note:')?></strong>
+                <div class="customer-note">
+                    <?= nl2br($block->escapeHtml($answer)) ?>
+                </div>
+            <?php endif; ?>
+        </td>
+    </tr>
+<?php endif; ?>

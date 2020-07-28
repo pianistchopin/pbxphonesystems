@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Xsearch
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Amasty\Xsearch\Block\Adminhtml\System\Config\Form\Field\Landing">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Xsearch\Block\Adminhtml\System\Config\Form\Field\Brands">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Xsearch\Block\Adminhtml\System\Config\Form\Field\Blog">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Xsearch\Block\Adminhtml\System\Config\Form\Field\Faq">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Xsearch\Model\QueryInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="query_collection" xsi:type="object">Amasty\Xsearch\Model\ResourceModel\UserSearch\CollectionFactory</item>
+                <item name="date_time" xsi:type="object">Magento\Framework\Stdlib\DateTime\DateTime</item>
+                <item name="data_object" xsi:type="object">Magento\Framework\DataObjectFactory</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Search\Block\Adminhtml\Term\Edit\Form">
+        <plugin name="Amasty_Xsearch::ExtendTermFrom"
+                type="Amasty\Xsearch\Plugin\Search\Block\Adminhtml\Term\Edit\FormPlugin" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Search\Model\Query">
+        <plugin name="Amasty_Xsearch::ExtendRelatedQueries"
+                type="Amasty\Xsearch\Plugin\Search\Model\QueryBackendPlugin" sortOrder="1" />
+    </type>
+</config>

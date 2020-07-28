@@ -14,10 +14,6 @@ namespace Ess\M2ePro\Model\Amazon\Listing;
  */
 class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\AbstractModel
 {
-    const INSTRUCTION_TYPE_CHANNEL_STATUS_CHANGED        = 'channel_status_changed';
-    const INSTRUCTION_TYPE_CHANNEL_QTY_CHANGED           = 'channel_qty_changed';
-    const INSTRUCTION_TYPE_CHANNEL_REGULAR_PRICE_CHANGED = 'channel_regular_price_changed';
-
     const IS_AFN_CHANNEL_NO  = 0;
     const IS_AFN_CHANNEL_YES = 1;
 
@@ -241,38 +237,63 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     /**
      * @return bool
      */
-    public function isExistShippingTemplate()
+    public function isExistShippingTemplateTemplate()
     {
-        return $this->getTemplateShippingId() > 0;
+        return $this->getTemplateShippingTemplateId() > 0;
     }
 
     /**
-     * @return \Ess\M2ePro\Model\Amazon\Template\Shipping | null
+     * @return \Ess\M2ePro\Model\Amazon\Template\ShippingTemplate | null
      */
-    public function getShippingTemplate()
+    public function getShippingTemplateTemplate()
     {
-        if (!$this->isExistShippingTemplate()) {
+        if (!$this->isExistShippingTemplateTemplate()) {
             return null;
         }
 
         return $this->activeRecordFactory->getCachedObjectLoaded(
-            'Amazon_Template_Shipping',
-            $this->getTemplateShippingId()
+            'Amazon_Template_ShippingTemplate',
+            $this->getTemplateShippingTemplateId()
         );
     }
 
     // ---------------------------------------
 
     /**
-     * @return \Ess\M2ePro\Model\Amazon\Template\Shipping\Source
+     * @return \Ess\M2ePro\Model\Amazon\Template\ShippingTemplate\Source
      */
     public function getShippingTemplateSource()
     {
-        if (!$this->isExistShippingTemplate()) {
+        if (!$this->isExistShippingTemplateTemplate()) {
             return null;
         }
 
-        return $this->getShippingTemplate()->getSource($this->getActualMagentoProduct());
+        return $this->getShippingTemplateTemplate()->getSource($this->getActualMagentoProduct());
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function isExistShippingOverrideTemplate()
+    {
+        return $this->getTemplateShippingOverrideId() > 0;
+    }
+
+    /**
+     * @return \Ess\M2ePro\Model\Amazon\Template\ShippingOverride | null
+     */
+    public function getShippingOverrideTemplate()
+    {
+        if (!$this->isExistShippingOverrideTemplate()) {
+            return null;
+        }
+
+        return $this->activeRecordFactory->getCachedObjectLoaded(
+            'Amazon_Template_ShippingOverride',
+            $this->getTemplateShippingOverrideId()
+        );
     }
 
     // ---------------------------------------
@@ -391,7 +412,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getMagentoProduct()->isConfigurableType() ||
             $this->getMagentoProduct()->isGroupedType()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [
@@ -499,10 +520,17 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     /**
      * @return bool
      */
-    public function isRepricingManaged()
+    public function isRepricingEnabled()
     {
-        return $this->isRepricingUsed() &&
-            !$this->getRepricing()->isOnlineDisabled() && !$this->getRepricing()->isOnlineInactive();
+        return $this->isRepricingUsed() && !$this->getRepricing()->isOnlineDisabled();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRepricingDisabled()
+    {
+        return $this->isRepricingUsed() && $this->getRepricing()->isOnlineDisabled();
     }
 
     //########################################
@@ -518,9 +546,17 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     /**
      * @return int
      */
-    public function getTemplateShippingId()
+    public function getTemplateShippingTemplateId()
     {
-        return (int)($this->getData('template_shipping_id'));
+        return (int)($this->getData('template_shipping_template_id'));
+    }
+
+    /**
+     * @return int
+     */
+    public function getTemplateShippingOverrideId()
+    {
+        return (int)($this->getData('template_shipping_override_id'));
     }
 
     /**
@@ -680,41 +716,6 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     // ---------------------------------------
 
     /**
-     * @return int
-     */
-    public function getOnlineHandlingTime()
-    {
-        return (int)$this->getData('online_handling_time');
-    }
-
-    public function getOnlineRestockDate()
-    {
-        return $this->getData('online_restock_date');
-    }
-
-    // ---------------------------------------
-
-    /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
-    public function getOnlineDetailsData()
-    {
-        return $this->getSettings('online_details_data');
-    }
-
-    /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
-    public function getOnlineImagesData()
-    {
-        return $this->getSettings('online_images_data');
-    }
-
-    // ---------------------------------------
-
-    /**
      * @return array
      * @throws \Ess\M2ePro\Model\Exception\Logic
      */
@@ -787,7 +788,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [
@@ -825,7 +826,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [
@@ -864,7 +865,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception(
                     'There are no variations for a variation product.',
                     [
@@ -903,7 +904,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception(
                     'There are no variations for a variation product.',
                     [
@@ -1052,7 +1053,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception(
                     'There are no variations for a variation product.',
                     [
@@ -1095,7 +1096,7 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         if ($this->getVariationManager()->isPhysicalUnit() &&
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
             $variations = $this->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [
@@ -1164,6 +1165,141 @@ class Product extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         }
 
         return $resultValue;
+    }
+
+    //########################################
+
+    public function listAction(array $params = [])
+    {
+        return $this->processDispatcher(\Ess\M2ePro\Model\Listing\Product::ACTION_LIST, $params);
+    }
+
+    public function relistAction(array $params = [])
+    {
+        return $this->processDispatcher(\Ess\M2ePro\Model\Listing\Product::ACTION_RELIST, $params);
+    }
+
+    public function reviseAction(array $params = [])
+    {
+        return $this->processDispatcher(\Ess\M2ePro\Model\Listing\Product::ACTION_REVISE, $params);
+    }
+
+    public function stopAction(array $params = [])
+    {
+        return $this->processDispatcher(\Ess\M2ePro\Model\Listing\Product::ACTION_STOP, $params);
+    }
+
+    public function deleteAction(array $params = [])
+    {
+        return $this->processDispatcher(\Ess\M2ePro\Model\Listing\Product::ACTION_DELETE, $params);
+    }
+
+    // ---------------------------------------
+
+    protected function processDispatcher($action, array $params = [])
+    {
+        $dispatcherObject = $this->modelFactory->getObject('Amazon_Connector_Product_Dispatcher');
+        return $dispatcherObject->process($action, $this->getId(), $params);
+    }
+
+    //########################################
+
+    public function getTrackingAttributes()
+    {
+        $attributes = $this->getListing()->getTrackingAttributes();
+
+        $descriptionTemplate = $this->getDescriptionTemplate();
+        if ($descriptionTemplate !== null) {
+            $attributes = array_merge($attributes, $descriptionTemplate->getTrackingAttributes());
+        }
+
+        if ($this->isRepricingUsed()) {
+            $attributes = array_merge($attributes, $this->getAmazonAccount()->getRepricing()->getTrackingAttributes());
+        }
+
+        if ($this->isExistProductTaxCodeTemplate()) {
+            $attributes = array_merge($attributes, $this->getProductTaxCodeTemplate()->getTrackingAttributes());
+        }
+
+        if ($this->isExistShippingTemplateTemplate()) {
+            $attributes = array_merge($attributes, $this->getShippingTemplateTemplate()->getTrackingAttributes());
+        }
+
+        return array_unique($attributes);
+    }
+
+    //########################################
+
+    public function setSynchStatusNeed($newData, $oldData)
+    {
+        $this->getResource()->setSynchStatusNeedByDescriptionTemplate(
+            $newData,
+            $oldData,
+            $this->getParentObject()->getData()
+        );
+
+        $modelName = 'Amazon_Template_ShippingOverride';
+        $fieldName = 'template_shipping_override_id';
+
+        if ($this->getAccount()->getChildObject()->isShippingModeTemplate()) {
+            $modelName = 'Amazon_Template_ShippingTemplate';
+            $fieldName = 'template_shipping_template_id';
+        }
+
+        $this->getResource()->setSynchStatusNeedByShippingTemplate(
+            $newData,
+            $oldData,
+            $this->getParentObject()->getData(),
+            $modelName,
+            $fieldName
+        );
+
+        $this->getResource()->setSynchStatusNeedByProductTaxCodeTemplate(
+            $newData,
+            $oldData,
+            $this->getParentObject()->getData()
+        );
+    }
+
+    // ---------------------------------------
+
+    public function clearParentIndexer()
+    {
+        $manager = $this->modelFactory->getObject('Indexer_Listing_Product_VariationParent_Manager', [
+            'listing' => $this->getListing()
+        ]);
+        $manager->markInvalidated();
+    }
+
+    //########################################
+
+    public function afterSave()
+    {
+        if ($this->isObjectCreatingState()) {
+            $this->clearParentIndexer();
+        } else {
+
+            /** @var \Ess\M2ePro\Model\ResourceModel\Amazon\Indexer\Listing\Product\VariationParent $resource */
+            $resource = $this->activeRecordFactory->getObject(
+                'Amazon_Indexer_Listing_Product_VariationParent'
+            )->getResource();
+
+            foreach ($resource->getTrackedFields() as $fieldName) {
+                if ($this->getData($fieldName) != $this->getOrigData($fieldName)) {
+                    $this->clearParentIndexer();
+                    break;
+                }
+            }
+        }
+
+        return parent::afterSave();
+    }
+
+    public function beforeDelete()
+    {
+        $this->clearParentIndexer();
+
+        parent::beforeDelete();
     }
 
     //########################################

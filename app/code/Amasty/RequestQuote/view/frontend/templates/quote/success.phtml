@@ -1,0 +1,27 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var $block \Amasty\RequestQuote\Block\Quote\Success */ ?>
+<div class="checkout-success">
+    <?php if ($block->getQuoteId()):?>
+        <p class="quote-interest-message"><?= __('Thank you for your interest!') ?></p>
+        <?php if ($block->getCanViewQuote()) :?>
+            <p><?= __('Your Quote Request # is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewQuoteUrl()), $block->escapeHtml($block->getQuoteId()))) ?></p>
+        <?php else :?>
+            <p><?= __('Your Quote Request # is: <span>%1</span>.', $block->escapeHtml($block->getQuoteId())) ?></p>
+        <?php endif;?>
+        <p><?= /* @escapeNotVerified */ __('We\'ll email you a Quote Request confirmation email with a link to track progress.') ?></p>
+    <?php endif;?>
+
+    <?= $block->getAdditionalInfoHtml() ?>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+        </div>
+    </div>
+</div>

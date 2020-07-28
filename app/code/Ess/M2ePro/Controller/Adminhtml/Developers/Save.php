@@ -13,6 +13,18 @@ namespace Ess\M2ePro\Controller\Adminhtml\Developers;
  */
 class Save extends \Ess\M2ePro\Controller\Adminhtml\Developers
 {
+    protected $synchronizationConfig;
+
+    //########################################
+
+    public function __construct(
+        \Ess\M2ePro\Model\Config\Manager\Synchronization $synchronizationConfig,
+        \Ess\M2ePro\Controller\Adminhtml\Context $context
+    ) {
+        $this->synchronizationConfig = $synchronizationConfig;
+        parent::__construct($context);
+    }
+
     //########################################
 
     public function execute()
@@ -23,8 +35,8 @@ class Save extends \Ess\M2ePro\Controller\Adminhtml\Developers
             return $this->getResult();
         }
 
-        $this->getHelper('Module')->getConfig()->setGroupValue(
-            '/listing/product/inspector/',
+        $this->synchronizationConfig->setGroupValue(
+            '/global/magento_products/inspector/',
             'mode',
             (int)$post['inspector_mode']
         );

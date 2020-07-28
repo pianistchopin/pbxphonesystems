@@ -84,19 +84,6 @@ define([
 
         // ---------------------------------------
 
-
-        tryToMove: function(listingId)
-        {
-            this.movingHandler.submit(listingId, this.onSuccess)
-        },
-
-        onSuccess: function()
-        {
-            this.unselectAllAndReload();
-        },
-
-        // ---------------------------------------
-
         editSettings: function(id, templateNick)
         {
             this.selectedProductsIds = id ? [id] : this.getSelectedProductsArray();

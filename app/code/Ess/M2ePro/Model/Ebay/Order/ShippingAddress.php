@@ -34,7 +34,7 @@ class ShippingAddress extends \Ess\M2ePro\Model\Order\ShippingAddress
         ];
     }
 
-    protected function getBuyerEmail()
+    private function getBuyerEmail()
     {
         $email = $this->order->getChildObject()->getData('buyer_email');
 
@@ -46,7 +46,7 @@ class ShippingAddress extends \Ess\M2ePro\Model\Order\ShippingAddress
         return $email;
     }
 
-    protected function getPostalCode()
+    private function getPostalCode()
     {
         $postalCode = $this->getData('postal_code');
 
@@ -57,7 +57,7 @@ class ShippingAddress extends \Ess\M2ePro\Model\Order\ShippingAddress
         return $postalCode;
     }
 
-    protected function getPhone()
+    private function getPhone()
     {
         $phone = $this->getData('phone');
 

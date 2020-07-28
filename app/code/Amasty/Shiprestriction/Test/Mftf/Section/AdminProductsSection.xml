@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+
+    <section name="AdminProductSection">
+        <!-- Advanced Inventory-->
+        <element name="AdvancedInventory" type="button" selector="//button[@data-index='advanced_inventory_button'][@class='action-additional']" timeout="30"/>
+        <element name="AdvancedInventoryQty" type="input" selector="//div[@data-index='stock_data']//input[@name='product[quantity_and_stock_status][qty]']" timeout="30"/>
+        <element name="CloseAdvancedInventory" type="button" selector="//aside[contains(@class,'advanced_inventory')]//button[@data-role='closeBtn']" timeout="30"/>
+        <element name="Backorders" type="select" selector="//select[@name='product[stock_data][backorders]']"/>
+        <element name="BackordersConfigSetting" type="input" selector="//input[@name='product[stock_data][use_config_backorders]']"/>
+        <element name="BackordersConfigSettingYes" type="block" selector="//input[@name='product[stock_data][use_config_backorders]'][@value='1']"/>
+        <element name="BackordersConfigSettingNo" type="block" selector="//input[@name='product[stock_data][use_config_backorders]'][@value='0']"/>
+    </section>
+
+</sections>

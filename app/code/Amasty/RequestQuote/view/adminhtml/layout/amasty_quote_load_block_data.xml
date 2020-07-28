@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="sales_order_create_item_price"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Data" template="Amasty_RequestQuote::order/edit/data.phtml" name="data">
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Search" template="Amasty_RequestQuote::order/edit/abstract.phtml" name="search">
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Search\Grid" name="search.grid" as="grid"/>
+                </block>
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items" template="Amasty_RequestQuote::order/edit/items.phtml" name="items">
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items\Grid" template="Amasty_RequestQuote::order/edit/items/grid.phtml" name="items_grid">
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Coupons" template="Amasty_RequestQuote::order/edit/coupons/form.phtml" name="coupons">
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Coupons\Form" template="Amasty_RequestQuote::order/edit/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
+                        </block>
+                    </block>
+                </block>
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Totals" template="Amasty_RequestQuote::order/edit/totals.phtml" name="totals"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

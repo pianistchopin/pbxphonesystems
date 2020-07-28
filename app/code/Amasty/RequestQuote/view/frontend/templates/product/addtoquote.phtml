@@ -1,0 +1,30 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/**  @var \Amasty\RequestQuote\Block\Product\Action  $block*/
+?>
+<button type="submit"
+        title="<?= $block->getButtonText() ?>"
+        class="amquote-addto-button <?php if($block->isCategoryPage()): ?>-small<?php endif;?> <?php if($block->isGuest()): ?>-guest<?php endif;?>"
+        data-amquote-js="addto-button"
+        <?php if(!$block->isCategoryPage()): ?> id="product-addtoquote" <?php endif;?>
+        <?php if($block->isCategoryPage()): ?> style="display:none;" <?php endif;?> >
+    <span><?= $block->getButtonText() ?></span>
+</button>
+
+<script type="text/x-magento-init">
+    {
+        "[data-amquote-js='addto-button']": {
+            "Amasty_RequestQuote/js/product/addtoquote": {
+                "addUrl": "<?= $block->escapeUrl($block->getAddUrl());?>",
+                "isCategoryPage": "<?= $block->isCategoryPage() ?>",
+                "loggedIn": "<?= $block->getLoggedIn() ?>"
+            }
+        }
+    }
+</script>

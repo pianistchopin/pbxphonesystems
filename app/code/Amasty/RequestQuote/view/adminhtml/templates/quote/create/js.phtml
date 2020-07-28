@@ -1,0 +1,27 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+// @codingStandardsIgnoreFile
+?>
+<script>
+    require([
+        "prototype",
+        "Amasty_RequestQuote/quote/create/form",
+        "Magento_Catalog/catalog/product/composite/configure",
+        "domReady!"
+    ], function(){
+        if (window.productConfigure) {
+            productConfigure.addListType('product_to_add', {
+                urlFetch: '<?= /* @escapeNotVerified */ $block->getUrl('amasty_quote/quote_create/configureProductToAdd') ?>'
+            });
+            productConfigure.addListType('quote_items', {
+                urlFetch: '<?= /* @escapeNotVerified */ $block->getUrl('amasty_quote/quote_create/configureQuoteItems') ?>'
+            });
+        }
+    });
+</script>

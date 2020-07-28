@@ -1,0 +1,12 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name ="Magento\Catalog\Model\Product">
+        <plugin name ="Amasty_Stockstatus::ProductGetName" type ="Amasty\Stockstatus\Plugin\Catalog\Model\Product" />
+    </type>
+    <type name ="Amasty\HidePrice\Helper\Data">
+        <plugin name ="Amasty_Stockstatus::CheckStockStatus" type ="Amasty\Stockstatus\Plugin\HidePrice\Helper\Data" />
+    </type>
+    <type name="Magento\InventoryConfigurableProduct\Plugin\Model\ResourceModel\Attribute\IsSalableOptionSelectBuilder">
+        <plugin name="Amasty_Stockstatus::out-of-stock-options-msi" type="Amasty\Stockstatus\Plugin\InventoryConfigurableProduct\Plugin\Model\ResourceModel\Attribute\IsSalableOptionSelectBuilder"/>
+    </type>
+</config>

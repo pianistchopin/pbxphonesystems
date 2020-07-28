@@ -16,6 +16,7 @@ class Switcher extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Switcher
     const VIEW_MODE_EBAY        = 'ebay';
     const VIEW_MODE_MAGENTO     = 'magento';
     const VIEW_MODE_SETTINGS    = 'settings';
+    const VIEW_MODE_TRANSLATION = 'translation';
 
     //########################################
 

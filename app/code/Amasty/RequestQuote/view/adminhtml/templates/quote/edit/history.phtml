@@ -1,0 +1,49 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div id="order_history_block" class="edit-order-comments">
+    <?php if ($block->canAddComment()):?>
+        <div class="order-history-block" id="history_form">
+
+            <div class="admin__field">
+                <label for="history_comment" class="admin__field-label">
+                    <?= $block->escapeHtml(__('Remarks')) ?>
+                </label>
+                <div class="admin__field-control">
+                    <textarea name="quote[note]"
+                              rows="3"
+                              cols="5"
+                              id="history_comment"
+                              class="admin__control-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="admin__field">
+                <div class="order-history-comments-actions">
+                    <?= $block->getChildHtml('submit_button') ?>
+                </div>
+            </div>
+        </div>
+    <?php endif;?>
+
+    <?php if ($block->getNotes()): ?>
+    <ul class="note-list">
+        <?php if ($block->getNotes()->getCustomerNote()): ?>
+            <li class="note-list-item">
+                <strong><?= $block->escapeHtml(__('Customer Remarks'))?></strong>
+                <div class="note-list-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getCustomerNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+            </li>
+        <?php endif; ?>
+        <?php if ($block->getNotes()->getAdminNote()): ?>
+            <li class="note-list-item">
+                <strong><?= $block->escapeHtml(__('Admin Remarks'))?></strong>
+                <div class="note-list-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getAdminNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+            </li>
+        <?php endif; ?>
+    <?php endif; ?>
+    </ul>
+</div>

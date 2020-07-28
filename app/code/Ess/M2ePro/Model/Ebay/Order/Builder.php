@@ -16,17 +16,36 @@ use Ess\M2ePro\Model\AbstractModel;
 class Builder extends AbstractModel
 {
     const STATUS_NOT_MODIFIED = 0;
-    const STATUS_NEW = 1;
-    const STATUS_UPDATED = 2;
+    const STATUS_NEW          = 1;
+    const STATUS_UPDATED      = 2;
 
     const UPDATE_COMPLETED_CHECKOUT = 'completed_checkout';
-    const UPDATE_COMPLETED_PAYMENT = 'completed_payment';
+    const UPDATE_COMPLETED_PAYMENT  = 'completed_payment';
     const UPDATE_COMPLETED_SHIPPING = 'completed_shipping';
-    const UPDATE_BUYER_MESSAGE = 'buyer_message';
-    const UPDATE_PAYMENT_DATA = 'payment_data';
-    const UPDATE_SHIPPING_TAX_DATA = 'shipping_tax_data';
-    const UPDATE_ITEMS_COUNT = 'items_count';
-    const UPDATE_EMAIL = 'email';
+    const UPDATE_BUYER_MESSAGE      = 'buyer_message';
+    const UPDATE_PAYMENT_DATA       = 'payment_data';
+    const UPDATE_SHIPPING_TAX_DATA  = 'shipping_tax_data';
+    const UPDATE_ITEMS_COUNT        = 'items_count';
+    const UPDATE_EMAIL              = 'email';
+
+    //########################################
+
+    // M2ePro\TRANSLATIONS
+    // Payment status was updated to Paid on eBay.
+    // Shipping status was updated to Shipped on eBay.
+    // Buyer has changed the shipping address of this order at the time of completing payment on eBay.
+    // Duplicated eBay Orders with ID #%id%.
+    // Order Creation Rules were not met. Press Create Order Button at Order View Page to create it anyway.
+    // Magento Order #%order_id% should be canceled as new combined eBay Order #%new_id% was created.
+    // eBay Order #%old_id% was deleted as new combined Order #%new_id% was created.
+
+    //########################################
+
+    private $moduleConfig;
+
+    private $activeRecordFactory;
+
+    private $ebayFactory;
 
     private $helper;
 
@@ -46,19 +65,18 @@ class Builder extends AbstractModel
 
     private $relatedOrders = [];
 
-    protected $activeRecordFactory;
-    protected $ebayFactory;
-
     //########################################
 
     public function __construct(
+        \Ess\M2ePro\Model\Config\Manager\Module $moduleConfig,
         \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
         \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Ebay\Factory $ebayFactory,
-        \Ess\M2ePro\Model\Ebay\Order\Helper $orderHelper,
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Ess\M2ePro\Model\Factory $modelFactory,
+        \Ess\M2ePro\Model\Ebay\Order\Helper $orderHelper,
         array $data = []
     ) {
+        $this->moduleConfig = $moduleConfig;
         $this->activeRecordFactory = $activeRecordFactory;
         $this->ebayFactory = $ebayFactory;
         $this->helper = $orderHelper;
@@ -84,7 +102,6 @@ class Builder extends AbstractModel
         $this->setData('account_id', $this->account->getId());
 
         $this->setData('ebay_order_id', $data['identifiers']['ebay_order_id']);
-        $this->setData('extended_order_id', $data['identifiers']['extended_order_id']);
         $this->setData('selling_manager_id', $data['identifiers']['selling_manager_id']);
 
         $this->setData('order_status', $this->helper->getOrderStatus($data['statuses']['order']));
@@ -104,7 +121,6 @@ class Builder extends AbstractModel
         } else {
             $this->setData('tax_details', $data['selling']['tax_details']);
         }
-
         // ---------------------------------------
 
         // ---------------------------------------
@@ -146,7 +162,7 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function initializeMarketplace()
+    private function initializeMarketplace()
     {
         // Get first order item
         $item = reset($this->items);
@@ -176,44 +192,45 @@ class Builder extends AbstractModel
 
     //########################################
 
-    /**
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    protected function initializeOrder()
+    private function initializeOrder()
     {
         $this->status = self::STATUS_NOT_MODIFIED;
 
-        $existOrders = $this->getExistedOrders();
+        $existOrders = $this->ebayFactory->getObject('Order')->getCollection()
+            ->addFieldToFilter('account_id', $this->account->getId())
+            ->addFieldToFilter('ebay_order_id', $this->getData('ebay_order_id'))
+            ->setOrder('id', \Magento\Framework\Data\Collection::SORT_ORDER_DESC)
+            ->getItems();
+        $existOrdersNumber = count($existOrders);
 
         // New order
         // ---------------------------------------
-        if (count($existOrders) == 0) {
+        if ($existOrdersNumber == 0) {
             $this->status = self::STATUS_NEW;
             $this->order = $this->ebayFactory->getObject('Order');
             $this->order->setStatusUpdateRequired(true);
 
             if ($this->isCombined()) {
                 $this->relatedOrders = $this->activeRecordFactory
-                    ->getObject('Ebay\Order')
-                    ->getResource()
-                    ->getOrdersContainingItemsFromOrder(
-                        $this->account->getId(),
-                        $this->items
-                    );
+                                            ->getObject('Ebay\Order')
+                                            ->getResource()
+                                            ->getOrdersContainingItemsFromOrder(
+                                                $this->account->getId(),
+                                                $this->items
+                                            );
             }
 
             return;
         }
-
         // ---------------------------------------
 
         // duplicated M2ePro orders. remove M2E Pro order without magento order id or newest order
         // ---------------------------------------
-        if (count($existOrders) > 1) {
+        if ($existOrdersNumber > 1) {
             $isDeleted = false;
 
             foreach ($existOrders as $key => $order) {
+                /** @var \Ess\M2ePro\Model\Order $order */
 
                 $magentoOrderId = $order->getData('magento_order_id');
                 if (!empty($magentoOrderId)) {
@@ -231,7 +248,6 @@ class Builder extends AbstractModel
                 $orderForRemove->delete();
             }
         }
-
         // ---------------------------------------
 
         // Already exist order
@@ -242,72 +258,7 @@ class Builder extends AbstractModel
         if ($this->order->getMagentoOrderId() === null) {
             $this->order->setStatusUpdateRequired(true);
         }
-
         // ---------------------------------------
-    }
-
-    /**
-     * @return \Ess\M2ePro\Model\Order[]
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    protected function getExistedOrders()
-    {
-        $orderIds = [$this->getData('ebay_order_id')];
-        if ($oldFormatId = $this->getOldFormatId()) {
-            $orderIds[] = $oldFormatId;
-        }
-
-        $existed = $this->ebayFactory->getObject('Order')->getCollection()
-            ->addFieldToFilter('account_id', $this->account->getId())
-            ->setOrder('id', \Magento\Framework\Data\Collection::SORT_ORDER_DESC);
-
-        $existed->getSelect()->where(
-            sprintf(
-                'ebay_order_id IN (%s) OR selling_manager_id = %s',
-                implode(',', $orderIds),
-                $this->getData('selling_manager_id')
-            )
-        );
-
-        return $existed->getItems();
-    }
-
-    /**
-     * @return string|null
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    private function getOldFormatId()
-    {
-        $transactionIds = [];
-        foreach ($this->items as $item) {
-            $transactionIds[] = $item['transaction_id'];
-        }
-
-        /**
-         * Transaction ID will be 0 for an auction item
-         */
-        $transactionIds = array_filter($transactionIds);
-        if (empty($transactionIds)) {
-            return null;
-        }
-
-        $collection = $this->ebayFactory->getObject('Order_Item')->getCollection();
-        $collection->getSelect()->joinInner(
-            ['e_order' => $this->activeRecordFactory->getObject('Ebay_Order')->getResource()->getMainTable()],
-            'e_order.order_id = main_table.order_id',
-            ['ebay_order_id' => 'ebay_order_id']
-        );
-        $collection->addFieldToFilter('ebay_order_id', ['neq' => $this->getData('ebay_order_id')]);
-        $collection->addFieldToFilter('transaction_id', ['in' => $transactionIds]);
-        $possibleOldFormatIds = array_unique($collection->getColumnValues('ebay_order_id'));
-
-        if (count($possibleOldFormatIds) === 1) {
-            return reset($possibleOldFormatIds);
-        }
-
-        return null;
     }
 
     //########################################
@@ -355,7 +306,7 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function createOrUpdateItems()
+    private function createOrUpdateItems()
     {
         $itemsCollection = $this->order->getItemsCollection();
         $itemsCollection->load();
@@ -377,26 +328,13 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function createOrUpdateExternalTransactions()
+    private function createOrUpdateExternalTransactions()
     {
         $externalTransactionsCollection = $this->order->getChildObject()->getExternalTransactionsCollection();
         $externalTransactionsCollection->load();
 
-        $paymentTransactionId = '';
-        foreach ($this->externalTransactions as $transactionData) {
-            if (!empty($transactionData['transaction_id'])) {
-                $paymentTransactionId = $transactionData['transaction_id'];
-                break;
-            }
-        }
-
-        $postfix = 0;
         foreach ($this->externalTransactions as $transactionData) {
             $transactionData['order_id'] = $this->order->getId();
-            // transaction_id may be empty for refunded transaction
-            if (empty($transactionData['transaction_id'])) {
-                $transactionData['transaction_id'] = $paymentTransactionId . '-' . ++$postfix;
-            }
 
             /** @var $transactionBuilder \Ess\M2ePro\Model\Ebay\Order\ExternalTransaction\Builder */
             $transactionBuilder = $this->modelFactory->getObject('Ebay_Order_ExternalTransaction_Builder');
@@ -438,7 +376,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasExternalTransactions()
+    private function hasExternalTransactions()
     {
         return !empty($this->externalTransactions);
     }
@@ -463,7 +401,7 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function canCreateOrUpdateOrder()
+    private function canCreateOrUpdateOrder()
     {
         if ($this->isNew() && $this->isRefund()) {
             return false;
@@ -496,9 +434,9 @@ class Builder extends AbstractModel
     }
 
     /**
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Order
      */
-    protected function createOrUpdateOrder()
+    private function createOrUpdateOrder()
     {
         $this->prepareShippingAddress();
 
@@ -534,9 +472,8 @@ class Builder extends AbstractModel
 
         $shippingAddress['street'] = array_filter($shippingAddress['street']);
 
-        $group = '/ebay/order/settings/marketplace_' . (int)$this->getData('marketplace_id') . '/';
-        $useFirstStreetLineAsCompany = $this->getHelper('Module')->getConfig()
-            ->getGroupValue($group, 'use_first_street_line_as_company');
+        $group = '/ebay/order/settings/marketplace_'.(int)$this->getData('marketplace_id').'/';
+        $useFirstStreetLineAsCompany = $this->moduleConfig->getGroupValue($group, 'use_first_street_line_as_company');
 
         if ($useFirstStreetLineAsCompany && count($shippingAddress['street']) > 1) {
             $shippingAddress['company'] = array_shift($shippingAddress['street']);
@@ -548,7 +485,7 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function processNew()
+    private function processNew()
     {
         if (!$this->isNew()) {
             return;
@@ -572,13 +509,13 @@ class Builder extends AbstractModel
         if (!$this->order->getChildObject()->canCreateMagentoOrder()) {
             $this->order->addWarningLog('Magento Order was not created. Reason: %msg%', [
                 'msg' => 'Order Creation Rules were not met. ' .
-                    'Press Create Order Button at Order View Page to create it anyway.'
+                         'Press Create Order Button at Order View Page to create it anyway.'
             ]);
             return;
         }
     }
 
-    protected function processOrdersContainingItemsFromCurrentOrder()
+    private function processOrdersContainingItemsFromCurrentOrder()
     {
         /** @var $log \Ess\M2ePro\Model\Order\Log */
         $log = $this->activeRecordFactory->getObject('Order\Log');
@@ -587,13 +524,13 @@ class Builder extends AbstractModel
         /** @var \Ess\M2ePro\Model\Order $order */
         foreach ($this->relatedOrders as $order) {
             if ($order->canCancelMagentoOrder()) {
-                $description = 'Magento Order #%order_id% should be canceled ' .
-                    'as new combined eBay order #%new_id% was created.';
+                $description = 'Magento Order #%order_id% should be canceled '.
+                               'as new combined eBay order #%new_id% was created.';
                 $description = $this->getHelper('Module\Log')->encodeDescription(
                     $description,
                     [
-                        '!order_id' => $order->getMagentoOrder()->getRealOrderId(),
-                        '!new_id' => $this->order->getChildObject()->getEbayOrderId()
+                    '!order_id' => $order->getMagentoOrder()->getRealOrderId(),
+                    '!new_id' => $this->order->getChildObject()->getEbayOrderId()
                     ]
                 );
 
@@ -602,7 +539,6 @@ class Builder extends AbstractModel
                 try {
                     $order->cancelMagentoOrder();
                 } catch (\Exception $e) {
-                    $this->getHelper('Module_Exception')->process($e);
                 }
             }
 
@@ -614,8 +550,8 @@ class Builder extends AbstractModel
             $description = $this->getHelper('Module\Log')->encodeDescription(
                 $description,
                 [
-                    '!old_id' => $order->getChildObject()->getEbayOrderId(),
-                    '!new_id' => $this->order->getChildObject()->getEbayOrderId()
+                '!old_id' => $order->getChildObject()->getEbayOrderId(),
+                '!new_id' => $this->order->getChildObject()->getEbayOrderId()
                 ]
             );
 
@@ -627,7 +563,7 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function checkUpdates()
+    private function checkUpdates()
     {
         if (!$this->isUpdated()) {
             return;
@@ -636,31 +572,24 @@ class Builder extends AbstractModel
         if ($this->hasUpdatedCompletedCheckout()) {
             $this->updates[] = self::UPDATE_COMPLETED_CHECKOUT;
         }
-
         if ($this->hasUpdatedBuyerMessage()) {
             $this->updates[] = self::UPDATE_BUYER_MESSAGE;
         }
-
         if ($this->hasUpdatedCompletedPayment()) {
             $this->updates[] = self::UPDATE_COMPLETED_PAYMENT;
         }
-
         if ($this->hasUpdatedPaymentData()) {
             $this->updates[] = self::UPDATE_PAYMENT_DATA;
         }
-
         if ($this->hasUpdatedShippingTaxData()) {
             $this->updates[] = self::UPDATE_SHIPPING_TAX_DATA;
         }
-
         if ($this->hasUpdatedCompletedShipping()) {
             $this->updates[] = self::UPDATE_COMPLETED_SHIPPING;
         }
-
         if ($this->hasUpdatedItemsCount()) {
             $this->updates[] = self::UPDATE_ITEMS_COUNT;
         }
-
         if ($this->hasUpdatedEmail()) {
             $this->updates[] = self::UPDATE_EMAIL;
         }
@@ -668,7 +597,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedCompletedCheckout()
+    private function hasUpdatedCompletedCheckout()
     {
         if (!$this->isUpdated() || $this->order->getChildObject()->isCheckoutCompleted()) {
             return false;
@@ -677,7 +606,7 @@ class Builder extends AbstractModel
         return $this->getData('checkout_status') == \Ess\M2ePro\Model\Ebay\Order::CHECKOUT_STATUS_COMPLETED;
     }
 
-    protected function hasUpdatedBuyerMessage()
+    private function hasUpdatedBuyerMessage()
     {
         if (!$this->isUpdated()) {
             return false;
@@ -692,7 +621,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedCompletedPayment()
+    private function hasUpdatedCompletedPayment()
     {
         if (!$this->isUpdated() || $this->order->getChildObject()->isPaymentCompleted()) {
             return false;
@@ -703,7 +632,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedCompletedShipping()
+    private function hasUpdatedCompletedShipping()
     {
         if (!$this->isUpdated() || $this->order->getChildObject()->isShippingCompleted()) {
             return false;
@@ -714,7 +643,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedPaymentData()
+    private function hasUpdatedPaymentData()
     {
         if (!$this->isUpdated()) {
             return false;
@@ -735,7 +664,9 @@ class Builder extends AbstractModel
         return false;
     }
 
-    protected function hasUpdatedShippingTaxData()
+    // ---------------------------------------
+
+    private function hasUpdatedShippingTaxData()
     {
         if (!$this->isUpdated()) {
             return false;
@@ -744,7 +675,7 @@ class Builder extends AbstractModel
         /** @var $ebayOrder \Ess\M2ePro\Model\Ebay\Order */
         $ebayOrder = $this->order->getChildObject();
         $shippingDetails = $this->getData('shipping_details');
-        $taxDetails = $this->getData('tax_details');
+        $taxDetails      = $this->getData('tax_details');
 
         if (!empty($shippingDetails['price']) && $shippingDetails['price'] != $ebayOrder->getShippingPrice() ||
             !empty($shippingDetails['service']) && $shippingDetails['service'] != $ebayOrder->getShippingService()) {
@@ -761,7 +692,7 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedItemsCount()
+    private function hasUpdatedItemsCount()
     {
         if (!$this->isUpdated()) {
             return false;
@@ -772,14 +703,14 @@ class Builder extends AbstractModel
 
     // ---------------------------------------
 
-    protected function hasUpdatedEmail()
+    private function hasUpdatedEmail()
     {
         if (!$this->isUpdated()) {
             return false;
         }
 
         $newEmail = $this->getData('buyer_email');
-        $oldEmail = $this->order->getChildObject()->getData('buyer_email');
+        $oldEmail = $this->order->getData('buyer_email');
 
         if ($newEmail == $oldEmail) {
             return false;
@@ -790,17 +721,17 @@ class Builder extends AbstractModel
 
     //########################################
 
-    protected function hasUpdates()
+    private function hasUpdates()
     {
         return !empty($this->updates);
     }
 
-    protected function hasUpdate($update)
+    private function hasUpdate($update)
     {
         return in_array($update, $this->updates);
     }
 
-    protected function processOrderUpdates()
+    private function processOrderUpdates()
     {
         if (!$this->hasUpdates()) {
             return;
@@ -822,19 +753,19 @@ class Builder extends AbstractModel
         }
 
         if ($this->hasUpdate(self::UPDATE_SHIPPING_TAX_DATA) && $this->order->getMagentoOrderId()) {
-            $message = 'Attention! Shipping/Tax details have been modified on the channel. ';
+            $message  = 'Attention! Shipping/Tax details have been modified on the channel. ';
             $message .= 'Magento order is already created and cannot be updated to reflect these changes.';
             $this->order->addWarningLog($message);
         }
 
         if ($this->hasUpdate(self::UPDATE_ITEMS_COUNT) && $this->order->getMagentoOrderId()) {
-            $message = 'Attention! The number of ordered Items has been modified on the channel. ';
+            $message  = 'Attention! The number of ordered Items has been modified on the channel. ';
             $message .= 'Magento order is already created and cannot be updated to reflect these changes.';
             $this->order->addWarningLog($message);
         }
     }
 
-    protected function processMagentoOrderUpdates()
+    private function processMagentoOrderUpdates()
     {
         if (!$this->hasUpdates()) {
             return;

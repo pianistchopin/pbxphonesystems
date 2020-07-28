@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="amasty_request_quote_admin_notifications_notify_template" label="Admin Notifications" file="amquote_admin_requests_notify_admin_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_submit" label="Submitted Quote Customer Notification" file="amquote_customer_requests_notify_submit_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_approve" label="Approved Quote Customer Notification" file="amquote_customer_requests_notify_approve_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_create_quote" label="Customer New Quote Notifications" file="amquote_customer_requests_notify_newquote_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_edit_quote" label="Modified Quote Customer Notification" file="amquote_customer_requests_notify_edit_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_end_promotion" label="Customer Promotion Notifications" file="amquote_customer_requests_notify_promotion_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_cancel" label="Canceled Quote Customer Notification" file="amquote_customer_requests_notify_cancel_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_expired" label="Expired Quote Customer Notification" file="amquote_customer_requests_notify_expired_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_customer_template_reminder" label="Reminder Quote Customer Notification" file="amquote_customer_requests_notify_reminder_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+    <template id="amasty_request_quote_customer_notifications_admin_template_create_quote" label="Customer New Quote From Admin" file="amquote_customer_requests_notify_newquote_admin_template.html" type="html" module="Amasty_RequestQuote" area="frontend"/>
+</config>

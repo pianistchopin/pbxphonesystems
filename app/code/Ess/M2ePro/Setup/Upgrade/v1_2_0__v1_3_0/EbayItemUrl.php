@@ -14,6 +14,11 @@ class EbayItemUrl extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['marketplace'];
+    }
+
     public function execute()
     {
         $this->getConnection()->update(

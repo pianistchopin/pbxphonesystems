@@ -50,7 +50,7 @@ class ActualPrice extends AbstractModel
         }
 
         if (empty($offersProductPrices)) {
-            return true;
+            return false;
         }
 
         $this->updateListingsProductsPrices($offersProductPrices);

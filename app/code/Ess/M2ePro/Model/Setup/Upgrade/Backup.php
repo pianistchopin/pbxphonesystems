@@ -18,10 +18,8 @@ use Magento\Framework\Module\Setup;
  */
 class Backup extends AbstractModel
 {
-    const TABLE_PREFIX = '__b';
-
-    // max MySQL lenth (64) - backup prefix (m2epro__b_65016_)
-    const TABLE_IDENTIFIER_MAX_LEN = 46;
+    const TABLE_SUFFIX = '__b';
+    const TABLE_IDENTIFIER_MAX_LEN = 20;
 
     private $versionFrom;
 
@@ -58,7 +56,7 @@ class Backup extends AbstractModel
     public function isExists()
     {
         foreach ($this->tablesList as $table) {
-            if (!$this->getConnection()->isTableExists($this->getBackupTableName($table))) {
+            if (!$this->getConnection()->isTableExists($this->getResultTableName($table))) {
                 return false;
             }
         }
@@ -73,27 +71,17 @@ class Backup extends AbstractModel
         foreach ($this->tablesList as $table) {
             $this->prepareColumns($table);
 
-            if ($this->getConnection()->isTableExists($this->getBackupTableName($table))) {
-                $this->getConnection()->dropTable($this->getBackupTableName($table));
-            }
-
             $backupTable = $this->getConnection()->createTableByDdl(
-                $this->getOriginalTableName($table),
-                $this->getBackupTableName($table)
-            );
-            $backupTable->setComment(
-                sprintf(
-                    'Based on %s. From [%s] to [%s].',
-                    $this->getOriginalTableName($table),
-                    $this->versionFrom,
-                    $this->versionTo
-                )
+                $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table),
+                $this->getResultTableName($table)
             );
             $this->getConnection()->createTable($backupTable);
 
-            $select = $this->getConnection()->select()->from($this->getOriginalTableName($table));
+            $select = $this->getConnection()->select()->from(
+                $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table)
+            );
             $this->getConnection()->query(
-                $this->getConnection()->insertFromSelect($select, $this->getBackupTableName($table))
+                $this->getConnection()->insertFromSelect($select, $this->getResultTableName($table))
             );
         }
     }
@@ -101,28 +89,29 @@ class Backup extends AbstractModel
     public function remove()
     {
         foreach ($this->tablesList as $table) {
-            if ($this->getConnection()->isTableExists($this->getBackupTableName($table))) {
-                $this->getConnection()->dropTable($this->getBackupTableName($table));
-            }
+            $this->getConnection()->dropTable($this->getResultTableName($table));
         }
     }
 
     public function rollback()
     {
         foreach ($this->tablesList as $table) {
-            if ($this->getConnection()->isTableExists($this->getOriginalTableName($table))) {
-                $this->getConnection()->dropTable($this->getOriginalTableName($table));
-            }
+            $this->getConnection()->dropTable(
+                $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table)
+            );
 
             $originalTable = $this->getConnection()->createTableByDdl(
-                $this->getBackupTableName($table),
-                $this->getOriginalTableName($table)
+                $this->getResultTableName($table),
+                $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table)
             );
             $this->getConnection()->createTable($originalTable);
 
-            $select = $this->getConnection()->select()->from($this->getBackupTableName($table));
+            $select = $this->getConnection()->select()->from($this->getResultTableName($table));
             $this->getConnection()->query(
-                $this->getConnection()->insertFromSelect($select, $this->getOriginalTableName($table))
+                $this->getConnection()->insertFromSelect(
+                    $select,
+                    $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table)
+                )
             );
         }
     }
@@ -137,22 +126,18 @@ class Backup extends AbstractModel
         return $this->installer->getConnection();
     }
 
-    // ---------------------------------------
-
-    public function getOriginalTableName($table)
+    private function getResultTableName($table)
     {
-        return $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table);
-    }
+        $tableName = $this->helperFactory->getObject('Module_Database_Tables')->getFullName($table)
+               .self::TABLE_SUFFIX
+               .'_'.str_replace('.', '', $this->versionFrom)
+               .'_'.str_replace('.', '', $this->versionTo);
 
-    private function getBackupTableName($table)
-    {
-        $prefix = 'm2epro' . self::TABLE_PREFIX. '_' . str_replace('.', '', $this->versionTo) . '_';
-
-        if (strlen($table) > self::TABLE_IDENTIFIER_MAX_LEN) {
-            $table = sha1($table);
+        if (strlen($tableName) > self::TABLE_IDENTIFIER_MAX_LEN) {
+            $tableName = 'm2epro' . self::TABLE_SUFFIX .'_'. sha1($tableName);
         }
 
-        return $prefix . $table;
+        return $tableName;
     }
 
     //########################################

@@ -8,8 +8,6 @@
 
 namespace Ess\M2ePro\Model\Walmart\Listing;
 
-use Ess\M2ePro\Helper\Component\Walmart;
-
 /**
  * Class \Ess\M2ePro\Model\Walmart\Listing\Log
  */
@@ -20,7 +18,7 @@ class Log extends \Ess\M2ePro\Model\Listing\Log
     public function _construct()
     {
         parent::_construct();
-        $this->setComponentMode(Walmart::NICK);
+        $this->setComponentMode(\Ess\M2ePro\Helper\Component\Walmart::NICK);
     }
 
     //########################################
@@ -68,7 +66,11 @@ class Log extends \Ess\M2ePro\Model\Listing\Log
 
             /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
             $listingProduct = $this->parentFactory
-                ->getObjectLoaded(Walmart::NICK, 'Listing\Product', $listingProductId);
+                ->getObjectLoaded(
+                    \Ess\M2ePro\Helper\Component\Walmart::NICK,
+                    'Listing\Product',
+                    $listingProductId
+                );
 
             /** @var \Ess\M2ePro\Model\Walmart\Listing\Product\Variation\Manager $variationManager */
             $variationManager = $listingProduct->getChildObject()->getVariationManager();

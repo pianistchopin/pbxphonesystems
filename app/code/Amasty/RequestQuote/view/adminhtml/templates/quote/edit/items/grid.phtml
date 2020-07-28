@@ -1,0 +1,185 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/**
+ * @var $block \Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Items\Grid
+ */
+?>
+<?php $items = $block->getItems() ?>
+<?php if (empty($items)): ?>
+    <div id="order-items_grid">
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary order-tables">
+                <thead>
+                    <tr class="headings">
+                        <th class="col-product"><span><?= /* @escapeNotVerified */ __('Product') ?></span></th>
+                        <th class="col-price"><span><?= /* @escapeNotVerified */ __('Price') ?></span></th>
+                        <th class="col-qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></th>
+                        <th class="col-subtotal"><span><?= /* @escapeNotVerified */ __('Subtotal') ?></span></th>
+                        <th class="col-row-total"><span><?= /* @escapeNotVerified */ __('Row Subtotal') ?></span></th>
+                        <th class="col-action"><span><?= /* @escapeNotVerified */ __('Action') ?></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="even">
+                        <td class="empty-text" colspan="100"><?= /* @escapeNotVerified */ __('No ordered items') ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="admin__table-wrapper" id="order-items_grid">
+    <?php if (count($items)>10): ?>
+        <div class="actions update actions-update">
+            <?= $block->getButtonHtml(__('Update Items and Quantities'), 'quote.itemsUpdate()', 'action-secondary') ?>
+        </div>
+    <?php endif; ?>
+        <table class="data-table admin__table-primary order-tables">
+            <thead>
+                <tr class="headings">
+                    <th class="col-product"><span><?= /* @escapeNotVerified */ __('Product') ?></span></th>
+                    <th class="col-price"><span><?= /* @escapeNotVerified */ __('Price') . ' ('
+                            . ($block->priceIncludesTax() ? __('Incl. Tax') : __('Excl. Tax')) . ')' ?></span></th>
+                    <th class="col-qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></th>
+                    <th class="col-subtotal"><span><?= /* @escapeNotVerified */ __('Subtotal') ?></span></th>
+                    <th class="col-row-total"><span><?= /* @escapeNotVerified */ __('Row Subtotal') ?></span></th>
+                    <th class="col-action"><span><?= /* @escapeNotVerified */ __('Action') ?></span></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td class="col-total"><?= /* @escapeNotVerified */ __('Total %1 product(s)', count($items)) ?></td>
+                    <td colspan="2" class="col-subtotal"><?= /* @escapeNotVerified */ __('Subtotal:') ?></td>
+                    <td class="col-price"><strong><?= /* @escapeNotVerified */ $block->formatPrice($block->getSubtotal()) ?></strong></td>
+                    <td class="col-price"><strong>
+                    <?php
+                        /* @escapeNotVerified */ echo $block->formatPrice($block->getSubtotalWithDiscount());
+                    ?></strong></td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+            </tfoot>
+                <?php $i = 0 ?>
+                <?php foreach ($items as $item):$i++ ?>
+                <tbody class="<?= /* @escapeNotVerified */ ($i%2) ? 'even' : 'odd' ?>">
+                    <tr>
+                        <td class="col-product">
+                            <span id="order_item_<?= /* @escapeNotVerified */ $item->getId() ?>_title"><?= $block->escapeHtml($item->getName()) ?></span>
+                            <div class="product-sku-block">
+                                <span><?= /* @escapeNotVerified */ __('SKU') ?>:</span>
+                                <?= implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($block->escapeHtml($item->getSku()))) ?>
+                            </div>
+                            <div class="product-configure-block">
+                                <?= $block->getConfigureButtonHtml($item) ?>
+                            </div>
+                        </td>
+                        <td class="col-price">
+                            <div class="price-excl-tax">
+                                <?= /* @escapeNotVerified */ $block->formatPrice($item->getProduct()->getFinalPrice(), true); ?>
+                            </div>
+                            <input id="itemprice_<?= /* @escapeNotVerified */ $item->getId() ?>"
+                                   name="item[<?= /* @escapeNotVerified */ $item->getId() ?>][price]"
+                                   value="<?= /* @escapeNotVerified */ sprintf("%.2f", $item->getCalculationPrice()) ?>"
+                                   class="input-text item-price admin__control-text"/>
+                        </td>
+                        <td class="col-qty">
+                            <input name="item[<?= /* @escapeNotVerified */ $item->getId() ?>][qty]"
+                                   class="input-text item-qty admin__control-text"
+                                   value="<?= /* @escapeNotVerified */ $item->getQty()*1 ?>"
+                                   maxlength="12" />
+                        </td>
+                        <td class="col-subtotal col-price">
+                            <div class="price-excl-tax">
+                                <span class="label">Excl. Tax:</span>
+                                <span class="price"><?= $block->getItemRowTotalHtml($item) ?></span>
+                            </div>
+                            <div class="price-incl-tax">
+                                <span class="label">Incl. Tax:</span>
+                                <span class="price"><?= $block->getItemInclTotalHtml($item) ?></span>
+                            </div>
+                        </td>
+                        <td class="col-price col-row-subtotal">
+                            <div class="price-excl-tax">
+                                <span class="label">Excl. Tax:</span>
+                                <span class="price"><?= $block->getItemRowTotalWithDiscountHtml($item) ?></span>
+                            </div>
+                            <div class="price-incl-tax">
+                                <span class="label">Incl. Tax:</span>
+                                <span class="price"><?= $block->getItemInclTotalWithDiscountHtml($item) ?></span>
+                            </div>
+                        </td>
+                        <td class="col-actions last">
+                            <select class="admin__control-select" name="item[<?= /* @escapeNotVerified */ $item->getId() ?>][action]">
+                                <option value=""><?= /* @escapeNotVerified */ __('Please select') ?></option>
+                                <option value="remove"><?= /* @escapeNotVerified */ __('Remove') ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <?php if($itemQuestion = $block->getItemQuestion($item)): ?>
+                        <tr class="row-notes-error">
+                            <td colspan="2">
+                                <strong><?= __('Customer Note:')?></strong>
+                                <div class="customer-note">
+                                    <?= nl2br($block->escapeHtml($itemQuestion)) ?>
+                                </div>
+                            </td>
+                            <td colspan="10">
+                                <?php if($answer = $block->getItemAnswer($item)): ?>
+                                    <strong><?= __('Administrator Note:')?></strong>
+                                    <div class="customer-note">
+                                        <?= nl2br($block->escapeHtml($answer)) ?>
+                                    </div>
+                                <?php else: ?>
+                                    <strong><?= __('Administrator Note:')?></strong>
+                                    <div class="control">
+                                        <a class="add-note-quote-item"><?= __('Add Note') ?></a>
+                                        <div class="textarea-control" style="display: none;">
+                                            <textarea name="item[<?= $block->escapeHtml($item->getId()) ?>][note]" rows="2" cols="50"></textarea>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+
+
+                    <?php $hasMessageError = false; ?>
+                    <?php foreach ($item->getMessage(false) as $messageError):?>
+                        <?php if (!empty($messageError)) {
+                            $hasMessageError = true;
+                        }
+                        ?>
+                    <?php endforeach; ?>
+
+                    <?php if ($hasMessageError):?>
+                        <tr class="row-messages-error">
+                            <td colspan="100"> <!-- ToDo UI: remove the 100 -->
+                                <?php foreach ($item->getMessage(false) as $message):
+                                    if (empty($message)) {
+                                        continue;
+                                    }
+                                    ?>
+                                    <div class="message <?php if ($item->getHasError()): ?>message-error<?php else: ?>message-notice<?php endif; ?>">
+                                        <?= $block->escapeHtml($message) ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
+                    <?php endif;?>
+
+
+                </tbody>
+                <?php endforeach; ?>
+        </table>
+    </div>
+
+    <div class="order-discounts">
+        <?= $block->getButtonHtml(__('Update Items and Quantities'), 'quote.itemsUpdate()', 'action-secondary') ?>
+        <div id="order-coupons" class="order-coupons"><?= $block->getChildHtml() ?></div>
+    </div>
+<?php endif; ?>

@@ -104,14 +104,14 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
             'address_mode',
             'address_custom_attribute',
             'address_custom_value',
-            'dispatch_time_mode',
-            'dispatch_time_value',
-            'dispatch_time_attribute',
+            'dispatch_time',
             'global_shipping_program',
+            'local_shipping_rate_table_mode',
+            'international_shipping_rate_table_mode',
             'local_shipping_mode',
-            'local_shipping_discount_promotional_mode',
+            'local_shipping_discount_mode',
             'international_shipping_mode',
-            'international_shipping_discount_promotional_mode',
+            'international_shipping_discount_mode',
             'cross_border_trade',
         ];
 
@@ -119,37 +119,20 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
             $prepared[$key] = isset($data[$key]) ? $data[$key] : '';
         }
 
-        if (isset($data['local_shipping_rate_table'])) {
-            $prepared['local_shipping_rate_table'] = $this->getHelper('Data')->jsonEncode(
-                $data['local_shipping_rate_table']
+        if (isset($data['local_shipping_discount_profile_id'])) {
+            $prepared['local_shipping_discount_profile_id'] = $this->getHelper('Data')->jsonEncode(
+                array_diff($data['local_shipping_discount_profile_id'], [''])
             );
         } else {
-            $prepared['local_shipping_rate_table'] = $this->getHelper('Data')->jsonEncode([]);
+            $prepared['local_shipping_discount_profile_id'] = $this->getHelper('Data')->jsonEncode([]);
         }
 
-        if (isset($data['international_shipping_rate_table'])) {
-            $prepared['international_shipping_rate_table'] = $this->getHelper('Data')->jsonEncode(
-                $data['international_shipping_rate_table']
+        if (isset($data['international_shipping_discount_profile_id'])) {
+            $prepared['international_shipping_discount_profile_id'] = $this->getHelper('Data')->jsonEncode(
+                array_diff($data['international_shipping_discount_profile_id'], [''])
             );
         } else {
-            $prepared['international_shipping_rate_table'] = $this->getHelper('Data')->jsonEncode([]);
-        }
-
-        if (isset($data['local_shipping_discount_combined_profile_id'])) {
-            $prepared['local_shipping_discount_combined_profile_id'] = $this->getHelper('Data')->jsonEncode(
-                array_diff($data['local_shipping_discount_combined_profile_id'], [''])
-            );
-        } else {
-            $prepared['local_shipping_discount_combined_profile_id'] = $this->getHelper('Data')->jsonEncode([]);
-        }
-
-        if (isset($data['international_shipping_discount_combined_profile_id'])) {
-            $prepared['international_shipping_discount_combined_profile_id'] = $this->getHelper('Data')->jsonEncode(
-                array_diff($data['international_shipping_discount_combined_profile_id'], [''])
-            );
-        } else {
-            $prepared['international_shipping_discount_combined_profile_id']
-                = $this->getHelper('Data')->jsonEncode([]);
+            $prepared['international_shipping_discount_profile_id'] = $this->getHelper('Data')->jsonEncode([]);
         }
 
         if (isset($data['excluded_locations'])) {
@@ -164,11 +147,13 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
         $prepared[$key] = (isset($data[$key]) && $data[$key] != '') ? $data[$key] : null;
 
         $modes = [
+            'local_shipping_rate_table_mode',
+            'international_shipping_rate_table_mode',
             'local_shipping_mode',
-            'local_shipping_discount_promotional_mode',
+            'local_shipping_discount_mode',
             'international_shipping_mode',
-            'international_shipping_discount_promotional_mode',
-            'cross_border_trade'
+            'international_shipping_discount_mode',
+            'cross_border_trade',
         ];
 
         foreach ($modes as $mode) {
@@ -238,16 +223,14 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
 
         if ($isLocalRateTableEnabled
             && $data['local_shipping_mode'] == TemplateShipping::SHIPPING_TYPE_FLAT
-            && isset($data['local_shipping_rate_table'])
-            && $this->isRateTableEnabled($data['local_shipping_rate_table'])
+            && !empty($data['local_shipping_rate_table_mode'])
         ) {
             return true;
         }
 
         if ($isInternationalRateTableEnabled
             && $data['international_shipping_mode'] == TemplateShipping::SHIPPING_TYPE_FLAT
-            && isset($data['international_shipping_rate_table'])
-            && $this->isRateTableEnabled($data['international_shipping_rate_table'])
+            && !empty($data['international_shipping_rate_table_mode'])
         ) {
             return true;
         }
@@ -388,23 +371,6 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
             $etssTable,
             $data
         );
-    }
-
-    //########################################
-
-    protected function isRateTableEnabled(array $rateTableData)
-    {
-        if (empty($rateTableData)) {
-            return false;
-        }
-
-        foreach ($rateTableData as $data) {
-            if (!empty($data['value'])) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     //########################################

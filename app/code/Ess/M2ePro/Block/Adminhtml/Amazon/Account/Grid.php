@@ -33,7 +33,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Account\Grid
 
         $collection->getSelect()->joinLeft(
             [
-                'm' => $this->activeRecordFactory->getObject('Marketplace')->getResource()->getMainTable(),
+            'm' => $this->activeRecordFactory->getObject('Marketplace')->getResource()->getMainTable(),
             ],
             '(`m`.`id` = `second_table`.`marketplace_id`)',
             ['marketplace_title'=>'title']
@@ -73,24 +73,25 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Account\Grid
 
     public function callbackColumnTitle($value, $row, $column, $isExport)
     {
-        /** @var \Ess\M2ePro\Model\Account $row */
         $marketplaceLabel = $this->__('Marketplace');
         $marketplaceTitle = $row->getData('marketplace_title');
 
         $merchantLabel = $this->__('Merchant ID');
         $merchantId = $row->getChildObject()->getData('merchant_id');
 
-        return <<<HTML
-<div>
-    {$value}<br/>
-    <span style="font-weight: bold">{$merchantLabel}</span>:
-    <span style="color: #505050">{$merchantId}</span>
-    <br/>
-    <span style="font-weight: bold">{$marketplaceLabel}</span>:
-    <span style="color: #505050">{$marketplaceTitle}</span>
-    <br/>
-</div>
+        $value = <<<HTML
+            <div>
+                {$value}<br/>
+                <span style="font-weight: bold">{$merchantLabel}</span>:
+                <span style="color: #505050">{$merchantId}</span>
+                <br/>
+                <span style="font-weight: bold">{$marketplaceLabel}</span>:
+                <span style="color: #505050">{$marketplaceTitle}</span>
+                <br/>
+            </div>
 HTML;
+
+        return $value;
     }
 
     //########################################
@@ -104,7 +105,9 @@ HTML;
         }
 
         $collection->getSelect()->where(
-            'main_table.title LIKE ? OR m.title LIKE ? OR second_table.merchant_id LIKE ?',
+            'main_table.title LIKE ?
+            OR m.title LIKE ?
+            OR second_table.merchant_id LIKE ?',
             '%'. $value .'%'
         );
     }

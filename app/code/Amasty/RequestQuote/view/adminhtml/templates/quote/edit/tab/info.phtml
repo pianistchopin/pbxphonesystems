@@ -1,0 +1,54 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var $block \Amasty\RequestQuote\Block\Adminhtml\Quote\Edit\Tab\Info */ ?>
+<?php $quote = $block->getQuote() ?>
+
+<div id="order-messages">
+    <?= $block->getChildHtml('quote_messages') ?>
+</div>
+
+<?= $block->getChildHtml('quote_info') ?>
+<input type="hidden" id="quote_id" name="quote_id" value="<?= /* @escapeNotVerified */ $quote->getId() ?>"/>
+
+<?= $block->getChildHtml('order_additional_info') ?>
+
+<?= $block->getGiftOptionsHtml() ?>
+
+<div id="quote-search" style="display: none" class="admin__page-section quote-search-items">
+    <?= $block->getChildHtml('search') ?>
+</div>
+
+<section class="admin__page-section" id="quote-items">
+    <?= $block->getItemsHtml() ?>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Quote Total')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Remarks for this Quote')) ?></span>
+            </div>
+            <?= $block->getChildHtml('quote_history') ?>
+        </div>
+
+        <div class="admin__page-section-item order-totals">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Quote Totals')) ?></span>
+            </div>
+            <div id="quote-totals">
+                <table class="data-table admin__table-secondary order-subtotal-table">
+                    <?= $block->getChildHtml('quote_totals') ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -10,7 +10,6 @@ namespace Ess\M2ePro\Block\Adminhtml\Walmart\Template\Synchronization\Edit\Tabs;
 
 use Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm;
 use Ess\M2ePro\Model\Walmart\Template\Synchronization;
-use Ess\M2ePro\Model\Template\Synchronization as TemplateSynchronization;
 
 /**
  * Class \Ess\M2ePro\Block\Adminhtml\Walmart\Template\Synchronization\Edit\Tabs\ListRules
@@ -24,19 +23,19 @@ class ListRules extends AbstractForm
             ? array_merge($template->getData(), $template->getChildObject()->getData()) : [];
 
         $defaults = [
-            'list_mode'           => 1,
-            'list_status_enabled' => 1,
-            'list_is_in_stock'    => 1,
+            'list_mode'           => Synchronization::LIST_MODE_YES,
+            'list_status_enabled' => Synchronization::LIST_STATUS_ENABLED_YES,
+            'list_is_in_stock'    => Synchronization::LIST_IS_IN_STOCK_YES,
 
-            'list_qty_magento'           => TemplateSynchronization::QTY_MODE_NONE,
+            'list_qty_magento'           => Synchronization::LIST_QTY_NONE,
             'list_qty_magento_value'     => '1',
             'list_qty_magento_value_max' => '10',
 
-            'list_qty_calculated'           => TemplateSynchronization::QTY_MODE_NONE,
+            'list_qty_calculated'           => Synchronization::LIST_QTY_NONE,
             'list_qty_calculated_value'     => '1',
             'list_qty_calculated_value_max' => '10',
 
-            'list_advanced_rules_mode'    => 0,
+            'list_advanced_rules_mode'    => Synchronization::ADVANCED_RULES_MODE_NONE,
             'list_advanced_rules_filters' => null
         ];
         $formData = array_merge($defaults, $formData);
@@ -53,8 +52,8 @@ class ListRules extends AbstractForm
                     automatically transfers your Magento data to the Channel. You may configure the List,
                     Revise, Relist and Stop Rules.</p><br/>
 
-                    <p><strong>Note:</strong> Synchronization Policy is required when you create a new offer 
-                    on Walmart.</p><br>
+                    <p><strong>Note:</strong> Synchronization Policy is required when you
+                    create a new offer on Walmart.</p><br>
 
                     <p>Enable the List Action and define the List Conditions based on which M2E Pro will
                     automatically list the Not Listed Items on Walmart. If the initial list fails,
@@ -85,8 +84,8 @@ HTML
                 'label' => $this->__('List Action'),
                 'value' => $formData['list_mode'],
                 'values' => [
-                    0 => $this->__('Disabled'),
-                    1 => $this->__('Enabled'),
+                    Synchronization::LIST_MODE_NONE => $this->__('Disabled'),
+                    Synchronization::LIST_MODE_YES => $this->__('Enabled'),
                 ],
                 'tooltip' => $this->__(
                     'Enable to automatically list the Not Listed Item(s) when the List Conditions are met.'
@@ -110,8 +109,8 @@ HTML
                 'label' => $this->__('Product Status'),
                 'value' => $formData['list_status_enabled'],
                 'values' => [
-                    0 => $this->__('Any'),
-                    1 => $this->__('Enabled'),
+                    Synchronization::LIST_STATUS_ENABLED_NONE => $this->__('Any'),
+                    Synchronization::LIST_STATUS_ENABLED_YES => $this->__('Enabled'),
                 ],
                 'tooltip' => $this->__(
                     'Magento Product Status at which the Item(s) have to be listed.'
@@ -127,8 +126,8 @@ HTML
                 'label' => $this->__('Stock Availability'),
                 'value' => $formData['list_is_in_stock'],
                 'values' => [
-                    0 => $this->__('Any'),
-                    1 => $this->__('In Stock'),
+                    Synchronization::LIST_IS_IN_STOCK_NONE => $this->__('Any'),
+                    Synchronization::LIST_IS_IN_STOCK_YES => $this->__('In Stock'),
                 ],
                 'tooltip' => $this->__(
                     'Magento Stock Availability at which the Item(s) have to be listed'
@@ -144,9 +143,9 @@ HTML
                 'label' => $this->__('Magento Quantity'),
                 'value' => $formData['list_qty_magento'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('Any'),
-                    TemplateSynchronization::QTY_MODE_MORE => $this->__('More or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::LIST_QTY_NONE => $this->__('Any'),
+                    Synchronization::LIST_QTY_MORE => $this->__('More or Equal'),
+                    Synchronization::LIST_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     'Magento Product Quantity at which the Item(s) have to be listed.'
@@ -188,9 +187,9 @@ HTML
                 'label' => $this->__('Calculated Quantity'),
                 'value' => $formData['list_qty_calculated'],
                 'values' => [
-                    TemplateSynchronization::QTY_MODE_NONE => $this->__('Any'),
-                    TemplateSynchronization::QTY_MODE_MORE => $this->__('More or Equal'),
-                    TemplateSynchronization::QTY_MODE_BETWEEN => $this->__('Between'),
+                    Synchronization::LIST_QTY_NONE => $this->__('Any'),
+                    Synchronization::LIST_QTY_MORE => $this->__('More or Equal'),
+                    Synchronization::LIST_QTY_BETWEEN => $this->__('Between'),
                 ],
                 'tooltip' => $this->__(
                     '<p>Item Quantity calculated based on the Selling Policy settings at which
@@ -262,8 +261,8 @@ HTML
                 'label' => $this->__('Mode'),
                 'value' => $formData['list_advanced_rules_mode'],
                 'values' => [
-                    0 => $this->__('Disabled'),
-                    1  => $this->__('Enabled'),
+                    Synchronization::ADVANCED_RULES_MODE_NONE => $this->__('Disabled'),
+                    Synchronization::ADVANCED_RULES_MODE_YES  => $this->__('Enabled'),
                 ],
             ]
         );
@@ -288,9 +287,6 @@ HTML
             ]
         );
 
-        $this->jsPhp->addConstants(
-            $this->getHelper('Data')->getClassConstants(\Ess\M2ePro\Model\Template\Synchronization::class)
-        );
         $this->jsPhp->addConstants(
             $this->getHelper('Data')->getClassConstants(\Ess\M2ePro\Model\Walmart\Template\Synchronization::class)
         );

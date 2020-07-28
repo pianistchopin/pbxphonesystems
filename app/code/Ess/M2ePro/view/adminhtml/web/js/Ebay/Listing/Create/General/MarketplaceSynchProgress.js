@@ -30,23 +30,43 @@ define([
             }
 
             var self = this;
+            new Ajax.Request(M2ePro.url.get('general/synchCheckState'), {
+                method: 'get',
+                asynchronous: true,
+                onSuccess: function (transport) {
 
-            self.start(title, M2ePro.translator.translate('Preparing to start. Please wait ...'));
+                    if (transport.responseText == self.stateExecuting) {
 
-            new Ajax.Request(url, {
-                method: 'get', asynchronous: true
+                        self.start(
+                            M2ePro.translator.translate('Another Synchronization Is Already Running.'),
+                            M2ePro.translator.translate('Getting information. Please wait ...')
+                        );
+
+                        setTimeout(function () {
+                            self.startGetExecutingInfo('self.runTask(\'' + title + '\',\'' + url + '\',"' + callBackWhenEnd + '");');
+                        }, 2000);
+
+                    } else {
+
+                        self.start(title, M2ePro.translator.translate('Preparing to start. Please wait ...'));
+
+                        new Ajax.Request(url, {
+                            method: 'get', asynchronous: true
+                        });
+
+                        setTimeout(function () {
+                            self.startGetExecutingInfo(callBackWhenEnd);
+                        }, 2000);
+                    }
+                }
             });
-
-            setTimeout(function () {
-                self.startGetExecutingInfo(callBackWhenEnd);
-            }, 2000);
         },
 
         startGetExecutingInfo: function (callBackWhenEnd) {
             callBackWhenEnd = callBackWhenEnd || '';
 
             var self = this;
-            new Ajax.Request(M2ePro.url.get('ebay_marketplace/synchGetExecutingInfo'), {
+            new Ajax.Request(M2ePro.url.get('general/synchGetExecutingInfo'), {
                 method: 'get',
                 asynchronous: true,
                 onSuccess: function (transport) {

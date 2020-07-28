@@ -49,11 +49,7 @@ class Save extends \Ess\M2ePro\Controller\Adminhtml\Amazon\Listing
             return $this->_redirect('*/amazon_listing/index');
         }
 
-        /** @var \Ess\M2ePro\Model\Amazon\Listing\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Listing_SnapshotBuilder');
-        $snapshotBuilder->setModel($listing);
-
-        $oldData = $snapshotBuilder->getSnapshot();
+        $oldData = array_merge($listing->getDataSnapshot(), $listing->getChildObject()->getDataSnapshot());
 
         // Base prepare
         // ---------------------------------------
@@ -148,124 +144,13 @@ class Save extends \Ess\M2ePro\Controller\Adminhtml\Amazon\Listing
         $listing->getChildObject()->addData($templateData);
         $listing->save();
 
-        /** @var \Ess\M2ePro\Model\Amazon\Listing\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Listing_SnapshotBuilder');
-        $snapshotBuilder->setModel($listing);
+        $newData = array_merge($listing->getDataSnapshot(), $listing->getChildObject()->getDataSnapshot());
 
-        $newData = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Amazon\Listing\Diff $diff */
-        $diff = $this->modelFactory->getObject('Amazon_Listing_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        /** @var \Ess\M2ePro\Model\Amazon\Listing\AffectedListingsProducts $affectedListingsProducts */
-        $affectedListingsProducts = $this->modelFactory->getObject('Amazon_Listing_AffectedListingsProducts');
-        $affectedListingsProducts->setModel($listing);
-
-        $affectedListingsProductsData = $affectedListingsProducts->getObjectsData(
-            ['id', 'status'],
-            ['only_physical_units' => true]
-        );
-
-        /** @var \Ess\M2ePro\Model\Amazon\Listing\ChangeProcessor $changeProcessor */
-        $changeProcessor = $this->modelFactory->getObject('Amazon_Listing_ChangeProcessor');
-        $changeProcessor->process($diff, $affectedListingsProductsData);
-
-        $this->processSellingFormatTemplateChange($oldData, $newData, $affectedListingsProductsData);
-        $this->processSynchronizationTemplateChange($oldData, $newData, $affectedListingsProductsData);
+        $listing->getChildObject()->setSynchStatusNeed($newData, $oldData);
 
         $this->getMessageManager()->addSuccess($this->__('The Listing was successfully saved.'));
 
         return $this->_redirect($this->getHelper('Data')->getBackUrl('list', [], ['edit'=>['id'=>$id]]));
-    }
-
-    //########################################
-
-    protected function processSellingFormatTemplateChange(
-        array $oldData,
-        array $newData,
-        array $affectedListingsProductsData
-    ) {
-        if (empty($affectedListingsProductsData) ||
-            empty($oldData['template_selling_format_id']) || empty($newData['template_selling_format_id'])) {
-            return;
-        }
-
-        $oldTemplate = $this->amazonFactory->getObjectLoaded(
-            'Template_SellingFormat',
-            $oldData['template_selling_format_id'],
-            null,
-            false
-        );
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_SellingFormat_SnapshotBuilder');
-        $snapshotBuilder->setModel($oldTemplate);
-        $oldSnapshot = $snapshotBuilder->getSnapshot();
-
-        $newTemplate = $this->amazonFactory->getObjectLoaded(
-            'Template_SellingFormat',
-            $newData['template_selling_format_id'],
-            null,
-            false
-        );
-
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_SellingFormat_SnapshotBuilder');
-        $snapshotBuilder->setModel($newTemplate);
-        $newSnapshot = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\Diff $diff */
-        $diff = $this->modelFactory->getObject('Amazon_Template_SellingFormat_Diff');
-        $diff->setNewSnapshot($newSnapshot);
-        $diff->setOldSnapshot($oldSnapshot);
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\ChangeProcessor $changeProcessor */
-        $changeProcessor = $this->modelFactory->getObject('Amazon_Template_SellingFormat_ChangeProcessor');
-        $changeProcessor->process($diff, $affectedListingsProductsData);
-    }
-
-    protected function processSynchronizationTemplateChange(
-        array $oldData,
-        array $newData,
-        array $affectedListingsProductsData
-    ) {
-        if (empty($affectedListingsProductsData) ||
-            empty($oldData['template_synchronization_id']) || empty($newData['template_synchronization_id'])) {
-            return;
-        }
-
-        $oldTemplate = $this->amazonFactory->getObjectLoaded(
-            'Template_Synchronization',
-            $oldData['template_synchronization_id'],
-            null,
-            false
-        );
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\Synchronization\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_Synchronization_SnapshotBuilder');
-        $snapshotBuilder->setModel($oldTemplate);
-        $oldSnapshot = $snapshotBuilder->getSnapshot();
-
-        $newTemplate = $this->amazonFactory->getObjectLoaded(
-            'Template_Synchronization',
-            $newData['template_synchronization_id'],
-            null,
-            false
-        );
-
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_Synchronization_SnapshotBuilder');
-        $snapshotBuilder->setModel($newTemplate);
-        $newSnapshot = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\Synchronization\Diff $diff */
-        $diff = $this->modelFactory->getObject('Amazon_Template_Synchronization_Diff');
-        $diff->setNewSnapshot($newSnapshot);
-        $diff->setOldSnapshot($oldSnapshot);
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\Synchronization\ChangeProcessor $changeProcessor */
-        $changeProcessor = $this->modelFactory->getObject('Amazon_Template_Synchronization_ChangeProcessor');
-        $changeProcessor->process($diff, $affectedListingsProductsData);
     }
 
     //########################################

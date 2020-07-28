@@ -5,21 +5,21 @@ define([
 
         // ---------------------------------------
 
-        tryToMove: function(listingId)
+        getComponent: function()
         {
-            this.movingHandler.submit(listingId, this.onSuccess)
-        },
-
-        onSuccess: function(listingId)
-        {
-            setLocation(M2ePro.url.get('categorySettings', {id: listingId}));
+            return 'ebay';
         },
 
         // ---------------------------------------
 
-        getComponent: function()
+        getLogViewUrl: function(rowId)
         {
-            return 'ebay';
+            var idField = M2ePro.php.constant('\\Ess\\M2ePro\\Block\\Adminhtml\\Log\\Listing\\Other\\AbstractGrid::LISTING_ID_FIELD');
+
+            var params = {};
+            params[idField] = rowId;
+
+            return M2ePro.url.get('ebay_log_listing_other/index', params);
         },
 
         // ---------------------------------------

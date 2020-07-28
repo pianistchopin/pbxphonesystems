@@ -14,6 +14,11 @@ class AmazonCanadaMarketplace extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['amazon_marketplace'];
+    }
+
     public function execute()
     {
         $this->getConnection()->update(

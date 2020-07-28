@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+
+    <entity name="shiprestrictionDontIncludeTaxInSubtotal" type="shippingRestriction">
+        <data key="name">Check Restriction Rule Setting Dont Include Tax In Subtotal</data>
+        <data key="message">Check Restriction Rule Setting Dont Include Tax In Subtotal</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">95</data>
+        <data key="countryShipping">United States</data>
+        <data key="stateShipping">Michigan</data>
+        <data key="zipShipping">12345</data>
+    </entity>
+
+    <entity name="shiprestrictionUseSubtotalAfterDiscount" type="shippingRestriction">
+        <data key="name">Check Restriction Rule Setting Use Subtotal After Discount</data>
+        <data key="message">Check Restriction Rule Setting Use Subtotal After Discount</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">90</data>
+    </entity>
+
+    <entity name="shiprestrictionDefaultCartPriceRule" type="shippingRule">
+        <data key="name">Default Rule</data>
+        <data key="websites">Main Website</data>
+        <data key="customerGroups">'NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'</data>
+        <data key="apply">Fixed amount discount for whole cart</data>
+        <data key="discountAmount">10</data>
+    </entity>
+
+    <entity name="shiprestrictionCouponCode" type="shippingRule">
+        <data key="code">test</data>
+    </entity>
+
+    <entity name="shiprestrictionAlwaysShowErrorMessage" type="shippingRestriction">
+        <data key="name">Check Restriction Rule Setting Always Show Error Message</data>
+        <data key="message">Check Restriction Rule Setting Always Show Error Message</data>
+        <data key="methodOne">Fixed</data>
+        <data key="conditions">United States</data>
+        <data key="titleMethod">Flat Rate</data>
+        <data key="countryShipping">Austria</data>
+        <data key="stateShipping">Tirol</data>
+        <data key="zipShipping">12345</data>
+    </entity>
+
+    <entity name="shiprestrictionApplyTheRuleToAllOrders" type="shippingRestriction">
+        <data key="name">Check Restriction Rule And Apply This Rule To All Orders</data>
+        <data key="message">Check Restriction Rule And Apply This Rule To All Orders</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="firstQty">1</data>
+        <data key="secondQty">100</data>
+        <data key="backordersValueProduct">Allow Qty Below 0</data>
+        <data key="backordersValueRule">All orders</data>
+    </entity>
+
+    <entity name="shiprestrictionApplyTheRuleToBackordersOnly" type="shippingRestriction">
+        <data key="name">Check Restriction Rule And Apply This Rule To Backorders Only</data>
+        <data key="message">Check Restriction Rule And Apply This Rule To Backorders Only</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="firstQty">1</data>
+        <data key="secondQty">100</data>
+        <data key="backordersValueProduct">Allow Qty Below 0</data>
+        <data key="backordersValueRule">Backorders only</data>
+    </entity>
+
+    <entity name="shiprestrictionApplyTheRuleToNonBackorders" type="shippingRestriction">
+        <data key="name">Check Restriction Rule And Apply This Rule To Non Backorders</data>
+        <data key="message">Check Restriction Rule And Apply This Rule To Non Backorders</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="firstQty">1</data>
+        <data key="secondQty">100</data>
+        <data key="backordersValueProduct">Allow Qty Below 0</data>
+        <data key="backordersValueRule">Non backorders</data>
+    </entity>
+
+    <entity name="shiprestrictionApplyRulesOnlyWithCoupon" type="shippingRestriction">
+        <data key="name">Check Apply Shipping Restriction Rules Only With Coupon Code</data>
+        <data key="message">Check Apply Shipping Restriction Rules Only With Coupon Code</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+    </entity>
+
+    <entity name="shiprestrictionApplyRulesWithShoppingCartRule" type="shippingRestriction">
+        <data key="name">Check Apply Shipping Restriction Rules Only With Shopping Cart Rule</data>
+        <data key="message">Check Apply Shipping Restriction Rules Only With Shopping Cart Rule</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">24-WG03</data>
+    </entity>
+
+    <entity name="shiprestrictionDontApplyRulesWithCoupon" type="shippingRestriction">
+        <data key="name">Check Dont Apply Shipping Restriction Rules Only With Coupon Code</data>
+        <data key="message">Check Dont Apply Shipping Restriction Rules Only With Coupon Code</data>
+        <data key="methodOne">Best Way</data>
+        <data key="titleMethod">Best Way</data>
+    </entity>
+
+    <entity name="shiprestrictionDontApplyRulesWithShoppingCartRule" type="shippingRestriction">
+        <data key="name">Check Dont Apply Shipping Restriction Rules Only With Shopping Cart Rule</data>
+        <data key="message">Check Dont Apply Shipping Restriction Rules Only With Shopping Cart Rule</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">24-MB04</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckAdminArea" type="shippingRestriction">
+        <data key="name">Check Restriction Rule And Apply In Admin Area</data>
+        <data key="message">Check Restriction Rule And Apply In Admin Area</data>
+        <data key="methodOne">Fixed</data>
+        <data key="customerEmail">roni_cost@example.com</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckNoAdminArea" type="shippingRestriction">
+        <data key="name">Check Restriction Rule And Dont Apply In Admin Area</data>
+        <data key="message">Check Restriction Rule And Dont Apply In Admin Area</data>
+        <data key="methodOne">Fixed</data>
+        <data key="customerEmail">roni_cost@example.com</data>
+        <data key="titleMethod">Flat Rate</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckInactiveStatus" type="shippingRestriction">
+        <data key="name">Check Inactive Restriction Rule</data>
+        <data key="message">Check Inactive Restriction Rule</data>
+        <data key="methodOne">Fixed</data>
+    </entity>
+
+    <entity name="shiprestrictionIncludeTaxInSubtotal" type="shippingRestriction">
+        <data key="name">Check Restriction Rule Setting Include Tax In Subtotal</data>
+        <data key="message">Check Restriction Rule Setting Include Tax In Subtotal</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">95</data>
+        <data key="countryShipping">United States</data>
+        <data key="stateShipping">Michigan</data>
+        <data key="zipShipping">12345</data>
+    </entity>
+
+    <entity name="shiprestrictionDontUseSubtotalAfterDiscount" type="shippingRestriction">
+        <data key="name">Check Restriction Rule Setting Dont Use Subtotal After Discount</data>
+        <data key="message">Check Restriction Rule Setting Dont Use Subtotal After Discount</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="conditions">90</data>
+    </entity>
+
+    <entity name="shiprestrictionShippingAreaTwoExclude" type="shippingRule">
+        <data key="name">Check Restriction with Two Exclude Shipping Area</data>
+        <data key="message">Check Restriction with Two Exclude Shipping Area</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="countryShipping">United States</data>
+        <data key="stateShipping">Alabama</data>
+        <data key="cityShipping">London</data>
+        <data key="zipShippingOne">24999</data>
+        <data key="zipShippingTwo">25000</data>
+        <data key="zipShippingThree">25050</data>
+        <data key="zipShippingFour">25051</data>
+        <data key="zipShippingFive">25025</data>
+        <data key="shippingMethodOne">flatrate_flatrate</data>
+        <data key="shippingMethodTwo">tablerate_bestway</data>
+    </entity>
+
+    <entity name="shiprestrictionShippingAreaExcludeCountry" type="shippingRule">
+        <data key="name">Check Shipping Area With Exlude Country</data>
+        <data key="message">Check Shipping Area With Exlude Country</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="countryShippingOne">United States</data>
+        <data key="countryShippingTwo">Afghanistan</data>
+        <data key="countryShippingThree">United Kingdom</data>
+        <data key="countryShippingFour">United States</data>
+    </entity>
+
+    <entity name="shiprestrictionShippingAreaInclCountryExclRegion" type="shippingRule">
+        <data key="name">Check Shipping Area Include Country And Exclude Region</data>
+        <data key="message">Check Shipping Area Include Country And Exclude Region</data>
+        <data key="methodOne">Fixed</data>
+        <data key="methodTwo">Best Way</data>
+        <data key="countryShippingOne">United Kingdom</data>
+        <data key="countryShippingTwo">United States</data>
+        <data key="stateShippingOne">Alabama</data>
+        <data key="stateShippingTwo">California</data>
+        <data key="stateShippingThree">Arizona</data>
+        <data key="zipShipping">25000</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckOnCheckout" type="shippingRestriction">
+        <data key="name">Check Rules On Checkout</data>
+        <data key="message">Check Rules On Checkout</data>
+        <data key="methodOne">Best Way</data>
+        <data key="titleMethod">Best Way</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckTwoRules1" type="shippingRestriction">
+        <data key="name">Check the operation of the two rules 1</data>
+        <data key="message">Check the operation of the two rules 1</data>
+        <data key="methodOne">Fixed</data>
+        <data key="titleMethod">Flat Rate</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckTwoRules2" type="shippingRestriction">
+        <data key="name">Check the operation of the two rules 2</data>
+        <data key="message">Check the operation of the two rules 2</data>
+        <data key="methodOne">Best Way</data>
+        <data key="conditions">90</data>
+        <data key="titleMethod2">Best Way</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckOnMultishipping1" type="shippingRestriction">
+        <data key="name">Check Multishipping1</data>
+        <data key="message">Check Multishipping1</data>
+        <data key="methodOne">Fixed</data>
+        <data key="conditions">Michigan</data>
+        <data key="titleMethod">Flat Rate</data>
+        <data key="address">Veronica Costello, My street, London, Alabama 12345, United States</data>
+        <data key="shippingMethodOne">tablerate_bestway</data>
+        <data key="shippingMethodTwo">flatrate_flatrate</data>
+        <data key="billingMethod">p_method_checkmo</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckOnMultishipping2" type="shippingRestriction">
+        <data key="name">Check Multishipping2</data>
+        <data key="message">Check Multishipping2</data>
+        <data key="methodOne">Best Way</data>
+        <data key="conditions">Alabama</data>
+    </entity>
+
+    <entity name="shiprestrictionDontRestrictMethods" type="shippingRestriction">
+        <data key="name">Check Rule Don't Restrict Methods</data>
+        <data key="message">Check Rule Don't Restrict Methods</data>
+    </entity>
+
+    <entity name="shiprestrictionCheckNoRestrictionMessage" type="shippingRestriction">
+        <data key="name">Check No Restriction Message</data>
+        <data key="message">Sorry, no shipping quotes are available for the selected products and destination</data>
+        <data key="methodOne">Fixed</data>
+        <data key="titleMethod">Flat Rate</data>
+    </entity>
+
+</entities>

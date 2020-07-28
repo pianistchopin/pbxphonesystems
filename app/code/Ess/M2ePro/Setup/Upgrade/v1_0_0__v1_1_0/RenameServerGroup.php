@@ -13,6 +13,11 @@ class RenameServerGroup extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['primary_config', 'cache_config'];
+    }
+
     public function execute()
     {
         $this->getConfigModifier('primary')->getEntity('/server/', 'default_baseurl_index')

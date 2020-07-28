@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Quote\Model\Quote\Item">
+        <plugin name="Amasty_Request::convert-custom-price"
+                type="Amasty\RequestQuote\Plugin\Quote\Model\Quote\Item\Backend" />
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Cart">
+        <plugin name="Amasty_Request::fixAdminCartSidebar"
+                type="Amasty\RequestQuote\Plugin\Sales\Block\Adminhtml\Order\Create\Sidebar\Cart" />
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid">
+        <plugin name="Amasty_Request::convert-custom-price-order-convert"
+                type="Amasty\RequestQuote\Plugin\Sales\Block\Adminhtml\Order\Create\Items\Grid" />
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\Updater">
+        <plugin name="Amasty_Request::convert-custom-price-in-order-update"
+                type="Amasty\RequestQuote\Plugin\Quote\Model\Quote\Item\Updater" />
+    </type>
+
+    <type name="Amasty\RequestQuote\Block\Adminhtml\System\Config\Hideprice">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- add quote add button to order view page -->
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="Amasty_Request::add-quote-button"
+                type="Amasty\RequestQuote\Plugin\Sales\Block\Adminhtml\Order\ViewPlugin" />
+    </type>
+    <!-- add quote add button to actions in order grid page -->
+    <type name="Magento\Sales\Ui\Component\Listing\Column\ViewAction">
+        <plugin name="Amasty_Request::add-quote-button-listing"
+                type="Amasty\RequestQuote\Plugin\Sales\Ui\Component\Listing\Column\ViewActionPlugin" />
+    </type>
+</config>

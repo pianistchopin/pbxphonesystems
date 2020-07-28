@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <!-- Action Group For Configuration Shipping Restriction-->
+    <actionGroup name="AdminEditGeneralSettingShiprestriction">
+        <arguments>
+            <argument name="settingIncludeTaxInSubtotal"/>
+            <argument name="settingUseSubtotalAfterDiscount"/>
+            <argument name="settingAlwaysShowErrorMessage"/>
+        </arguments>
+        <amOnPage url="{{AdminShiprestrictionConfigurationPage.url}}" stepKey="navigateToShiprestrictionConfiguration"/>
+        <conditionalClick stepKey="openGeneralTab"
+                          selector="{{AdminConfigurationsShiprestrictionSection.GeneralTab}}"
+                          dependentSelector="{{AdminConfigurationsShiprestrictionSection.GeneralTabOpen}}"
+                          visible="false"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.IncludeTaxInSubtotal}}"
+                      userInput="{{settingIncludeTaxInSubtotal}}"
+                      stepKey="selectGeneralSetting1"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.UseSubtotalAfterDiscount}}"
+                      userInput="{{settingUseSubtotalAfterDiscount}}"
+                      stepKey="selectGeneralSetting2"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.AlwaysShowErrorMessage}}"
+                      userInput="{{settingAlwaysShowErrorMessage}}"
+                      stepKey="selectGeneralSetting3"/>
+        <click selector="{{AdminConfigurationsShiprestrictionSection.Save}}" stepKey="saveCustomSettings"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!-- Action Group For Configuration Shipping Restriction-->
+    <actionGroup name="AdminDefaultSettingShiprestriction">
+        <amOnPage url="{{AdminShiprestrictionConfigurationPage.url}}" stepKey="navigateToPromoConfiguration"/>
+        <conditionalClick stepKey="openGeneralTab"
+                          selector="{{AdminConfigurationsShiprestrictionSection.GeneralTab}}"
+                          dependentSelector="{{AdminConfigurationsShiprestrictionSection.GeneralTabOpen}}"
+                          visible="false"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.IncludeTaxInSubtotal}}"
+                      userInput="0"
+                      stepKey="selectDefaultGeneralSetting1"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.UseSubtotalAfterDiscount}}"
+                      userInput="0"
+                      stepKey="selectDefaultGeneralSetting2"/>
+        <selectOption selector="{{AdminConfigurationsShiprestrictionSection.AlwaysShowErrorMessage}}"
+                      userInput="0"
+                      stepKey="selectDefaultGeneralSetting3"/>
+        <click selector="{{AdminConfigurationsShiprestrictionSection.Save}}" stepKey="saveDefaultSettings"/>
+        <waitForPageLoad time="30" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+</actionGroups>

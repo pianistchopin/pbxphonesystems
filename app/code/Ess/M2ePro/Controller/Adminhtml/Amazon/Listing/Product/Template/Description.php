@@ -71,76 +71,40 @@ abstract class Description extends \Ess\M2ePro\Controller\Adminhtml\Amazon\Listi
 
         /** @var \Magento\Framework\DB\Transaction $transaction */
         $transaction = $this->transactionFactory->create();
-        $oldTemplateIds = [];
+        $oldSnapshots = [];
 
         try {
-            /**@var \Ess\M2ePro\Model\Listing\Product $listingProduct */
             foreach ($collection->getItems() as $listingProduct) {
-                $oldTemplateIds[$listingProduct->getId()] = $listingProduct->getChildObject()
-                    ->getData('template_description_id');
+                /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
+
+                $oldSnapshots[$listingProduct->getId()] = array_merge(
+                    $listingProduct->getDataSnapshot(),
+                    $listingProduct->getChildObject()->getDataSnapshot()
+                );
+
                 $listingProduct->getChildObject()->setData('template_description_id', $templateId);
                 $transaction->addObject($listingProduct);
             }
 
             $transaction->save();
         } catch (\Exception $e) {
-            $oldTemplateIds = false;
+            $oldSnapshots = false;
             $transaction->rollback();
         }
 
-        if (!$oldTemplateIds) {
+        if (!$oldSnapshots) {
             return;
         }
 
-        /** @var \Ess\M2ePro\Model\Amazon\Template\Description $newTemplate */
-        $newTemplate = $this->activeRecordFactory->getObjectLoaded(
-            'Amazon_Template_Description',
-            $templateId,
-            null,
-            false
-        );
-
-        if ($newTemplate !== null && $newTemplate->getId()) {
-            /** @var \Ess\M2ePro\Model\Amazon\Template\Description\SnapshotBuilder $snapshotBuilder */
-            $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_Description_SnapshotBuilder');
-            $snapshotBuilder->setModel($newTemplate->getParentObject());
-            $newSnapshot = $snapshotBuilder->getSnapshot();
-        } else {
-            $newSnapshot = [];
-        }
-
-        /**@var \Ess\M2ePro\Model\Listing\Product $listingProduct */
         foreach ($collection->getItems() as $listingProduct) {
-            /** @var \Ess\M2ePro\Model\Amazon\Template\Description $oldTemplate */
-            $oldTemplate = $this->activeRecordFactory->getObjectLoaded(
-                'Amazon_Template_Description',
-                $oldTemplateIds[$listingProduct->getId()],
-                null,
-                false
-            );
+            /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
 
-            if ($oldTemplate !== null && $oldTemplate->getId()) {
-                $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_Description_SnapshotBuilder');
-                $snapshotBuilder->setModel($oldTemplate->getParentObject());
-                $oldSnapshot = $snapshotBuilder->getSnapshot();
-            } else {
-                $oldSnapshot = [];
-            }
-
-            if (empty($newSnapshot) && empty($oldSnapshot)) {
-                continue;
-            }
-
-            /** @var \Ess\M2ePro\Model\Amazon\Template\Description\Diff $diff */
-            $diff = $this->modelFactory->getObject('Amazon_Template_Description_Diff');
-            $diff->setOldSnapshot($oldSnapshot);
-            $diff->setNewSnapshot($newSnapshot);
-
-            /** @var \Ess\M2ePro\Model\Amazon\Template\Description\ChangeProcessor $changeProcessor */
-            $changeProcessor = $this->modelFactory->getObject('Amazon_Template_Description_ChangeProcessor');
-            $changeProcessor->process(
-                $diff,
-                [['id' => $listingProduct->getId(), 'status' => $listingProduct->getStatus()]]
+            $listingProduct->getChildObject()->setSynchStatusNeed(
+                array_merge(
+                    $listingProduct->getDataSnapshot(),
+                    $listingProduct->getChildObject()->getDataSnapshot()
+                ),
+                $oldSnapshots[$listingProduct->getId()]
             );
         }
     }

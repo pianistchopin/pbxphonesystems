@@ -15,6 +15,11 @@ class AmazonSkusQueue extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['lock_item', 'account'];
+    }
+
     public function execute()
     {
         $amazonProcessingActionListSku = $this->getConnection()->newTable(

@@ -33,11 +33,6 @@ abstract class Request extends \Ess\M2ePro\Model\AbstractModel
      */
     private $warningMessages = [];
 
-    /**
-     * @var array
-     */
-    protected $metaData = [];
-
     //########################################
 
     abstract public function getRequestData();
@@ -191,24 +186,6 @@ abstract class Request extends \Ess\M2ePro\Model\AbstractModel
     public function getWarningMessages()
     {
         return $this->warningMessages;
-    }
-
-    //########################################
-
-    protected function addMetaData($key, $value)
-    {
-        $this->metaData[$key] = $value;
-    }
-
-    public function getMetaData()
-    {
-        return $this->metaData;
-    }
-
-    public function setMetaData($value)
-    {
-        $this->metaData = $value;
-        return $this;
     }
 
     //########################################

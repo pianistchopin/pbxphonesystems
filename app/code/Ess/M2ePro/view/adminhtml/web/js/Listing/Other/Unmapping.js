@@ -8,6 +8,16 @@ define([
 
         // ---------------------------------------
 
+        options: {},
+
+        setOptions: function(options)
+        {
+            this.options = Object.extend(this.options, options);
+            return this;
+        },
+
+        // ---------------------------------------
+
         run: function()
         {
             this.unmappingProducts(
@@ -17,10 +27,10 @@ define([
 
         unmappingProducts: function(productsString)
         {
-            new Ajax.Request(M2ePro.url.get('unmappingProducts'), {
+            new Ajax.Request(this.options.url.get('unmappingProducts'), {
                 method: 'post',
                 parameters: {
-                    componentMode: M2ePro.customData.componentMode,
+                    componentMode: this.options.customData.componentMode,
                     product_ids: productsString
                 },
                 onSuccess: (function(transport) {
@@ -29,11 +39,11 @@ define([
 
                     if (transport.responseText == '1') {
                         MessagesObj.addSuccessMessage(
-                            M2ePro.translator.translate('successfully_unmapped')
+                            this.options.translator.translate('successfully_unmapped')
                         );
                     } else {
                         MessagesObj.addErrorMessage(
-                            M2ePro.translator.translate('not_enough_data')
+                            this.options.translator.translate('not_enough_data')
                         );
                     }
 

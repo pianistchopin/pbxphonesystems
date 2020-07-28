@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckOnCheckout">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Rules On Checkout"/>
+            <description value="Check Rules On Checkout"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-17"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckOnCheckout"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <actionGroup ref="DeleteProductFromTheCartIfTestWithLoginFailed" stepKey="DeleteProductIfTestFailed1">
+                <argument name="products" value="_theBagOvernightDuffle"/>
+            </actionGroup>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckOnCheckout"/>
+        </actionGroup>
+
+        <!--Login -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="LogIn">
+            <argument name="Customer" value="CustomerLogIn"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagOvernightDuffle"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessageOnCheckout" stepKey="CheckNoShippingOnCheckout">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckOnCheckout.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckOnCheckout.message"/>
+        </actionGroup>
+
+        <actionGroup ref="AmastyCreateOrderAsCustomerOnCheckoutShippingPage" stepKey="CreateOrder">
+            <argument name="shippingMethodsOnCheckout" value="FlatRateMethod"/>
+        </actionGroup>
+
+        <actionGroup ref="AmastyCreateOrderAsCustomerOnCheckoutPaymentPage" stepKey="PlaceOrder"/>
+
+    </test>
+</tests>

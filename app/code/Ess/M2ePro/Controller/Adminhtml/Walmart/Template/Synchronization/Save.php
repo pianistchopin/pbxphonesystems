@@ -64,21 +64,19 @@ class Save extends Template
         // tab: revise
         // ---------------------------------------
         $keys = [
+            'revise_update_qty',
             'revise_update_qty_max_applied_value_mode',
             'revise_update_qty_max_applied_value',
             'revise_update_price',
             'revise_update_price_max_allowed_deviation_mode',
             'revise_update_price_max_allowed_deviation',
             'revise_update_promotions',
-            'revise_update_details',
         ];
         foreach ($keys as $key) {
             if (isset($post[$key])) {
                 $data[$key] = $post[$key];
             }
         }
-
-        $data['revise_update_qty'] = 1;
         // ---------------------------------------
 
         // tab: relist
@@ -136,15 +134,8 @@ class Save extends Template
         // ---------------------------------------
         $model = $this->walmartFactory->getObject('Template\Synchronization');
 
-        $oldData = [];
-
-        $id && $model->load($id);
-
-        if ($model->getId()) {
-            /** @var \Ess\M2ePro\Model\Walmart\Template\Synchronization\SnapshotBuilder $snapshotBuilder */
-            $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Synchronization_SnapshotBuilder');
-            $snapshotBuilder->setModel($model);
-            $oldData = $snapshotBuilder->getSnapshot();
+        if ($id) {
+            $model->load($id);
         }
 
         $model->addData($data)->save();
@@ -154,25 +145,6 @@ class Save extends Template
         ));
 
         $model->save();
-
-        $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Synchronization_SnapshotBuilder');
-        $snapshotBuilder->setModel($model);
-        $newData = $snapshotBuilder->getSnapshot();
-
-        $diff = $this->modelFactory->getObject('Walmart_Template_Synchronization_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        $affectedListingsProducts = $this->modelFactory->getObject(
-            'Walmart_Template_Synchronization_AffectedListingsProducts'
-        );
-        $affectedListingsProducts->setModel($model);
-
-        $changeProcessor = $this->modelFactory->getObject('Walmart_Template_Synchronization_ChangeProcessor');
-        $changeProcessor->process(
-            $diff,
-            $affectedListingsProducts->getObjectsData(['id', 'status'])
-        );
 
         if ($this->isAjax()) {
             $this->setJsonContent([

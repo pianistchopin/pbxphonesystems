@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckInactiveStatus">
+        <annotations>
+            <features value="Restriction Rule Creation"/>
+            <stories value="Create a Restriction Rule via the Admin"/>
+            <title value="Check Inactive Restriction Rule"/>
+            <description value="Check Inactive Restriction Rule"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-06"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckInactiveStatus"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseSettingBeforeTest"/>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckInactiveStatus"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagImpulseDuffleData"/>
+        </actionGroup>
+
+        <!--Check Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoFlatRate">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay1">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!-- Disable Restriction Rule-->
+        <actionGroup ref="AdminEditShippingRestrictionDisableRule" stepKey="InactivateRestrictionRule">
+            <argument name="shippingRestriction" value="shiprestrictionCheckInactiveStatus"/>
+        </actionGroup>
+
+        <!-- Change Qty Product-->
+        <actionGroup ref="ChangeQtyProductInCart" stepKey="ChangeQtyFirstProductToTwo">
+            <argument name="products" value="_theBagImpulseDuffleData"/>
+            <argument name="addProductQty" value="_enterQty2"/>
+        </actionGroup>
+
+        <!--Check Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay2">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+    </test>
+</tests>

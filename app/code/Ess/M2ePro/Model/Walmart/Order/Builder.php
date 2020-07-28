@@ -21,6 +21,9 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
 
     const UPDATE_STATUS = 'status';
 
+    // M2ePro\TRANSLATIONS
+    // Duplicated Walmart orders with ID #%id%.
+
     //########################################
 
     /** @var $helper \Ess\M2ePro\Model\Walmart\Order\Helper */
@@ -345,6 +348,7 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
         $logsActionId = $this->activeRecordFactory->getObject('Listing\Log')->getResource()->getNextActionId();
 
         $parentsForProcessing = [];
+        $listingsProductsIdsForNeedSynchRulesCheck = [];
 
         foreach ($this->items as $orderItem) {
             /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Product\Collection $listingProductCollection */
@@ -385,21 +389,20 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
                     $parentsForProcessing[$parentListingProduct->getId()] = $parentListingProduct;
                 }
 
-                $instruction = $this->activeRecordFactory->getObject('Listing_Product_Instruction');
-                $instruction->setData(
-                    [
-                        'listing_product_id' => $listingProduct->getId(),
-                        'component'          => \Ess\M2ePro\Helper\Component\Walmart::NICK,
-                        'type' => \Ess\M2ePro\Model\Walmart\Listing\Product::INSTRUCTION_TYPE_CHANNEL_QTY_CHANGED,
-                        'initiator'          => self::INSTRUCTION_INITIATOR,
-                        'priority'           => 80,
-                    ]
+                $this->activeRecordFactory->getObject('ProductChange')->addUpdateAction(
+                    $listingProduct->getProductId(),
+                    \Ess\M2ePro\Model\ProductChange::INITIATOR_SYNCHRONIZATION
                 );
-                $instruction->save();
+
+                if ($listingProduct->isSetProcessingLock('in_action')) {
+                    $listingsProductsIdsForNeedSynchRulesCheck[] = $listingProduct->getId();
+                }
 
                 if ($currentOnlineQty > $orderItem['qty']) {
                     $walmartListingProduct->setData('online_qty', $currentOnlineQty - $orderItem['qty']);
 
+                    // M2ePro\TRANSLATIONS
+                    // Item QTY was successfully changed from %from% to %to% .
                     $tempLogMessage = $this->getHelper('Module\Translation')->__(
                         'Item QTY was successfully changed from %from% to %to% .',
                         $currentOnlineQty,
@@ -423,7 +426,7 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
                     continue;
                 }
 
-                $listingProduct->getChildObject()->setData('online_qty', 0);
+                $walmartListingProduct->setData('online_qty', 0);
 
                 $tempLogMessages = [
                     $this->getHelper('Module\Translation')->__(
@@ -440,6 +443,8 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
                         ->getHumanTitleByListingProductStatus(\Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED);
 
                     if (!empty($statusChangedFrom) && !empty($statusChangedTo)) {
+                        // M2ePro\TRANSLATIONS
+                        // Item Status was successfully changed from "%from%" to "%to%" .
                         $tempLogMessages[] = $this->getHelper('Module\Translation')->__(
                             'Item Status was successfully changed from "%from%" to "%to%" .',
                             $statusChangedFrom,
@@ -468,6 +473,7 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
                     );
                 }
 
+                $walmartListingProduct->save();
                 $listingProduct->save();
             }
         }
@@ -479,10 +485,23 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
             $massProcessor->setListingsProducts($parentsForProcessing);
             $massProcessor->execute();
         }
+
+        if (!empty($listingsProductsIdsForNeedSynchRulesCheck)) {
+            $this->activeRecordFactory->getObject('Listing\Product')
+                                      ->getResource()
+                                      ->setNeedSynchRulesCheck(
+                                          array_unique($listingsProductsIdsForNeedSynchRulesCheck)
+                                      );
+        }
     }
 
     private function processOtherListingsUpdates()
     {
+        $logger = $this->activeRecordFactory->getObject('Listing_Other_Log');
+        $logger->setComponentMode(\Ess\M2ePro\Helper\Component\Walmart::NICK);
+
+        $logsActionId = $this->activeRecordFactory->getObject('Listing_Other_Log')->getResource()->getNextActionId();
+
         foreach ($this->items as $orderItem) {
             /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Product\Collection $listingOtherCollection */
             $listingOtherCollection = $this->walmartFactory->getObject('Listing\Other')->getCollection();
@@ -507,18 +526,77 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
 
                 if ($currentOnlineQty > $orderItem['qty']) {
                     $walmartOtherListing->setData('online_qty', $currentOnlineQty - $orderItem['qty']);
+
+                    // M2ePro\TRANSLATIONS
+                    // Item QTY was successfully changed from %from% to %to% .
+                    $tempLogMessage = $this->getHelper('Module\Translation')->__(
+                        'Item QTY was successfully changed from %from% to %to% .',
+                        $currentOnlineQty,
+                        ($currentOnlineQty - $orderItem['qty'])
+                    );
+
+                    $logger->addProductMessage(
+                        $otherListing->getId(),
+                        \Ess\M2ePro\Helper\Data::INITIATOR_EXTENSION,
+                        $logsActionId,
+                        \Ess\M2ePro\Model\Listing\Other\Log::ACTION_CHANNEL_CHANGE,
+                        $tempLogMessage,
+                        \Ess\M2ePro\Model\Log\AbstractModel::TYPE_SUCCESS,
+                        \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_LOW
+                    );
+
                     $walmartOtherListing->save();
 
                     continue;
                 }
 
                 $walmartOtherListing->setData('online_qty', 0);
+
+                $tempLogMessages = [];
+
+                if ($currentOnlineQty > 0) {
+                    $tempLogMessages = [
+                        $this->getHelper('Module\Translation')->__(
+                            'Item qty was successfully changed from %from% to %to% .',
+                            $currentOnlineQty,
+                            0
+                        )
+                    ];
+                }
+
                 if (!$otherListing->isStopped()) {
+                    $statusChangedFrom = $this->getHelper('Component\Walmart')
+                        ->getHumanTitleByListingProductStatus($otherListing->getStatus());
+                    $statusChangedTo = $this->getHelper('Component\Walmart')
+                        ->getHumanTitleByListingProductStatus(\Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED);
+
+                    if (!empty($statusChangedFrom) && !empty($statusChangedTo)) {
+                        // M2ePro\TRANSLATIONS
+                        // Item Status was successfully changed from "%from%" to "%to%" .
+                        $tempLogMessages[] = $this->getHelper('Module\Translation')->__(
+                            'Item Status was successfully changed from "%from%" to "%to%" .',
+                            $statusChangedFrom,
+                            $statusChangedTo
+                        );
+                    }
+
                     $otherListing->setData(
                         'status_changer',
                         \Ess\M2ePro\Model\Listing\Product::STATUS_CHANGER_COMPONENT
                     );
                     $otherListing->setData('status', \Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED);
+                }
+
+                foreach ($tempLogMessages as $tempLogMessage) {
+                    $logger->addProductMessage(
+                        $otherListing->getId(),
+                        \Ess\M2ePro\Helper\Data::INITIATOR_EXTENSION,
+                        $logsActionId,
+                        \Ess\M2ePro\Model\Listing\Other\Log::ACTION_CHANNEL_CHANGE,
+                        $tempLogMessage,
+                        \Ess\M2ePro\Model\Log\AbstractModel::TYPE_SUCCESS,
+                        \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_LOW
+                    );
                 }
 
                 $walmartOtherListing->save();

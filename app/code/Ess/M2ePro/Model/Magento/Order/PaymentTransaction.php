@@ -46,7 +46,7 @@ class PaymentTransaction extends AbstractModel
     {
         $payment = $this->magentoOrder->getPayment();
 
-        if (empty($payment)) {
+        if ($payment === false) {
             return;
         }
 

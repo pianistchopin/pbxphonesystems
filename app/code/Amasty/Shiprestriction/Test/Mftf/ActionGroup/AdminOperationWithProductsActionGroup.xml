@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <actionGroup name="AdminEditAdvancedInventoryQtyProduct" extends="AdminFindAndOpenProduct">
+        <!--Extends from Action Group in Base-->
+        <arguments>
+            <argument name="qty"/>
+        </arguments>
+        <scrollTo selector="{{AdminProductSection.Status}}" stepKey="ScrollToAdvancedPricingSetting"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad6"/>
+        <click selector="{{AdminProductSection.AdvancedInventory}}" stepKey="OpenAdvancedInventorySetting"/>
+        <waitForPageLoad time="300" stepKey="waitForPageLoad7"/>
+        <fillField selector="{{AdminProductSection.AdvancedInventoryQty}}" userInput="{{qty}}" stepKey="enterQty"/>
+        <waitForPageLoad time="20" stepKey="waitForPageLoad8"/>
+        <click selector="{{AdminProductSection.CloseAdvancedInventory}}" stepKey="CloseAdvancedInventorySetting"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad9"/>
+        <click selector="{{AdminProductSection.Save}}" stepKey="SaveProductSetting"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad10"/>
+    </actionGroup>
+
+
+    <actionGroup name="AdminEditSettingBackordersProduct" extends="AdminFindAndOpenProduct">
+        <!--Extends from Action Group in Base-->
+        <arguments>
+            <argument name="backordersValue"/>
+        </arguments>
+        <scrollTo selector="{{AdminProductSection.Status}}" stepKey="ScrollToAdvancedPricingSetting"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad6"/>
+        <click selector="{{AdminProductSection.AdvancedInventory}}" stepKey="OpenAdvancedInventorySetting"/>
+        <waitForPageLoad time="300" stepKey="waitForPageLoad7"/>
+        <conditionalClick stepKey="UncheckUseConfigBackorders"
+                          selector="{{AdminProductSection.BackordersConfigSetting}}"
+                          dependentSelector="{{AdminProductSection.BackordersConfigSettingNo}}"
+                          visible="false"/>
+        <selectOption selector="{{AdminProductSection.Backorders}}"
+                      userInput="{{backordersValue}}"
+                      stepKey="selectValueBackorders"/>
+        <click selector="{{AdminProductSection.CloseAdvancedInventory}}" stepKey="CloseAdvancedInventorySetting"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad8"/>
+        <click selector="{{AdminProductSection.Save}}" stepKey="SaveProductSetting"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad9"/>
+    </actionGroup>
+
+
+    <actionGroup name="AdminReturnDefaultSettingBackordersProduct" extends="AdminFindAndOpenProduct">
+        <!--Extends from Action Group in Base-->
+        <scrollTo selector="{{AdminProductSection.Status}}" stepKey="ScrollToAdvancedPricingSetting"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad6"/>
+        <click selector="{{AdminProductSection.AdvancedInventory}}" stepKey="OpenAdvancedInventorySetting"/>
+        <waitForPageLoad time="300" stepKey="waitForPageLoad7"/>
+        <conditionalClick stepKey="UncheckUseConfigBackorders"
+                          selector="{{AdminProductSection.BackordersConfigSetting}}"
+                          dependentSelector="{{AdminProductSection.BackordersConfigSettingYes}}"
+                          visible="false"/>
+        <click selector="{{AdminProductSection.CloseAdvancedInventory}}" stepKey="CloseAdvancedInventorySetting"/>
+        <waitForPageLoad time="50" stepKey="waitForPageLoad8"/>
+        <click selector="{{AdminProductSection.Save}}" stepKey="SaveProductSetting"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad9"/>
+    </actionGroup>
+
+</actionGroups>

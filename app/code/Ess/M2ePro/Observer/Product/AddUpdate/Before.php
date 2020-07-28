@@ -134,13 +134,9 @@ class Before extends AbstractAddUpdate
         $attributes = [];
 
         foreach ($this->getAffectedListingsProducts() as $listingProduct) {
-            /** @var \Ess\M2ePro\Model\Magento\Product\ChangeProcessor\AbstractModel $changeProcessor */
-            $changeProcessor = $this->modelFactory->getObject(
-                ucfirst($listingProduct->getComponentMode()).'_Magento_Product_ChangeProcessor'
-            );
-            $changeProcessor->setListingProduct($listingProduct);
-
-            $attributes = array_merge($attributes, $changeProcessor->getTrackingAttributes());
+            /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
+            $tempAttributes = $listingProduct->getTrackingAttributes();
+            $attributes = array_merge($attributes, $tempAttributes);
         }
 
         return array_values(array_unique($attributes));

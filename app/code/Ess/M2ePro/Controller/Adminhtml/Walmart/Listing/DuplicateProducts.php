@@ -41,12 +41,6 @@ class DuplicateProducts extends Main
                 false
             );
 
-            $duplicatedListingProduct->getChildObject()->setData(
-                'template_category_id',
-                $listingProduct->getChildObject()->getTemplateCategoryId()
-            );
-            $duplicatedListingProduct->save();
-
             $variationManager = $listingProduct->getChildObject()->getVariationManager();
             if (!$variationManager->isVariationProduct()) {
                 continue;

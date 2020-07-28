@@ -1,0 +1,23 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $source  = $block->getSource() ?>
+<?php $quote   = $block->getQuote() ?>
+<?php $block->setPriceDataObject($source) ?>
+
+<?php if ((float) $source->getDiscountAmount()): ?>
+    <tr>
+        <td class="label">
+            <?php if ($quote->getCouponCode()): ?>
+                <?= /* @escapeNotVerified */ __('Discount (%1)', $quote->getCouponCode()) ?>
+            <?php else: ?>
+                <?= /* @escapeNotVerified */ __('Discount') ?>
+            <?php endif; ?>
+        </td>
+        <td><?= /* @escapeNotVerified */ $block->displayPriceAttribute('discount_amount') ?></td>
+    </tr>
+<?php endif; ?>

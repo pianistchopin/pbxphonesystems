@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Customer:etc/sections.xsd">
+    <action name="amasty_quote/cart/add">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/addgroup">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/configure">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/delete">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/submit">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/updateItemOptions">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/cart/updatePost">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/sidebar/updateItemQty">
+        <section name="quotecart"/>
+    </action>
+    <action name="amasty_quote/sidebar/removeItem">
+        <section name="quotecart"/>
+    </action>
+</config>

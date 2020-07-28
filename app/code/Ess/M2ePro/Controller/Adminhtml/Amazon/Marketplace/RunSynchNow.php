@@ -19,50 +19,23 @@ class RunSynchNow extends Marketplace
 
     public function execute()
     {
-        // @codingStandardsIgnoreLine
         session_write_close();
 
-        /** @var \Ess\M2ePro\Model\Marketplace $marketplace */
-        $marketplace = $this->activeRecordFactory->getObjectLoaded(
-            'Marketplace',
-            (int)$this->getRequest()->getParam('marketplace_id')
-        );
+        $marketplaceId = (int)$this->getRequest()->getParam('marketplace_id');
+        $marketplaceObj = $this->activeRecordFactory->getObjectLoaded('Marketplace', $marketplaceId);
 
-        /** @var \Ess\M2ePro\Model\Amazon\Marketplace\Synchronization $synchronization */
-        $synchronization = $this->modelFactory->getObject('Amazon_Marketplace_Synchronization');
-        $synchronization->setMarketplace($marketplace);
+        /** @var $dispatcher \Ess\M2ePro\Model\Synchronization\Dispatcher */
+        $dispatcher = $this->modelFactory->getObject('Synchronization\Dispatcher');
 
-        if ($synchronization->isLocked()) {
-            $synchronization->getlog()->addMessage(
-                $this->__(
-                    'Marketplaces cannot be updated now. '
-                    . 'Please wait until another marketplace synchronization is completed, then try again.'
-                ),
-                \Ess\M2ePro\Model\Log\AbstractModel::TYPE_ERROR,
-                \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_HIGH
-            );
+        $dispatcher->setAllowedComponents([$marketplaceObj->getComponentMode()]);
+        $dispatcher->setAllowedTasksTypes([
+            \Ess\M2ePro\Model\Synchronization\Task\AbstractComponent::MARKETPLACES
+        ]);
 
-            $this->setJsonContent(['result' => 'error']);
-            return $this->getResult();
-        }
+        $dispatcher->setInitiator(\Ess\M2ePro\Helper\Data::INITIATOR_USER);
+        $dispatcher->setParams(['marketplace_id' => $marketplaceId]);
 
-        try {
-            $synchronization->process();
-        } catch (\Exception $e) {
-            $synchronization->getlog()->addMessage(
-                $this->__($e->getMessage()),
-                \Ess\M2ePro\Model\Log\AbstractModel::TYPE_ERROR,
-                \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_HIGH
-            );
-
-            $synchronization->getLockItemManager()->remove();
-
-            $this->setJsonContent(['result' => 'error']);
-            return $this->getResult();
-        }
-
-        $this->setJsonContent(['result' => 'success']);
-        return $this->getResult();
+        $dispatcher->process();
     }
 
     //########################################

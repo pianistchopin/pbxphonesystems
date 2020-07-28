@@ -1,0 +1,15 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div class="admin__page-section-title">
+    <span class="title"><?= /* @escapeNotVerified */ $block->getHeaderText() ?></span>
+    <?php if($block->getButtonsHtml()): ?>
+        <div class="actions" style="float: right;"><?= $block->getButtonsHtml() ?></div>
+    <?php endif; ?>
+</div>
+
+<?= $block->getChildHtml('', true) ?>

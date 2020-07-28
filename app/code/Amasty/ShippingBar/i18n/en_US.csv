@@ -1,0 +1,108 @@
+"You deleted the Bar.","You deleted the Bar."
+"We can't delete the Bar right now. Please review the log and try again.","We can't delete the Bar right now. Please review the log and try again."
+"We can't find a Bar to delete.","We can't find a Bar to delete."
+"You created new Bar with ID %1 (ID of origin is %2).","You created new Bar with ID %1 (ID of origin is %2)."
+"We can't duplicate the Bar right now. Please review the log and try again.","We can't duplicate the Bar right now. Please review the log and try again."
+"We can't find a Bar to duplicate.","We can't find a Bar to duplicate."
+"Unable to load Shipping Bar with ID %1. Please review the log and try again.","Unable to load Shipping Bar with ID %1. Please review the log and try again."
+"New Shipping Bar","New Shipping Bar"
+"Shipping Bars","Shipping Bars"
+"Can't delete some items. Please review the log and try again.","Can't delete some items. Please review the log and try again."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Can't update some items. Please review the log and try again.","Can't update some items. Please review the log and try again."
+"A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
+"Please, refresh the Full Page Cache for the changes to take effect.","Please, refresh the Full Page Cache for the changes to take effect."
+"You saved the Shipping Bar.","You saved the Shipping Bar."
+"Can't save the Shipping Bar right now. Please review the log and try again.","Can't save the Shipping Bar right now. Please review the log and try again."
+"Unable to save profile with ID %1. Error: %2","Unable to save profile with ID %1. Error: %2"
+"Unable to save new profile. Error: %1","Unable to save new profile. Error: %1"
+"Profile with specified ID ""%1"" not found.","Profile with specified ID ""%1"" not found."
+"Unable to remove profile with ID %1. Error: %2","Unable to remove profile with ID %1. Error: %2"
+"Unable to remove profile. Error: %1","Unable to remove profile. Error: %1"
+"HTML tags not allowed in ""Custom CSS"" field.","HTML tags not allowed in ""Custom CSS"" field."
+Delete,Delete
+"Are you sure you want to delete the bar","Are you sure you want to delete the bar"
+Duplicate,Duplicate
+"{Free Shipping Amount}","{Free Shipping Amount}"
+"Initial State","Initial State"
+"In Progress State","In Progress State"
+"Achieved State","Achieved State"
+"Specify manually","Specify manually"
+"Free Shipping Configuration","Free Shipping Configuration"
+"Home Page","Home Page"
+"Category Pages","Category Pages"
+"Product Pages","Product Pages"
+"Search Pages","Search Pages"
+"Shopping Cart","Shopping Cart"
+"Another Pages","Another Pages"
+"Page Top, unfixed","Page Top, unfixed"
+"Page Top, fixed","Page Top, fixed"
+"Page Bottom, unfixed","Page Bottom, unfixed"
+"Page Bottom, fixed","Page Bottom, fixed"
+"The field should contain no more than 2 decimal places.","The field should contain no more than 2 decimal places."
+"The field should contain no html tags.","The field should contain no html tags."
+"Free Shipping Bar","Free Shipping Bar"
+General,General
+"Enable Free Shipping Bar","Enable Free Shipping Bar"
+"Add Shipping Bar","Add Shipping Bar"
+"Delete items","Delete items"
+"Delete selected items?","Delete selected items?"
+"Change Status","Change Status"
+Active,Active
+Inactive,Inactive
+ID,ID
+Name,Name
+"Cart Subtotal Goal","Cart Subtotal Goal"
+"Cart Subtotal Source","Cart Subtotal Source"
+Priority,Priority
+Status,Status
+"Store Views","Store Views"
+"Customer Groups","Customer Groups"
+"All Customer Groups","All Customer Groups"
+Pages,Pages
+"All Pages","All Pages"
+"Bar Position","Bar Position"
+Edit,Edit
+Back,Back
+Reset,Reset
+"Save and Continue Edit","Save and Continue Edit"
+Save,Save
+Preview,Preview
+"Bar State","Bar State"
+"Bar Name","Bar Name"
+"Will be visible only for admin in Free Shipping Bars grid","Will be visible only for admin in Free Shipping Bars grid"
+"Bar Status","Bar Status"
+"A bar with lowest priority will be shown first","A bar with lowest priority will be shown first"
+"Websites & Customer Groups","Websites & Customer Groups"
+"Visible In","Visible In"
+"Leave empty or select all to show bar in all store views.","Leave empty or select all to show bar in all store views."
+"Apply For","Apply For"
+"Leave empty or select all to show bar for all customers.","Leave empty or select all to show bar for all customers."
+"Display Options","Display Options"
+"Leave empty or select all to show bar on all pages.","Leave empty or select all to show bar on all pages."
+"Add Link to the Bar","Add Link to the Bar"
+Yes,Yes
+No,No
+"Link Address","Link Address"
+"The bar will be clickable if you add the link.","The bar will be clickable if you add the link."
+"Add Close Button","Add Close Button"
+"Users will be able to hide bar with 'x' button.","Users will be able to hide bar with 'x' button."
+"Show Free Shipping Car Image on Shipping Bar","Show Free Shipping Car Image on Shipping Bar"
+Content,Content
+"
+                       Variables:</br>
+                            <b>{{ruleGoal}}</b> returns value of the Cart Subtotal Goal;</br>
+                            <b>{{ruleGoalLeft}}</b> returns result of ""Cart Subtotal Goal - Cart Subtotal"".
+                    ","
+                       Variables:</br>
+                            <b>{{ruleGoal}}</b> returns value of the Cart Subtotal Goal;</br>
+                            <b>{{ruleGoalLeft}}</b> returns result of ""Cart Subtotal Goal - Cart Subtotal"".
+                    "
+"Initial Message","Initial Message"
+"In Progress Message","In Progress Message"
+"Achieved Message","Achieved Message"
+"Free Shipping Terms Content","Free Shipping Terms Content"
+Design,Design
+Font,Font
+"Font Size, px","Font Size, px"
+"Custom CSS","Custom CSS"

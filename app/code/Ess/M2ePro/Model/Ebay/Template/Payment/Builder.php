@@ -30,7 +30,6 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\Builder\AbstractModel
             $data['marketplace_id']
         );
 
-        /** @var \Ess\M2ePro\Model\Ebay\Template\Payment $template */
         $template = $this->activeRecordFactory->getObject('Ebay_Template_Payment');
 
         if (isset($data['id'])) {

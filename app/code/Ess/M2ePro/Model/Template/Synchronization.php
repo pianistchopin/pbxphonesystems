@@ -13,10 +13,11 @@ namespace Ess\M2ePro\Model\Template;
  */
 class Synchronization extends \Ess\M2ePro\Model\ActiveRecord\Component\Parent\AbstractModel
 {
-    const QTY_MODE_NONE = 0;
-    const QTY_MODE_LESS = 1;
-    const QTY_MODE_BETWEEN = 2;
-    const QTY_MODE_MORE = 3;
+    const REVISE_CHANGE_LISTING_NONE = 0;
+    const REVISE_CHANGE_LISTING_YES  = 1;
+
+    const REVISE_CHANGE_SELLING_FORMAT_TEMPLATE_NONE = 0;
+    const REVISE_CHANGE_SELLING_FORMAT_TEMPLATE_YES  = 1;
 
     //########################################
 
@@ -31,6 +32,25 @@ class Synchronization extends \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Ab
     public function getTitle()
     {
         return $this->getData('title');
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function isReviseListing()
+    {
+        return (int)$this->getData('revise_change_listing') != self::REVISE_CHANGE_LISTING_NONE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReviseSellingFormatTemplate()
+    {
+        return (int)$this->getData('revise_change_selling_format_template') !=
+            self::REVISE_CHANGE_SELLING_FORMAT_TEMPLATE_NONE;
     }
 
     //########################################

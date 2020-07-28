@@ -1,0 +1,30 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var $block \Amasty\RequestQuote\Block\Account\Quote\Info */ ?>
+
+<div class="actions">
+    <?php $quote = $block->getQuote() ?>
+    <?php if ($block->isDeleteShow($quote)) : ?>
+    <a href="#" data-post='<?= /* @escapeNotVerified */
+    $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+        ->getPostData($block->getDeleteUrl($quote))
+    ?>' class="action order">
+        <span><?= /* @escapeNotVerified */
+            __('Delete') ?></span>
+    </a>
+    <?php endif; ?>
+    <?php if ($block->isCancelShowed($quote)) : ?>
+        <a href="#" data-post='<?= /* @escapeNotVerified */
+        $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+            ->getPostData($block->getCancelUrl($quote))
+        ?>' class="action order">
+        <span><?= /* @escapeNotVerified */
+            __('Cancel') ?></span>
+        </a>
+    <?php endif; ?>
+</div>

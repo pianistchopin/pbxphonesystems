@@ -1,0 +1,17 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Cart\Quote\Move $block */
+?>
+<a href="#"
+   data-post='<?= /* @escapeNotVerified */
+   $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+       ->getPostData($block->getMoveUrl())
+   ?>'
+   class="amquote-addto-button amasty-quote-link"><?= /* @escapeNotVerified */ __('Request a Quote') ?>
+</a>

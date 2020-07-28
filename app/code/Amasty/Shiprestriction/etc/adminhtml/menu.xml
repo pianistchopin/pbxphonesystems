@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<!--
+/**
+ * Copyright © 2015 Amasty. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_Shiprestriction::rule"  title="Shipping Restrictions" module="Amasty_Shiprestriction" sortOrder="100" parent="Magento_Sales::sales_operation" action="amasty_shiprestriction/rule/" resource="Amasty_Shiprestriction::rule"/>
+    </menu>
+</config>

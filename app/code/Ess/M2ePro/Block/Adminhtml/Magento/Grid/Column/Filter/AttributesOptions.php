@@ -68,6 +68,10 @@ class AttributesOptions extends \Magento\Backend\Block\Widget\Grid\Column\Filter
 
     protected function getRemoveOptionButtonHtml()
     {
+//        $src = Mage::getDesign()->getSkinUrl('images/rule_component_add.gif');
+//        $html = ' <img src="' . $src . '" class="filter-param-add v-middle" alt="" style="display: none;"
+//                                         title="' . $this->__('Add') . '"/>';
+
         $src = $this->getViewFileUrl('Ess_M2ePro::images/rule_component_remove.gif');
         $html = '<img src="' . $src . '" class="filter-param-remove v-middle" alt="" style="display: none;"
                                          title="' . __('Remove') . '"/>';

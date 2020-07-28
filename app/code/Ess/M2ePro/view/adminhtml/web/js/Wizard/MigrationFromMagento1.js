@@ -39,16 +39,11 @@ define(function () {
         synchronizeMarketplace: function(component, marketplaceId)
         {
             var title = component + ' ' + $('marketplace_' + marketplaceId).innerHTML;
-            component = component.toLowerCase();
-            var url = M2ePro.url.get('wizard_migrationFromMagento1/runSynchNow')
-                      + 'component/' + component
-                      + '/marketplace_id/' + marketplaceId;
 
             MarketplaceSynchProgressObj.runTask(
                 title,
-                url,
-                component,
-                'MigrationFromMagento1Obj.synchronizationStep()'
+                M2ePro.url.get('wizard_migrationFromMagento1/runSynchNow') + 'marketplace_id/' + marketplaceId,
+                '', 'MigrationFromMagento1Obj.synchronizationStep()'
             );
         }
     });

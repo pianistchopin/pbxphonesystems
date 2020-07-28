@@ -8,8 +8,6 @@
 
 namespace Ess\M2ePro\Observer\StockItem\Save;
 
-use \Ess\M2ePro\Model\Magento\Product\ChangeProcessor\AbstractModel as ChangeProcessorAbstract;
-
 /**
  * Class \Ess\M2ePro\Observer\StockItem\Save\After
  */
@@ -49,7 +47,10 @@ class After extends \Ess\M2ePro\Observer\StockItem\AbstractStockItem
             return;
         }
 
-        $this->addListingProductInstructions();
+        $this->activeRecordFactory->getObject('ProductChange')->addUpdateAction(
+            $this->getProductId(),
+            \Ess\M2ePro\Model\ProductChange::INITIATOR_OBSERVER
+        );
 
         $this->processQty();
         $this->processStockAvailability();
@@ -57,12 +58,12 @@ class After extends \Ess\M2ePro\Observer\StockItem\AbstractStockItem
 
     // ---------------------------------------
 
-    protected function processQty()
+    private function processQty()
     {
         $oldValue = (int)$this->getStoredStockItem()->getOrigData('qty');
         $newValue = (int)$this->getStockItem()->getQty();
 
-        if ($oldValue == $newValue) {
+        if (!$this->updateProductChangeRecord('qty', $oldValue, $newValue) || $oldValue == $newValue) {
             return;
         }
 
@@ -79,15 +80,20 @@ class After extends \Ess\M2ePro\Observer\StockItem\AbstractStockItem
         }
     }
 
-    protected function processStockAvailability()
+    private function processStockAvailability()
     {
         $oldValue = (bool)$this->getStoredStockItem()->getOrigData('is_in_stock');
         $newValue = (bool)$this->getStockItem()->getIsInStock();
 
+        // M2ePro\TRANSLATIONS
+        // IN Stock
+        // OUT of Stock
+
         $oldValue = $oldValue ? 'IN Stock' : 'OUT of Stock';
         $newValue = $newValue ? 'IN Stock' : 'OUT of Stock';
 
-        if ($oldValue == $newValue) {
+        if (!$this->updateProductChangeRecord('stock_availability', $oldValue, $newValue) ||
+            $oldValue == $newValue) {
             return;
         }
 
@@ -106,48 +112,32 @@ class After extends \Ess\M2ePro\Observer\StockItem\AbstractStockItem
 
     //########################################
 
-    protected function getProductId()
+    private function getProductId()
     {
         return $this->productId;
     }
 
-    protected function addListingProductInstructions()
+    private function updateProductChangeRecord($attributeCode, $oldValue, $newValue)
     {
-        $synchronizationInstructionsData = [];
-
-        foreach ($this->getAffectedListingsProducts() as $listingProduct) {
-            /** @var \Ess\M2ePro\Model\Magento\Product\ChangeProcessor\AbstractModel $changeProcessor */
-            $changeProcessor = $this->modelFactory->getObject(
-                ucfirst($listingProduct->getComponentMode()) . '_Magento_Product_ChangeProcessor'
-            );
-            $changeProcessor->setListingProduct($listingProduct);
-            $changeProcessor->setDefaultInstructionTypes(
-                [
-                    ChangeProcessorAbstract::INSTRUCTION_TYPE_PRODUCT_STATUS_DATA_POTENTIALLY_CHANGED,
-                    ChangeProcessorAbstract::INSTRUCTION_TYPE_PRODUCT_QTY_DATA_POTENTIALLY_CHANGED,
-                ]
-            );
-            $changeProcessor->process();
-        }
-
-        $this->activeRecordFactory->getObject('Listing_Product_Instruction')->getResource()->add(
-            $synchronizationInstructionsData
+        return $this->activeRecordFactory->getObject('ProductChange')->updateAttribute(
+            $this->getProductId(),
+            $attributeCode,
+            $oldValue,
+            $newValue,
+            \Ess\M2ePro\Model\ProductChange::INITIATOR_OBSERVER
         );
     }
 
     //########################################
 
-    protected function areThereAffectedItems()
+    private function areThereAffectedItems()
     {
         return !empty($this->getAffectedListingsProducts());
     }
 
     // ---------------------------------------
 
-    /**
-     * @return \Ess\M2ePro\Model\Listing\Product[]
-     */
-    protected function getAffectedListingsProducts()
+    private function getAffectedListingsProducts()
     {
         if (!empty($this->affectedListingsProducts)) {
             return $this->affectedListingsProducts;
@@ -161,12 +151,15 @@ class After extends \Ess\M2ePro\Observer\StockItem\AbstractStockItem
 
     //########################################
 
-    protected function logListingProductMessage(
+    private function logListingProductMessage(
         \Ess\M2ePro\Model\Listing\Product $listingProduct,
         $action,
         $oldValue,
         $newValue
     ) {
+        // M2ePro\TRANSLATIONS
+        // From [%from%] to [%to%].
+
         $log = $this->activeRecordFactory->getObject('Listing\Log');
         $log->setComponentMode($listingProduct->getComponentMode());
 

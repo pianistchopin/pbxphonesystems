@@ -84,7 +84,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['fixed_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['fixed_price_custom_attribute'], $attributes) && $formData['fixed_price_custom_attribute'] != '') : ?>
                         <option
@@ -95,7 +95,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['fixed_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['fixed_price_custom_attribute']) :
 ?>selected="selected"<?php
@@ -238,7 +239,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['start_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['start_price_custom_attribute'], $attributes) && $formData['start_price_custom_attribute'] != '') : ?>
                         <option
@@ -249,7 +250,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['start_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['start_price_custom_attribute']) :
 ?>selected="selected"<?php
@@ -369,7 +371,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['reserve_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['reserve_price_custom_attribute'], $attributes) && $formData['reserve_price_custom_attribute'] != '') : ?>
                         <option
@@ -380,7 +382,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['reserve_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['reserve_price_custom_attribute']) :
 ?>selected="selected"<?php
@@ -500,7 +503,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['buyitnow_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['buyitnow_price_custom_attribute'], $attributes) && $formData['buyitnow_price_custom_attribute'] != '') : ?>
                         <option
@@ -511,7 +514,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['buyitnow_price_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['buyitnow_price_custom_attribute']) :
 ?>selected="selected"<?php
@@ -601,7 +605,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
 
     </tr>
 
-    <tr id="price_discount_stp_tr">
+    <tr id="price_discount_stp_tr" class="simple_mode_disallowed">
 
         <td class="value remove_bottom_border">
             <label><?php echo $block->__('Strike-Through Price'); ?>:</label>
@@ -632,7 +636,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['price_discount_stp_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['price_discount_stp_attribute'], $attributes) && $formData['price_discount_stp_attribute'] != '') : ?>
                         <option
@@ -643,7 +647,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['price_discount_stp_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['price_discount_stp_attribute']) :
 ?>selected="selected"<?php
@@ -670,7 +675,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
 
     </tr>
 
-    <tr id="price_discount_stp_reason_tr">
+    <tr id="price_discount_stp_reason_tr" class="simple_mode_disallowed">
 
         <td class="value" style="padding-left: 25px !important;">
             <label><?php echo $block->__('Reason (UK, DE only)'); ?>: </label>
@@ -715,7 +720,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
 
     </tr>
     <tr></tr>
-    <tr id="price_discount_map_tr">
+    <tr id="price_discount_map_tr" class="simple_mode_disallowed">
 
         <td class="value remove_bottom_border bottom_border_disabled">
             <label><?php echo $block->__('Minimum Advertised Price'); ?>: </label>
@@ -746,7 +751,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         echo ' selected="selected"';
                            endif; ?>><?php echo $block->__('Special Price'); ?></option>
 
-                <optgroup class="M2ePro-custom-attribute-optgroup"
+                <optgroup class="simple_mode_disallowed M2ePro-custom-attribute-optgroup"
                           label="Magento Attribute">
                     <?php if ($formData['price_discount_map_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && !$magentoAttributeHelper->isExistInAttributesArray($formData['price_discount_map_attribute'], $attributes) && $formData['price_discount_map_attribute'] != '') : ?>
                         <option
@@ -757,7 +762,8 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
                         </option>
                     <?php endif; ?>
                     <?php foreach ($attributesByInputTypes['text_price'] as $attribute) : ?>
-                        <option attribute_code="<?php echo $attribute['code']; ?>"
+                        <option class="simple_mode_disallowed"
+                                attribute_code="<?php echo $attribute['code']; ?>"
                                 value="<?php echo \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE; ?>"
                                 <?php if ($formData['price_discount_map_mode'] == \Ess\M2ePro\Model\Template\SellingFormat::PRICE_MODE_ATTRIBUTE && $attribute['code'] == $formData['price_discount_map_attribute']) :
 ?>selected="selected"<?php
@@ -782,7 +788,7 @@ $attributesByInputTypes = $block->getData('attributes_by_input_types');
 
     </tr>
 
-    <tr id="price_discount_map_exposure_tr">
+    <tr id="price_discount_map_exposure_tr" class="simple_mode_disallowed">
 
         <td class="value" style="padding-left: 25px !important;">
             <label><?php echo $block->__('Exposure'); ?>: </label>

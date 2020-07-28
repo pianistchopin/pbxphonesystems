@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_ShippingBar
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Amasty_ShippingBar::css/bar-main.css"/>
+    </head>
+    <body>
+        <referenceContainer name="header.container">
+            <block name="amasty.shipbar.top" class="Amasty\ShippingBar\Block\Frontend\Bar" after="header-wrapper" template="Amasty_ShippingBar::bar.phtml">
+                <arguments>
+                    <argument name="position" xsi:type="string">top</argument>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="amasty-shipbar-top" xsi:type="array">
+                                <item name="component" xsi:type="string">Amasty_ShippingBar/js/bar</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="footer-container">
+            <block name="amasty.shipbar.bottom" class="Amasty\ShippingBar\Block\Frontend\Bar" template="Amasty_ShippingBar::bar.phtml" before="-">
+                <arguments>
+                    <argument name="position" xsi:type="string">bottom</argument>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="amasty-shipbar-bottom" xsi:type="array">
+                                <item name="component" xsi:type="string">Amasty_ShippingBar/js/bar</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

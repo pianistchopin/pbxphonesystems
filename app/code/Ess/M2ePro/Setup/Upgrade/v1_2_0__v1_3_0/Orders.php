@@ -14,6 +14,11 @@ class Orders extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['synchronization_config', 'amazon_account', 'ebay_account'];
+    }
+
     public function execute()
     {
         $amazonAccountTableName = $this->getFullTableName('amazon_account');

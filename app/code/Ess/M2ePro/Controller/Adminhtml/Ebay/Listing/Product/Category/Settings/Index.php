@@ -258,8 +258,7 @@ class Index extends Settings
 
         if (empty($categoriesIds) && !$this->getRequest()->isXmlHttpRequest()) {
             $this->getMessageManager()->addError($this->__(
-                'Magento Category is not provided for the products you are currently adding.
-                Please go back and select a different option to assign Channel category to your products. '
+                'Magento Categories are not specified on Products you are adding.'
             ));
         }
 

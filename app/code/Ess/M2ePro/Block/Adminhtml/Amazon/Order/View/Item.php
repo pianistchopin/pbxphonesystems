@@ -15,7 +15,7 @@ use Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid;
  */
 class Item extends AbstractGrid
 {
-    /** @var \Ess\M2ePro\Model\Order $order */
+    /** @var $order \Ess\M2ePro\Model\Order */
     protected $order = null;
 
     protected $productModel;
@@ -24,9 +24,6 @@ class Item extends AbstractGrid
 
     //########################################
 
-    /**
-     * {@inheritDoc}
-     */
     public function __construct(
         \Magento\Catalog\Model\Product $productModel,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
@@ -42,9 +39,6 @@ class Item extends AbstractGrid
         parent::__construct($context, $backendHelper, $data);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function _construct()
     {
         parent::_construct();
@@ -64,27 +58,20 @@ class Item extends AbstractGrid
         $this->_defaultLimit = 200;
         // ---------------------------------------
 
-        $this->order = $this->getHelper('Data_GlobalData')->getValue('order');
+        $this->order = $this->getHelper('Data\GlobalData')->getValue('order');
     }
 
     //########################################
 
-    /**
-     * {@inheritDoc}
-     */
     protected function _prepareCollection()
     {
-        $collection = $this->amazonFactory->getObject('Order_Item')->getCollection()
+        $collection = $this->amazonFactory->getObject('Order\Item')->getCollection()
             ->addFieldToFilter('order_id', $this->order->getId());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
-    /**
-     * {@inheritDoc}
-     * @throws \Exception
-     */
     protected function _prepareColumns()
     {
         $this->addColumn('products', [
@@ -136,7 +123,7 @@ class Item extends AbstractGrid
             'frame_callback' => [$this, 'callbackColumnDiscountAmount']
         ]);
 
-        if ($this->activeRecordFactory->getObject('Amazon_Order')->getResource()->hasGifts($this->order->getId())) {
+        if ($this->activeRecordFactory->getObject('Amazon\Order')->getResource()->hasGifts($this->order->getId())) {
             $this->addColumn('gift_price', [
                 'header'    => $this->__('Gift Wrap Price'),
                 'align'     => 'left',
@@ -155,15 +142,6 @@ class Item extends AbstractGrid
             ]);
         }
 
-        $this->addColumn('tax_percent', [
-            'header'         => $this->__('Tax Percent'),
-            'align'          => 'left',
-            'width'          => '80px',
-            'filter'         => false,
-            'sortable'       => false,
-            'frame_callback' => [$this, 'callbackColumnTaxPercent']
-        ]);
-
         $this->addColumn('row_total', [
             'header'    => $this->__('Row Total'),
             'align'     => 'left',
@@ -177,54 +155,45 @@ class Item extends AbstractGrid
     //########################################
 
     /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
+     * @param $value
+     * @param $row \Ess\M2ePro\Model\Order\Item
+     * @param $column
+     * @param $isExport
      *
      * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     public function callbackColumnProduct($value, $row, $column, $isExport)
     {
-        /** @var \Ess\M2ePro\Helper\Data $dataHelper */
-        $dataHelper = $this->getHelper('Data');
-
-        /** @var \Ess\M2ePro\Helper\Module\Translation $translationHelper */
-        $translationHelper = $this->getHelper('Module_Translation');
-
         $skuHtml = '';
         if ($row->getChildObject()->getSku()) {
+            $skuLabel = $this->__('SKU');
+            $sku = $this->getHelper('Data')->escapeHtml($row->getChildObject()->getSku());
+
             $skuHtml = <<<HTML
-<b>{$translationHelper->__('SKU')}:</b> {$dataHelper->escapeHtml($row->getChildObject()->getSku())}&nbsp;
+<b>{$skuLabel}:</b> {$sku}<br/>
 HTML;
         }
 
-        $generalIdLabel = $translationHelper->__($row->getChildObject()->getIsIsbnGeneralId() ? 'ISBN' : 'ASIN');
+        $generalIdLabel = $this->__($row->getChildObject()->getIsIsbnGeneralId() ? 'ISBN' : 'ASIN');
+        $generalId = $this->getHelper('Data')->escapeHtml($row->getChildObject()->getGeneralId());
+
         $generalIdHtml = <<<HTML
-<b>{$generalIdLabel}:</b> {$dataHelper->escapeHtml($row->getChildObject()->getGeneralId())}<br/>
+<b>{$generalIdLabel}:</b> {$generalId}<br/>
 HTML;
-
-        $afnWarehouseHtml = '';
-        if ($row->getOrder()->getChildObject()->isFulfilledByAmazon()) {
-            $fulfillmentCenterId = $row->getChildObject()->getFulfillmentCenterId();
-            $fulfillmentCenterId = empty($fulfillmentCenterId) ? 'Pending' : $fulfillmentCenterId;
-            $afnWarehouseHtml = <<<HTML
-<b>{$translationHelper->__('AFN Warehouse')}:</b> {$dataHelper->escapeHtml($fulfillmentCenterId)}<br/>
-HTML;
-        }
 
         if ($row->getChildObject()->getIsIsbnGeneralId() &&
-            !$dataHelper->isISBN($row->getChildObject()->getGeneralId())) {
+            !$this->getHelper('Data')->isISBN($row->getChildObject()->getGeneralId())
+        ) {
             $amazonLink = '';
         } else {
+            $itemLinkText = $this->__('View on Amazon');
             $itemUrl = $this->getHelper('Component\Amazon')->getItemUrl(
-                $row->getChildObject()->getGeneralId(),
+                $row->getChildObject()->getData('general_id'),
                 $this->order->getData('marketplace_id')
             );
 
             $amazonLink = <<<HTML
-<a href="{$itemUrl}" target="_blank">{$translationHelper->__('View on Amazon')}</a>&nbsp;|&nbsp;
+<a href="{$itemUrl}" class="external-link" target="_blank">{$itemLinkText}</a>
 HTML;
         }
 
@@ -234,9 +203,7 @@ HTML;
                 'id'    => $productId,
                 'store' => $row->getOrder()->getStoreId()
             ]);
-            $productLink = <<<HTML
-<a href="{$productUrl}" target="_blank">{$translationHelper->__('View')}</a>
-HTML;
+            $productLink = ' | <a href="'.$productUrl.'" target="_blank">'.$this->__('View').'</a>';
         }
 
         $orderItemId = (int)$row->getId();
@@ -245,73 +212,57 @@ HTML;
         $editLink = '';
         if (!$row->getProductId() || $row->getMagentoProduct()->isProductWithVariations()) {
             if (!$row->getProductId()) {
-                $action = $translationHelper->__('Map to Magento Product');
+                $action = $this->__('Map to Magento Product');
             } else {
-                $action = $translationHelper->__('Set Options');
+                $action = $this->__('Set Options');
             }
 
             $class = 'class="gray"';
 
             $js = "{OrderEditItemObj.edit('{$gridId}', {$orderItemId});}";
-            $editLink = '<a href="javascript:void(0);" onclick="' . $js . '" ' . $class . '>' . $action . '</a>';
+            $editLink = '<a href="javascript:void(0);" onclick="'.$js.'" '.$class.'>'.$action.'</a>';
         }
 
         $discardLink = '';
         if ($row->getProductId()) {
-            $action = $translationHelper->__('Unmap');
+            $action = $this->__('Unmap');
 
             $js = "{OrderEditItemObj.unassignProduct('{$gridId}', {$orderItemId});}";
-            $discardLink = '<a href="javascript:void(0);" onclick="' . $js . '" class="gray">' . $action . '</a>';
+            $discardLink = '<a href="javascript:void(0);" onclick="'.$js.'" class="gray">'.$action.'</a>';
 
             if ($editLink) {
                 $discardLink = '&nbsp;|&nbsp;' . $discardLink;
             }
         }
 
+        $itemTitle = $this->getHelper('Data')->escapeHtml($row->getChildObject()->getTitle());
+
         return <<<HTML
-<b>{$dataHelper->escapeHtml($row->getChildObject()->getTitle())}</b><br/>
+<b>{$itemTitle}</b><br/>
 <div style="padding-left: 10px;">
     {$skuHtml}
     {$generalIdHtml}
-    {$afnWarehouseHtml}
 </div>
 <div style="float: left;">{$amazonLink}{$productLink}</div>
 <div style="float: right;">{$editLink}{$discardLink}</div>
 HTML;
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     * @throws \Ess\M2ePro\Model\Exception
-     */
     public function callbackColumnIsInStock($value, $row, $column, $isExport)
     {
+        /**@var \Ess\M2ePro\Model\Order\Item $row */
+
         if ($row->getMagentoProduct() === null) {
             return $this->__('N/A');
         }
 
         if (!$row->getMagentoProduct()->isStockAvailability()) {
-            return '<span style="color: red;">' . $this->__('Out Of Stock') . '</span>';
+            return '<span style="color: red;">'.$this->__('Out Of Stock').'</span>';
         }
 
         return $this->__('In Stock');
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnOriginalPrice($value, $row, $column, $isExport)
     {
         $productId = $row->getData('product_id');
@@ -324,29 +275,11 @@ HTML;
         return $formattedPrice;
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnQty($value, $row, $column, $isExport)
     {
         return $row->getChildObject()->getData('qty_purchased');
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnPrice($value, $row, $column, $isExport)
     {
         $currency = $row->getChildObject()->getData('currency');
@@ -360,15 +293,6 @@ HTML;
         );
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnGiftPrice($value, $row, $column, $isExport)
     {
         $currency = $row->getChildObject()->getData('currency');
@@ -382,15 +306,6 @@ HTML;
         );
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnDiscountAmount($value, $row, $column, $isExport)
     {
         $currency = $row->getChildObject()->getData('currency');
@@ -414,15 +329,6 @@ HTML;
         );
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnGiftOptions($value, $row, $column, $isExport)
     {
         if ($row->getChildObject()->getData('gift_type') == '' &&
@@ -447,36 +353,10 @@ HTML;
         return $resultHtml;
     }
 
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
-    public function callbackColumnTaxPercent($value, $row, $column, $isExport)
-    {
-        $rate = $this->order->getChildObject()->getProductPriceTaxRate();
-        if (empty($rate)) {
-            return '0%';
-        }
-
-        return sprintf('%s%%', $rate);
-    }
-
-    /**
-     * @param string                                             $value
-     * @param \Ess\M2ePro\Model\Order\Item                       $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
-     * @param bool                                               $isExport
-     *
-     * @return string
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function callbackColumnRowTotal($value, $row, $column, $isExport)
     {
+        /** @var \Ess\M2ePro\Model\Order\Item $row */
+        /** @var \Ess\M2ePro\Model\Amazon\Order\Item $aOrderItem */
         $aOrderItem = $row->getChildObject();
 
         $currency = $row->getData('currency');
@@ -493,17 +373,11 @@ HTML;
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRowUrl($row)
     {
         return '';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/orderItemGrid', ['_current' => true]);

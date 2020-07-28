@@ -16,24 +16,21 @@ abstract class Responser extends \Ess\M2ePro\Model\Connector\Command\Pending\Res
     private $cachedParamsObjects = [];
 
     protected $ebayFactory;
-    protected $activeRecordFactory;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Ebay\Factory $ebayFactory,
-        \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
         \Ess\M2ePro\Model\Connector\Connection\Response $response,
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Ess\M2ePro\Model\Factory $modelFactory,
         array $params = []
     ) {
         $this->ebayFactory = $ebayFactory;
-        $this->activeRecordFactory = $activeRecordFactory;
         parent::__construct($response, $helperFactory, $modelFactory, $params);
     }
 
-    //########################################
+    // ########################################
 
     protected function getObjectByParam($model, $idKey)
     {
@@ -50,5 +47,5 @@ abstract class Responser extends \Ess\M2ePro\Model\Connector\Command\Pending\Res
         return $this->cachedParamsObjects[$idKey];
     }
 
-    //########################################
+    // ########################################
 }

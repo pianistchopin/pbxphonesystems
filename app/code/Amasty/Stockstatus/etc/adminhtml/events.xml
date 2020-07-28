@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="view_block_abstract_to_html_before">
+        <observer name="amstockstatus" instance="Amasty\Stockstatus\Observer\AdminhtmlProductAttributeTabs" />
+    </event>
+    <event name="controller_action_postdispatch_catalog_product_attribute_save">
+        <observer name="amstockstatus-save" instance="Amasty\Stockstatus\Observer\ControllerActionPostdispatchCatalogProductAttributeSave" />
+    </event>
+</config>

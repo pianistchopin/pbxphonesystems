@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+
+    <entity name="shippingAreaWithTwoExcludeRestriction" type="shippingArea">
+        <data key="name">Shiprestriction Shipping Area Two Exclude</data>
+        <data key="country">United States</data>
+        <data key="states">'Alabama', 'American Samoa'</data>
+        <data key="city">London</data>
+        <data key="zipFrom">25000</data>
+        <data key="zipTo">25050</data>
+    </entity>
+
+    <entity name="shippingAreaWithExcludeCountryRestriction" type="shippingArea">
+        <data key="name">Shiprestriction Shipping Exclude Country</data>
+        <data key="country">United States</data>
+    </entity>
+
+    <entity name="shippingAreaInclCountryExclRegionRestriction" type="shippingArea">
+        <data key="name">Shiprestriction Shipping Area Include Country And Exclude Region</data>
+        <data key="country">United States</data>
+        <data key="states">'Alabama', 'Arizona'</data>
+    </entity>
+
+</entities>

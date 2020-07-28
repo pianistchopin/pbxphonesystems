@@ -10,6 +10,7 @@ define([
 
         storeId: null,
         marketplaceId: null,
+        checkAttributesAvailability: false,
         listingProductIds: '',
 
         // ---------------------------------------
@@ -148,19 +149,29 @@ define([
 
         checkMessages: function(templateNick)
         {
-            if (templateNick != M2ePro.php.constant('Ess_M2ePro_Model_Ebay_Template_Manager::TEMPLATE_SELLING_FORMAT') &&
+            if (!this.checkAttributesAvailability &&
+                templateNick != M2ePro.php.constant('Ess_M2ePro_Model_Ebay_Template_Manager::TEMPLATE_SELLING_FORMAT') &&
                 templateNick != M2ePro.php.constant('Ess_M2ePro_Model_Ebay_Template_Manager::TEMPLATE_SHIPPING')
             ) {
                 return;
             }
 
-            var id = this.getSwitcherValueId(templateNick),
+            var // template ID
+                id = this.getSwitcherValueId(templateNick),
+            // template nick
                 nick = templateNick,
+            // template data (for custom settings only) and listing product ids (only when we edit product settings)
                 data = Form.serialize(this.getTemplateDataContainer(templateNick).id)
                     + '&listing_product_ids=' + this.listingProductIds,
+            // store ID of the listing
                 storeId = this.storeId,
+            // marketplace ID of the listing
                 marketplaceId = this.marketplaceId,
+            // do we need to check attributes availability (only when we edit product settings)
+                checkAttributesAvailability = this.checkAttributesAvailability,
+            // container, where messages should be displayed
                 container = 'template_switcher_' + templateNick + '_messages',
+            // callback function, which should be called, when messages are displayed
                 callback = function() {
                     var refresh = $(container).down('a.refresh-messages');
                     if (refresh) {
@@ -176,6 +187,7 @@ define([
                 data,
                 storeId,
                 marketplaceId,
+                checkAttributesAvailability,
                 container,
                 callback
             );

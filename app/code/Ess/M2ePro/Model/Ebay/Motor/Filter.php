@@ -68,7 +68,6 @@ class Filter extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
             \Ess\M2ePro\Helper\Component\Ebay\Motors::TYPE_EPID_MOTOR,
             \Ess\M2ePro\Helper\Component\Ebay\Motors::TYPE_EPID_UK,
             \Ess\M2ePro\Helper\Component\Ebay\Motors::TYPE_EPID_DE,
-            \Ess\M2ePro\Helper\Component\Ebay\Motors::TYPE_EPID_AU,
         ]);
     }
 

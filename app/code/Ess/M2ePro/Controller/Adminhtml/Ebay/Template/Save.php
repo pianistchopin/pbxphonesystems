@@ -114,74 +114,17 @@ class Save extends Template
             $templateModel->load($data['id']);
             $templateManager->isHorizontalTemplate() && $templateModel = $templateModel->getChildObject();
 
-            /** @var \Ess\M2ePro\Model\Template\SnapshotBuilder\AbstractModel $snapshotBuilder */
-            if ($templateManager->isHorizontalTemplate()) {
-                $snapshotBuilder = $this->modelFactory->getObject(
-                    'Ebay_'.$templateManager->getTemplateModelName().'_SnapshotBuilder'
-                );
-            } else {
-                $snapshotBuilder = $this->modelFactory->getObject(
-                    $templateManager->getTemplateModelName().'_SnapshotBuilder'
-                );
-            }
-
-            $snapshotBuilder->setModel($templateModel);
-
-            $oldData = $snapshotBuilder->getSnapshot();
+            $oldData = $templateModel->getDataSnapshot();
         }
 
         $template = $templateManager->getTemplateBuilder()->build($data);
+        $newData = $template->getDataSnapshot();
 
-        /** @var \Ess\M2ePro\Model\Template\SnapshotBuilder\AbstractModel $snapshotBuilder */
         if ($templateManager->isHorizontalTemplate()) {
-            $snapshotBuilder = $this->modelFactory->getObject(
-                'Ebay_'.$templateManager->getTemplateModelName().'_SnapshotBuilder'
-            );
+            $template->getChildObject()->setSynchStatusNeed($newData, $oldData);
         } else {
-            $snapshotBuilder = $this->modelFactory->getObject(
-                $templateManager->getTemplateModelName().'_SnapshotBuilder'
-            );
+            $template->setSynchStatusNeed($newData, $oldData);
         }
-
-        $snapshotBuilder->setModel($template);
-
-        $newData = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Template\Diff\AbstractModel $diff */
-        if ($templateManager->isHorizontalTemplate()) {
-            $diff = $this->modelFactory->getObject('Ebay_'.$templateManager->getTemplateModelName().'_Diff');
-        } else {
-            $diff = $this->modelFactory->getObject($templateManager->getTemplateModelName().'_Diff');
-        }
-
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        /** @var \Ess\M2ePro\Model\Template\AffectedListingsProducts\AbstractModel $affectedListingsProducts */
-        if ($templateManager->isHorizontalTemplate()) {
-            $affectedListingsProducts = $this->modelFactory->getObject(
-                'Ebay_'.$templateManager->getTemplateModelName().'_AffectedListingsProducts'
-            );
-        } else {
-            $affectedListingsProducts = $this->modelFactory->getObject(
-                $templateManager->getTemplateModelName().'_AffectedListingsProducts'
-            );
-        }
-
-        $affectedListingsProducts->setModel($template);
-
-        /** @var \Ess\M2ePro\Model\Template\ChangeProcessor\AbstractModel $changeProcessor */
-        if ($templateManager->isHorizontalTemplate()) {
-            $changeProcessor = $this->modelFactory->getObject(
-                'Ebay_'.$templateManager->getTemplateModelName().'_ChangeProcessor'
-            );
-        } else {
-            $changeProcessor = $this->modelFactory->getObject(
-                $templateManager->getTemplateModelName().'_ChangeProcessor'
-            );
-        }
-
-        $changeProcessor->process($diff, $affectedListingsProducts->getObjectsData(['id', 'status']));
 
         return $template;
     }

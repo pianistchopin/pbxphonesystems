@@ -1,0 +1,22 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $source  = $block->getSource() ?>
+<?php $block->setPriceDataObject($source) ?>
+
+<tr>
+    <td class="label">
+        <strong><big>
+        <?php if ($block->getGrandTotalTitle()): ?>
+            <?= /* @escapeNotVerified */ $block->getGrandTotalTitle() ?>
+        <?php else: ?>
+            <?= /* @escapeNotVerified */ __('Grand Total') ?>
+        <?php endif; ?>
+        </big></strong>
+    </td>
+    <td class="emph"><big><?= /* @escapeNotVerified */ $block->displayPriceAttribute('grand_total', true) ?></big></td>
+</tr>

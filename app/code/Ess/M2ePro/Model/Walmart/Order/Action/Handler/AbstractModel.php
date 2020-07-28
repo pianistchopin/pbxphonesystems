@@ -72,7 +72,6 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         } catch (\Exception $exception) {
             $this->getHelper('Module\Exception')->process($exception);
 
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
             $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
             $message->initFromException($exception);
 

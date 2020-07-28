@@ -18,6 +18,9 @@ abstract class AbstractView extends AbstractContainer
     /** @var  \Ess\M2ePro\Block\Adminhtml\Log\Listing\View\Switcher */
     protected $viewModeSwitcherBlock;
 
+    /** @var  \Ess\M2ePro\Block\Adminhtml\Log\Listing\TypeSwitcher  */
+    protected $listingTypeSwitcherBlock;
+
     /** @var  \Ess\M2ePro\Block\Adminhtml\Account\Switcher  */
     protected $accountSwitcherBlock;
 
@@ -35,13 +38,14 @@ abstract class AbstractView extends AbstractContainer
     protected function _prepareLayout()
     {
         $this->viewModeSwitcherBlock    = $this->createViewModeSwitcherBlock();
+        $this->listingTypeSwitcherBlock = $this->createListingTypeSwitcherBlock();
         $this->accountSwitcherBlock     = $this->createAccountSwitcherBlock();
         $this->marketplaceSwitcherBlock = $this->createMarketplaceSwitcherBlock();
 
         $gridClass = $this->nameBuilder->buildClassName([
             $this->getComponentMode(),
             'Log_Listing',
-            \Ess\M2ePro\Block\Adminhtml\Listing\Search\TypeSwitcher::LISTING_TYPE_M2E_PRO,
+            $this->listingTypeSwitcherBlock->getSelectedParam(),
             'View',
             $this->viewModeSwitcherBlock->getSelectedParam(),
             'Grid'
@@ -68,6 +72,13 @@ JS
     protected function createViewModeSwitcherBlock()
     {
         return $this->createBlock('Log_Listing_View_Switcher')->setData([
+            'component_mode' => $this->getComponentMode()
+        ]);
+    }
+
+    protected function createListingTypeSwitcherBlock()
+    {
+        return $this->createBlock('Log_Listing_TypeSwitcher')->setData([
             'component_mode' => $this->getComponentMode()
         ]);
     }

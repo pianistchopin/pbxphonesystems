@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+
+    <entity name="includeTaxInSubtotalShiprestriction" type="adminSetting">
+        <data key="yes">1</data>
+        <data key="no">0</data>
+        <data key="default">0</data>
+    </entity>
+
+    <entity name="useSubtotalAfterDiscountShiprestriction" type="adminSetting">
+        <data key="yes">1</data>
+        <data key="no">0</data>
+        <data key="default">0</data>
+    </entity>
+
+    <entity name="alwaysShowErrorMessageShiprestriction" type="adminSetting">
+        <data key="yes">1</data>
+        <data key="no">0</data>
+        <data key="default">0</data>
+    </entity>
+
+
+    <entity name="shiprestrictionConfigSettingTaxYes">
+        <data key="path">amshiprestriction/general/tax</data>
+        <data key="value">1</data>
+    </entity>
+
+</entities>

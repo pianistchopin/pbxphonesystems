@@ -37,18 +37,13 @@ class General extends AbstractForm
         $temp = $this->getHelper('Data\Session')->getValue('get_token_account_token_session', true);
         $temp !== null && $formData['token_session'] = $temp;
 
-        $temp = $this->getHelper('Data\Session')->getValue('get_sell_api_token_account_token_session', true);
-        $temp !== null && $formData['sell_api_token_session'] = $temp;
-
         $defaults = [
             'title' => '',
             'user_id' => '',
             'mode' => Account::MODE_PRODUCTION,
             'token_session' => '',
             'token_expired_date' => '',
-            'sell_api_token_session' => '',
-            'sell_api_token_expired_date' => '',
-            'other_listings_synchronization' => 1
+            'other_listings_synchronization' => Account::OTHER_LISTINGS_SYNCHRONIZATION_YES
         ];
         $formData = array_merge($defaults, $formData);
 
@@ -166,8 +161,8 @@ HTML
                     'Choose \'Production (Live)\' to use an eBay Account to list for real on Marketplaces.
                     <br/>Choose \'Sandbox (Test)\' to use an eBay Sandbox Account for testing purposes.'
                 )
-                    : $this->__('<b>Production (Live):</b> an eBay Account Listing for real on Marketplaces.
-                                <br/><b>Sandbox (Test):</b> an eBay Sandbox Account for testing purposes.')
+                        : $this->__('<b>Production (Live):</b> an eBay Account Listing for real on Marketplaces.
+                                    <br/><b>Sandbox (Test):</b> an eBay Sandbox Account for testing purposes.')
             ]
         );
 
@@ -178,16 +173,6 @@ HTML
                 [
                     'name' => 'mode',
                     'value' => $formData['mode']
-                ]
-            );
-        }
-
-        if ($this->isSellApiMode()) {
-            $fieldset = $form->addFieldset(
-                'trading_api_details',
-                [
-                    'legend' => $this->__('Trading API Details'),
-                    'collapsable' => false
                 ]
             );
         }
@@ -212,9 +197,9 @@ HTML
             'label',
             [
                 'label' => $this->__('Activated'),
-                'value' => $formData['token_session'] != '' ? $this->__('Yes') : $this->__('No'),
-                'css_class' => !$formData['token_session'] || !$formData['token_expired_date'] ?
-                    'no-margin-bottom' : ''
+                'value' =>  $formData['token_session'] != '' ? $this->__('Yes') : $this->__('No'),
+                'css_class' =>  !$formData['token_session'] ||
+                                !$formData['token_expired_date'] ? 'no-margin-bottom' : ''
             ]
         );
 
@@ -249,76 +234,6 @@ HTML
                 'style' => 'visibility: hidden'
             ]
         );
-
-        if ($this->isSellApiMode()) {
-
-            $fieldset = $form->addFieldset(
-                'Sell API Details',
-                [
-                    'legend' => $this->__('Sell API Details'),
-                    'collapsable' => false
-                ]
-            );
-
-            $fieldset->addField(
-                'grant_access_sell_api',
-                'button',
-                [
-                    'label' => $this->__('Grant Access'),
-                    'value' => $this->__('Get Token'),
-                    'class' => 'action-primary',
-                    'onclick' => 'EbayAccountObj.get_sell_api_token();',
-                    'note' => $this->__(
-                        'You need to finish the token process within 5 minutes.<br/>
-                        If not, just click <b>Get Token</b> and try again.'
-                    )
-                ]
-            );
-
-            $fieldset->addField(
-                'activated_sell_api',
-                'label',
-                [
-                    'label' => $this->__('Activated'),
-                    'value' => $formData['sell_api_token_session'] != '' ? $this->__('Yes') : $this->__('No'),
-                    'css_class' => !$formData['sell_api_token_session'] ||
-                    !$formData['token_expired_date'] ? 'no-margin-bottom' : ''
-                ]
-            );
-
-            if ($formData['sell_api_token_session'] != '' && $formData['sell_api_token_expired_date'] != '') {
-                $fieldset->addField(
-                    'expiration_date_sell_api',
-                    'label',
-                    [
-                        'label' => $this->__('Expiration Date'),
-                        'value' => $formData['sell_api_token_expired_date']
-                    ]
-                );
-            }
-
-            $fieldset->addField(
-                'sell_api_token_expired_date',
-                'hidden',
-                [
-                    'name' => 'sell_api_token_expired_date',
-                    'value' => $formData['sell_api_token_expired_date']
-                ]
-            );
-
-            $fieldset->addField(
-                'sell_api_token_session',
-                'text',
-                [
-                    'label' => '',
-                    'name' => 'sell_api_token_session',
-                    'value' => $formData['sell_api_token_session'],
-                    'style' => 'visibility: hidden'
-                ]
-            );
-
-        }
-
         $this->css->add('label.mage-error[for="token_session"] { top: 0 !important; }');
 
         $this->setForm($form);
@@ -331,15 +246,6 @@ HTML
         $this->js->add(
             "M2ePro.formData.token_expired_date
             = '" . $this->getHelper('Data')->escapeJs($formData['token_expired_date']) . "';"
-        );
-
-        $this->js->add(
-            "M2ePro.formData.sell_api_token_session
-             = '" . $this->getHelper('Data')->escapeJs($formData['sell_api_token_session']) . "';"
-        );
-        $this->js->add(
-            "M2ePro.formData.sell_api_token_expired_date
-            = '" . $this->getHelper('Data')->escapeJs($formData['sell_api_token_expired_date']) . "';"
         );
 
         $id = $this->getRequest()->getParam('id');
@@ -357,21 +263,4 @@ JS
 
         return parent::_prepareForm();
     }
-
-    //########################################
-
-    public function isSellApiMode()
-    {
-        /** @var \Ess\M2ePro\Model\Account $account */
-        $account = $this->getHelper('Data\GlobalData')->getValue('edit_account');
-
-        if (empty($account) || !$account->getId()) {
-            return $this->getRequest()->getParam('sell_api', false);
-        }
-
-        return $this->getRequest()->getParam('sell_api', false) ||
-            !empty($account->getChildObject()->getSellApiTokenSession());
-    }
-
-    //########################################
 }

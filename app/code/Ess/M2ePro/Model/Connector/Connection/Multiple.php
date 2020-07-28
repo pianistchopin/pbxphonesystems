@@ -14,17 +14,17 @@ use \Ess\M2ePro\Model\Connector\Connection\Multiple\RequestContainer;
 /**
  * Class \Ess\M2ePro\Model\Connector\Connection\Multiple
  */
-class Multiple extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
+class Multiple extends \Ess\M2ePro\Model\Connector\AbstractModel
 {
     /** @var \Ess\M2ePro\Model\Connector\Connection\Multiple\RequestContainer[] $request */
-    protected $requestsContainers = [];
+    private $requestsContainers = [];
 
     /** @var \Ess\M2ePro\Model\Connector\Connection\Response[] $response */
-    protected $responses = [];
+    private $responses = [];
 
     protected $asynchronous = false;
 
-    //########################################
+    // ########################################
 
     protected function sendRequest()
     {
@@ -109,7 +109,7 @@ class Multiple extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         }
     }
 
-    //########################################
+    // ########################################
 
     private function createFailedResponse($errorMessage)
     {
@@ -127,7 +127,7 @@ class Multiple extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return $failedResponse;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @param $key
@@ -196,7 +196,7 @@ class Multiple extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return $this->asynchronous;
     }
 
-    //########################################
+    // ########################################
 
     public function getHeaders(\Ess\M2ePro\Model\Connector\Connection\Request $request)
     {
@@ -215,10 +215,9 @@ class Multiple extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return [
             'api_version' => self::API_VERSION,
             'request'     => $this->getHelper('Data')->jsonEncode($request->getInfo()),
-            'data'        => $this->getHelper('Data')->jsonEncode($request->getData()),
-            'raw_data'    => $request->getRawData()
+            'data'        => $this->getHelper('Data')->jsonEncode($request->getData())
         ];
     }
 
-    //########################################
+    // ########################################
 }

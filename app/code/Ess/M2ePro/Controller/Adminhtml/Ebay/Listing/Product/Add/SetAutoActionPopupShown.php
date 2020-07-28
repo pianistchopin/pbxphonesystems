@@ -15,7 +15,7 @@ class SetAutoActionPopupShown extends \Ess\M2ePro\Controller\Adminhtml\Ebay\List
 {
     public function execute()
     {
-        $this->getHelper('Module')->getCacheConfig()->setGroupValue(
+        $this->getHelper('Module')->getConfig()->setGroupValue(
             '/view/ebay/advanced/autoaction_popup/',
             'shown',
             1

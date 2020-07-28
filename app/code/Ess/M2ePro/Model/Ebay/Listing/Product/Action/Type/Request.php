@@ -8,6 +8,8 @@
 
 namespace Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type;
 
+use Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Description;
+
 /**
  * Class \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request
  */
@@ -16,26 +18,20 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
     /**
      * @var array
      */
-    protected $dataTypes = [
-        'general',
-        'qty',
-        'price',
-        'title',
-        'subtitle',
+    private $requestsTypes = [
+        'selling',
         'description',
-        'images',
-        'variations',
         'categories',
+        'variations',
         'shipping',
         'payment',
-        'returnPolicy',
-        'other'
+        'returnPolicy'
     ];
 
     /**
-     * @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\DataBuilder\AbstractModel[]
+     * @var array[Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Abstract]
      */
-    protected $dataBuilders = [];
+    private $requests = [];
 
     protected $activeRecordFactory;
     protected $ebayFactory;
@@ -72,16 +68,17 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
         $data = $this->prepareFinalData($data);
 
         $this->afterBuildDataEvent($data);
-        $this->collectDataBuildersWarningMessages();
+        $this->collectRequestsWarningMessages();
 
         return $data;
     }
 
     protected function collectMetadata()
     {
-        foreach ($this->dataBuilders as $dataBuilder) {
-            /** @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request $dataBuilder */
-            $this->metaData = array_merge($this->metaData, $dataBuilder->getMetaData());
+        foreach ($this->requests as $requestObject) {
+            /** @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request $requestObject */
+
+            $this->metaData = array_merge($this->metaData, $requestObject->getMetaData());
         }
     }
 
@@ -126,11 +123,23 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
             'upload_images_mode'
         );
 
+        $data = $this->insertOutOfStockControl($data);
         $data = $this->replaceVariationSpecificsNames($data);
+        $data = $this->replaceHttpsToHttpOfImagesUrls($data);
         $data = $this->resolveVariationAndItemSpecificsConflict($data);
         $data = $this->removeVariationsInstances($data);
         $data = $this->resolveVariationMpnIssue($data);
 
+        return $data;
+    }
+
+    protected function insertOutOfStockControl(array $data)
+    {
+        $data['out_of_stock_control'] = $this->getEbayListingProduct()
+                                             ->getEbaySellingFormatTemplate()
+                                             ->getOutOfStockControl();
+        $data['out_of_stock_control_result'] = $data['out_of_stock_control'] || $this->getEbayAccount()
+                                                                                     ->getOutOfStockControl();
         return $data;
     }
 
@@ -149,6 +158,32 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
 
         $data = $this->doReplaceVariationSpecifics($data, $specificsReplacements);
         $this->addMetaData('variations_specifics_replacements', $specificsReplacements);
+
+        return $data;
+    }
+
+    protected function replaceHttpsToHttpOfImagesUrls(array $data)
+    {
+        if ($data['is_eps_ebay_images_mode'] === false ||
+            ($data['is_eps_ebay_images_mode'] === null &&
+                $data['upload_images_mode'] ==
+                   \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Description::UPLOAD_IMAGES_MODE_SELF)) {
+            return $data;
+        }
+
+        if (isset($data['images']['images'])) {
+            foreach ($data['images']['images'] as &$imageUrl) {
+                $imageUrl = str_replace('https://', 'http://', $imageUrl);
+            }
+        }
+
+        if (isset($data['variation_image']['images'])) {
+            foreach ($data['variation_image']['images'] as $attribute => &$imagesUrls) {
+                foreach ($imagesUrls as &$imageUrl) {
+                    $imageUrl = str_replace('https://', 'http://', $imageUrl);
+                }
+            }
+        }
 
         return $data;
     }
@@ -187,35 +222,6 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
         if (isset($data['variation']) && is_array($data['variation'])) {
             foreach ($data['variation'] as &$variation) {
                 unset($variation['_instance_']);
-            }
-        }
-
-        return $data;
-    }
-
-    protected function removePriceFromVariationsIfNotAllowed(array $data)
-    {
-        if ($this->getConfigurator()->isPriceAllowed()) {
-            return $data;
-        }
-
-        if (isset($data['variation']) && is_array($data['variation'])) {
-            foreach ($data['variation'] as &$variation) {
-                /** @var $ebayVariation \Ess\M2ePro\Model\Ebay\Listing\Product\Variation */
-                $ebayVariation = $variation['_instance_']->getChildObject();
-
-                if ($ebayVariation->isAdd()) {
-                    continue;
-                }
-
-                if (!$ebayVariation->getOnlineQtySold() &&
-                    ($ebayVariation->isStopped() || $ebayVariation->isHidden())) {
-                    continue;
-                }
-
-                unset($variation['price']);
-                unset($variation['price_discount_stp']);
-                unset($variation['price_discount_map']);
             }
         }
 
@@ -276,12 +282,12 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
     // todo PHPdoc should be changed
     protected function resolveVariationMpnIssue(array $data)
     {
-        if (!$this->getIsVariationItem() || !$this->getConfigurator()->isVariationsAllowed()) {
+        if (!$this->getIsVariationItem()) {
             return $data;
         }
 
         $withoutMpnIssue = $this->getListingProduct()->getSetting('additional_data', 'without_mpn_variation_issue');
-        $isMpnOnChannel = $this->getListingProduct()->getSetting('additional_data', 'is_variation_mpn_filled');
+        $isMpnOnChannel  = $this->getListingProduct()->getSetting('additional_data', 'is_variation_mpn_filled');
 
         if ($withoutMpnIssue === true) {
             $data['without_mpn_variation_issue'] = true;
@@ -301,9 +307,7 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
                 if (!isset($variationData['details']['mpn']) &&
                     ($isMpnOnChannel === true || ($isMpnOnChannel === null && !$withoutMpnIssue))
                 ) {
-                    $variationData['details']['mpn'] =
-                        \Ess\M2ePro\Model\Ebay\Listing\Product\Action\DataBuilder\General::
-                        PRODUCT_DETAILS_DOES_NOT_APPLY;
+                    $variationData['details']['mpn'] = Description::PRODUCT_DETAILS_DOES_NOT_APPLY;
                 }
             }
         }
@@ -332,7 +336,6 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
                     unset($variationItem['specifics'][$findIt]);
                 }
             }
-
             unset($variationItem);
 
             foreach ($replacements as $findIt => $replaceBy) {
@@ -345,11 +348,11 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
 
                 $this->addWarningMessage(
                     $this->getHelper('Module\Translation')->__(
-                        'The Variational Attribute Label "%replaced_it%" was changed to "%replaced_by%". For Item
-                        Specific "%replaced_by%" you select an Attribute by which your Variational Item varies.
-                        As it is impossible to send a correct Value for this Item Specific, it’s Label will be used
-                        as Variational Attribute Label instead of "%replaced_it%".
-                        This replacement cannot be edit in future by Relist/Revise Actions.',
+                        'The Variational Attribute Label "%replaced_it%" was changed to "%replaced_by%".
+                        For Item Specific "%replaced_by%" you select an Attribute by which your Variational Item
+                        varies. As it is impossible to send a correct Value for this Item Specific, it’s Label will
+                        be used as Variational Attribute Label instead of "%replaced_it%". This replacement cannot be
+                        edit in future by Relist/Revise Actions.',
                         $findIt,
                         $replaceBy
                     )
@@ -360,12 +363,41 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
         return $data;
     }
 
+    protected function removeImagesIfThereAreNoChanges(array $data)
+    {
+        /** @var \Ess\M2ePro\Helper\Component\Ebay\Images $imagesHelper */
+        $imagesHelper = $this->getHelper('Component_Ebay_Images');
+
+        $additionalData = $this->getListingProduct()->getAdditionalData();
+        $metaData = $this->getMetaData();
+
+        $key = 'ebay_product_images_hash';
+        if (!empty($additionalData[$key]) && !empty($metaData[$key]) && isset($data['images']['images']) &&
+            !$imagesHelper->isHashBelated($additionalData[$key]) &&
+            $imagesHelper->areHashesTheSame($additionalData[$key], $metaData[$key])) {
+            unset($data['images']['images']);
+            unset($metaData[$key]);
+            $this->setMetaData($metaData);
+        }
+
+        $key = 'ebay_product_variation_images_hash';
+        if (!empty($additionalData[$key]) && !empty($metaData[$key]) && isset($data['variation_image']) &&
+            !$imagesHelper->isHashBelated($additionalData[$key]) &&
+            $imagesHelper->areHashesTheSame($additionalData[$key], $metaData[$key])) {
+            unset($data['variation_image']);
+            unset($metaData[$key]);
+            $this->setMetaData($metaData);
+        }
+
+        return $data;
+    }
+
     // ---------------------------------------
 
-    protected function collectDataBuildersWarningMessages()
+    protected function collectRequestsWarningMessages()
     {
-        foreach ($this->dataTypes as $requestType) {
-            $messages = $this->getDataBuilder($requestType)->getWarningMessages();
+        foreach ($this->requestsTypes as $requestType) {
+            $messages = $this->getRequest($requestType)->getWarningMessages();
 
             foreach ($messages as $message) {
                 $this->addWarningMessage($message);
@@ -389,236 +421,87 @@ abstract class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Req
     //########################################
 
     /**
-     * @return string
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Selling
      */
-    public function getSku()
+    public function getRequestSelling()
     {
-        $sku = $this->getEbayListingProduct()->getSku();
-
-        if (strlen($sku) > \Ess\M2ePro\Helper\Component\Ebay::ITEM_SKU_MAX_LENGTH) {
-            $sku = $this->getHelper('Data')->hashString($sku, 'sha1', 'RANDOM_');
-        }
-
-        return $sku;
+        return $this->getRequest('selling');
     }
 
     /**
-     * @return array
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Description
      */
-    public function getGeneralData()
+    public function getRequestDescription()
     {
-        if (!$this->getConfigurator()->isGeneralAllowed()) {
-            return [];
-        }
+        return $this->getRequest('description');
+    }
 
-        $dataBuilder = $this->getDataBuilder('general');
-        return $dataBuilder->getBuilderData();
+    // ---------------------------------------
+
+    /**
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Variations
+     */
+    public function getRequestVariations()
+    {
+        return $this->getRequest('variations');
     }
 
     /**
-     * @return array
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Categories
      */
-    public function getQtyData()
+    public function getRequestCategories()
     {
-        if (!$this->getConfigurator()->isQtyAllowed()) {
-            return [];
-        }
+        return $this->getRequest('categories');
+    }
 
-        $dataBuilder = $this->getDataBuilder('qty');
-        return $dataBuilder->getBuilderData();
+    // ---------------------------------------
+
+    /**
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Payment
+     */
+    public function getRequestPayment()
+    {
+        return $this->getRequest('payment');
     }
 
     /**
-     * @return array
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\Shipping
      */
-    public function getPriceData()
+    public function getRequestShipping()
     {
-        if (!$this->getConfigurator()->isPriceAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('price');
-        return $dataBuilder->getBuilderData();
+        return $this->getRequest('shipping');
     }
 
     /**
-     * @return array
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\ReturnPolicy
      */
-    public function getTitleData()
+    public function getRequestReturn()
     {
-        if (!$this->getConfigurator()->isTitleAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('title');
-        return $dataBuilder->getBuilderData();
-    }
-
-    /**
-     * @return array
-     */
-    public function getSubtitleData()
-    {
-        if (!$this->getConfigurator()->isSubtitleAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('subtitle');
-        return $dataBuilder->getBuilderData();
-    }
-
-    /**
-     * @return array
-     */
-    public function getDescriptionData()
-    {
-        if (!$this->getConfigurator()->isDescriptionAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('description');
-        return $dataBuilder->getBuilderData();
-    }
-
-    /**
-     * @return array
-     */
-    public function getImagesData()
-    {
-        if (!$this->getConfigurator()->isImagesAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('images');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('images_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCategoriesData()
-    {
-        if (!$this->getConfigurator()->isCategoriesAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('categories');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('categories_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPaymentData()
-    {
-        if (!$this->getConfigurator()->isPaymentAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('payment');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('payment_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getShippingData()
-    {
-        if (!$this->getConfigurator()->isShippingAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('shipping');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('shipping_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getReturnData()
-    {
-        if (!$this->getConfigurator()->isReturnAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('returnPolicy');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('return_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     */
-    public function getVariationsData()
-    {
-        if (!$this->getConfigurator()->isVariationsAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('variations');
-        return $dataBuilder->getBuilderData();
-    }
-
-    /**
-     * @return array
-     */
-    public function getOtherData()
-    {
-        if (!$this->getConfigurator()->isOtherAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('other');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('other_data', $data);
-
-        return $data;
+        return $this->getRequest('returnPolicy');
     }
 
     //########################################
 
     /**
      * @param $type
-     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\DataBuilder\AbstractModel
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\AbstractModel
      */
-    protected function getDataBuilder($type)
+    private function getRequest($type)
     {
-        if (!isset($this->dataBuilders[$type])) {
+        if (!isset($this->requests[$type])) {
 
-            /** @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\DataBuilder\AbstractModel $dataBuilder */
-            $dataBuilder = $this->modelFactory->getObject('Ebay\Listing\Product\Action\DataBuilder\\' . ucfirst($type));
+            /** @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Request\AbstractModel $request */
+            $request = $this->modelFactory->getObject('Ebay\Listing\Product\Action\Request\\'.ucfirst($type));
 
-            $dataBuilder->setParams($this->getParams());
-            $dataBuilder->setListingProduct($this->getListingProduct());
-            $dataBuilder->setCachedData($this->getCachedData());
+            $request->setParams($this->getParams());
+            $request->setListingProduct($this->getListingProduct());
+            $request->setIsVariationItem($this->getIsVariationItem());
+            $request->setConfigurator($this->getConfigurator());
 
-            $dataBuilder->setIsVariationItem($this->getIsVariationItem());
-
-            $this->dataBuilders[$type] = $dataBuilder;
+            $this->requests[$type] = $request;
         }
 
-        return $this->dataBuilders[$type];
+        return $this->requests[$type];
     }
 
     //########################################

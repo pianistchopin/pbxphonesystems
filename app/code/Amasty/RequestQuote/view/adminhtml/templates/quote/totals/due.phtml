@@ -1,0 +1,13 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php if ($block->getCanDisplayTotalDue()): ?>
+<tr>
+    <td class="label"><big><strong><?= /* @escapeNotVerified */ __('Total Due') ?></strong></big></td>
+    <td class="emph"><big><?= /* @escapeNotVerified */ $block->displayPriceAttribute('total_due', true) ?></big></td>
+</tr>
+<?php endif; ?>

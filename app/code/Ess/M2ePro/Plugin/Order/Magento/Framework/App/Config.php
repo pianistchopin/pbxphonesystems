@@ -30,7 +30,8 @@ class Config extends \Ess\M2ePro\Plugin\AbstractPlugin
 
     protected function canExecute()
     {
-        if (!$this->helperFactory->getObject('Data\GlobalData')->getValue('use_mutable_config')) {
+        if (!$this->helperFactory->getObject('Data\GlobalData')->getValue('use_mutable_config') ||
+            !$this->mutableConfig->isCanBeUsed()) {
             return false;
         }
 

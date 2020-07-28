@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div class="admin__field field-comment">
+    <label for="order-comment" class="admin__field-label"><span><?= /* @escapeNotVerified */ __('Quote Comments') ?></span></label>
+    <div class="admin__field-control">
+        <textarea
+            id="order-comment"
+            name="order[comment][customer_note]"
+            class="admin__control-textarea"><?= /* @escapeNotVerified */ $block->getCommentNote() ?></textarea>
+    </div>
+</div>
+<script>
+    require(["Amasty_RequestQuote/quote/edit/form"], function(){
+        quote.commentFieldsBind('order-comment')
+    });
+</script>

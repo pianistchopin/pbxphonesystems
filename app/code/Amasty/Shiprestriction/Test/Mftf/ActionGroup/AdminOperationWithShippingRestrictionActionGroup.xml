@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+
+    <!-- To Create Restriction Rules-->
+    <actionGroup name="AdminCreateShippingRestrictionBase">
+        <arguments>
+            <argument name="shippingRestriction"/>
+        </arguments>
+        <amOnPage url="{{AdminShippingRestrictionsGridPage.url}}" stepKey="navigateShippingRestrictionsGrid1"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad1"/>
+        <click selector="{{AdminShippingRestrictionsGridSection.AddNewRuleButton}}" stepKey="clickOnAddNewRule"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad2"/>
+        <conditionalClick stepKey="openShippingMethodsTab"
+                          selector="{{AdminShippingRestrictionSection.ShippingMethodsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ShippingMethodsTabOpen}}"
+                          visible="false"/>
+        <fillField selector="{{AdminShippingRestrictionSection.Name}}" userInput="{{shippingRestriction.name}}" stepKey="enterRuleName"/>
+        <conditionalClick stepKey="activateRestriction"
+                          selector="{{AdminShippingRestrictionSection.RestrictionStatus}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.RestrictionStatusEnable}}"
+                          visible="false"/>
+        <fillField selector="{{AdminShippingRestrictionSection.RestrictionMessage}}" userInput="{{shippingRestriction.message}}" stepKey="enterMessage"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSaveAndContinue"/>
+        <waitForPageLoad time="300" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- To Create Restriction Rules-->
+    <actionGroup name="AdminCreateShippingRestrictionWithOneMethod" extends="AdminCreateShippingRestrictionBase">
+        <click selector="{{AdminShippingRestrictionSection.MethodSelectForClick}}" stepKey="OpenMethodsMultiSelect"/>
+        <fillField selector="{{AdminShippingRestrictionSection.MethodInputInSelectForSearch}}"
+                   userInput="{{shippingRestriction.methodOne}}" stepKey="enterMethodName"/>
+        <wait time="2" stepKey="wait"/>
+        <click selector="{{AdminShippingRestrictionSection.MethodFoundInSelect}}" stepKey="chooseFoundMethod"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!-- To Create Restriction Rules-->
+    <actionGroup name="AdminCreateShippingRestrictionWithTwoMethods" extends="AdminCreateShippingRestrictionBase">
+        <click selector="{{AdminShippingRestrictionSection.MethodSelectForClick}}" stepKey="OpenMethodsMultiSelect"/>
+        <fillField selector="{{AdminShippingRestrictionSection.MethodInputInSelectForSearch}}"
+                   userInput="{{shippingRestriction.methodOne}}" stepKey="enterFirstMethod"/>
+        <wait time="2" stepKey="wait1"/>
+        <click selector="{{AdminShippingRestrictionSection.MethodFoundInSelect}}" stepKey="chooseFirstMethod"/>
+        <fillField selector="{{AdminShippingRestrictionSection.MethodInputInSelectForSearch}}"
+                   userInput="{{shippingRestriction.methodTwo}}" stepKey="enterSecondMethod"/>
+        <wait time="2" stepKey="wait2"/>
+        <click selector="{{AdminShippingRestrictionSection.MethodFoundInSelect}}" stepKey="chooseSecondMethod"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!-- To Create Restriction Rules-->
+    <actionGroup name="AdminDeleteAllShippingRestrictions">
+        <amOnPage url="{{AdminShippingRestrictionsGridPage.url}}" stepKey="navigateToShippingRestrictionGridPage1"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+        <conditionalClick stepKey="selectsAllAreasIfTheyHave"
+                          selector="{{AdminShippingRestrictionsGridSection.MassActionSelectAllShipRule}}"
+                          dependentSelector="{{AdminShippingRestrictionsGridSection.EmptyGrid}}"
+                          visible="false"/>
+        <click selector="{{AdminShippingRestrictionsGridSection.ActionsButton}}" stepKey="clickActionSelect"/>
+        <click selector="{{AdminShippingRestrictionsGridSection.ActionsDelete}}" stepKey="clickDeleteAction"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad3"/>
+        <wait time="1" stepKey="wait"/>
+        <click selector="{{AdminShippingRestrictionsGridSection.ConfirmAction}}" stepKey="clickConfirmDeleting"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- To Delete Restriction Rules-->
+    <actionGroup name="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="shippingRestriction"/>
+        </arguments>
+        <amOnPage url="{{AdminShippingRestrictionsGridPage.url}}" stepKey="navigateToShippingRestrictionsGridPage1"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad1"/>
+        <click selector="//table[@data-role='grid']//*[contains(text(),'{{shippingRestriction.name}}')]" stepKey="chooseOpenRuleForEdit"/>
+        <waitForPageLoad time="100" stepKey="waitForPageLoad2"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionBackorders" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="backordersValue"/>
+        </arguments>
+        <conditionalClick stepKey="openConditionsTab"
+                          selector="{{AdminShippingRestrictionSection.ConditionsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ConditionsTabOpen}}"
+                          visible="false"/>
+        <selectOption stepKey="settingBackorders"
+                      selector="{{AdminShippingRestrictionSection.BackordersSelect}}"
+                      userInput="{{backordersValue}}"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionEnableAdminArea" extends="AdminOpenShippingRestrictionForEdit">
+        <conditionalClick stepKey="openStoresCustomerGroupsTab"
+                          selector="{{AdminShippingRestrictionSection.StoresCustomerTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.StoresCustomerTabOpen}}"
+                          visible="false"/>
+        <conditionalClick stepKey="EnableAdminAreaSwitch"
+                          selector="{{AdminShippingRestrictionSection.AdminAreaSwitch}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.AdminAreaSwitchEnable}}"
+                          visible="false"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionDisableAdminArea" extends="AdminOpenShippingRestrictionForEdit">
+        <conditionalClick stepKey="openStoresCustomerGroupsTab"
+                          selector="{{AdminShippingRestrictionSection.StoresCustomerTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.StoresCustomerTabOpen}}"
+                          visible="false"/>
+        <conditionalClick stepKey="DisableAdminAreaSwitch"
+                          selector="{{AdminShippingRestrictionSection.AdminAreaSwitch}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.AdminAreaSwitchDisable}}"
+                          visible="false"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad3"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionDisableRule" extends="AdminOpenShippingRestrictionForEdit">
+        <conditionalClick stepKey="DisableRestrictionRule"
+                          selector="{{AdminShippingRestrictionSection.RestrictionStatus}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.RestrictionStatusDisable}}"
+                          visible="false"/>
+        <click selector="{{AdminShippingRestrictionSection.Save}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionAddApplyRulesCoupon" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="couponCode"/>
+        </arguments>
+        <conditionalClick stepKey="openCouponsAndDiscountsTab"
+                          selector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTabOpen}}"
+                          visible="false"/>
+        <fillField selector="{{AdminShippingRestrictionSection.ApplyCouponCode}}" userInput="{{couponCode}}" stepKey="inputCouponCode"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionAddApplyRulesCartRule" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="ruleName"/>
+        </arguments>
+        <conditionalClick stepKey="openCouponsAndDiscountsTab"
+                          selector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTabOpen}}"
+                          visible="false"/>
+        <selectOption selector="{{AdminShippingRestrictionSection.ApplyShoppingCartRule}}"
+                      userInput="{{ruleName}}"
+                      stepKey="selectShoppingCartRule"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionDontAddApplyRulesCoupon" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="couponCode"/>
+        </arguments>
+        <conditionalClick stepKey="openCouponsAndDiscountsTab"
+                          selector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTabOpen}}"
+                          visible="false"/>
+        <fillField selector="{{AdminShippingRestrictionSection.DontApplyCouponCode}}" userInput="{{couponCode}}" stepKey="inputCouponCode"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!--To Edit Restriction Rules-->
+    <actionGroup name="AdminEditShippingRestrictionAddDontApplyRulesCartRule" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="ruleName"/>
+        </arguments>
+        <conditionalClick stepKey="openCouponsAndDiscountsTab"
+                          selector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.CouponsAndDiscountsTabOpen}}"
+                          visible="false"/>
+        <selectOption selector="{{AdminShippingRestrictionSection.DontApplyShoppingCartRule}}"
+                      userInput="{{ruleName}}"
+                      stepKey="selectShoppingCartRule"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+    </actionGroup>
+
+
+    <!--For Clear Restriction Message-->
+    <actionGroup name="AdminClearFieldRestrictionMessage" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="shippingRestriction"/>
+        </arguments>
+        <clearField selector="{{AdminShippingRestrictionSection.RestrictionMessage}}" stepKey="clearField"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad1"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad2"/>
+    </actionGroup>
+
+
+    <!-- Action Group For Add Conditions In Restriction Rule-->
+    <actionGroup name="AdminEditShippingRestrictionAddGlobalConditionsWithInput" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="actionsConditionOptions"/>
+            <argument name="actionsConditionsOptionsParamIs"/>
+            <argument name="conditionsData"/>
+        </arguments>
+        <conditionalClick stepKey="openConditionsTab"
+                          selector="{{AdminShippingRestrictionSection.ConditionsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ConditionsTabOpen}}"
+                          visible="false"/>
+        <scrollTo selector="{{AdminShippingRestrictionSection.ConditionsText}}" stepKey="GoToConditions"/>
+        <click selector="{{AdminShippingRestrictionSection.ButtonGlobalConditions}}" stepKey="clickButtonGlobalCondition"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+                               stepKey="waitForElementVisible1"/>
+        <click selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+               stepKey="selectConditionOptions"/>
+        <waitForElementVisible selector="//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='is']"
+                               stepKey="waitForElementVisible2"/>
+        <click selector="//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='is']"
+               stepKey="clickChooseParamData"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//option[@value='{{actionsConditionsOptionsParamIs.optionsValue}}']"
+                               stepKey="waitForElementVisible3"/>
+        <click selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//option[@value='{{actionsConditionsOptionsParamIs.optionsValue}}']"
+               stepKey="chooseFirstParam"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+                               stepKey="waitForElementVisible4"/>
+        <click selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+               stepKey="clickForInputData"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//input"
+                               stepKey="waitForElementVisible5"/>
+        <fillField selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//input"
+                   userInput="{{conditionsData}}" stepKey="enterConditions"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad3"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Action Group For Add Conditions In Restriction Rule-->
+    <actionGroup name="AdminEditShippingRestrictionAddGlobalConditionsWithSelect" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="actionsConditionOptions"/>
+            <argument name="actionsConditionsOptionsParamIs"/>
+            <argument name="conditionsData"/>
+        </arguments>
+        <conditionalClick stepKey="openConditionsTab"
+                          selector="{{AdminShippingRestrictionSection.ConditionsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ConditionsTabOpen}}"
+                          visible="false"/>
+        <scrollTo selector="{{AdminShippingRestrictionSection.ConditionsText}}" stepKey="GoToConditions"/>
+        <click selector="{{AdminShippingRestrictionSection.ButtonGlobalConditions}}" stepKey="clickButtonGlobalCondition"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+                               stepKey="waitForElementVisible1"/>
+        <click selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+               stepKey="selectConditionOptions"/>
+        <waitForElementVisible selector="//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='is']"
+                               stepKey="waitForElementVisible2"/>
+        <click selector="//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='is']"
+               stepKey="clickChooseParamData"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//option[@value='{{actionsConditionsOptionsParamIs.optionsValue}}']"
+                               stepKey="waitForElementVisible3"/>
+        <click selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//option[@value='{{actionsConditionsOptionsParamIs.optionsValue}}']"
+               stepKey="chooseFirstParam"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+                               stepKey="waitForElementVisible4"/>
+        <click selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+               stepKey="clickForInputData"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//select[contains(@name,'value')]"
+                               stepKey="waitForElementVisible5"/>
+        <selectOption selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//select[contains(@name,'value')]"
+                      userInput="{{conditionsData}}" stepKey="selectConditions"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad3"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Action Group For Add Conditions In Restriction Rule-->
+    <actionGroup name="AdminEditShippingRestrictionAddGlobalConditionsWithIs" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="actionsConditionOptions"/>
+            <argument name="conditionsData"/>
+        </arguments>
+        <conditionalClick stepKey="openConditionsTab"
+                          selector="{{AdminShippingRestrictionSection.ConditionsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ConditionsTabOpen}}"
+                          visible="false"/>
+        <scrollTo selector="{{AdminShippingRestrictionSection.ConditionsText}}" stepKey="GoToConditions"/>
+        <click selector="{{AdminShippingRestrictionSection.ButtonGlobalConditions}}" stepKey="clickButtonGlobalCondition"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+                               stepKey="waitForElementVisible1"/>
+        <click selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='{{actionsConditionOptions.optionsText}}']"
+               stepKey="selectConditionOptions"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+                               stepKey="waitForElementVisible4"/>
+        <click selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param']/a[text()='...']"
+               stepKey="clickForInputData"/>
+        <waitForElementVisible selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//select[contains(@name,'value')]"
+                               stepKey="waitForElementVisible5"/>
+        <selectOption selector="//div[@data-index='conditions']//input[@value='{{actionsConditionOptions.optionsValue}}']/following::span[@class='rule-param rule-param-edit']//select[contains(@name,'value')]"
+                      userInput="{{conditionsData}}" stepKey="selectConditions"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad3"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+
+    <!-- Action Group For Add Conditions In Restriction Rule-->
+    <actionGroup name="AdminEditShippingRestrictionAddConditionsShippingArea" extends="AdminOpenShippingRestrictionForEdit">
+        <arguments>
+            <argument name="shippingArea"/>
+        </arguments>
+        <conditionalClick stepKey="openConditionsTab"
+                          selector="{{AdminShippingRestrictionSection.ConditionsTab}}"
+                          dependentSelector="{{AdminShippingRestrictionSection.ConditionsTabOpen}}"
+                          visible="false"/>
+        <scrollTo selector="{{AdminShippingRestrictionSection.ConditionsText}}" stepKey="GoToConditions"/>
+        <click selector="{{AdminShippingRestrictionSection.ButtonGlobalConditions}}" stepKey="clickButtonGlobalCondition"/>
+
+        <waitForElementVisible selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='Shipping Areas']"
+                               stepKey="waitForElementVisible1"/>
+        <click selector="//div[@data-index='conditions']//select[@id='conditions__1__new_child']//option[text()='Shipping Areas']"
+               stepKey="selectConditionOptions"/>
+        <waitForElementVisible selector="//input[@data-form-part='amasty_ship_rule_form']/following::span[@class='rule-param']/a[text()='is']"
+                               stepKey="waitForElementVisible2"/>
+        <click selector="//div[@data-index='conditions']//input[@data-form-part='amasty_ship_rule_form']/following::span[@class='rule-param']/a[text()='...']"
+               stepKey="clickForSelectShippingAreas"/>
+        <wait time="1" stepKey="waitSelectElement"/>
+        <click selector="//div[@data-index='conditions']//input[@data-form-part='amasty_ship_rule_form']/following::span[@class='rule-param rule-param-edit']//option[text()='{{shippingArea.name}}']" stepKey="selectShippingArea"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad3"/>
+        <click selector="{{AdminShippingRestrictionSection.SaveAndContinueEdit}}" stepKey="clickOnSave"/>
+        <waitForPageLoad time="10" stepKey="waitForPageLoad4"/>
+    </actionGroup>
+
+</actionGroups>

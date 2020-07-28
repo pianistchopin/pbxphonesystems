@@ -1,0 +1,58 @@
+"Apply the rule only if the following conditions are met (leave blank for all products).","Apply the rule only if the following conditions are met (leave blank for all products)."
+Conditions,Conditions
+"Please update Amasty Base module. Re-upload it and replace all the files.","Please update Amasty Base module. Re-upload it and replace all the files."
+"Add new Shipping Restriction Rule","Add new Shipping Restriction Rule"
+"Unable to load Shipping Restriction Rule with ID %1. Please review the log and try again.","Unable to load Shipping Restriction Rule with ID %1. Please review the log and try again."
+"Shipping Restrictions","Shipping Restrictions"
+"Sorry, no shipping quotes are available for the selected products and destination","Sorry, no shipping quotes are available for the selected products and destination"
+Information,Information
+General,General
+"Include tax in subtotal","Include tax in subtotal"
+"Use subtotal after discount","Use subtotal after discount"
+"Always show error message","Always show error message"
+"Shipping Rule","Shipping Rule"
+Back,Back
+Reset,Reset
+Save,Save
+"Save and Continue Edit","Save and Continue Edit"
+"Shipping Methods","Shipping Methods"
+"Restriction name","Restriction name"
+"Restriction status","Restriction status"
+Active,Active
+Inactive,Inactive
+"Restrict Shipping Carriers and Methods","Restrict Shipping Carriers and Methods"
+"Restriction message","Restriction message"
+Backorders,Backorders
+"Apply the rule to","Apply the rule to"
+"Coupons and discounts","Coupons and discounts"
+"Apply Rules Only With","Apply Rules Only With"
+"Coupon Codes","Coupon Codes"
+"Shopping Cart Rule (discount)","Shopping Cart Rule (discount)"
+"Do NOT Apply Rules With","Do NOT Apply Rules With"
+"Stores & Customer Groups","Stores & Customer Groups"
+"Admin Area","Admin Area"
+On,On
+Off,Off
+"Apply In Stores","Apply In Stores"
+"Apply For Customer Groups","Apply For Customer Groups"
+"Days and Time","Days and Time"
+"Days of the Week","Days of the Week"
+From:,From:
+To:,To:
+"Add Rule","Add Rule"
+"Delete items","Delete items"
+"Delete selected items?","Delete selected items?"
+Delete,Delete
+"Change Status","Change Status"
+ID,ID
+Status,Status
+Name,Name
+Carriers,Carriers
+"Allows All","Allows All"
+Methods,Methods
+"Customer Groups","Customer Groups"
+"Restricts For All","Restricts For All"
+"Store Views","Store Views"
+"Active in Admin Area","Active in Admin Area"
+Edit,Edit
+Duplicate,Duplicate

@@ -96,7 +96,7 @@ class Chooser extends \Ess\M2ePro\Block\Adminhtml\Magento\AbstractBlock
             return $this->_attributes;
         }
 
-        $attributes = $this->getHelper('Magento\Attribute')->getAll();
+        $attributes = $this->getHelper('Magento\Attribute')->getGeneralFromAllAttributeSets();
         if (empty($attributes)) {
             return [];
         }

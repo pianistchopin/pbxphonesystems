@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="amasty_quote_notify_admin" instance="Amasty\RequestQuote\Model\Email\AdminNotification" method="notify">
+            <config_path>crontab/default/jobs/amasty_quote_notify_admin/schedule/cron_expr</config_path>
+        </job>
+        <job name="amasty_quote_notify_proposal" instance="Amasty\RequestQuote\Model\Email\Proposal" method="notify">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+</config>

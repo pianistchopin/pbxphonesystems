@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionApplyTheRuleToAllOrders">
+        <annotations>
+            <features value="Restriction Rule Creation"/>
+            <stories value="Create a Restriction Rule via the Admin"/>
+            <title value="Check Restriction Rule And Apply This Rule To All Orders"/>
+            <description value="Check Restriction Rule And Apply This Rule To All Orders"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-07"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionApplyTheRuleToAllOrders"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseConfigSettingBeforeTest"/>
+            <!-- Setting Product -->
+            <actionGroup ref="AdminEditAdvancedInventoryQtyProduct" stepKey="ChangingProductQty">
+                <argument name="products" value="_theBagJoustDuffleBag"/>
+                <argument name="qty" value="shiprestrictionApplyTheRuleToAllOrders.firstQty"/>
+            </actionGroup>
+            <actionGroup ref="AdminEditSettingBackordersProduct" stepKey="ChangingProductBackordersSetting">
+                <argument name="products" value="_theBagJoustDuffleBag"/>
+                <argument name="backordersValue" value="shiprestrictionApplyTheRuleToAllOrders.backordersValueProduct"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <actionGroup ref="AdminEditAdvancedInventoryQtyProduct" stepKey="ChangingProductQty">
+                <argument name="products" value="_theBagJoustDuffleBag"/>
+                <argument name="qty" value="shiprestrictionApplyTheRuleToAllOrders.secondQty"/>
+            </actionGroup>
+            <actionGroup ref="AdminReturnDefaultSettingBackordersProduct" stepKey="ReturnDefaultSettingProduct">
+                <argument name="products" value="_theBagJoustDuffleBag"/>
+            </actionGroup>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithTwoMethods" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionApplyTheRuleToAllOrders"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionBackorders" stepKey="AddBackordersSettingIntoRule">
+            <argument name="shippingRestriction" value="shiprestrictionApplyTheRuleToAllOrders"/>
+            <argument name="backordersValue" value="shiprestrictionApplyTheRuleToAllOrders.backordersValueRule"/>
+        </actionGroup>
+
+        <!--Add first product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty2"/>
+            <argument name="products" value="_theBagJoustDuffleBag"/>
+        </actionGroup>
+
+        <!--Check No Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoFlatRate1">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoBestWay1">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Change Qty First Product-->
+        <actionGroup ref="ChangeQtyProductInCart" stepKey="ChangeQtyFirstProductToOne">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagJoustDuffleBag"/>
+        </actionGroup>
+
+        <!--Check No Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoFlatRate2">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoBestWay2">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Add second product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theWatchClamberData"/>
+        </actionGroup>
+
+        <!--Check No Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoFlatRate3">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkNoBestWay3">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+    </test>
+</tests>

@@ -17,8 +17,6 @@ class NotCreatedFilter extends AbstractContainer
 {
     protected $_template = 'order/not_created_filter.phtml';
 
-    //########################################
-
     public function getParamName()
     {
         return 'not_created_only';
@@ -51,6 +49,4 @@ class NotCreatedFilter extends AbstractContainer
     {
         return $this->getRequest()->getParam($this->getParamName());
     }
-
-    //########################################
 }

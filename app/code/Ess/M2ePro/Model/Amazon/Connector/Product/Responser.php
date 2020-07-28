@@ -8,6 +8,10 @@
 
 namespace Ess\M2ePro\Model\Amazon\Connector\Product;
 
+use Ess\M2ePro\Model\Amazon\Synchronization\Templates\Synchronization\Inspector;
+use Ess\M2ePro\Model\Synchronization\Templates\Synchronization\Runner;
+use Ess\M2ePro\Model\Amazon\Listing\Product\Action\Configurator;
+
 /**
  * Class \Ess\M2ePro\Model\Amazon\Connector\Product\Responser
  */
@@ -17,6 +21,8 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
      * @var \Ess\M2ePro\Model\Listing\Product
      */
     protected $listingProduct = null;
+
+    // ---------------------------------------
 
     /**
      * @var \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Logger
@@ -28,6 +34,8 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
      */
     protected $configurator = null;
 
+    // ---------------------------------------
+
     /**
      * @var \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Response
      */
@@ -38,19 +46,20 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
      */
     protected $requestDataObject = null;
 
+    // ---------------------------------------
+
     protected $isSuccess = false;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Amazon\Factory $amazonFactory,
-        \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
         \Ess\M2ePro\Model\Connector\Connection\Response $response,
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Ess\M2ePro\Model\Factory $modelFactory,
         array $params = []
     ) {
-        parent::__construct($amazonFactory, $activeRecordFactory, $response, $helperFactory, $modelFactory, $params);
+        parent::__construct($amazonFactory, $response, $helperFactory, $modelFactory, $params);
 
         $this->listingProduct = $this->amazonFactory->getObjectLoaded(
             'Listing\Product',
@@ -58,13 +67,12 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         );
     }
 
-    //########################################
+    // ########################################
 
     public function failDetected($messageText)
     {
         parent::failDetected($messageText);
 
-        /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
         $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
         $message->initFromPreparedData(
             $messageText,
@@ -83,6 +91,150 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         parent::eventAfterExecuting();
 
         $this->processParentProcessor();
+        $this->inspectProduct();
+    }
+
+    protected function inspectProduct()
+    {
+        if (!$this->isSuccess && !$this->listingProduct->needSynchRulesCheck()) {
+            return;
+        }
+
+        /** @var \Ess\M2ePro\Model\Amazon\Listing\Product $amazonListingProduct */
+        $amazonListingProduct = $this->listingProduct->getChildObject();
+        if ($amazonListingProduct->getVariationManager()->isRelationParentType()) {
+            return;
+        }
+
+        /** @var \Ess\M2ePro\Model\Synchronization\Templates\Synchronization\Runner $runner */
+        $runner = $this->modelFactory->getObject('Synchronization_Templates_Synchronization_Runner');
+        $runner->setConnectorModel('Amazon_Connector_Product_Dispatcher');
+        $runner->setMaxProductsPerStep(100);
+
+        /** @var \Ess\M2ePro\Model\Amazon\Synchronization\Templates\Synchronization\Inspector $inspector */
+        $inspector = $this->modelFactory->getObject('Amazon_Synchronization_Templates_Synchronization_Inspector');
+
+        $responseData = $this->getPreparedResponseData();
+
+        if (empty($responseData['request_time']) && $this->listingProduct->needSynchRulesCheck()) {
+            $configurator = $this->getConfigurator();
+        } else {
+            $configurator = $this->modelFactory->getObject('Amazon_Listing_Product_Action_Configurator');
+        }
+
+        if (empty($responseData['request_time']) && !empty($responseData['start_processing_date'])) {
+            $configurator->setParams(['start_processing_date' => $responseData['start_processing_date']]);
+        }
+
+        $result = $this->inspectStopRequirements($inspector, $runner, $configurator);
+        !$result && $result = $this->inspectReviseRequirements($inspector, $runner, $configurator);
+        !$result && $result = $this->inspectRelistRequirements($inspector, $runner, $configurator);
+    }
+
+    protected function inspectStopRequirements(Inspector $inspector, Runner $runner, Configurator $configurator)
+    {
+        if (!$this->listingProduct->isListed()) {
+            return false;
+        }
+
+        if (!$inspector->isMeetStopGeneralRequirements($this->listingProduct)) {
+            return false;
+        }
+
+        if ($inspector->isMeetStopRequirements($this->listingProduct) ||
+            $inspector->isMeetAdvancedStopRequirements($this->listingProduct)) {
+            $runner->addProduct(
+                $this->listingProduct,
+                \Ess\M2ePro\Model\Listing\Product::ACTION_STOP,
+                $configurator
+            );
+
+            $runner->execute();
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function inspectReviseRequirements(Inspector $inspector, Runner $runner, Configurator $configurator)
+    {
+        if (!$this->listingProduct->isListed() && !$this->listingProduct->isUnknown()) {
+            return false;
+        }
+
+        $configurator->reset();
+        $needRevise = false;
+
+        if (!$this->listingProduct->isUnknown() && $inspector->isMeetReviseQtyRequirements($this->listingProduct)) {
+            $configurator->allowQty();
+            $needRevise = true;
+        }
+
+        if ($inspector->isMeetReviseRegularPriceRequirements($this->listingProduct)) {
+            $configurator->allowRegularPrice();
+            $needRevise = true;
+        }
+
+        if ($inspector->isMeetReviseBusinessPriceRequirements($this->listingProduct)) {
+            $configurator->allowBusinessPrice();
+            $needRevise = true;
+        }
+
+        if ($needRevise) {
+            $runner->addProduct(
+                $this->listingProduct,
+                \Ess\M2ePro\Model\Listing\Product::ACTION_REVISE,
+                $configurator
+            );
+
+            $runner->execute();
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function inspectRelistRequirements(Inspector $inspector, Runner $runner, Configurator $configurator)
+    {
+        if (!$this->listingProduct->isStopped()) {
+            return false;
+        }
+
+        if (!$inspector->isMeetRelistRequirements($this->listingProduct)) {
+            return false;
+        }
+
+        /** @var \Ess\M2ePro\Model\Amazon\Listing\Product $amazonListingProduct */
+        $amazonListingProduct = $this->listingProduct->getChildObject();
+
+        if (!$amazonListingProduct->getAmazonSynchronizationTemplate()->isRelistSendData()) {
+            $configurator->reset();
+            $configurator->allowQty();
+        }
+
+        if ($amazonListingProduct->getAmazonSynchronizationTemplate()->isRelistAdvancedRulesEnabled()) {
+            if ($inspector->isMeetAdvancedRelistRequirements($this->listingProduct)) {
+                $runner->addProduct(
+                    $this->listingProduct,
+                    \Ess\M2ePro\Model\Listing\Product::ACTION_RELIST,
+                    $configurator
+                );
+
+                $runner->execute();
+                return true;
+            }
+        } else {
+            $runner->addProduct(
+                $this->listingProduct,
+                \Ess\M2ePro\Model\Listing\Product::ACTION_RELIST,
+                $configurator
+            );
+
+            $runner->execute();
+            return true;
+        }
+
+        return false;
     }
 
     protected function processParentProcessor()
@@ -113,7 +265,7 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         $parentTypeModel->getProcessor()->process();
     }
 
-    //########################################
+    // ########################################
 
     protected function validateResponse()
     {
@@ -123,30 +275,18 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
 
     protected function processResponseData()
     {
-        $messages = [];
+        $responseMessages = [];
 
         $responseData = $this->getPreparedResponseData();
 
-        $requestLogMessages = isset($this->params['product']['request_metadata']['log_messages'])
-            ? $this->params['product']['request_metadata']['log_messages'] : [];
-
-        foreach ($requestLogMessages as $messageData) {
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
-            $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
-            $message->initFromPreparedData($messageData['text'], $messageData['type']);
-
-            $messages[] = $message;
-        }
-
         foreach ($responseData['messages'] as $messageData) {
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
             $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
             $message->initFromResponseData($messageData);
 
-            $messages[] = $message;
+            $responseMessages[] = $message;
         }
 
-        if (!$this->processMessages($messages)) {
+        if (!$this->processMessages($responseMessages)) {
             return;
         }
 
@@ -178,7 +318,6 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
     {
         $this->getResponseObject()->processSuccess($params);
 
-        /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
         $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
         $message->initFromPreparedData(
             $this->getSuccessfulMessage(),
@@ -207,11 +346,10 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
      */
     abstract protected function getSuccessfulMessage();
 
-    //########################################
+    // ########################################
 
     /**
      * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Logger
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     protected function getLogger()
     {
@@ -256,12 +394,10 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         return $this->configurator;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Response
-     * @throws \Ess\M2ePro\Model\Exception
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     protected function getResponseObject()
     {
@@ -276,11 +412,6 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
             $response->setConfigurator($this->getConfigurator());
             $response->setRequestData($this->getRequestDataObject());
 
-            $requestMetaData = !empty($this->params['product']['request_metadata'])
-                ? $this->params['product']['request_metadata'] : [];
-
-            $response->setRequestMetaData($requestMetaData);
-
             $this->responseObject = $response;
         }
 
@@ -289,7 +420,6 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
 
     /**
      * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\RequestData
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     protected function getRequestDataObject()
     {
@@ -307,7 +437,7 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         return $this->requestDataObject;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @return \Ess\M2ePro\Model\Account
@@ -319,7 +449,6 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
 
     /**
      * @return \Ess\M2ePro\Model\Marketplace
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     protected function getMarketplace()
     {
@@ -357,7 +486,7 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         return (int)$this->params['status_changer'];
     }
 
-    //########################################
+    // ########################################
 
     protected function getOrmActionType()
     {
@@ -377,5 +506,5 @@ abstract class Responser extends \Ess\M2ePro\Model\Amazon\Connector\Command\Pend
         throw new \Ess\M2ePro\Model\Exception('Wrong Action type');
     }
 
-    //########################################
+    // ########################################
 }

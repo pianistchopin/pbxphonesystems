@@ -1,0 +1,42 @@
+<strong class="title" data-bind="i18n: title"></strong>
+
+<form data-form-js="am-details-form" data-mage-init='{"validation":{}}'>
+    <!-- ko foreach: getRegion('customer-email') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+    <fieldset class="fieldset">
+        <div class="field textarea">
+            <label class="label">
+                <span data-bind="i18n: remark_title"></span>
+                <div style="display:inline-block; width: 25px; height: 25px" data-bind="blockLoader: isLoading"></div>
+            </label>
+            <div class="control">
+                <textarea name="quote_remark"
+                          rows="3"
+                          cols="25"
+                          data-bind='value: remark, valueUpdate: "input"'>
+                </textarea>
+            </div>
+        </div>
+        <!-- ko if: notLoggedIn() -->
+        <div class="field required">
+            <label class="label">
+                <span data-bind="i18n: first_name_title"></span>
+            </label>
+            <div class="control">
+                <input name="first_name" type="text" data-validate="{required:true}"
+                       data-bind='value: firstname, valueUpdate: "input"' />
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label">
+                <span data-bind="i18n: last_name_title"></span>
+            </label>
+            <div class="control">
+                <input name="last_name" type="text" data-validate="{required:true}"
+                       data-bind='value: lastname, valueUpdate: "input"' />
+            </div>
+        </div>
+        <!-- /ko -->
+    </fieldset>
+</form>

@@ -5,13 +5,14 @@ define([
 
         // ---------------------------------------
 
-        tryToMove: function (listingId)
+        getLogViewUrl: function(rowId)
         {
-            this.movingHandler.submit(listingId, this.onSuccess)
-        },
+            var idField = M2ePro.php.constant('\\Ess\\M2ePro\\Block\\Adminhtml\\Log\\Listing\\Other\\AbstractGrid::LISTING_ID_FIELD');
 
-        onSuccess: function () {
-            this.unselectAllAndReload();
+            var params = {};
+            params[idField] = rowId;
+
+            return M2ePro.url.get('amazon_log_listing_other/index', params);
         }
 
         // ---------------------------------------

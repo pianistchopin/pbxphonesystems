@@ -14,6 +14,11 @@ class TryToCreateMagentoOrderAgainIfInitialCreationWasFailed extends AbstractFea
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return [];
+    }
+
     public function execute()
     {
         // merged with CatchMagentoOrdersCreationFailure

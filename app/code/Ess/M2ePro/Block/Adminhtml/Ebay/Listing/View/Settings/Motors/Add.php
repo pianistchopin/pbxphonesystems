@@ -187,11 +187,6 @@ JS
                 'title'       => 'Engine',
                 'is_required' => false
             ],
-            [
-                'name'        => 'street_name',
-                'title'       => 'Street Name',
-                'is_required' => false
-            ],
         ];
     }
 

@@ -74,7 +74,7 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'email',
                 'label' => $this->__('Email'),
                 'title' => $this->__('Email'),
-                'class' => 'M2ePro-validate-email validate-length maximum-length-80',
+                'class' => 'M2ePro-validate-email',
                 'value' => isset($licenseFormData['email']) ? $licenseFormData['email'] : '',
                 'required' => true,
             ]
@@ -87,7 +87,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'firstname',
                 'label' => $this->__('First Name'),
                 'title' => $this->__('First Name'),
-                'class' => 'validate-length maximum-length-40',
                 'value' => isset($licenseFormData['firstname']) ? $licenseFormData['firstname'] : '',
                 'required' => true,
             ]
@@ -100,7 +99,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'lastname',
                 'label' => $this->__('Last Name'),
                 'title' => $this->__('Last Name'),
-                'class' => 'validate-length maximum-length-40',
                 'value' => isset($licenseFormData['lastname']) ? $licenseFormData['lastname'] : '',
                 'required' => true,
             ]
@@ -113,7 +111,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'phone',
                 'label' => $this->__('Phone'),
                 'title' => $this->__('Phone'),
-                'class' => 'validate-length maximum-length-40',
                 'value' => '',
                 'required' => true,
             ]
@@ -126,7 +123,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'country',
                 'label' => $this->__('Country'),
                 'title' => $this->__('Country'),
-                'class' => 'validate-length maximum-length-40',
                 'values' => $this->country->toOptionArray(),
                 'value' => isset($licenseFormData['country']) ? $licenseFormData['country'] : '',
                 'required' => true,
@@ -140,7 +136,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'city',
                 'label' => $this->__('City'),
                 'title' => $this->__('City'),
-                'class' => 'validate-length maximum-length-40',
                 'value' => isset($licenseFormData['city']) ? $licenseFormData['city'] : '',
                 'required' => true,
             ]
@@ -153,7 +148,6 @@ class Create extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
                 'name' => 'postal_code',
                 'label' => $this->__('Postal Code'),
                 'title' => $this->__('Postal Code'),
-                'class' => 'validate-length maximum-length-40',
                 'value' => isset($licenseFormData['postal_code']) ? $licenseFormData['postal_code'] : '',
                 'required' => true,
             ]

@@ -1,0 +1,52 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals $block */
+// @codingStandardsIgnoreFile
+
+?>
+<legend class="admin__legend"><span><?= /* @escapeNotVerified */ __('Quote Totals') ?></span></legend>
+<br>
+
+<table class="admin__table-secondary data-table">
+    <tbody>
+    <?= /* @escapeNotVerified */ $block->renderTotals() ?>
+    <?= /* @escapeNotVerified */ $block->renderTotals('footer') ?>
+    </tbody>
+</table>
+
+<div class="order-totals-actions">
+    <div class="actions">
+        <?= $block->getButtonHtml(__('Submit Quote'), 'quote.submit()', 'save primary') ?>
+    </div>
+</div>
+
+<script>
+    require(['prototype'], function(){
+
+//<![CDATA[
+        var sendEmailCheckbox = $('send_confirmation');
+        if (sendEmailCheckbox) {
+            Event.observe(sendEmailCheckbox, 'change', notifyCustomerUpdate);
+            notifyCustomerUpdate();
+        }
+
+        function notifyCustomerUpdate() {
+            var sendEmailCheckbox = $('send_confirmation');
+            var notifyCustomerCheckbox = $('notify_customer');
+            if (!sendEmailCheckbox || !notifyCustomerCheckbox)
+                return;
+            notifyCustomerCheckbox.disabled = !sendEmailCheckbox.checked;
+        }
+//]]>
+
+        window.notifyCustomerUpdate = notifyCustomerUpdate;
+        window.sendEmailCheckbox = sendEmailCheckbox;
+
+    });
+</script>

@@ -15,15 +15,18 @@ use Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm;
  */
 class DirectDatabaseChanges extends AbstractForm
 {
+    protected $synchronizationConfig;
 
     //########################################
 
     public function __construct(
+        \Ess\M2ePro\Model\Config\Manager\Synchronization $synchronizationConfig,
         \Ess\M2ePro\Block\Adminhtml\Magento\Context\Template $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         array $data = []
     ) {
+        $this->synchronizationConfig = $synchronizationConfig;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -81,8 +84,8 @@ HTML
             ['legend' => false, 'collabsable' => false]
         );
 
-        $inspectorMode = (int)$this->getHelper('Module')->getConfig()->getGroupValue(
-            '/listing/product/inspector/',
+        $inspectorMode = (int)$this->synchronizationConfig->getGroupValue(
+            '/global/magento_products/inspector/',
             'mode'
         );
 

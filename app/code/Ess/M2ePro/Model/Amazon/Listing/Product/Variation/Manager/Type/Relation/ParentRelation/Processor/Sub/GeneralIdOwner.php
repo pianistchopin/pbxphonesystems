@@ -17,7 +17,7 @@ class GeneralIdOwner extends AbstractModel
 
     protected function check()
     {
-        if (!$this->getProcessor()->isGeneralIdSet()) {
+        if (!$this->getProcessor()->isGeneralIdSet() || !$this->getProcessor()->isGeneralIdOwner()) {
             $this->getProcessor()->getListingProduct()->getChildObject()->setData('sku', null);
         }
 

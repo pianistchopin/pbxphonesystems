@@ -14,6 +14,11 @@ class EbayOldItems extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return [];
+    }
+
     public function execute()
     {
         $this->getTableModifier("ebay_listing_other")

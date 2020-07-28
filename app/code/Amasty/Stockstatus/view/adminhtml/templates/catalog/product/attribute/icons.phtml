@@ -1,0 +1,58 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+
+/** @var $block \Amasty\Stockstatus\Block\Adminhtml\Product\Edit\Icons */
+?>
+
+<script>
+    require([
+        'jquery',
+        'domReady!'
+    ], function($) {
+        $('#edit_form').attr('enctype', 'multipart/form-data');
+    });
+</script>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php echo __('Manage Icons') ?></span></legend>
+    <div id="manage-options-panel">
+        <table cellpadding="5" cellspacing="8" id="icons_table" class="admin__control-table" >
+            <tr>
+                <th width="200"><?= __('Status Label') ?></th>
+                <th width="10"></th>
+                <th><?= __('Upload icon image') ?></th>
+                <th width="10"></th>
+                <th><?= __('Preview') ?></th>
+                <th width="10"></th>
+                <th><?= __('Delete') ?></th>
+            </tr>
+
+            <?php foreach ($this->getOptionValuesCollection() as $option):
+                if ( $option->getData('value') == "") continue;
+                ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($option->getData('label')); ?></td>
+                    <td></td>
+                    <td><input type="file" name="amstockstatus_icon[<?= $option->getData('value'); ?>]"></td>
+                    <td></td>
+                    <td align="center">
+                        <?php
+                        $iconUrl = $this->getIcon($option->getData('value'));
+                        if ($iconUrl):
+                            ?>
+                            <img src="<?php echo $iconUrl; ?>" alt="">
+                        <?php else: ?>
+                            <?= __('[none]') ?>
+                        <?php endif; ?>
+                    </td>
+                    <td></td>
+                    <td align="center"><input type="checkbox" value="1" name="amstockstatus_icon_delete[<?php echo $option->getData('value'); ?>]"></td>
+                </tr>
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+</fieldset>

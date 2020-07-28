@@ -42,7 +42,10 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         $className = $this->nameBuilder->buildClassName($classParts);
 
         if (is_int($account) || is_string($account)) {
-            $account = $this->walmartFactory->getCachedObjectLoaded('Account', (int)$account);
+            $account = $this->walmartFactory->getCachedObjectLoaded(
+                'Account',
+                (int)$account
+            );
         }
 
         /** @var \Ess\M2ePro\Model\Connector\Command\AbstractModel $connectorObject */
@@ -58,7 +61,10 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
     public function getCustomConnector($modelName, array $params = [], $account = null)
     {
         if (is_int($account) || is_string($account)) {
-            $account = $this->walmartFactory->getCachedObjectLoaded('Account', (int)$account);
+            $account = $this->walmartFactory->getCachedObjectLoaded(
+                'Account',
+                (int)$account
+            );
         }
 
         /** @var \Ess\M2ePro\Model\Connector\Command\AbstractModel $connectorObject */

@@ -11,17 +11,17 @@ namespace Ess\M2ePro\Model\Connector\Connection;
 /**
  * Class \Ess\M2ePro\Model\Connector\Connection\Single
  */
-class Single extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
+class Single extends \Ess\M2ePro\Model\Connector\AbstractModel
 {
     /** @var \Ess\M2ePro\Model\Connector\Connection\Request $request */
-    protected $request = null;
+    private $request = null;
 
     /** @var \Ess\M2ePro\Model\Connector\Connection\Response $response */
-    protected $response = null;
+    private $response = null;
 
-    protected $timeout = 300;
+    private $timeout = 300;
 
-    //########################################
+    // ########################################
 
     protected function sendRequest()
     {
@@ -72,7 +72,7 @@ class Single extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         }
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @param \Ess\M2ePro\Model\Connector\Connection\Request $request
@@ -112,7 +112,7 @@ class Single extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return $this->response;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @param $value
@@ -132,7 +132,7 @@ class Single extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return $this->timeout;
     }
 
-    //########################################
+    // ########################################
 
     public function getHeaders()
     {
@@ -151,10 +151,9 @@ class Single extends \Ess\M2ePro\Model\Connector\Connection\AbstractModel
         return [
             'api_version' => self::API_VERSION,
             'request'     => $this->getHelper('Data')->jsonEncode($this->getRequest()->getInfo()),
-            'data'        => $this->getHelper('Data')->jsonEncode($this->getRequest()->getData()),
-            'raw_data'    => $this->getRequest()->getRawData()
+            'data'        => $this->getHelper('Data')->jsonEncode($this->getRequest()->getData())
         ];
     }
 
-    //########################################
+    // ########################################
 }

@@ -1,0 +1,61 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var $block \Amasty\RequestQuote\Block\Cart\Sidebar */
+
+$isLoggedIn = $block->isLoggedIn();
+?>
+<?php if ($isLoggedIn): ?>
+<div data-block="quotecart" class="amquote-cart-wrapper minicart-wrapper">
+    <a class="amquote-showcart action" href="<?= /* @escapeNotVerified */ $block->getQuoteCartUrl() ?>"
+       data-bind="scope: 'quotecart_content'" title="<?= /* @escapeNotVerified */ __('My Quote') ?>">
+        <span class="text"><?= /* @escapeNotVerified */ __('My Quote') ?></span>
+        <span class="counter qty empty"
+              data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
+            <span class="counter-number"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></span>
+            <span class="counter-label">
+            <!-- ko if: getCartParam('summary_count') -->
+                <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
+                <!-- ko i18n: 'items' --><!-- /ko -->
+                <!-- /ko -->
+            </span>
+        </span>
+    </a>
+    <div class="block block-quotecart block-minicart"
+         data-role="dropdownDialog"
+         data-mage-init='{"dropdownDialog":{
+                "appendTo":"[data-block=quotecart]",
+                "triggerTarget":".amquote-showcart",
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass":"-active",
+                "parentClass":"-active",
+                "buttons":[]}}'>
+        <div id="quotecart-content-wrapper" data-bind="scope: 'quotecart_content'">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        </div>
+        <?= $block->getChildHtml('quotecart.addons') ?>
+    </div>
+
+    <script>
+        window.amasty_quote_cart = <?= /* @escapeNotVerified */ $block->getSerializedConfig() ?>;
+    </script>
+
+    <script type="text/x-magento-init">
+    {
+        "[data-block='quotecart']": {
+            "Magento_Ui/js/core/app": <?= /* @escapeNotVerified */ $block->getJsLayout() ?>
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+        }
+    }
+    </script>
+</div>
+<?php endif; ?>

@@ -40,6 +40,7 @@ HTML
         $magentoAttributeHelper = $this->getHelper('Magento\Attribute');
 
         $allAttributes = $this->getHelper('Magento\Attribute')->getAll();
+        $generalAttributes = $magentoAttributeHelper->getGeneralFromAllAttributeSets();
 
         $attributesByTypes = [
             'boolean' => $magentoAttributeHelper->filterByInputTypes(
@@ -47,7 +48,7 @@ HTML
                 ['boolean']
             ),
             'text' => $magentoAttributeHelper->filterByInputTypes(
-                $allAttributes,
+                $generalAttributes,
                 ['text']
             ),
             'text_textarea' => $magentoAttributeHelper->filterByInputTypes(
@@ -55,15 +56,15 @@ HTML
                 ['text', 'textarea']
             ),
             'text_date' => $magentoAttributeHelper->filterByInputTypes(
-                $allAttributes,
+                $generalAttributes,
                 ['text', 'date', 'datetime']
             ),
             'text_select' => $magentoAttributeHelper->filterByInputTypes(
-                $allAttributes,
+                $generalAttributes,
                 ['text', 'select']
             ),
             'text_images' => $magentoAttributeHelper->filterByInputTypes(
-                $allAttributes,
+                $generalAttributes,
                 ['text', 'image', 'media_image', 'gallery', 'multiline', 'textarea', 'select', 'multiselect']
             )
         ];

@@ -98,12 +98,17 @@ class Messages extends \Ess\M2ePro\Block\Adminhtml\Template\Messages
 
     public function getMessages()
     {
-        $messages = parent::getMessages();
+        $messages = [];
 
+        // ---------------------------------------
         $message = $this->getCurrencyConversionMessage();
+
         if ($message !== null) {
             $messages[self::TYPE_CURRENCY_CONVERSION] = $message;
         }
+        // ---------------------------------------
+
+        $messages = array_merge($messages, parent::getMessages());
 
         return $messages;
     }

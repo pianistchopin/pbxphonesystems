@@ -13,9 +13,6 @@ namespace Ess\M2ePro\Model\Amazon\Repricing\Synchronization;
  */
 class General extends AbstractModel
 {
-    const INSTRUCTION_TYPE_STATUS_CHANGED = 'repricing_status_changed';
-    const INSTRUCTION_INITIATOR           = 'repricing_general_synchronization';
-
     private $parentProductsIds = [];
 
     //########################################
@@ -184,7 +181,6 @@ class General extends AbstractModel
                 'online_min_price'          => $offerData['minimal_product_price'],
                 'online_max_price'          => $offerData['maximal_product_price'],
                 'is_online_disabled'        => $offerData['is_calculation_disabled'],
-                'is_online_inactive'        => $offerData['is_offer_inactive'],
                 'last_synchronization_date' => $this->getHelper('Data')->getCurrentGmtDate(),
                 'update_date'               => $this->getHelper('Data')->getCurrentGmtDate(),
                 'create_date'               => $this->getHelper('Data')->getCurrentGmtDate(),
@@ -246,10 +242,8 @@ class General extends AbstractModel
             return;
         }
 
-        $disabledListingOthersIds  = [];
-        $enabledListingOthersIds   = [];
-        $activeListingOthersIds    = [];
-        $inactiveListingOthersIds  = [];
+        $disabledListingOthersIds = [];
+        $enabledListingOthersIds  = [];
 
         foreach ($listingsOthersData as $listingOtherData) {
             $listingOtherId = (int)$listingOtherData['listing_other_id'];
@@ -265,7 +259,6 @@ class General extends AbstractModel
                         'online_price'          => $offerData['product_price'],
                         'is_repricing'          => 1,
                         'is_repricing_disabled' => $offerData['is_calculation_disabled'],
-                        'is_repricing_inactive' => $offerData['is_offer_inactive'],
                     ],
                     ['listing_other_id = ?' => $listingOtherId]
                 );
@@ -278,44 +271,38 @@ class General extends AbstractModel
             } else {
                 $enabledListingOthersIds[] = $listingOtherId;
             }
+        }
 
-            if ($offerData['is_offer_inactive']) {
-                $inactiveListingOthersIds[] = $listingOtherId;
-            } else {
-                $activeListingOthersIds[] = $listingOtherId;
+        if (!empty($disabledListingOthersIds)) {
+            $disabledListingOthersIdsPacks = array_chunk(array_unique($disabledListingOthersIds), 1000);
+
+            foreach ($disabledListingOthersIdsPacks as $disabledListingOthersIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_other'),
+                    [
+                        'is_repricing'          => 1,
+                        'is_repricing_disabled' => 1,
+                    ],
+                    ['listing_other_id IN (?)' => $disabledListingOthersIdsPack]
+                );
             }
         }
 
         if (!empty($enabledListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_disabled' => 0],
-                $enabledListingOthersIds
-            );
-        }
+            $enabledListingOthersIdsPacks = array_chunk(array_unique($enabledListingOthersIds), 1000);
 
-        if (!empty($disabledListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_disabled' => 1],
-                $disabledListingOthersIds
-            );
-        }
-
-        if (!empty($activeListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_inactive' => 0],
-                $activeListingOthersIds
-            );
-        }
-
-        if (!empty($inactiveListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_inactive' => 1],
-                $inactiveListingOthersIds
-            );
+            foreach ($enabledListingOthersIdsPacks as $enabledListingOthersIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_other'),
+                    [
+                        'is_repricing'          => 1,
+                        'is_repricing_disabled' => 0,
+                    ],
+                    ['listing_other_id IN (?)' => $enabledListingOthersIdsPack]
+                );
+            }
         }
     }
 
@@ -355,7 +342,6 @@ class General extends AbstractModel
                 'second_table.sku',
                 'second_table.online_regular_price',
                 'alpr.is_online_disabled',
-                'alpr.is_online_inactive',
                 'alpr.online_regular_price',
                 'alpr.online_min_price',
                 'alpr.online_max_price'
@@ -364,22 +350,18 @@ class General extends AbstractModel
 
         $listingsProductsData = $listingProductCollection->getData();
 
-        $notManagedListingsProductsIds = [];
+        $disabledListingsProductsIds = [];
+        $disabledProductsIds = [];
 
-        $enabledListingsProductsIds    = [];
-        $disabledListingsProductsIds   = [];
-
-        $activeListingsProductsIds     = [];
-        $inactiveListingsProductsIds   = [];
+        $enabledListingsProductsIds  = [];
 
         foreach ($listingsProductsData as $listingProductData) {
             $listingProductId = (int)$listingProductData['listing_product_id'];
 
             $offerData = $updatedOffersData[strtolower($listingProductData['sku'])];
 
-            if ($offerData['product_price'] !== null &&
-                !$offerData['is_calculation_disabled'] && !$offerData['is_offer_inactive'] &&
-                 $listingProductData['online_regular_price'] != $offerData['product_price']
+            if ($offerData['product_price'] !== null && !$offerData['is_calculation_disabled'] &&
+                $listingProductData['online_regular_price'] != $offerData['product_price']
             ) {
                 $this->resourceConnection->getConnection()->update(
                     $this->getHelper('Module_Database_Structure')
@@ -401,7 +383,6 @@ class General extends AbstractModel
                         'online_min_price'          => $offerData['minimal_product_price'],
                         'online_max_price'          => $offerData['maximal_product_price'],
                         'is_online_disabled'        => $offerData['is_calculation_disabled'],
-                        'is_online_inactive'        => $offerData['is_offer_inactive'],
                         'last_synchronization_date' => $this->getHelper('Data')->getCurrentGmtDate(),
                         'update_date'               => $this->getHelper('Data')->getCurrentGmtDate(),
                     ],
@@ -414,92 +395,54 @@ class General extends AbstractModel
             if ($listingProductData['is_online_disabled'] != $offerData['is_calculation_disabled']) {
                 if ($offerData['is_calculation_disabled']) {
                     $disabledListingsProductsIds[] = $listingProductId;
+                    $disabledProductsIds[] = (int)$listingProductData['product_id'];
                 } else {
                     $enabledListingsProductsIds[] = $listingProductId;
                 }
             }
-
-            if ($listingProductData['is_online_inactive'] != $offerData['is_offer_inactive']) {
-                if ($offerData['is_offer_inactive']) {
-                    $inactiveListingsProductsIds[] = $listingProductId;
-                } else {
-                    $activeListingsProductsIds[] = $listingProductId;
-                }
-            }
-
-            // we try to catch an event when the product becomes not managed for some reason
-            // but it had the managed state before
-            if ($listingProductData['is_online_disabled'] != $offerData['is_calculation_disabled'] ||
-                $listingProductData['is_online_inactive'] != $offerData['is_offer_inactive']) {
-                if (!$listingProductData['is_online_disabled'] && !$listingProductData['is_online_inactive']) {
-                    $notManagedListingsProductsIds[] = $listingProductId;
-                }
-            }
-        }
-
-        if (!empty($notManagedListingsProductsIds)) {
-            $instructionsData = [];
-
-            foreach ($notManagedListingsProductsIds as $notManagedListingProductId) {
-                $instructionsData[] = [
-                    'listing_product_id' => $notManagedListingProductId,
-                    'type'               => self::INSTRUCTION_TYPE_STATUS_CHANGED,
-                    'initiator'          => self::INSTRUCTION_INITIATOR,
-                    'priority'           => 50,
-                ];
-            }
-
-            $this->activeRecordFactory->getObject('Listing_Product_Instruction')->getResource()
-                ->add($instructionsData);
-        }
-
-        $defaultParams = [
-            'last_synchronization_date' => $this->getHelper('Data')->getCurrentGmtDate(),
-            'update_date'               => $this->getHelper('Data')->getCurrentGmtDate()
-        ];
-
-        if (!empty($enabledListingsProductsIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_product_repricing',
-                array_merge(
-                    $defaultParams,
-                    ['is_online_disabled' => 0]
-                ),
-                $enabledListingsProductsIds
-            );
         }
 
         if (!empty($disabledListingsProductsIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_product_repricing',
-                array_merge(
-                    $defaultParams,
-                    ['is_online_disabled' => 1]
-                ),
-                $disabledListingsProductsIds
-            );
+            $disabledListingsProductsIdsPacks = array_chunk(array_unique($disabledListingsProductsIds), 1000);
+
+            foreach ($disabledListingsProductsIdsPacks as $disabledListingsProductsIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_product_repricing'),
+                    [
+                        'is_online_disabled'        => 1,
+                        'last_synchronization_date' => $this->getHelper('Data')->getCurrentGmtDate(),
+                        'update_date'               => $this->getHelper('Data')->getCurrentGmtDate(),
+                    ],
+                    ['listing_product_id IN (?)' => $disabledListingsProductsIdsPack]
+                );
+            }
         }
 
-        if (!empty($activeListingsProductsIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_product_repricing',
-                array_merge(
-                    $defaultParams,
-                    ['is_online_inactive' => 0]
-                ),
-                $activeListingsProductsIds
-            );
+        if (!empty($disabledProductsIds)) {
+            foreach ($disabledProductsIds as $disabledProductId) {
+                $this->activeRecordFactory->getObject('ProductChange')->addUpdateAction(
+                    $disabledProductId,
+                    \Ess\M2ePro\Model\ProductChange::INITIATOR_SYNCHRONIZATION
+                );
+            }
         }
 
-        if (!empty($inactiveListingsProductsIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_product_repricing',
-                array_merge(
-                    $defaultParams,
-                    ['is_online_inactive' => 1]
-                ),
-                $inactiveListingsProductsIds
-            );
+        if (!empty($enabledListingsProductsIds)) {
+            $enabledListingsProductsIdsPacks = array_chunk(array_unique($enabledListingsProductsIds), 1000);
+
+            foreach ($enabledListingsProductsIdsPacks as $enabledListingsProductsIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_product_repricing'),
+                    [
+                        'is_online_disabled'        => 0,
+                        'last_synchronization_date' => $this->getHelper('Data')->getCurrentGmtDate(),
+                        'update_date'               => $this->getHelper('Data')->getCurrentGmtDate(),
+                    ],
+                    ['listing_product_id IN (?)' => $enabledListingsProductsIdsPack]
+                );
+            }
         }
     }
 
@@ -521,7 +464,6 @@ class General extends AbstractModel
                 'second_table.sku',
                 'second_table.online_price',
                 'second_table.is_repricing_disabled',
-                'second_table.is_repricing_inactive',
             ]
         );
 
@@ -531,18 +473,15 @@ class General extends AbstractModel
             return;
         }
 
-        $enabledListingOthersIds  = [];
         $disabledListingOthersIds = [];
-        $activeListingOthersIds   = [];
-        $inactiveListingOthersIds = [];
+        $enabledListingOthersIds  = [];
 
         foreach ($listingsOthersData as $listingOtherData) {
             $listingOtherId = (int)$listingOtherData['listing_other_id'];
 
             $offerData = $updatedOffersData[strtolower($listingOtherData['sku'])];
 
-            if ($offerData['product_price'] !== null &&
-                !$offerData['is_calculation_disabled'] && !$offerData['is_offer_inactive'] &&
+            if ($offerData['product_price'] !== null && !$offerData['is_calculation_disabled'] &&
                 $offerData['product_price'] != $listingOtherData['online_price']
             ) {
                 $this->resourceConnection->getConnection()->update(
@@ -551,7 +490,6 @@ class General extends AbstractModel
                     [
                         'online_price'          => $offerData['product_price'],
                         'is_repricing_disabled' => $offerData['is_calculation_disabled'],
-                        'is_repricing_inactive' => $offerData['is_offer_inactive'],
                     ],
                     ['listing_other_id = ?' => $listingOtherId]
                 );
@@ -560,52 +498,35 @@ class General extends AbstractModel
             }
 
             if ($listingOtherData['is_repricing_disabled'] != $offerData['is_calculation_disabled']) {
-                if ($offerData['is_calculation_disabled']) {
-                    $disabledListingOthersIds[] = $listingOtherId;
-                } else {
-                    $enabledListingOthersIds[] = $listingOtherId;
-                }
+                $offerData['is_calculation_disabled'] && $disabledListingOthersIds[] = $listingOtherId;
+                !$offerData['is_calculation_disabled'] && $enabledListingOthersIds[] = $listingOtherId;
             }
+        }
 
-            if ($listingOtherData['is_repricing_inactive'] != !$offerData['is_offer_inactive']) {
-                if ($offerData['is_offer_inactive']) {
-                    $inactiveListingOthersIds[] = $listingOtherId;
-                } else {
-                    $activeListingOthersIds[] = $listingOtherId;
-                }
+        if (!empty($disabledListingOthersIds)) {
+            $disabledListingOthersIdsPacks = array_chunk(array_unique($disabledListingOthersIds), 1000);
+
+            foreach ($disabledListingOthersIdsPacks as $disabledListingOthersIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_other'),
+                    ['is_repricing_disabled' => 1],
+                    ['listing_other_id IN (?)' => $disabledListingOthersIdsPack]
+                );
             }
         }
 
         if (!empty($enabledListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_disabled' => 0],
-                $enabledListingOthersIds
-            );
-        }
+            $enabledListingOthersIdsPacks = array_chunk(array_unique($enabledListingOthersIds), 1000);
 
-        if (!empty($disabledListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_disabled' => 1],
-                $disabledListingOthersIds
-            );
-        }
-
-        if (!empty($activeListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_inactive' => 0],
-                $activeListingOthersIds
-            );
-        }
-
-        if (!empty($inactiveListingOthersIds)) {
-            $this->multipleUpdateListings(
-                'm2epro_amazon_listing_other',
-                ['is_repricing' => 1, 'is_repricing_inactive' => 1],
-                $inactiveListingOthersIds
-            );
+            foreach ($enabledListingOthersIdsPacks as $enabledListingOthersIdsPack) {
+                $this->resourceConnection->getConnection()->update(
+                    $this->getHelper('Module_Database_Structure')
+                         ->getTableNameWithPrefix('m2epro_amazon_listing_other'),
+                    ['is_repricing_disabled' => 0],
+                    ['listing_other_id IN (?)' => $enabledListingOthersIdsPack]
+                );
+            }
         }
     }
 
@@ -684,8 +605,7 @@ class General extends AbstractModel
                 $this->getHelper('Module_Database_Structure')->getTableNameWithPrefix('m2epro_amazon_listing_other'),
                 [
                     'is_repricing'          => 0,
-                    'is_repricing_disabled' => 0,
-                    'is_repricing_inactive' => 0
+                    'is_repricing_disabled' => 0
                 ],
                 ['listing_other_id IN (?)' => $listingOtherIdsPack]
             );
@@ -713,29 +633,6 @@ class General extends AbstractModel
         }
 
         $this->parentProductsIds = [];
-    }
-
-    //########################################
-
-    protected function multipleUpdateListings($tableName, $params, $listingsIds)
-    {
-        if ($tableName === 'm2epro_amazon_listing_product_repricing') {
-            $tableId = 'listing_product_id';
-        } else {
-            $tableId = 'listing_other_id';
-        }
-
-        $tableName = $this->getHelper('Module_Database_Structure')->getTableNameWithPrefix($tableName);
-
-        $listingsIdsPacks = array_chunk(array_unique($listingsIds), 1000);
-
-        foreach ($listingsIdsPacks as $listingsIdsPack) {
-            $this->resourceConnection->getConnection()->update(
-                $tableName,
-                $params,
-                [$tableId . ' IN (?)' => $listingsIdsPack]
-            );
-        }
     }
 
     //########################################

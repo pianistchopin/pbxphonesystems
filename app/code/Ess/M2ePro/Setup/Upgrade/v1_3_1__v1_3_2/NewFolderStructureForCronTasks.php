@@ -14,6 +14,11 @@ class NewFolderStructureForCronTasks extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['lock_item', 'operation_history'];
+    }
+
     public function execute()
     {
         $changesMap = array(

@@ -25,12 +25,18 @@ class General extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Valid
         $sku = $this->getSku();
 
         if (empty($sku)) {
+            // M2ePro\TRANSLATIONS
+            // SKU is not provided. Please, check Listing Settings.
             $this->addMessage('SKU is not provided. Please, check Listing Settings.');
+
             return false;
         }
 
         if (strlen($sku) > self::SKU_MAX_LENGTH) {
+            // M2ePro\TRANSLATIONS
+            // The length of SKU must be less than 40 characters.
             $this->addMessage('The length of SKU must be less than 40 characters.');
+
             return false;
         }
 
@@ -56,7 +62,7 @@ class General extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Valid
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()
         ) {
             $variations = $this->getListingProduct()->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Amasty\Shiprestriction\Model\Rule">
+        <arguments>
+            <argument name="conditionCombine" xsi:type="object" shared="false">Amasty\Shiprestriction\Model\Rule\Condition\Combine</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Shipping\Model\Shipping">
+        <plugin name="Amasty_Shiprestriction::RestrictRates" type="Amasty\Shiprestriction\Plugin\Model\ShippingPlugin"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Config">
+        <plugin name="Amasty_Shiprestriction::ProductAttributes" type="Amasty\Shiprestriction\Plugin\ProductAttributes" />
+    </type>
+    <type name="\Magento\SalesRule\Setup\UpgradeData">
+        <plugin name="Amasty_Shiprestriction::SetupUpgradeData" type="Amasty\Shiprestriction\Plugin\Setup\UpgradeData" />
+    </type>
+    <preference for="Magento\Quote\Model\ShippingMethodManagement"     type="Amasty\Shiprestriction\Model\Quote\ShippingMethodManagement"/>
+</config>

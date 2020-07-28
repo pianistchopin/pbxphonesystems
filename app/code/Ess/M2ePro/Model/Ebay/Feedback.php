@@ -137,7 +137,6 @@ class Feedback extends \Ess\M2ePro\Model\ActiveRecord\AbstractModel
         $this->setData('last_response_attempt_date', $this->getHelper('Data')->getCurrentGmtDate())->save();
 
         try {
-            /** @var \Ess\M2ePro\Model\Ebay\Connector\Dispatcher $dispatcherObj */
             $dispatcherObj = $this->modelFactory->getObject('Ebay_Connector_Dispatcher');
             $connectorObj = $dispatcherObj->getVirtualConnector(
                 'feedback',

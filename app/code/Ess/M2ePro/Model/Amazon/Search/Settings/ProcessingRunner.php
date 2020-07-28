@@ -11,7 +11,7 @@ namespace Ess\M2ePro\Model\Amazon\Search\Settings;
 /**
  * Class \Ess\M2ePro\Model\Amazon\Search\Settings\ProcessingRunner
  */
-class ProcessingRunner extends \Ess\M2ePro\Model\Connector\Command\Pending\Processing\Single\Runner
+class ProcessingRunner extends \Ess\M2ePro\Model\Connector\Command\Pending\Processing\Runner\Single
 {
     /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
     private $listingProduct = null;

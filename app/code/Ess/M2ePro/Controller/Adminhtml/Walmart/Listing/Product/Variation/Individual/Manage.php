@@ -47,8 +47,8 @@ class Manage extends Main
         if ($isVariationProductMatched) {
             $listingProduct = $this->duplicateListingProduct($listingProduct);
         } else {
-            $listingProduct->getChildObject()->setData('search_settings_status', null);
-            $listingProduct->getChildObject()->setData('search_settings_data', null);
+            $listingProduct->setData('search_settings_status', null);
+            $listingProduct->setData('search_settings_data', null);
             $listingProduct->save();
         }
 
@@ -112,7 +112,7 @@ class Manage extends Main
             false
         );
 
-        $duplicatedListingProduct->getChildObject()->setData(
+        $duplicatedListingProduct->setData(
             'template_category_id',
             $listingProduct->getChildObject()->getTemplateCategoryId()
         );

@@ -52,10 +52,9 @@ class Product extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
 
         // ---------------------------------------
         $this->addButton('next', [
-            'id'      => 'ebay_listing_category_continue_btn',
-            'class'   => 'action-primary forward',
-            'label'   => $this->__('Continue'),
-            'onclick' => 'EbayListingProductCategorySettingsModeProductGridObj.completeCategoriesDataStep();'
+            'class' => 'action-primary forward',
+            'label' => $this->__('Continue'),
+            'onclick' => 'EbayListingProductCategorySettingsModeProductGridObj.nextStep();'
         ]);
         // ---------------------------------------
     }
@@ -75,6 +74,7 @@ class Product extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
     protected function _toHtml()
     {
         $parentHtml = parent::_toHtml();
+
         $popupsHtml = $this->getPopupsHtml();
 
         return <<<HTML

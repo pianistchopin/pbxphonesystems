@@ -21,7 +21,11 @@ class Actual extends AbstractBlock
     {
         parent::_construct();
 
+        // Initialization block
+        // ---------------------------------------
         $this->setId('controlPanelSummaryInfo');
+        // ---------------------------------------
+
         $this->setTemplate('control_panel/info/actual.phtml');
     }
 
@@ -35,7 +39,6 @@ class Actual extends AbstractBlock
         // ---------------------------------------
         $this->publicVersion = $this->getHelper('Module')->getPublicVersion();
         $this->setupVersion  = $this->getHelper('Module')->getSetupVersion();
-        $this->moduleEnvironment = $this->getHelper('Module')->getEnvironment();
         // ---------------------------------------
 
         // ---------------------------------------

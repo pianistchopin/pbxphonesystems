@@ -24,10 +24,10 @@ class ListingOther extends AbstractForm
         /** @var \Ess\M2ePro\Helper\Magento\Attribute $magentoAttributeHelper */
         $magentoAttributeHelper = $this->getHelper('Magento\Attribute');
 
-        $allAttributes = $magentoAttributeHelper->getAll();
+        $generalAttributes = $magentoAttributeHelper->getGeneralFromAllAttributeSets();
 
         $attributes = $magentoAttributeHelper->filterByInputTypes(
-            $allAttributes,
+            $generalAttributes,
             [
                 'text', 'textarea', 'select'
             ]
@@ -45,8 +45,9 @@ class ListingOther extends AbstractForm
 
         $defaults = [
             'related_store_id' => 0,
-            'other_listings_synchronization' => 1,
-            'other_listings_mapping_mode' => 1,
+
+            'other_listings_synchronization' => \Ess\M2ePro\Model\Walmart\Account::OTHER_LISTINGS_SYNCHRONIZATION_YES,
+            'other_listings_mapping_mode' => \Ess\M2ePro\Model\Walmart\Account::OTHER_LISTINGS_MAPPING_MODE_YES,
             'other_listings_mapping_settings' => [],
         ];
 
@@ -96,8 +97,8 @@ HTML
                 'name' => 'other_listings_synchronization',
                 'label' => $this->__('Import 3rd Party Listings'),
                 'values' => [
-                    1 => $this->__('Yes'),
-                    0 => $this->__('No'),
+                    Account::OTHER_LISTINGS_SYNCHRONIZATION_YES => $this->__('Yes'),
+                    Account::OTHER_LISTINGS_SYNCHRONIZATION_NO => $this->__('No'),
                 ],
                 'value' => $formData['other_listings_synchronization'],
                 'tooltip' => $this->__('Enable to automatically import the 3rd Party Items.')
@@ -127,8 +128,8 @@ HTML
                 'class' => 'M2ePro-require-select-attribute',
                 'label' => $this->__('Product Mapping'),
                 'values' => [
-                    1 => $this->__('Yes'),
-                    0 => $this->__('No'),
+                    Account::OTHER_LISTINGS_MAPPING_MODE_YES => $this->__('Yes'),
+                    Account::OTHER_LISTINGS_MAPPING_MODE_NO => $this->__('No'),
                 ],
                 'value' => $formData['other_listings_mapping_mode'],
                 'tooltip' => $this->__(

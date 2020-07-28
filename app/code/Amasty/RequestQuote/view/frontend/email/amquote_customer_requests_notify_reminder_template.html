@@ -1,0 +1,28 @@
+<!--@subject {{trans "Email alert for reminder quote requests"}} @-->
+<!--@vars
+{
+"var viewUrl":"Url for view quote",
+"var customerName":"Customer Name"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello %customer_name," customer_name=$customerName}}</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p>{{trans "Proposal is about to expire. Please review the price proposal and move"}} <a href="{{var viewUrl}}">{{trans "your quote"}}</a> {{trans "to the cart to finalize the purchase!"}}</p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            {{layout handle="amasty_quote_email_items" quote=$quote area="frontend"}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

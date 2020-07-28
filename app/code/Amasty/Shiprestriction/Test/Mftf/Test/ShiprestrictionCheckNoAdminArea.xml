@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckNoAdminArea">
+        <annotations>
+            <features value="Restriction Rule Creation"/>
+            <stories value="Create a Restriction Rule via the Admin"/>
+            <title value="Check Restriction Rule And Dont Apply In Admin Area"/>
+            <description value="Check Restriction Rule Dont And Apply In Admin Area"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-23"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckNoAdminArea"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseConfigSettingAfterTest"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction and disable Admin Area-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckNoAdminArea"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionDisableAdminArea" stepKey="EnableAdminArea">
+            <argument name="shippingRestriction" value="shiprestrictionCheckNoAdminArea"/>
+        </actionGroup>
+
+        <!--Add first product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+        </actionGroup>
+
+        <!--Check No Shipping Method Flat Rate With Error Message-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessage" stepKey="checkFlatRateWithAddress">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckNoAdminArea.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckNoAdminArea.message"/>
+        </actionGroup>
+
+        <!--Check Have Best Way And Flat Rate In Admin Area-->
+        <actionGroup ref="AdminCheckShippingMethodsInAdminArea" stepKey="CheckShippingBestWayMethodInAdminArea">
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckNoAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+        <actionGroup ref="AdminCheckShippingMethodsInAdminArea" stepKey="CheckShippingFlatRateMethodInAdminArea">
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckNoAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+
+        <!-- Create Order with Flat Rate-->
+        <actionGroup ref="AdminCreateOrder" stepKey="CreateOrderWithActiveRestrictionRule">
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckNoAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+
+        <!-- Check Success Message About Created Order-->
+        <actionGroup ref="AdminCheckSuccessMessageAfterCreatedOrder" stepKey="CheckSuccessMessage"/>
+
+    </test>
+</tests>

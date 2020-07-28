@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:shiprulesIgnoreFreeShippingPromoYes:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckNoRestrictionMessage">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check No Restriction Message"/>
+            <description value="Check No Restriction Message"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-22"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckNoRestrictionMessage"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction and Clear Field Restriction Message-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckNoRestrictionMessage"/>
+        </actionGroup>
+        <actionGroup ref="AdminClearFieldRestrictionMessage" stepKey="Delete">
+            <argument name="shippingRestriction" value="shiprestrictionCheckNoRestrictionMessage"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessage" stepKey="checkFlatRateFirst">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckNoRestrictionMessage.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckNoRestrictionMessage.message"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theFitnessSpriteFoamRoller"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessage" stepKey="checkFlatRateSecond">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckNoRestrictionMessage.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckNoRestrictionMessage.message"/>
+        </actionGroup>
+
+    </test>
+</tests>

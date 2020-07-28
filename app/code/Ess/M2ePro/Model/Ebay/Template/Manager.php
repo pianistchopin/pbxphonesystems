@@ -70,7 +70,6 @@ class Manager extends \Ess\M2ePro\Model\AbstractModel
             !($object instanceof \Ess\M2ePro\Model\Ebay\Listing\Product)) {
             throw new \Ess\M2ePro\Model\Exception('Owner object is out of knowledge range.');
         }
-
         $this->ownerObject = $object;
         return $this;
     }
@@ -113,7 +112,6 @@ class Manager extends \Ess\M2ePro\Model\AbstractModel
         if (!in_array(strtolower($nick), $this->getAllTemplates())) {
             throw new \Ess\M2ePro\Model\Exception('Policy nick is out of knowledge range.');
         }
-
         $this->templateNick = strtolower($nick);
         return $this;
     }
@@ -198,6 +196,30 @@ class Manager extends \Ess\M2ePro\Model\AbstractModel
             self::TEMPLATE_PAYMENT,
             self::TEMPLATE_SHIPPING,
             self::TEMPLATE_RETURN_POLICY,
+        ];
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function isTrackingAttributesTemplate()
+    {
+        return in_array($this->getTemplate(), $this->getTrackingAttributesTemplates());
+    }
+
+    /**
+     * @return array
+     */
+    public function getTrackingAttributesTemplates()
+    {
+        return [
+            self::TEMPLATE_RETURN_POLICY,
+            self::TEMPLATE_SHIPPING,
+            self::TEMPLATE_PAYMENT,
+            self::TEMPLATE_DESCRIPTION,
+            self::TEMPLATE_SELLING_FORMAT
         ];
     }
 
@@ -410,13 +432,13 @@ class Manager extends \Ess\M2ePro\Model\AbstractModel
                 $name = 'Ebay_Template_ReturnPolicy';
                 break;
             case self::TEMPLATE_SELLING_FORMAT:
-                $name = 'Template_SellingFormat';
+                $name = 'Template\SellingFormat';
                 break;
             case self::TEMPLATE_DESCRIPTION:
-                $name = 'Template_Description';
+                $name = 'Template\Description';
                 break;
             case self::TEMPLATE_SYNCHRONIZATION:
-                $name = 'Template_Synchronization';
+                $name = 'Template\Synchronization';
                 break;
         }
 

@@ -11,8 +11,31 @@ namespace Ess\M2ePro\Model\Ebay\Listing\Product\Action;
 /**
  * Class \Ess\M2ePro\Model\Ebay\Listing\Product\Action\RequestData
  */
-class RequestData extends \Ess\M2ePro\Model\Listing\Product\Action\RequestData
+class RequestData extends \Ess\M2ePro\Model\AbstractModel
 {
+    /**
+     * @var \Ess\M2ePro\Model\Listing\Product
+     */
+    private $listingProduct = null;
+
+    //########################################
+
+    /**
+     * @param \Ess\M2ePro\Model\Listing\Product $object
+     */
+    public function setListingProduct(\Ess\M2ePro\Model\Listing\Product $object)
+    {
+        $this->listingProduct = $object;
+    }
+
+    /**
+     * @return \Ess\M2ePro\Model\Listing\Product
+     */
+    protected function getListingProduct()
+    {
+        return $this->listingProduct;
+    }
+
     //########################################
 
     /**
@@ -71,6 +94,21 @@ class RequestData extends \Ess\M2ePro\Model\Listing\Product\Action\RequestData
     public function hasPriceBuyItNow()
     {
         return !$this->isVariationItem() && isset($this->getData()['price_buyitnow']);
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function hasOutOfStockControl()
+    {
+        return isset($this->getData()['out_of_stock_control']);
+    }
+
+    public function hasOutOfStockControlResult()
+    {
+        return isset($this->getData()['out_of_stock_control_result']);
     }
 
     // ---------------------------------------
@@ -196,6 +234,18 @@ class RequestData extends \Ess\M2ePro\Model\Listing\Product\Action\RequestData
 
     // ---------------------------------------
 
+    public function getOutOfStockControl()
+    {
+        return $this->hasOutOfStockControl() ? $this->getData()['out_of_stock_control'] : null;
+    }
+
+    public function getOutOfStockControlResult()
+    {
+        return $this->hasOutOfStockControlResult() ? $this->getData()['out_of_stock_control_result'] : null;
+    }
+
+    // ---------------------------------------
+
     public function getSku()
     {
         return $this->hasSku() ? $this->getData()['sku'] : null;
@@ -306,7 +356,7 @@ class RequestData extends \Ess\M2ePro\Model\Listing\Product\Action\RequestData
         $price = null;
 
         foreach ($this->getVariations() as $variationData) {
-            if ($variationData['delete'] || !isset($variationData['price'])) {
+            if ($variationData['delete']) {
                 continue;
             }
 

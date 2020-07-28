@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="amasty_quote_quote_create_customer_block"/>
+    <head>
+        <link src="Magento_Sales::js/bootstrap/order-create-index.js"/>
+    </head>
+    <update handle="amasty_quote_quote_create_item_price"/>
+    <body>
+        <referenceContainer name="admin.scope.col.wrap" htmlClass="admin__old" />
+        <referenceBlock name="page.title">
+            <action method="setTitleId">
+                <argument translate="false" name="id" xsi:type="string">quote-header</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Backend\Block\Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
+            <block class="Magento\Catalog\Block\Adminhtml\Product\Composite\Configure" name="after.body.start.product_composite_configure" template="Magento_Catalog::catalog/product/composite/configure.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template" template="Amasty_RequestQuote::quote/create/js.phtml" name="create"/>
+        </referenceContainer>
+        <referenceBlock name="content">
+            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create" name="order_content">
+                <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Form" template="Amasty_RequestQuote::quote/create/form.phtml" name="order_create_form" as="form">
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Messages" name="message"/>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Customer" template="Amasty_RequestQuote::quote/create/abstract.phtml" name="customer.grid.container"/>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Store" template="Amasty_RequestQuote::quote/create/abstract.phtml" name="store">
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Store\Select" template="Amasty_RequestQuote::quote/create/store/select.phtml" name="select"/>
+                    </block>
+                    <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Data" template="Amasty_RequestQuote::quote/create/data.phtml" name="data">
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Form\Account" template="Amasty_RequestQuote::quote/create/form/account.phtml" name="form_account"/>
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Newsletter" template="Amasty_RequestQuote::quote/create/abstract.phtml" name="newsletter">
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Newsletter\Form" template="Amasty_RequestQuote::quote/create/newsletter/form.phtml" name="order_create_newsletter_form" as="form"/>
+                        </block>
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Search" template="Amasty_RequestQuote::quote/create/abstract.phtml" name="search">
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Search\Grid" name="search_grid" as="grid"/>
+                        </block>
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Items" template="Amasty_RequestQuote::quote/create/items.phtml" name="items">
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Items\Grid" template="Amasty_RequestQuote::quote/create/items/grid.phtml" name="items_grid"/>
+                        </block>
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Comment" template="Amasty_RequestQuote::quote/create/comment.phtml" name="comment"/>
+                        <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals" template="Amasty_RequestQuote::quote/create/totals.phtml" name="totals">
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals\Subtotal" name="subtotal_total_renderer"/>
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals\Shipping" name="shipping_total_renderer"/>
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals\Tax" name="tax_total_renderer"/>
+                            <block class="Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Totals\GrandTotal" name="grand_total_total_renderer"/>
+                        </block>
+                        <block class="Magento\Framework\View\Element\Text\ListText" name="order_item_extra_info"/>
+                    </block>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

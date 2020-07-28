@@ -1,0 +1,71 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+
+/** @var $block \Amasty\Stockstatus\Block\Adminhtml\Product\Edit\Ranges */
+?>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?= __('Manage Quantity Ranges') ?></span></legend>
+    <div id="manage-options-panel">
+        <div class="box">
+            <div class="hor-scroll1">
+                <div style="clear: both"></div>
+                <table cellpadding="5" cellspacing="8" id="ranges_table" class="admin__control-table" >
+                    <thead>
+                    <th><?= __('Quantity From'); ?></th>
+                    <th><?= __('Quantity To'); ?></th>
+                    <th><?= __('Custom Stock Status'); ?></th>
+                    <?php if ($block->getHelper()->getRulesEnabled()) : ?>
+                        <th><?= __('Quantity Range Product Group'); ?></th>
+                    <?php endif; ?>
+                    <th><?= __('Remove'); ?></th>
+                    </thead>
+                    <tbody id="ranges_table_body"></tbody>
+                </table>
+                <br />
+                <button class="add-new-range action- scalable add" title="<?= __('Add New Range Status'); ?>">
+                    <span><?= __('Add New Range Status'); ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<script>
+    require([
+        'jquery',
+        'Amasty_Stockstatus/js/ranges'
+    ], function($, amstockstatus) {
+        $( window ).ready(function() {
+            window.amstatuses = <?= $block->getOptionValuesJson()?>;
+
+            <?php if ($block->getHelper()->getRulesEnabled()) : ?>
+                window.amrules = <?= $block->getRuleValuesJson()?>;
+            <?php endif; ?>
+
+            $('.add-new-range').click(function () {
+                amstockstatus.addRange();
+                return false;
+            });
+            $( "#ranges_table" ).on( "click", ".am-delete-range", function() {
+                amstockstatus.removeCurrentRow(this);
+            });
+
+            <?php $rangesCollection = $this->getRanges();?>
+            <?php if ($rangesCollection->getSize() > 0) : ?>
+                <?php foreach ($rangesCollection as $range) : ?>
+                    amstockstatus.addRange(
+                        <?= $range->getData('qty_from'); ?>,
+                        <?= $range->getData('qty_to'); ?>,
+                        <?= $range->getData('status_id');?>
+                        <?php if ($range->getData('rule'))
+                                echo ',' . $range->getData('rule');
+                        ?>
+                    );
+                <?php endforeach; ?>
+            <?php endif;?>
+        });
+    });
+</script>

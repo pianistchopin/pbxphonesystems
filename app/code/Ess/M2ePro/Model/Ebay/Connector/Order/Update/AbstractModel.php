@@ -13,6 +13,10 @@ namespace Ess\M2ePro\Model\Ebay\Connector\Order\Update;
  */
 abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\RealTime
 {
+    // M2ePro\TRANSLATIONS
+    // eBay Order Status was not updated. Reason: %msg%
+    // Status of India Site Orders cannot be updated if the Buyer uses PaisaPay payment method.
+
     /**
      * @var $order \Ess\M2ePro\Model\Order
      */
@@ -23,39 +27,30 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\Re
 
     protected $activeRecordFactory;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
-        \Ess\M2ePro\Model\Marketplace $marketplace = null,
-        \Ess\M2ePro\Model\Account $account = null,
+        \Ess\M2ePro\Model\Marketplace $marketplace,
+        \Ess\M2ePro\Model\Account $account,
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Ess\M2ePro\Model\Factory $modelFactory,
         array $params
     ) {
         $this->activeRecordFactory = $activeRecordFactory;
-        parent::__construct($helperFactory, $modelFactory, $marketplace, $account, $params);
+        parent::__construct($marketplace, $account, $helperFactory, $modelFactory, $params);
     }
 
-    //########################################
+    // ########################################
 
-    /**
-     * @param \Ess\M2ePro\Model\Order $order
-     * @return $this
-     */
     public function setOrder(\Ess\M2ePro\Model\Order $order)
     {
         $this->order = $order;
         $this->account = $order->getAccount();
-        $this->marketplace = $order->getMarketplace();
 
         return $this;
     }
 
-    /**
-     * @param $action
-     * @return $this
-     */
     public function setAction($action)
     {
         $this->action = $action;
@@ -64,9 +59,6 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\Re
 
     //----------------------------------------
 
-    /**
-     * @return int
-     */
     public function getStatus()
     {
         return $this->status;
@@ -75,8 +67,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\Re
     //----------------------------------------
 
     /**
-     * @return int
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return int|null
      */
     public function getOrderChangeId()
     {
@@ -84,43 +75,29 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\Re
             return (int)$this->params['change_id'];
         }
 
-        throw new \Ess\M2ePro\Model\Exception\Logic('Order change id has not been set.');
+        return null;
     }
 
-    //########################################
+    // ########################################
 
-    /**
-     * @return array
-     */
     protected function getCommand()
     {
         return ['orders', 'update', 'status'];
     }
 
-    //########################################
+    // ########################################
 
-    /**
-     * @return bool
-     */
     protected function validateResponse()
     {
         return true;
     }
 
-    /**
-     * @throws \Ess\M2ePro\Model\Exception
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     public function process()
     {
         if (!$this->isNeedSendRequest()) {
             $this->status = \Ess\M2ePro\Helper\Data::STATUS_ERROR;
             return;
         }
-
-        /** @var \Ess\M2ePro\Model\Order\Change $orderChange */
-        $orderChange = $this->activeRecordFactory->getObject('Order\Change')->load($this->getOrderChangeId());
-        $this->order->getLog()->setInitiator($orderChange->getCreatorType());
 
         parent::process();
 
@@ -140,51 +117,46 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\Ebay\Connector\Command\Re
 
     //----------------------------------------
 
-    /**
-     * @return bool
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     protected function isNeedSendRequest()
     {
         if ($this->order->getMarketplace()->getCode() == 'India'
             && stripos($this->order->getChildObject()->getPaymentMethod(), 'paisa') !== false
         ) {
-            /** @var \Ess\M2ePro\Model\Order\Change $orderChange */
-            $orderChange = $this->activeRecordFactory->getObject('Order\Change')->load($this->getOrderChangeId());
-            $this->order->getLog()->setInitiator($orderChange->getCreatorType());
             $this->order->addErrorLog('eBay Order Status was not updated. Reason: %msg%', [
                 'msg' => 'Status of India Site Orders cannot be updated if the Buyer uses PaisaPay payment method.'
             ]);
 
-            $orderChange->delete();
             return false;
         }
 
-        if (!in_array(
-            $this->action,
-            [
-                \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_PAY,
-                \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_SHIP,
-                \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_SHIP_TRACK
-            ]
-        )) {
+        if (!in_array($this->action, [
+           \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_PAY,
+           \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_SHIP,
+           \Ess\M2ePro\Model\Ebay\Connector\Order\Dispatcher::ACTION_SHIP_TRACK
+        ])) {
             throw new \Ess\M2ePro\Model\Exception\Logic('Invalid Action.');
         }
 
         return true;
     }
 
-    /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
     protected function getRequestData()
     {
-        return [
-            'action' => $this->action,
-            'order_id' => $this->order->getChildObject()->getEbayOrderId()
-        ];
+        $requestData = ['action' => $this->action];
+
+        $ebayOrderId = $this->order->getChildObject()->getData('ebay_order_id');
+
+        if (strpos($ebayOrderId, '-') === false) {
+            $requestData['order_id'] = $ebayOrderId;
+        } else {
+            $orderIdParts = explode('-', $ebayOrderId);
+
+            $requestData['item_id'] = $orderIdParts[0];
+            $requestData['transaction_id'] = $orderIdParts[1];
+        }
+
+        return $requestData;
     }
 
-    //########################################
+    // ########################################
 }

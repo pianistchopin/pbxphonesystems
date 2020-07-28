@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="attribute_edit_tabs">
+            <block class="Amasty\Stockstatus\Block\Adminhtml\Product\Edit\Icons" as="icons"  template="catalog/product/attribute/icons.phtml" />
+            <block class="Amasty\Stockstatus\Block\Adminhtml\Product\Edit\Ranges" as="ranges"  template="catalog/product/attribute/ranges.phtml" />
+        </referenceBlock>
+        <referenceContainer name="main">
+            <block class="Amasty\Stockstatus\Block\Adminhtml\Product\Edit\Comment" template="catalog/product/attribute/comment.phtml" after="advanced"/>
+        </referenceContainer>
+    </body>
+</page>

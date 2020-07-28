@@ -1,0 +1,30 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<input type="hidden" id="quote-config" value="<?= $block->getQuoteConfigJson(); ?>">
+<input type="hidden" id="base-url" value="<?= $block->getUrl('amasty_quote/quote_edit/loadBlock'); ?>">
+<script>
+require([
+    'mage/apply/main',
+    "Amasty_RequestQuote/quote/edit/form",
+    "Magento_Catalog/catalog/product/composite/configure",
+    "domReady!"
+], function(mage){
+    mage.apply();
+    if (window.productConfigure) {
+        productConfigure.addListType('product_to_add', {
+            urlFetch: '<?= /* @escapeNotVerified */ $block->getUrl('amasty_quote/quote_edit/configureProductToAdd') ?>'
+        });
+        productConfigure.addListType('quote_items', {
+            urlFetch: '<?= /* @escapeNotVerified */ $block->getUrl('amasty_quote/quote_edit/configureQuoteItems') ?>'
+        });
+    }
+});
+</script>
+
+
+

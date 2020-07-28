@@ -71,6 +71,8 @@ class SkuResolver extends \Ess\M2ePro\Model\AbstractModel
         $sku = $this->getSku();
 
         if (empty($sku)) {
+            // M2ePro\TRANSLATIONS
+            // SKU is not provided. Please, check Listing Settings.
             $this->addMessage('SKU is not provided. Please, check Listing Settings.');
             return null;
         }
@@ -207,14 +209,14 @@ class SkuResolver extends \Ess\M2ePro\Model\AbstractModel
             return $this->skusInProcessing;
         }
 
-        $processingActionListCollection = $this->activeRecordFactory
-            ->getObject('Walmart_Listing_Product_Action_ProcessingList')
+        $processingActionListSkuCollection = $this->activeRecordFactory
+            ->getObject('Walmart_Processing_Action_ListAction_Sku')
             ->getCollection();
-        $processingActionListCollection->addFieldToFilter('account_id', $this->getListingProduct()
+        $processingActionListSkuCollection->addFieldToFilter('account_id', $this->getListingProduct()
                                                                                 ->getListing()
                                                                                 ->getAccountId());
 
-        return $this->skusInProcessing = $processingActionListCollection->getColumnValues('sku');
+        return $this->skusInProcessing = $processingActionListSkuCollection->getColumnValues('sku');
     }
 
     private function getSku()
@@ -223,7 +225,7 @@ class SkuResolver extends \Ess\M2ePro\Model\AbstractModel
             $this->getVariationManager()->getTypeModel()->isVariationProductMatched()
         ) {
             $variations = $this->getListingProduct()->getVariations(true);
-            if (empty($variations)) {
+            if (count($variations) <= 0) {
                 throw new \Ess\M2ePro\Model\Exception\Logic(
                     'There are no variations for a variation product.',
                     [
@@ -363,7 +365,6 @@ class SkuResolver extends \Ess\M2ePro\Model\AbstractModel
 
     private function addMessage($text, $type = \Ess\M2ePro\Model\Response\Message::TYPE_ERROR)
     {
-        /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
         $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
         $message->initFromPreparedData($text, $type);
 

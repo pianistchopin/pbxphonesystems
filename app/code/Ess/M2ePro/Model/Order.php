@@ -15,6 +15,22 @@ use Ess\M2ePro\Model\Magento\Quote\FailDuringEventProcessing;
  */
 class Order extends ActiveRecord\Component\Parent\AbstractModel
 {
+    // M2ePro\TRANSLATIONS
+    // Magento Order was not created. Reason: %msg%
+    // Magento Order #%order_id% was created.
+    // Payment Transaction was not created. Reason: %msg%
+    // Invoice was not created. Reason: %msg%
+    // Invoice #%invoice_id% was created.
+    // Shipment was not created. Reason: %msg%
+    // Shipment #%shipment_id% was created.
+    // Tracking details were not imported. Reason: %msg%
+    // Tracking details were imported.
+    // Magento Order #%order_id% was canceled.
+    // Magento Order #%order_id% was not canceled. Reason: %msg%
+    // Store does not exist.
+    // Payment method "M2E Pro Payment" is disabled in Magento Configuration.
+    // Shipping method "M2E Pro Shipping" is disabled in Magento Configuration.
+
     const MAGENTO_ORDER_CREATION_FAILED_NO  = 0;
     const MAGENTO_ORDER_CREATION_FAILED_YES = 1;
 
@@ -52,7 +68,7 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
     /** @var Magento\Quote\Manager|null  */
     private $quoteManager = null;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Magento\Store\Model\StoreManager $storeManager,
@@ -89,7 +105,7 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
         );
     }
 
-    //########################################
+    // ########################################
 
     public function _construct()
     {
@@ -104,10 +120,6 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
         if ($this->isLocked()) {
             return false;
         }
-
-        $this->activeRecordFactory->getObject('Order\Note')->getCollection()
-            ->addFieldToFilter('order_id', $this->getId())
-            ->walk('delete');
 
         foreach ($this->getItemsCollection()->getItems() as $item) {
             /** @var $item \Ess\M2ePro\Model\Order\Item */
@@ -288,7 +300,7 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
         return $this->logModel;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @return \Ess\M2ePro\Model\ResourceModel\Order\Item\Collection
@@ -509,15 +521,13 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
 
         if (!$store->getConfig('payment/m2epropayment/active')) {
             throw new \Ess\M2ePro\Model\Exception(
-                'Payment method "M2E Pro Payment" is disabled under
-                <i>Stores > Settings > Configuration > Sales > Payment Methods > M2E Pro Payment.</i>'
+                'Payment method "M2E Pro Payment" is disabled in Magento Configuration.'
             );
         }
 
         if (!$store->getConfig('carriers/m2eproshipping/active')) {
             throw new \Ess\M2ePro\Model\Exception(
-                'Shipping method "M2E Pro Shipping" is disabled under
-                <i>Stores > Settings > Configuration > Sales > Shipping Methods > M2E Pro Shipping.</i>'
+                'Shipping method "M2E Pro Shipping" is disabled in Magento Configuration.'
             );
         }
     }
@@ -588,9 +598,9 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
 
     //########################################
 
-    private function beforeCreateMagentoOrder($canCreateExistOrder)
+    private function beforeCreateMagentoOrder()
     {
-        if ($this->getMagentoOrderId() !== null && !$canCreateExistOrder) {
+        if ($this->getMagentoOrderId() !== null) {
             throw new \Ess\M2ePro\Model\Exception('Magento Order is already created.');
         }
 
@@ -606,7 +616,7 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
         }
     }
 
-    public function createMagentoOrder($canCreateExistOrder = false)
+    public function createMagentoOrder()
     {
         try {
             // Check if we are wrapped by an another MySql transaction
@@ -639,7 +649,7 @@ class Order extends ActiveRecord\Component\Parent\AbstractModel
             $this->associateItemsWithProducts();
             // ---------------------------------------
 
-            $this->beforeCreateMagentoOrder($canCreateExistOrder);
+            $this->beforeCreateMagentoOrder();
 
             // Create magento order
             // ---------------------------------------

@@ -98,7 +98,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
             'index'  => 'product_id',
             'filter_index' => 'product_id',
             'frame_callback' => [$this, 'callbackColumnProductId'],
-            'filter' => 'Ess\M2ePro\Block\Adminhtml\Grid\Column\Filter\ProductId',
+//            'filter'   => 'M2ePro/adminhtml_grid_column_filter_productId',
             'filter_condition_callback' => [$this, 'callbackFilterProductId']
         ]);
 
@@ -229,6 +229,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
                          '\','.
                          (int)$row->getId().
                          ');">' . $this->__('Map') . '</a>';
+
+            if ($this->getHelper('Module')->isDevelopmentMode()) {
+                $htmlValue .= '<br/>' . $row->getId();
+            }
             return $htmlValue;
         }
 
@@ -247,6 +251,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
                       .')">'
                       .$this->__('Move')
                       .'</a>';
+
+        if ($this->getHelper('Module')->isDevelopmentMode()) {
+            $htmlValue .= '<br/>' . $row->getId();
+        }
 
         return $htmlValue;
     }
@@ -282,13 +290,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
         }
 
         $gtinHtml = $this->escapeHtml($gtin);
-
-        $walmartHelper = $this->getHelper('Component\Walmart');
-        $marketplaceId = $row->getData('marketplace_id');
-        $channelUrl = $walmartHelper->getItemUrl(
-            $childObject->getData($walmartHelper->getIdentifierForItemUrl($marketplaceId)),
-            $marketplaceId
-        );
+        $channelUrl = $childObject->getData('channel_url');
 
         if (!empty($channelUrl)) {
             $gtinHtml = <<<HTML
@@ -405,7 +407,7 @@ HTML;
 
         $statusChangeReasons = $listingOther->getChildObject()->getStatusChangeReasons();
 
-        return $value.$this->getStatusChangeReasons($statusChangeReasons);
+        return $value.$this->getStatusChangeReasons($statusChangeReasons).$this->getViewLogIconHtml($row->getId());
     }
 
     //########################################
@@ -428,7 +430,6 @@ HTML;
             if (isset($value['from']) && $value['from'] != '') {
                 $where .= ' AND ';
             }
-
             $where .= 'product_id <= ' . (int)$value['to'];
         }
 
@@ -436,7 +437,6 @@ HTML;
             if (!empty($where)) {
                 $where = '(' . $where . ') AND ';
             }
-
             if ($value['is_mapped']) {
                 $where .= 'product_id IS NOT NULL';
             } else {
@@ -541,6 +541,51 @@ SQL;
             {$this->getTooltipHtml($html)}
         </div>
 HTML;
+    }
+
+    public function getViewLogIconHtml($listingOtherId)
+    {
+        $listingOtherId = (int)$listingOtherId;
+        $availableActionsId = array_keys($this->getAvailableActions());
+
+        // Get last messages
+        // ---------------------------------------
+        $connection = $this->resourceConnection->getConnection();
+
+        $dbSelect = $connection->select()
+            ->from(
+                $this->activeRecordFactory->getObject('Listing_Other_Log')->getResource()->getMainTable(),
+                ['action_id','action','type','description','create_date','initiator']
+            )
+            ->where('`listing_other_id` = ?', $listingOtherId)
+            ->where('`action` IN (?)', $availableActionsId)
+            ->order(['id DESC'])
+            ->limit(\Ess\M2ePro\Block\Adminhtml\Log\Grid\LastActions::PRODUCTS_LIMIT);
+
+        $logs = $connection->fetchAll($dbSelect);
+
+        if (empty($logs)) {
+            return '';
+        }
+
+        // ---------------------------------------
+
+        $summary = $this->createBlock('Listing_Log_Grid_LastActions')->setData([
+            'entity_id' => $listingOtherId,
+            'logs'      => $logs,
+            'available_actions' => $this->getAvailableActions(),
+            'view_help_handler' => 'WalmartListingOtherGridObj.viewItemHelp',
+            'hide_help_handler' => 'WalmartListingOtherGridObj.hideItemHelp',
+        ]);
+
+        return $summary->toHtml();
+    }
+
+    private function getAvailableActions()
+    {
+        return [
+            \Ess\M2ePro\Model\Listing\Other\Log::ACTION_CHANNEL_CHANGE => $this->__('Channel Change')
+        ];
     }
 
     //########################################

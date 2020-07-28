@@ -1,0 +1,25 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div id="order_history_block" class="edit-order-comments">
+    <?php if ($block->getNotes()): ?>
+    <ul class="note-list">
+        <?php if ($block->getNotes()->getCustomerNote()): ?>
+            <li class="note-list-item">
+                <strong><?= $block->escapeHtml(__('Customer Remarks'))?></strong>
+                <div class="note-list-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getCustomerNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+            </li>
+        <?php endif; ?>
+        <?php if ($block->getNotes()->getAdminNote()): ?>
+            <li class="note-list-item">
+                <strong><?= $block->escapeHtml(__('Admin Remarks'))?></strong>
+                <div class="note-list-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getAdminNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+            </li>
+        <?php endif; ?>
+    </ul>
+    <?php endif; ?>
+</div>

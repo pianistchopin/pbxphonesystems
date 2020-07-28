@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Pgrid
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Mview/etc/mview.xsd">
+    <view id="amasty_pgrid_qty_sold" class="Amasty\Pgrid\Model\Indexer\Mview\Action" group="indexer">
+        <subscriptions>
+            <table name="sales_order" entity_column="entity_id" />
+        </subscriptions>
+    </view>
+</config>

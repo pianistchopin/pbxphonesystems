@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionDontApplyRulesWithShoppingCartRule">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Dont Apply Shipping Restriction Rules Only With Shopping Cart Rule"/>
+            <description value="Check Dont Apply Shipping Restriction Rules Only With Shopping Cart Rule"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-13"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionDontApplyRulesWithShoppingCartRule"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseConfigSettingBeforeTest"/>
+        </before>
+
+        <after>
+            <!--Delete Shipping And Cart Price Rules -->
+            <actionGroup ref="DeleteAllCartRules" stepKey="DeleteAllRules"/>
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create Default Cart Price Rule-->
+        <actionGroup ref="AdminCreateCartPriceRuleActionGroup" stepKey="CreateCartPriceRule">
+            <argument name="ruleName" value="shiprestrictionDefaultCartPriceRule"/>
+        </actionGroup>
+        <actionGroup ref="EditRuleAddActionsConditions" stepKey="AddConditionsForCartRule">
+            <argument name="actionsConditionOptions" value="_SKU"/>
+            <argument name="ruleName" value="shiprestrictionDefaultCartPriceRule.name"/>
+            <argument name="actionsConditionOptionsParamIs" value="_isOneOf"/>
+            <argument name="conditionsData" value="shiprestrictionDontApplyRulesWithShoppingCartRule.conditions"/>
+        </actionGroup>
+
+        <!--Create shipping restriction rule with coupon code-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithTwoMethods" stepKey="CreateShippingRule">
+            <argument name="shippingRestriction" value="shiprestrictionDontApplyRulesWithShoppingCartRule"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionAddDontApplyRulesCartRule" stepKey="AddCartRuleForShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionDontApplyRulesWithShoppingCartRule"/>
+            <argument name="ruleName" value="shiprestrictionDefaultCartPriceRule.name"/>
+        </actionGroup>
+
+        <!--Add two products 24-MB05 to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductsToCart">
+            <argument name="addProductQty" value="_enterQty2"/>
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check No Shipping Methods with default shipping setting-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="CheckNoFlatRateInCart">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="CheckNoBestWayInCart">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Add product 24-MB04 to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+        </actionGroup>
+
+        <!--Check Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate1">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay1">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Change Qty Second Product in The Cart-->
+        <actionGroup ref="ChangeQtyProductInCart" stepKey="ChangeQtySecondProductToThree">
+            <argument name="addProductQty" value="_enterQty3"/>
+            <argument name="products" value="_theBagStriveShoulderPackData"/>
+        </actionGroup>
+
+        <!--Check Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate2">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay2">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+    </test>
+</tests>

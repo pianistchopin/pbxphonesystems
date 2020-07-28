@@ -17,6 +17,9 @@ namespace Ess\M2ePro\Model\Walmart;
  */
 class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\AbstractModel
 {
+    // M2ePro\TRANSLATIONS
+    // Order Status cannot be Updated. Reason: %msg%
+
     const STATUS_CREATED = 0;
     const STATUS_UNSHIPPED = 1;
     const STATUS_SHIPPED_PARTIALLY = 2;
@@ -411,6 +414,10 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
      */
     public function canCreateInvoice()
     {
+        if ($this->getWalmartAccount()->isMagentoInvoiceCreationDisabled()) {
+            return false;
+        }
+
         if (!$this->getWalmartAccount()->isMagentoOrdersInvoiceEnabled()) {
             return false;
         }
@@ -511,6 +518,7 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
     //########################################
 
     /**
+     * @param array $trackingDetails
      * @return bool
      */
     public function canUpdateShippingStatus()
@@ -589,8 +597,10 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
             ];
         }
 
-        $orderId     = $this->getParentObject()->getId();
-        $action      = \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING;
+        $orderId = $this->getParentObject()->getId();
+        $action = \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING;
+        $creatorType = \Ess\M2ePro\Model\Order\Change::CREATOR_TYPE_OBSERVER;
+        $component = \Ess\M2ePro\Helper\Component\Walmart::NICK;
 
         /** @var \Ess\M2ePro\Model\Order\Change $change */
         $change = $this->activeRecordFactory
@@ -607,8 +617,8 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
             $this->activeRecordFactory->getObject('Order\Change')->create(
                 $orderId,
                 $action,
-                $this->getParentObject()->getLog()->getInitiator(),
-                \Ess\M2ePro\Helper\Component\Walmart::NICK,
+                $creatorType,
+                $component,
                 $params
             );
         }
@@ -619,7 +629,6 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
     /**
      * @param \Ess\M2ePro\Model\Order\Change $change
      * @param array $params
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     private function updateOrderChange(\Ess\M2ePro\Model\Order\Change $change, array $params)
     {
@@ -627,25 +636,16 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
         foreach ($params['items'] as $newItem) {
             foreach ($existingParams['items'] as &$existingItem) {
                 if ($newItem['walmart_order_item_id'] === $existingItem['walmart_order_item_id']) {
-                    /** @var \Ess\M2ePro\Model\Order\Item $orderItem */
-                    $orderItem = $this->walmartFactory->getObject('Order_Item')
+                    $newQtyTotal = $newItem['qty'] + $existingItem['qty'];
+                    $maxQtyTotal = $this->walmartFactory->getObject('Order_Item')
                         ->getCollection()
                         ->addFieldToFilter('order_id', $this->getId())
                         ->addFieldToFilter('walmart_order_item_id', $existingItem['walmart_order_item_id'])
-                        ->getFirstItem();
-                    /**
-                     * Walmart returns the same Order Item more than one time with single QTY.
-                     */
-                    $maxQtyTotal = 1;
-                    if ($orderItem->getId() && empty($orderItem->getChildObject()->getMergedWalmartOrderItemIds())) {
-                        $maxQtyTotal = $orderItem->getChildObject()->getQty();
-                    }
-
-                    $newQtyTotal = $newItem['qty'] + $existingItem['qty'];
+                        ->getFirstItem()
+                        ->getChildObject()
+                        ->getQty();
                     $newQtyTotal >= $maxQtyTotal && $newQtyTotal = $maxQtyTotal;
-
                     $existingItem['qty'] = $newQtyTotal;
-
                     continue 2;
                 }
             }
@@ -687,8 +687,11 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
             'items'    => $items,
         ];
 
-        $action      = \Ess\M2ePro\Model\Order\Change::ACTION_CANCEL;
+        $orderId = $this->getParentObject()->getId();
+        $creatorType = \Ess\M2ePro\Model\Order\Change::CREATOR_TYPE_OBSERVER;
+        $component = \Ess\M2ePro\Helper\Component\Walmart::NICK;
 
+        $action = \Ess\M2ePro\Model\Order\Change::ACTION_CANCEL;
         if ($this->isShipped() || $this->isPartiallyShipped() || $this->isSetProcessingLock('update_shipping_status')) {
             if (empty($items)) {
                 $this->getParentObject()->addErrorLog(
@@ -707,10 +710,10 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstr
         }
 
         $this->activeRecordFactory->getObject('Order\Change')->create(
-            $this->getParentObject()->getId(),
+            $orderId,
             $action,
-            $this->getParentObject()->getLog()->getInitiator(),
-            \Ess\M2ePro\Helper\Component\Walmart::NICK,
+            $creatorType,
+            $component,
             $params
         );
 

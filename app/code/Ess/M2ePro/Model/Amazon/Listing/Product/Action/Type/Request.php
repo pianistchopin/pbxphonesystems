@@ -16,37 +16,37 @@ abstract class Request extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\R
     /**
      * @var array
      */
-    protected $cachedData = [];
+    protected $validatorsData = [];
 
     /**
      * @var array
      */
-    protected $dataTypes = [
-        'qty',
-        'price_regular',
-        'price_business',
+    private $requestsTypes = [
         'details',
         'images',
+        'price',
+        'qty',
+        'shippingOverride'
     ];
 
     /**
-     * @var \Ess\M2ePro\Model\Amazon\Listing\Product\Action\DataBuilder\AbstractModel[]
+     * @var array[\Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\Abstract]
      */
-    protected $dataBuilders = [];
+    private $requests = [];
 
     //########################################
 
-    public function setCachedData(array $data)
+    public function setValidatorsData(array $data)
     {
-        $this->cachedData = $data;
+        $this->validatorsData = $data;
     }
 
     /**
      * @return array
      */
-    public function getCachedData()
+    public function getValidatorsData()
     {
-        return $this->cachedData;
+        return $this->validatorsData;
     }
 
     //########################################
@@ -83,8 +83,8 @@ abstract class Request extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\R
 
     protected function collectRequestsWarningMessages()
     {
-        foreach ($this->dataTypes as $requestType) {
-            $messages = $this->getDataBuilder($requestType)->getWarningMessages();
+        foreach ($this->requestsTypes as $requestType) {
+            $messages = $this->getRequest($requestType)->getWarningMessages();
 
             foreach ($messages as $message) {
                 $this->addWarningMessage($message);
@@ -95,119 +95,69 @@ abstract class Request extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\R
     //########################################
 
     /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\Details
      */
-    public function getQtyData()
+    public function getRequestDetails()
     {
-        if (!$this->getConfigurator()->isQtyAllowed()) {
-            return [];
-        }
-
-        if ($this->getVariationManager()->isRelationParentType()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('qty');
-        return $dataBuilder->getBuilderData();
+        return $this->getRequest('details');
     }
 
     /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\Images
      */
-    public function getRegularPriceData()
+    public function getRequestImages()
     {
-        if (!$this->getConfigurator()->isRegularPriceAllowed()) {
-            return [];
-        }
+        return $this->getRequest('images');
+    }
 
-        if ($this->getVariationManager()->isRelationParentType()) {
-            return [];
-        }
+    // ---------------------------------------
 
-        $dataBuilder = $this->getDataBuilder('price_regular');
-        return $dataBuilder->getBuilderData();
+    /**
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\Price
+     */
+    public function getRequestPrice()
+    {
+        return $this->getRequest('price');
     }
 
     /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\Qty
      */
-    public function getBusinessPriceData()
+    public function getRequestQty()
     {
-        if (!$this->getConfigurator()->isBusinessPriceAllowed()) {
-            return [];
-        }
-
-        if ($this->getVariationManager()->isRelationParentType()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('price_business');
-        return $dataBuilder->getBuilderData();
+        return $this->getRequest('qty');
     }
 
     /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\ShippingOverride
      */
-    public function getDetailsData()
+    public function getRequestShippingOverride()
     {
-        if (!$this->getConfigurator()->isDetailsAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('details');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('details_data', $data);
-
-        return $data;
-    }
-
-    /**
-     * @return array
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
-    public function getImagesData()
-    {
-        if (!$this->getConfigurator()->isImagesAllowed()) {
-            return [];
-        }
-
-        $dataBuilder = $this->getDataBuilder('images');
-        $data = $dataBuilder->getBuilderData();
-
-        $this->addMetaData('images_data', $data);
-
-        return $data;
+        return $this->getRequest('shippingOverride');
     }
 
     //########################################
 
     /**
      * @param $type
-     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\DataBuilder\AbstractModel
-     * @throws \Ess\M2ePro\Model\Exception\Logic
+     * @return \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\AbstractModel
      */
-    protected function getDataBuilder($type)
+    private function getRequest($type)
     {
-        if (!isset($this->dataBuilders[$type])) {
+        if (!isset($this->requests[$type])) {
 
-            /** @var \Ess\M2ePro\Model\Amazon\Listing\Product\Action\DataBuilder\AbstractModel $dataBuilder */
-            $dataBuilder = $this->modelFactory->getObject(
-                'Amazon\Listing\Product\Action\DataBuilder\\' . ucwords($type, '_')
-            );
+            /** @var \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Request\AbstractModel $request */
+            $request = $this->modelFactory->getObject('Amazon\Listing\Product\Action\Request\\'.ucfirst($type));
 
-            $dataBuilder->setParams($this->getParams());
-            $dataBuilder->setListingProduct($this->getListingProduct());
-            $dataBuilder->setCachedData($this->getCachedData());
+            $request->setParams($this->getParams());
+            $request->setListingProduct($this->getListingProduct());
+            $request->setConfigurator($this->getConfigurator());
+            $request->setValidatorsData($this->getValidatorsData());
 
-            $this->dataBuilders[$type] = $dataBuilder;
+            $this->requests[$type] = $request;
         }
 
-        return $this->dataBuilders[$type];
+        return $this->requests[$type];
     }
 
     //########################################

@@ -54,7 +54,7 @@ class Item extends \Ess\M2ePro\Observer\AbstractModel
                 return;
             }
 
-            $otherListing->mapProduct($product->getId());
+            $otherListing->mapProduct($product->getId(), \Ess\M2ePro\Helper\Data::INITIATOR_EXTENSION);
         } else {
             $dataForAdd = [
                 'account_id'     => $orderItem->getOrder()->getAccountId(),

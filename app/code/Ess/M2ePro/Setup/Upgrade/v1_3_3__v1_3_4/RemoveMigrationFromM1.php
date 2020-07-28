@@ -11,6 +11,11 @@ use Ess\M2ePro\Model\Setup\Upgrade\Entity\AbstractFeature;
 
 class RemoveMigrationFromM1 extends AbstractFeature
 {
+    public function getBackupTables()
+    {
+        return ['wizard'];
+    }
+
     public function execute()
     {
         $wizardTable = $this->getFullTableName('wizard');

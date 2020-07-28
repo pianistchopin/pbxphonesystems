@@ -1,0 +1,70 @@
+"You deleted the Shipping Area.","You deleted the Shipping Area."
+"We can't delete the Shipping Area right now. Please review the log and try again.","We can't delete the Shipping Area right now. Please review the log and try again."
+"We can't find a Shipping Area to delete.","We can't find a Shipping Area to delete."
+"You created new Shipping Area with ID %1 (ID of origin is %2).","You created new Shipping Area with ID %1 (ID of origin is %2)."
+"We can't duplicate the Shipping Area right now. Please review the log and try again.","We can't duplicate the Shipping Area right now. Please review the log and try again."
+"We can't find a Shipping Area to duplicate.","We can't find a Shipping Area to duplicate."
+"Unable to load Shipping Area with ID %1. Please review the log and try again.","Unable to load Shipping Area with ID %1. Please review the log and try again."
+"New Shipping Area","New Shipping Area"
+"Shipping Areas","Shipping Areas"
+"Can't delete some items. Please review the log and try again.","Can't delete some items. Please review the log and try again."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Can't create some items. Please review the log and try again.","Can't create some items. Please review the log and try again."
+"A total of %1 record(s) have been created.","A total of %1 record(s) have been created."
+"Can't update some items. Please review the log and try again.","Can't update some items. Please review the log and try again."
+"A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
+"You saved the Shipping Area.","You saved the Shipping Area."
+"Can't save the area right now. Please review the log and try again.","Can't save the area right now. Please review the log and try again."
+"Unable to save Shipping Area with ID %1. Error: %2","Unable to save Shipping Area with ID %1. Error: %2"
+"Unable to save new Shipping Area. Error: %1","Unable to save new Shipping Area. Error: %1"
+"Shipping Area with specified ID ""%1"" not found.","Shipping Area with specified ID ""%1"" not found."
+"Unable to remove Shipping Area with ID %1. Error: %2","Unable to remove Shipping Area with ID %1. Error: %2"
+"Unable to remove Shipping Area. Error: %1","Unable to remove Shipping Area. Error: %1"
+". ' %s: %s'",". ' %s: %s'"
+All,All
+Include,Include
+Exclude,Exclude
+Inactive,Inactive
+Active,Active
+Delete,Delete
+"Are you sure you want to delete the shipping area?","Are you sure you want to delete the shipping area?"
+Duplicate,Duplicate
+Edit,Edit
+"Delete ${ $.$data.name }","Delete ${ $.$data.name }"
+"Are you sure you want to delete a ${ $.$data.name } record?","Are you sure you want to delete a ${ $.$data.name } record?"
+"Enter comma separated or ranges. Example: AB1-AF1,AS1.","Enter comma separated or ranges. Example: AB1-AF1,AS1."
+"Switch to table input","Switch to table input"
+"Switch to textarea input (for mass insert)","Switch to textarea input (for mass insert)"
+Back,Back
+Reset,Reset
+"Save and Continue Edit","Save and Continue Edit"
+Save,Save
+General,General
+"Shipping Area Name","Shipping Area Name"
+Status,Status
+Description,Description
+"Area Conditions","Area Conditions"
+"For Countries","For Countries"
+Countries,Countries
+"For States/Regions","For States/Regions"
+States/Regions,States/Regions
+"Enter line separated.","Enter line separated."
+"For Cities","For Cities"
+Cities,Cities
+"For Zip/Postcode","For Zip/Postcode"
+"Add Zip","Add Zip"
+"Remove Zip","Remove Zip"
+Zip/Postcode,Zip/Postcode
+"Zip From","Zip From"
+"Zip To (leave empty to use single value)","Zip To (leave empty to use single value)"
+Actions,Actions
+"For Shipping Address Line","For Shipping Address Line"
+Contains,Contains
+"Doesn't contain","Doesn't contain"
+"Shipping Address Line","Shipping Address Line"
+"Add Shipping Area","Add Shipping Area"
+"Delete items","Delete items"
+"Delete selected items?","Delete selected items?"
+"Change Status","Change Status"
+ID,ID
+Name,Name

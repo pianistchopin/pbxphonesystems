@@ -164,13 +164,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Log\AbstractGrid
 
     protected function getActionTitles()
     {
-        $amazonTitles = $ebayTitles = $walmartTitles = [];
+        $amazonTitles = $ebayTitles = [];
 
         $skipForAmazon = [];
         $skipForEbay = [
-            \Ess\M2ePro\Model\Synchronization\Log::TASK_REPRICING
-        ];
-        $skipForWalmart = [
             \Ess\M2ePro\Model\Synchronization\Log::TASK_REPRICING
         ];
 
@@ -188,19 +185,11 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Log\AbstractGrid
                     'value' => \Ess\M2ePro\Helper\View\Amazon::NICK . '_' . $value
                 ];
             }
-
-            if (!in_array($value, $skipForWalmart)) {
-                $walmartTitles[] = [
-                    'label' => $label,
-                    'value' => \Ess\M2ePro\Helper\View\Walmart::NICK . '_' . $value
-                ];
-            }
         }
 
         return [
             ['label' => $this->__('eBay Task'), 'value' => $ebayTitles],
-            ['label' => $this->__('Amazon Task'), 'value' => $amazonTitles],
-            ['label' => $this->__('Walmart Task'), 'value' => $walmartTitles]
+            ['label' => $this->__('Amazon Task'), 'value' => $amazonTitles]
         ];
     }
 

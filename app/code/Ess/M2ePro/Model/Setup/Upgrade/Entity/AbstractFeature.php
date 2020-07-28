@@ -99,11 +99,4 @@ abstract class AbstractFeature
     }
 
     //########################################
-
-    public function renameTable($oldTable, $newTable)
-    {
-        return $this->helperFactory->getObject('Module_Database_Tables')->renameTable($oldTable, $newTable);
-    }
-
-    //########################################
 }

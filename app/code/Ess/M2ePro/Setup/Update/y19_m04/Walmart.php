@@ -9,6 +9,7 @@ namespace Ess\M2ePro\Setup\Update\y19_m04;
 
 use Ess\M2ePro\Model\Setup\Upgrade\Entity\AbstractFeature;
 use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 
 /**
  * Class \Ess\M2ePro\Setup\Update\y19\Walmart_m04
@@ -16,6 +17,11 @@ use Magento\Framework\DB\Ddl\Table;
 class Walmart extends AbstractFeature
 {
     //########################################
+
+    public function getBackupTables()
+    {
+        return [];
+    }
 
     public function execute()
     {

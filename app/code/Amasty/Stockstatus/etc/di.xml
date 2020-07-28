@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="Amasty_Stockstatus::StockstatusConfigurable" type="Amasty\Stockstatus\Plugin\Product\View\Type\Configurable"/>
+    </type>
+    <type name="Magento\Swatches\Block\Product\Renderer\Configurable">
+        <plugin name="Amasty_Stockstatus::StockstatusConfigurableSwatches" type="Amasty\Stockstatus\Plugin\Product\View\Type\Configurable"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <plugin name="Amasty_Stockstatus::Addstatus" type="Amasty\Stockstatus\Plugin\Product\Status" />
+    </type>
+    <type name="Magento\Checkout\Block\Cart\AbstractCart">
+        <plugin name="Amasty_Stockstatus::ShowStatusonCart" type="Amasty\Stockstatus\Plugin\Cart\AbstractCart" />
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="Amasty_Stockstatus::ListStatus" type="Amasty\Stockstatus\Plugin\Product\ListProduct" />
+    </type>
+    <type name="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder">
+        <plugin name="Amasty_Stockstatus::EmailStatus" type="Amasty\Stockstatus\Plugin\Order\Email\Items\DefaultOrder" />
+    </type>
+    <type name="Magento\Bundle\Block\Sales\Order\Items\Renderer">
+        <plugin name="Amasty_Stockstatus::EmailStatusBundle" type="Amasty\Stockstatus\Plugin\Order\Email\Items\DefaultOrder" />
+    </type>
+    <type name="Magento\GroupedProduct\Block\Product\View\Type\Grouped">
+        <plugin name="Amasty_Stockstatus::Grouped" type="Amasty\Stockstatus\Plugin\GroupedProduct\Block\View\Type\Grouped" />
+    </type>
+    <type name ="Magento\CatalogSearch\Block\SearchResult\ListProduct" >
+        <plugin name ="Amasty_Stockstatus::SearchListStatus" type ="Amasty\Stockstatus\Plugin\Product\ListProduct" />
+    </type>
+    <type name="Magento\ConfigurableProduct\Plugin\Model\ResourceModel\Attribute\InStockOptionSelectBuilder">
+        <plugin name="Amasty_Stockstatus::disable-stock-filter"
+                type="Amasty\Stockstatus\Plugin\ConfigurableProduct\Model\ResourceModel\Attribute\InStockOptionSelectBuilder"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Indexer\Stock\CacheCleaner">
+        <plugin name="Amasty_Stockstatus::clean-cache-after-order"
+                type="Amasty\Stockstatus\Plugin\CatalogInventory\Model\Indexer\Stock\CacheCleaner"/>
+    </type>
+
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Eav">
+        <plugin name="Amasty_Stockstatus:show_attribute" type="Amasty\Stockstatus\Plugin\Catalog\Ui\DataProvider\Product\Form\Modifier\Eav"/>
+    </type>
+
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Attribute\Collection">
+        <plugin name="Amasty_Stockstatus:load_not_visible_attribute" type="Amasty\Stockstatus\Plugin\Catalog\Model\ResourceModel\Product\Attribute\Collection"/>
+    </type>
+
+    <type name="Amasty\Stockstatus\Model\Backend\UpdaterAttribute">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="attribute_creator" xsi:type="object">Amasty\Stockstatus\Model\Attribute\Creator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Stockstatus\Block\Adminhtml\System\Config\Form\Field\OutOfStock">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="module_manager" xsi:type="object">Magento\Framework\Module\Manager</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

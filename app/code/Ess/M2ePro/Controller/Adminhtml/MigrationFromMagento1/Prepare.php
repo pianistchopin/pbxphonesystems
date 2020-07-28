@@ -45,10 +45,10 @@ class Prepare extends Base
 
     private function prepareDatabase()
     {
-        $allTables  = $this->getHelper('Module_Database_Structure')->getModuleTables();
+        $allTables  = $this->getHelper('Module_Database_Structure')->getMySqlTables();
         $skipTables = [
             'm2epro_setup',
-            'm2epro_module_config'
+            'm2epro_versions_history'
         ];
 
         foreach ($allTables as $tableName) {

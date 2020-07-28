@@ -1,0 +1,14 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php if ($block->getCanDisplayTotalPaid()): ?>
+<tr>
+    <td class="label"><strong><?= /* @escapeNotVerified */ __('Total Paid') ?></strong></td>
+    <td class="emph"><?= /* @escapeNotVerified */ $block->displayPriceAttribute('total_paid', true) ?>
+    </td>
+</tr>
+<?php endif; ?>

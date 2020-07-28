@@ -101,7 +101,7 @@ class Variation extends \Ess\M2ePro\Helper\AbstractHelper
 
         $select = $connRead->select();
         $select->from(['lo' => $table], ['object_id'])
-            ->where('model_name = "Listing_Product"')
+            ->where('model_name = "M2ePro/Listing\Product"')
             ->where('object_id IN (?)', $productsIds)
             ->where('tag IS NULL');
 
@@ -155,15 +155,15 @@ class Variation extends \Ess\M2ePro\Helper\AbstractHelper
             $productToListingProductIds = array_flip($listingProductToProductIds);
 
             foreach ($productsData as $product) {
-                if ($this->getHelper('Magento\Product')->isBundleType($product['type_id'])) {
+                if ($product['type_id'] == \Ess\M2ePro\Model\Magento\Product::TYPE_BUNDLE) {
                     unset($productToListingProductIds[$product['entity_id']]);
                 }
 
-                if ($this->getHelper('Magento\Product')->isDownloadableType($product['type_id'])) {
+                if ($product['type_id'] == \Ess\M2ePro\Model\Magento\Product::TYPE_DOWNLOADABLE) {
                     unset($productToListingProductIds[$product['entity_id']]);
                 }
 
-                if ($this->getHelper('Magento\Product')->isSimpleType($product['type_id']) &&
+                if ($product['type_id'] == \Ess\M2ePro\Model\Magento\Product::TYPE_SIMPLE &&
                     !empty($product['option_id'])) {
                     unset($productToListingProductIds[$product['entity_id']]);
                 }

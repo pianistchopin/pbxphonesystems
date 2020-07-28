@@ -16,6 +16,11 @@ namespace Ess\M2ePro\Model\Amazon\Order;
  */
 class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\AbstractModel
 {
+    // M2ePro\TRANSLATIONS
+    // Product Import is disabled in Amazon Account Settings.
+    // Product for Amazon Item "%id%" was Created in Magento Catalog.
+    // Product for Amazon Item "%title%" was Created in Magento Catalog.
+
     private $productBuilderFactory;
 
     private $productFactory;
@@ -201,16 +206,6 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
     // ---------------------------------------
 
     /**
-     * @return string|null
-     */
-    public function getFulfillmentCenterId()
-    {
-        return $this->getData('fulfillment_center_id');
-    }
-
-    // ---------------------------------------
-
-    /**
      * @return array
      * @throws \Ess\M2ePro\Model\Exception\Logic
      */
@@ -358,7 +353,7 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
      * @return \Magento\Catalog\Model\Product
      * @throws \Ess\M2ePro\Model\Exception
      */
-    protected function createProduct()
+    private function createProduct()
     {
         if (!$this->getAmazonAccount()->isMagentoOrdersListingsOtherProductImportEnabled()) {
             throw new \Ess\M2ePro\Model\Exception('Product Import is disabled in Amazon Account Settings.');
@@ -413,7 +408,7 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
         return $productBuilder->getProduct();
     }
 
-    protected function getQtyForNewProduct()
+    private function getQtyForNewProduct()
     {
         $otherListing = $this->parentFactory->getObject(\Ess\M2ePro\Helper\Component\Amazon::NICK, 'Listing\Other')
             ->getCollection()

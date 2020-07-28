@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Success Page</title>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <block class="Amasty\RequestQuote\Block\Quote\Success" name="quote.success.print.button" template="Amasty_RequestQuote::quote/button.phtml"/>
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Your quote request has been received!</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Amasty\RequestQuote\Block\Quote\Success" name="quote.success" template="Amasty_RequestQuote::quote/success.phtml" cacheable="false">
+                <container name="quote.success.additional.info" label="Quote Success Additional Info"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

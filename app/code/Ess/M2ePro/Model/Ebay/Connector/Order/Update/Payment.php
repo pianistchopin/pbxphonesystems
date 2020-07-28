@@ -13,20 +13,17 @@ namespace Ess\M2ePro\Model\Ebay\Connector\Order\Update;
  */
 class Payment extends \Ess\M2ePro\Model\Ebay\Connector\Order\Update\AbstractModel
 {
-    //########################################
+    // M2ePro\TRANSLATIONS
+    // Payment Status for eBay Order was not updated. Reason: eBay Failure.
+    // Payment Status for eBay Order was updated to Paid.
 
-    /**
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
+    // ########################################
+
     protected function prepareResponseData()
     {
         if ($this->getResponse()->isResultError()) {
             return;
         }
-
-        /** @var \Ess\M2ePro\Model\Order\Change $orderChange */
-        $orderChange = $this->activeRecordFactory->getObject('Order\Change')->load($this->getOrderChangeId());
-        $this->order->getLog()->setInitiator($orderChange->getCreatorType());
 
         $responseData = $this->getResponse()->getResponseData();
 
@@ -39,13 +36,13 @@ class Payment extends \Ess\M2ePro\Model\Ebay\Connector\Order\Update\AbstractMode
 
         $this->order->addSuccessLog('Payment Status for eBay Order was updated to Paid.');
 
-        if (isset($responseData['is_already_paid']) && $responseData['is_already_paid']) {
-            $this->order->setData('payment_status', \Ess\M2ePro\Model\Ebay\Order::PAYMENT_STATUS_COMPLETED)->save();
-            $this->order->updateMagentoOrderStatus();
+        if ($this->getOrderChangeId() !== null) {
+            $this->activeRecordFactory
+                ->getObject('Order\Change')
+                ->getResource()
+                ->deleteByIds([$this->getOrderChangeId()]);
         }
-
-        $orderChange->delete();
     }
 
-    //########################################
+    // ########################################
 }

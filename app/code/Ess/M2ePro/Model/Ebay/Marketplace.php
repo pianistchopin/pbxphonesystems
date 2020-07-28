@@ -13,6 +13,11 @@ namespace Ess\M2ePro\Model\Ebay;
  */
 class Marketplace extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\AbstractModel
 {
+    const TRANSLATION_SERVICE_NO       = 0;
+    const TRANSLATION_SERVICE_YES_TO   = 1;
+    const TRANSLATION_SERVICE_YES_FROM = 2;
+    const TRANSLATION_SERVICE_YES_BOTH = 3;
+
     private $info = null;
 
     protected $moduleConfig;
@@ -91,6 +96,46 @@ class Marketplace extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\Ab
     public function getLanguageCode()
     {
         return $this->getData('language_code');
+    }
+
+    /**
+     * @return int
+     */
+    public function getTranslationServiceMode()
+    {
+        return (int)$this->getData('translation_service_mode');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTranslationServiceMode()
+    {
+        return $this->getTranslationServiceMode() != self::TRANSLATION_SERVICE_NO;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTranslationServiceModeTo()
+    {
+        return $this->getTranslationServiceMode() == self::TRANSLATION_SERVICE_YES_TO;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTranslationServiceModeFrom()
+    {
+        return $this->getTranslationServiceMode() == self::TRANSLATION_SERVICE_YES_FROM;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTranslationServiceModeBoth()
+    {
+        return $this->getTranslationServiceMode() == self::TRANSLATION_SERVICE_YES_BOTH;
     }
 
     /**
@@ -232,9 +277,9 @@ class Marketplace extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\Ab
     /**
      * @return bool
      */
-    public function isReturnDescriptionEnabled()
+    public function isHolidayReturnEnabled()
     {
-        return (bool)(int)$this->getData('is_return_description');
+        return (bool)(int)$this->getData('is_holiday_return');
     }
 
     /**

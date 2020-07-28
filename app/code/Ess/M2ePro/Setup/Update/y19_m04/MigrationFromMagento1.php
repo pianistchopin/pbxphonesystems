@@ -16,6 +16,11 @@ class MigrationFromMagento1 extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['wizard'];
+    }
+
     public function execute()
     {
         $select = $this->getConnection()

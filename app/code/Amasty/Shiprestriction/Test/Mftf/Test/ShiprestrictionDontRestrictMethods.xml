@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:shiprulesIgnoreFreeShippingPromoYes:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionDontRestrictMethods">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Restriction Rule Don't Restrict Methods"/>
+            <description value="Check Restriction Rule Don't Restrict Methods"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-21"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionDontRestrictMethods"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction -->
+        <actionGroup ref="AdminCreateShippingRestrictionBase" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionDontRestrictMethods"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddProductToCart1">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate1">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay1">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddProductToCart2">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagOvernightDuffle"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate2">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay2">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Delete Product From The Cart-->
+        <actionGroup ref="DeleteProductFromTheCart" stepKey="DeleteProductFromTheCart">
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate3">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay3">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+    </test>
+</tests>

@@ -228,13 +228,15 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
     protected function validateSku()
     {
         if (!$this->getWalmartListingProduct()->getSku()) {
+            // M2ePro\TRANSLATIONS
+            // You have to list Item first.
             $this->addMessage('You have to list Item first.');
             return false;
         }
 
         $params = $this->getParams();
         if (isset($params['changed_sku'])) {
-            if (preg_match('/[.\s-]+/', $params['changed_sku'])) {
+            if (preg_match('/[.\s-]+/', $params['changed\sku'])) {
                 $this->addMessage(
                     'Item SKU was not updated because it contains special characters,
                     i.e. hyphen (-), space ( ), and period (.), that are not allowed by Walmart.
@@ -257,6 +259,8 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
     protected function validateCategory()
     {
         if (!$this->getWalmartListingProduct()->isExistCategoryTemplate()) {
+            // M2ePro\TRANSLATIONS
+            // Categories Settings are not set.
             $this->addMessage('Categories Settings are not set.');
 
             return false;
@@ -365,6 +369,8 @@ HTML;
 
         $price = $this->getPrice();
         if ($price <= 0) {
+            // M2ePro\TRANSLATIONS
+            // The Price must be greater than 0. Please, check the Selling Policy and Product Settings.
             $this->addMessage(
                 'The Price must be greater than 0. Please, check the Selling Policy and Product Settings.'
             );
@@ -411,12 +417,16 @@ HTML;
 
     // ---------------------------------------
 
-    protected function validateParentListingProduct()
+    protected function validateParentListingProductFlags()
     {
         if ($this->getListingProduct()->getData('no_child_for_processing')) {
+// M2ePro\TRANSLATIONS
+// This Parent has no Child Products on which the chosen Action can be performed.
             $this->addMessage('This Parent has no Child Products on which the chosen Action can be performed.');
             return false;
         }
+// M2ePro\TRANSLATIONS
+// This Action cannot be fully performed because there are different actions in progress on some Child Products
         if ($this->getListingProduct()->getData('child_locked')) {
             $this->addMessage('This Action cannot be fully performed because there are
                                 different Actions in progress on some Child Products');
@@ -431,7 +441,10 @@ HTML;
     protected function validatePhysicalUnitAndSimple()
     {
         if (!$this->getVariationManager()->isPhysicalUnit() && !$this->getVariationManager()->isSimpleType()) {
+            // M2ePro\TRANSLATIONS
+            // Only physical Products can be processed.
             $this->addMessage('Only physical Products can be processed.');
+
             return false;
         }
 
@@ -441,7 +454,10 @@ HTML;
     protected function validatePhysicalUnitMatching()
     {
         if (!$this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
+            // M2ePro\TRANSLATIONS
+            // You have to select Magento Variation.
             $this->addMessage('You have to select Magento Variation.');
+
             return false;
         }
 

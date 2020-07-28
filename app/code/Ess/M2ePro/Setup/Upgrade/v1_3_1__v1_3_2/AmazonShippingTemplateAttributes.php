@@ -14,6 +14,11 @@ class AmazonShippingTemplateAttributes extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['amazon_template_shipping_template'];
+    }
+
     public function execute()
     {
         if ($this->getTableModifier('amazon_template_shipping_template')->isColumnExists('template_name')) {

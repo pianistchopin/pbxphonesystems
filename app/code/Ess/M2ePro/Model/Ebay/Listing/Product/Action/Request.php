@@ -16,7 +16,7 @@ abstract class Request extends \Ess\M2ePro\Model\AbstractModel
     /**
      * @var array
      */
-    protected $cachedData = [];
+    protected $validatorsData = [];
 
     /**
      * @var array
@@ -50,17 +50,17 @@ abstract class Request extends \Ess\M2ePro\Model\AbstractModel
 
     //########################################
 
-    public function setCachedData(array $data)
+    public function setValidatorsData(array $data)
     {
-        $this->cachedData = $data;
+        $this->validatorsData = $data;
     }
 
     /**
      * @return array
      */
-    public function getCachedData()
+    public function getValidatorsData()
     {
-        return $this->cachedData;
+        return $this->validatorsData;
     }
 
     //########################################

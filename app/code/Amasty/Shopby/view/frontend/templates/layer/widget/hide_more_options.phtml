@@ -1,0 +1,42 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+?>
+<?php
+/** @var \Amasty\Shopby\Block\Navigation\Widget\HideMoreOptions $block */
+$dataAmJsAttribute = "data-am-js=%s";
+
+if ($block->getIsState()) {
+    $buttonSelector = sprintf($dataAmJsAttribute, 'show-more_button_state');
+    $itemSelector = '[' . sprintf($dataAmJsAttribute, 'shopby-container') . ']';
+    $numberUnfoldedOptions = $block->getUnfoldedOptions();
+} else {
+    $filterSetting = $block->getFilterSetting();
+    $filterCode = $block->escapeHtml($filterSetting->getFilterCode());
+    $buttonSelector = sprintf($dataAmJsAttribute, 'am-filter-items-'.  $filterCode. '-show-more');
+    $itemSelector = '.am-filter-items-' . $filterCode;
+    $numberUnfoldedOptions = $filterSetting->getNumberUnfoldedOptions();
+}
+?>
+
+<a class="am-show-more"
+        title="<?= $block->escapeHtml(__("Show more"))?>" <?= $block->escapeHtml($buttonSelector) ?>
+        data-text-more="<?= $block->escapeHtml(__("Show (<span class='am-counter' data-am-counter='counter']></span>) more"))?>"
+        data-text-less="<?= $block->escapeHtml(__("Less"))?>"
+        data-is-hide="false">
+    <?= $block->escapeHtml(__("Less"))?>
+</a>
+<script type="text/x-magento-init">
+    {
+        "<?= /* @noEscape */ $itemSelector ?>": {
+            "amShopbyFilterHideMoreOptions": {
+                "numberUnfoldedOptions": <?= $block->escapeHtml($numberUnfoldedOptions) ?>,
+                "buttonSelector": "[<?= /* @noEscape */ $buttonSelector ?>]",
+                "isState": "<?= /* @noEscape */ $block->getIsState() ?>"
+            }
+        }
+    }
+</script>

@@ -9,8 +9,6 @@
 namespace Ess\M2ePro\Controller\Adminhtml\Ebay\Listing\Product\Category;
 
 use Ess\M2ePro\Controller\Adminhtml\Ebay\Listing;
-use Ess\M2ePro\Block\Adminhtml\Ebay\Listing\Product\Add\SourceMode as SourceModeBlock;
-use Ess\M2ePro\Block\Adminhtml\Ebay\Listing\Product\Category\Settings\Mode as CategoryTemplateBlock;
 
 /**
  * Class \Ess\M2ePro\Controller\Adminhtml\Ebay\Listing\Product\Category\Settings
@@ -221,12 +219,22 @@ abstract class Settings extends Listing
 
     protected function save($sessionData)
     {
+        if ($this->getSessionValue('mode') == 'category') {
+            foreach ($sessionData as $categoryId => $data) {
+                $listingProductsIds = $data['listing_products_ids'];
+                unset($data['listing_products_ids']);
+
+                foreach ($listingProductsIds as $listingProductId) {
+                    $sessionData[$listingProductId] = $data;
+                }
+
+                unset($sessionData[$categoryId]);
+            }
+        }
+
         $specificsData = $this->getSessionValue('specifics');
 
-        $sessionData = $this->convertCategoriesIdstoProductIds($sessionData);
-        $sessionData = $this->getUniqueTemplatesData($sessionData);
-
-        foreach ($sessionData as $templateData) {
+        foreach ($this->getUniqueTemplatesData($sessionData) as $templateData) {
             $listingProductsIds = $templateData['listing_products_ids'];
             $listingProductsIds = array_unique($listingProductsIds);
 
@@ -234,22 +242,21 @@ abstract class Settings extends Listing
                 continue;
             }
 
-            // category has not been selected
-            if ($templateData['identifier'] === null) {
-                $this->deleteListingProducts($listingProductsIds);
-                continue;
-            }
             // save category template & specifics
             // ---------------------------------------
             $builderData = $templateData;
             $builderData['account_id'] = $this->getListing()->getAccountId();
             $builderData['marketplace_id'] = $this->getListing()->getMarketplaceId();
-            $builderData['specifics'] = $specificsData[$templateData['identifier']]['specifics'];
 
-            $categoryTemplateId = $this->modelFactory->getObject('Ebay_Template_Category_Builder')->build(
-                $builderData
-            )->getId();
+            $categoryTemplateId = null;
 
+            if ($builderData['identifier'] !== null) {
+                $builderData['specifics'] = $specificsData[$templateData['identifier']]['specifics'];
+
+                $categoryTemplateId = $this->modelFactory->getObject('Ebay_Template_Category_Builder')->build(
+                    $builderData
+                )->getId();
+            }
 
             $otherCategoryTemplate = $this->modelFactory->getObject('Ebay_Template_OtherCategory_Builder')->build(
                 $builderData
@@ -293,40 +300,7 @@ abstract class Settings extends Listing
 
         return array_values($unique);
     }
-    //########################################
 
-    protected function convertCategoriesIdstoProductIds($sessionData)
-    {
-        if ($this->getSessionValue('mode') !== CategoryTemplateBlock::MODE_CATEGORY) {
-            return $sessionData;
-        }
-
-        foreach ($sessionData as $categoryId => $data) {
-            $listingProductsIds = [];
-
-            if (isset($data['listing_products_ids'])) {
-                $listingProductsIds = $data['listing_products_ids'];
-                unset($data['listing_products_ids']);
-            }
-
-            unset($sessionData[$categoryId]);
-
-            foreach ($listingProductsIds as $listingProductId) {
-                $sessionData[$listingProductId] = $data;
-            }
-        }
-
-        foreach ($this->getListing()->getChildObject()->getAddedListingProductsIds() as $listingProductId) {
-            if (!array_key_exists($listingProductId, $sessionData)) {
-                $sessionData[$listingProductId]['category_main_mode'] =
-                    \Ess\M2ePro\Model\Ebay\Template\Category::CATEGORY_MODE_NONE;
-                $sessionData[$listingProductId]['category_main_id'] = null;
-                $sessionData[$listingProductId]['category_main_attribute'] = null;
-            }
-        }
-
-        return $sessionData;
-    }
     //########################################
 
     protected function getTemplatesData()
@@ -414,7 +388,7 @@ abstract class Settings extends Listing
 
         $sessionData = $this->getSessionValue($this->getSessionDataKey());
 
-        if ($this->getSessionValue('mode') == CategoryTemplateBlock::MODE_SAME) {
+        if ($this->getSessionValue('mode') == 'same') {
             $ebayListing->updateLastPrimaryCategory(
                 ['ebay_primary_category', 'mode_same'],
                 ['category_main_id' => $sessionData['category']['category_main_id'],
@@ -428,7 +402,7 @@ abstract class Settings extends Listing
                     'store_category_main_mode' => $sessionData['category']['store_category_main_mode'],
                     'store_category_main_attribute' => $sessionData['category']['store_category_main_attribute']]
             );
-        } elseif ($this->getSessionValue('mode') == CategoryTemplateBlock::MODE_CATEGORY) {
+        } elseif ($this->getSessionValue('mode') == 'category') {
             foreach ($sessionData as $magentoCategoryId => $data) {
                 $ebayListing->updateLastPrimaryCategory(
                     ['ebay_primary_category', 'mode_category', $magentoCategoryId],
@@ -450,80 +424,12 @@ abstract class Settings extends Listing
             }
         }
 
-        //-- Remove successfully moved 3rd party items
-        $additionalData = $ebayListing->getParentObject()->getSettings('additional_data');
-        if (isset($additionalData['source']) && $additionalData['source'] == SourceModeBlock::MODE_OTHER) {
-            $this->deleteListingOthers();
-        }
+        $ebayListing->setData(
+            'product_add_ids',
+            $this->getHelper('Data')->jsonEncode([])
+        )->save();
 
-        //--
         $this->clearSession();
-    }
-
-    //########################################
-
-    protected function deleteListingProducts($listingProductsIds)
-    {
-        $listingProductsIds = array_map('intval', $listingProductsIds);
-
-        /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Product\Collection $collection */
-        $collection = $this->ebayFactory->getObject('Listing_Product')->getCollection();
-        $collection->addFieldToFilter('id', ['in' => $listingProductsIds]);
-
-        foreach ($collection->getItems() as $listingProduct) {
-            /**@var \Ess\M2ePro\Model\Listing\Product $listingProduct */
-            $listingProduct->canBeForceDeleted(true);
-            $listingProduct->delete();
-        }
-
-        $listing = $this->ebayFactory->getCachedObjectLoaded(
-            'Listing',
-            (int)$this->getRequest()->getParam('id')
-        );
-
-        $listingProductAddIds = $this->getListing()->getChildObject()->getAddedListingProductsIds();
-        if (empty($listingProductAddIds)) {
-            return;
-        }
-
-        $listingProductAddIds = array_map('intval', $listingProductAddIds);
-        $listingProductAddIds = array_diff($listingProductAddIds, $listingProductsIds);
-
-        $listing->setData('product_add_ids', $this->getHelper('Data')->jsonEncode($listingProductAddIds));
-        $listing->save();
-    }
-
-    protected function deleteListingOthers()
-    {
-        $listingProductsIds = $this->getListing()->getChildObject()->getAddedListingProductsIds();
-        if (empty($listingProductsIds)) {
-            return;
-        }
-
-        $otherProductsIds = [];
-
-        /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Product\Collection $collection */
-        $collection = $this->ebayFactory->getObject('Listing_Product')->getCollection();
-        $collection->addFieldToFilter('id', ['in' => $listingProductsIds]);
-        foreach ($collection->getItems() as $listingProduct) {
-            /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
-            $otherProductsIds[] = (int)$listingProduct->getSetting(
-                'additional_data',
-                $listingProduct::MOVING_LISTING_OTHER_SOURCE_KEY
-            );
-        }
-
-        if (empty($otherProductsIds)) {
-            return;
-        }
-
-        /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Other\Collection $collection */
-        $collection = $this->ebayFactory->getObject('Listing_Other')->getCollection();
-        $collection->addFieldToFilter('id', ['in' => $otherProductsIds]);
-        foreach ($collection->getItems() as $listingOther) {
-            /** @var \Ess\M2ePro\Model\Listing\Other $listingOther */
-            $listingOther->moveToListingSucceed();
-        }
     }
 
     //########################################
@@ -558,14 +464,14 @@ abstract class Settings extends Listing
         $key = '';
 
         switch (strtolower($this->getSessionValue('mode'))) {
-            case CategoryTemplateBlock::MODE_SAME:
+            case 'same':
                 $key = 'mode_same';
                 break;
-            case CategoryTemplateBlock::MODE_CATEGORY:
+            case 'category':
                 $key = 'mode_category';
                 break;
-            case CategoryTemplateBlock::MODE_PRODUCT:
-            case CategoryTemplateBlock::MODE_MANUALLY:
+            case 'product':
+            case 'manually':
                 $key = 'mode_product';
                 break;
         }

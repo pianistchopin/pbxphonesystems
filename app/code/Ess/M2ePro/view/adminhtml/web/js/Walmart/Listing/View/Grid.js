@@ -44,7 +44,9 @@ define([
                 reviseAction: this.actionHandler.reviseAction.bind(this.actionHandler),
                 stopAction: this.actionHandler.stopAction.bind(this.actionHandler),
                 stopAndRemoveAction: this.actionHandler.stopAndRemoveAction.bind(this.actionHandler),
-                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler)
+                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler),
+                startTranslateAction: this.actionHandler.startTranslateAction.bind(this.actionHandler),
+                stopTranslateAction: this.actionHandler.stopTranslateAction.bind(this.actionHandler)
             };
 
             this.movingHandler = new ListingMoving(this);
@@ -65,16 +67,6 @@ define([
                     this.templateCategoryHandler.validateProductsForTemplateCategoryAssign(id, null)
                 }).bind(this)
             });
-        },
-
-        // ---------------------------------------
-
-        tryToMove: function (listingId) {
-            this.movingHandler.submit(listingId, this.onSuccess);
-        },
-
-        onSuccess: function () {
-            this.unselectAllAndReload();
         },
 
         // ---------------------------------------

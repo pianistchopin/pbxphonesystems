@@ -1,0 +1,36 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $quote = $block->getQuote() ?>
+<?php if ($quote): ?>
+    <?php $items = $quote->getAllItems(); ?>
+    <table class="email-items">
+        <thead>
+        <tr>
+            <th class="item-info">
+                <?= /* @escapeNotVerified */  __('Items') ?>
+            </th>
+            <th class="item-qty">
+                <?= /* @escapeNotVerified */  __('Qty') ?>
+            </th>
+            <th class="item-price">
+                <?= /* @escapeNotVerified */  __('Price') ?>
+            </th>
+        </tr>
+        </thead>
+        <?php foreach ($items as $item): ?>
+            <?php if (!$item->getParentItem()) : ?>
+                <tbody>
+                <?= $block->getItemHtml($item) ?>
+                </tbody>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <tfoot class="order-totals">
+        <?= $block->getChildHtml('quote_totals') ?>
+        </tfoot>
+    </table>
+<?php endif; ?>

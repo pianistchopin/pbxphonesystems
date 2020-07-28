@@ -24,7 +24,7 @@ class Validator extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Val
             return false;
         }
 
-        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProduct()) {
+        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProductFlags()) {
             return false;
         }
 
@@ -48,6 +48,8 @@ class Validator extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Val
         }
 
         if (!$this->getListingProduct()->isStopped() || !$this->getListingProduct()->isRelistable()) {
+            // M2ePro\TRANSLATIONS
+            // The Item either is Listed, or not Listed yet or not available
             $this->addMessage(
                 'The Item either is Listed, or not Listed yet or not available'
             );

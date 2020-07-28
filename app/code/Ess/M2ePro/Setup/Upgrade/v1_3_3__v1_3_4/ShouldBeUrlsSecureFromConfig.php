@@ -14,6 +14,11 @@ class ShouldBeUrlsSecureFromConfig extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['module_config'];
+    }
+
     public function execute()
     {
         $value = $this->getConnection()

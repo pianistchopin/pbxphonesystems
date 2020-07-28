@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:shiprulesIgnoreFreeShippingPromoYes:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckTwoRules">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check the operation of the two rules"/>
+            <description value="Check the operation of the two rules"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-15"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckTwoRules"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction 1-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestrictionFirst">
+            <argument name="shippingRestriction" value="shiprestrictionCheckTwoRules1"/>
+        </actionGroup>
+
+        <!--Create shipping restriction 2-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestrictionSecond">
+            <argument name="shippingRestriction" value="shiprestrictionCheckTwoRules2"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionAddGlobalConditionsWithInput" stepKey="AddConditionsInRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckTwoRules2"/>
+            <argument name="actionsConditionOptions" value="_subtotal"/>
+            <argument name="actionsConditionsOptionsParamIs" value="_equalsOrGreaterThan"/>
+            <argument name="conditionsData" value="shiprestrictionCheckTwoRules2.conditions"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessage" stepKey="checkFlatRateOne">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckTwoRules1.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckTwoRules1.message"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagOvernightDuffle"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkFlatRateTwo">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckNoShippingMethod" stepKey="checkBestWay">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Delete Product From The Cart-->
+        <actionGroup ref="DeleteProductFromTheCart" stepKey="DeleteProductFromTheCart">
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessage" stepKey="checkFlatRateThree">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckTwoRules1.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckTwoRules1.message"/>
+        </actionGroup>
+
+    </test>
+</tests>

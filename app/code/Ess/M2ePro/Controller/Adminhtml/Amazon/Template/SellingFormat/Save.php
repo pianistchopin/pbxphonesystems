@@ -164,10 +164,11 @@ class Save extends Template
 
         if ($id) {
             $model->load($id);
-            /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\SnapshotBuilder $snapshotBuilder */
-            $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_SellingFormat_SnapshotBuilder');
-            $snapshotBuilder->setModel($model);
-            $oldData = $snapshotBuilder->getSnapshot();
+
+            $oldData = array_merge(
+                $model->getDataSnapshot(),
+                $model->getChildObject()->getDataSnapshot()
+            );
         }
 
         $model->addData($data)->save();
@@ -181,28 +182,8 @@ class Save extends Template
             $this->saveDiscounts($model->getId(), $post);
         }
 
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\SnapshotBuilder $snapshotBuilder */
-        $snapshotBuilder = $this->modelFactory->getObject('Amazon_Template_SellingFormat_SnapshotBuilder');
-        $snapshotBuilder->setModel($model);
-        $newData = $snapshotBuilder->getSnapshot();
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\Diff $diff */
-        $diff = $this->modelFactory->getObject('Amazon_Template_SellingFormat_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\AffectedListingsProducts $affectedListingsProducts */
-        $affectedListingsProducts = $this->modelFactory->getObject(
-            'Amazon_Template_SellingFormat_AffectedListingsProducts'
-        );
-        $affectedListingsProducts->setModel($model);
-
-        /** @var \Ess\M2ePro\Model\Amazon\Template\SellingFormat\ChangeProcessor $changeProcessor */
-        $changeProcessor = $this->modelFactory->getObject('Amazon_Template_SellingFormat_ChangeProcessor');
-        $changeProcessor->process(
-            $diff,
-            $affectedListingsProducts->getObjectsData(['id', 'status'], ['only_physical_units' => true])
-        );
+        $newData = array_merge($model->getDataSnapshot(), $model->getChildObject()->getDataSnapshot());
+        $model->getChildObject()->setSynchStatusNeed($newData, $oldData);
 
         if ($this->isAjax()) {
             $this->setJsonContent([

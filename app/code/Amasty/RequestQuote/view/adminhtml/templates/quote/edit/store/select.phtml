@@ -1,0 +1,60 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div class="store-scope form-inline">
+    <div class="admin__fieldset tree-store-scope">
+        <?php $showHelpHint = 0; ?>
+        <?php foreach ($block->getWebsiteCollection() as $website): ?>
+            <?php $showWebsite = false; ?>
+            <?php foreach ($block->getGroupCollection($website) as $group): ?>
+                <?php $showGroup = false; ?>
+                <?php foreach ($block->getStoreCollection($group) as $store): ?>
+                    <?php if ($showWebsite == false): ?>
+                        <?php $showWebsite = true; ?>
+                        <div class="admin__field field-website_label">
+                            <label class="admin__field-label" for="">
+                                <span><?= $block->escapeHtml($website->getName()) ?></span>
+                            </label>
+                            <div class="admin__field-control">
+                                <div class="admin__field admin__field-option">
+                                    <?php if ($showHelpHint == 0):
+                                        echo $block->getHintHtml();
+                                        $showHelpHint = 1;
+                                    endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($showGroup == false): ?>
+                        <?php $showGroup = true; ?>
+                        <div class="admin__field field-group_label">
+                            <label class="admin__field-label" for=""><span><?= $block->escapeHtml($group->getName()) ?></span></label>
+                            <div class="admin__field-control"></div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="admin__field field-store_label">
+                        <label class="admin__field-label" for=""><span><?= $block->escapeHtml($group->getName()) ?></span></label>
+                        <div class="admin__field-control">
+                            <div class="nested">
+                                <div class="admin__field admin__field-option">
+                                    <input type="radio" id="store_<?= /* @escapeNotVerified */ $store->getId() ?>" class="admin__control-radio" onclick="quote.setStoreId('<?= /* @escapeNotVerified */ $store->getId() ?>')"/>
+                                    <label class="admin__field-label" for="store_<?= /* @escapeNotVerified */ $store->getId() ?>">
+                                        <?= $block->escapeHtml($store->getName()) ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                <?php if ($showGroup): ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
+</div>

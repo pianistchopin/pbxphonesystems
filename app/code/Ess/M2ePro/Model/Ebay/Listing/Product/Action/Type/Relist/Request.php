@@ -21,12 +21,22 @@ class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request
 
         $additionalData = $this->getListingProduct()->getAdditionalData();
 
+        unset($additionalData['add_to_schedule']);
         unset($additionalData['item_duplicate_action_required']);
 
         $this->getListingProduct()->setSettings('additional_data', $additionalData);
         $this->getEbayListingProduct()->setData('is_duplicate', 0);
 
         $this->getListingProduct()->save();
+    }
+
+    protected function afterBuildDataEvent(array $data)
+    {
+        $this->getConfigurator()->setPriority(
+            \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Configurator::PRIORITY_RELIST
+        );
+
+        parent::afterBuildDataEvent($data);
     }
 
     //########################################
@@ -46,29 +56,39 @@ class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request
                 'item_id'   => $this->getEbayListingProduct()->getEbayItemIdReal(),
                 'item_uuid' => $uuid
             ],
-            $this->getQtyData(),
-            $this->getPriceData(),
-            $this->getVariationsData()
+            $this->getRequestVariations()->getRequestData()
         );
 
         if ($this->getConfigurator()->isGeneralAllowed()) {
-            $data['sku'] = $this->getSku();
+            $data['sku'] = $this->getEbayListingProduct()->getSku();
+
+            $data = array_merge(
+
+                $data,
+                $this->getRequestPayment()->getRequestData(),
+                $this->getRequestReturn()->getRequestData()
+            );
         }
 
-        return $data;
+        return array_merge(
+            $data,
+            $this->getRequestCategories()->getRequestData(),
+            $this->getRequestShipping()->getRequestData(),
+            $this->getRequestSelling()->getRequestData(),
+            $this->getRequestDescription()->getRequestData()
+        );
     }
 
     protected function prepareFinalData(array $data)
     {
         $data = $this->addConditionIfItIsNecessary($data);
-        $data = $this->removePriceFromVariationsIfNotAllowed($data);
-
+        $data = $this->removeImagesIfThereAreNoChanges($data);
         return parent::prepareFinalData($data);
     }
 
     //########################################
 
-    protected function addConditionIfItIsNecessary(array $data)
+    private function addConditionIfItIsNecessary(array $data)
     {
         $additionalData = $this->getListingProduct()->getAdditionalData();
 
@@ -78,9 +98,7 @@ class Request extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Request
             return $data;
         }
 
-        $otherData = $this->getOtherData();
-
-        $data['item_condition'] = $otherData['item_condition'];
+        $data = array_merge($data, $this->getRequestDescription()->getConditionData());
 
         return $data;
     }

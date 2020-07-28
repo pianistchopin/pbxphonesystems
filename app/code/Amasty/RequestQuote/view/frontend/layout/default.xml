@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="amasty_quote_hide_actions" template="Amasty_RequestQuote::actions/hide.phtml"/>
+            <block class="Amasty\RequestQuote\Block\Cart\Sidebar" name="quotecart" as="quotecart" after="minicart" template="Amasty_RequestQuote::cart/quotecart.phtml">
+                <block class="Magento\Checkout\Block\Item\Price\Renderer" name="checkout.cart.item.price.sidebar" template="Magento_Checkout::cart/item/price/sidebar.phtml"/>
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="types" xsi:type="array"/>
+                        <item name="components" xsi:type="array">
+                            <item name="quotecart_content" xsi:type="array">
+                                <item name="component" xsi:type="string">Amasty_RequestQuote/js/view/quotecart</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="template" xsi:type="string">Amasty_RequestQuote/quotecart/content</item>
+                                    <item name="itemRenderer" xsi:type="array">
+                                        <item name="default" xsi:type="string">defaultRenderer</item>
+                                        <item name="simple" xsi:type="string">defaultRenderer</item>
+                                        <item name="virtual" xsi:type="string">defaultRenderer</item>
+                                    </item>
+                                </item>
+                                <item name="children" xsi:type="array">
+                                    <item name="item.renderer" xsi:type="array">
+                                        <item name="component" xsi:type="string">uiComponent</item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="displayArea" xsi:type="string">defaultRenderer</item>
+                                            <item name="template" xsi:type="string">Magento_Checkout/minicart/item/default</item>
+                                        </item>
+                                        <item name="children" xsi:type="array">
+                                            <item name="checkout.cart.item.price.sidebar" xsi:type="array">
+                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="template" xsi:type="string">Magento_Checkout/minicart/item/price</item>
+                                                    <item name="displayArea" xsi:type="string">priceSidebar</item>
+                                                </item>
+                                            </item>
+                                            <item name="item.image" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Catalog/js/view/image</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="template" xsi:type="string">Magento_Catalog/product/image</item>
+                                                    <item name="displayArea" xsi:type="string">itemImage</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                    <item name="extra_info" xsi:type="array">
+                                        <item name="component" xsi:type="string">uiComponent</item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="displayArea" xsi:type="string">extraInfo</item>
+                                        </item>
+                                    </item>
+                                    <item name="promotion" xsi:type="array">
+                                        <item name="component" xsi:type="string">uiComponent</item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="displayArea" xsi:type="string">promotion</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+                <container name="quotecart.addons" label="Quote-cart promotion block"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

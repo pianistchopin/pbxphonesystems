@@ -1,0 +1,18 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var $block \Amasty\RequestQuote\Block\Account\Quote\Info */ ?>
+
+<div class="order-date">
+    <?= /* @escapeNotVerified */ __('<span>Creation Date:</span> %1', '<date>' . $block->formatDate($block->getQuote()->getCreatedAt(), \IntlDateFormatter::LONG) . '</date>') ?>
+</div>
+
+<?php if ($block->isExpiryColumnShow()) : ?>
+    <div class="order-date">
+        <span><?= __('Expiry Date') ?>: <?= $block->getExpiredDate() ?></span>
+    </div>
+<?php endif; ?>

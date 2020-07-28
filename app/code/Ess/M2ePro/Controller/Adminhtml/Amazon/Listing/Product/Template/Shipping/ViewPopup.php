@@ -16,6 +16,7 @@ class ViewPopup extends \Ess\M2ePro\Controller\Adminhtml\Amazon\Listing\Product\
     public function execute()
     {
         $productsIds  = $this->getRequest()->getParam('products_ids');
+        $shippingMode = $this->getRequest()->getParam('shipping_mode');
 
         if (empty($productsIds)) {
             $this->setAjaxContent('You should provide correct parameters.', false);
@@ -46,7 +47,11 @@ class ViewPopup extends \Ess\M2ePro\Controller\Adminhtml\Amazon\Listing\Product\
             return $this->getResult();
         }
 
-        $mainBlock = $this->createBlock('Amazon_Listing_Product_Template_Shipping');
+        $blockName = ($shippingMode == \Ess\M2ePro\Model\Amazon\Account::SHIPPING_MODE_OVERRIDE)
+            ? 'Amazon_Listing_Product_Template_ShippingOverride'
+            : 'Amazon_Listing_Product_Template_ShippingTemplate';
+
+        $mainBlock = $this->createBlock($blockName);
         if (!empty($messages)) {
             $mainBlock->setMessages($messages);
         }

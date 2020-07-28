@@ -1,19 +1,17 @@
 define([
     'M2ePro/Plugin/Messages',
-    'M2ePro/Action',
-    'M2ePro/Plugin/ProgressBar',
-    'M2ePro/Plugin/AreaWrapper'
+    'M2ePro/Action'
 ], function (MessagesObj) {
     window.ListingOtherAutoMapping = Class.create(Action, {
 
         // ---------------------------------------
 
-        setProgressBar: function (progressBarId) {
-            this.progressBarObj = new ProgressBar(progressBarId);
-        },
+        options: {},
 
-        setGridWrapper: function (wrapperId) {
-            this.wrapperObj = new AreaWrapper(wrapperId);
+        setOptions: function(options)
+        {
+            this.options = Object.extend(this.options,options);
+            return this;
         },
 
         // ---------------------------------------
@@ -49,9 +47,9 @@ define([
 
             var selectedProductsParts = result;
 
-            this.progressBarObj.reset();
-            this.progressBarObj.show(M2ePro.translator.translate('automap_progress_title'));
-            this.wrapperObj.lock();
+            ListingProgressBarObj.reset();
+            ListingProgressBarObj.show(self.options.translator.translate('automap_progress_title'));
+            GridWrapperObj.lock();
             $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
 
             self.sendPartsOfProducts(selectedProductsParts,selectedProductsParts.length,0);
@@ -65,15 +63,15 @@ define([
                 MessagesObj.clear();
 
                 if (isFailed == 1) {
-                    MessagesObj.addErrorMessage(M2ePro.translator.translate('failed_mapped'));
+                    MessagesObj.addErrorMessage(self.options.translator.translate('failed_mapped'));
                 } else {
-                    MessagesObj.addSuccessMessage(M2ePro.translator.translate('successfully_mapped'));
+                    MessagesObj.addSuccessMessage(self.options.translator.translate('successfully_mapped'));
                 }
 
-                this.progressBarObj.setStatus(M2ePro.translator.translate('task_completed_message'));
-                this.progressBarObj.hide();
-                this.progressBarObj.reset();
-                this.wrapperObj.unlock();
+                ListingProgressBarObj.setStatus(self.options.translator.translate('task_completed_message'));
+                ListingProgressBarObj.hide();
+                ListingProgressBarObj.reset();
+                GridWrapperObj.unlock();
                 $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
 
                 self.gridHandler.unselectAllAndReload();
@@ -88,12 +86,12 @@ define([
             var partExecuteString = part.length;
             partExecuteString += '';
 
-            this.progressBarObj.setStatus(str_replace('%product_title%', partExecuteString, M2ePro.translator.translate('processing_data_message')));
+            ListingProgressBarObj.setStatus(str_replace('%product_title%', partExecuteString, self.options.translator.translate('processing_data_message')));
 
-            new Ajax.Request(M2ePro.url.get('mapAutoToProduct'), {
+            new Ajax.Request(self.options.url.get('mapAutoToProduct'), {
                 method: 'post',
                 parameters: {
-                    componentMode: M2ePro.customData.componentMode,
+                    componentMode: self.options.customData.componentMode,
                     product_ids: partString
                 },
                 onSuccess: function(transport) {
@@ -101,11 +99,11 @@ define([
                     var percents = (100/totalPartsCount)*(totalPartsCount-parts.length);
 
                     if (percents <= 0) {
-                        self.progressBarObj.setPercents(0,0);
+                        ListingProgressBarObj.setPercents(0,0);
                     } else if (percents >= 100) {
-                        self.progressBarObj.setPercents(100,0);
+                        ListingProgressBarObj.setPercents(100,0);
                     } else {
-                        self.progressBarObj.setPercents(percents,1);
+                        ListingProgressBarObj.setPercents(percents,1);
                     }
 
                     if (transport.responseText == 1) {

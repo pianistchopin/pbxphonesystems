@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<pages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/Page/etc/PageObject.xsd">
+
+    <page name="AdminShiprestrictionConfigurationPage" url="/admin/system_config/edit/section/amshiprestriction/" area="admin" module="Magento_Shiprestriction">
+        <section name="AdminConfigurationsShiprestrictionSection"/>
+    </page>
+
+    <page name="AdminShippingRestrictionsGridPage" url="/amasty_shiprestriction/rule/index/" area="admin" module="Magento_Shiprestriction">
+        <section name="AdminShippingRestrictionsGridSection"/>
+    </page>
+
+</pages>

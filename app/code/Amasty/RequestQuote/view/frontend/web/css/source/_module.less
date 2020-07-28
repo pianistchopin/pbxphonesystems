@@ -1,0 +1,412 @@
+//
+// Request Quote
+// __________________________
+
+//
+//  Variables
+//  ----------------------------------------------
+
+@am-button-main__color: #1979c3;
+@am-quotecart-counter__background: #ff5501;
+@am-quotecart-counter__color: #fff;
+@am-quotecart-counter__height: 24px;
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amquote-addto-button {
+        & {
+            display: inline-block;
+            width: 100%;
+            margin: 0 0 15px;
+            padding: 14px 17px;
+            border: 1px solid @am-button-main__color;
+            border-radius: 3px;
+            box-sizing: border-box;
+            line-height: 2.2rem;
+            font-weight: 600;
+            font-size: 1.8rem;
+            color: @am-button-main__color;
+            background: none;
+            box-shadow: none;
+            vertical-align: top;
+            cursor: pointer;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            .lib-css(background, @am-button-main__color);
+            .lib-css(border, 1px solid @am-button-main__color);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        &.-small {
+            padding: 10px 0;
+            line-height: 1;
+            border-radius: 0;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            transition: display .3s ease;
+        }
+
+        &.-guest.-small {
+            white-space: normal;
+        }
+    }
+
+    .products.list .amquote-action-wrap .action.tocart {
+        width: 100%;
+        padding: 10px 0;
+        margin-bottom: 10px;
+    }
+
+    .amquote-action-wrap.product-item-actions {
+        .actions-primary {
+            display: block;
+        }
+
+        .actions-primary + .actions-secondary {
+            display: block;
+            padding: 0;
+            width: inherit;
+            text-align: center;
+        }
+    }
+
+    .page-products .amquote-action-wrap.product-item-actions {
+        margin-top: 0;
+    }
+
+    .amquote-cart-wrapper.minicart-wrapper {
+        & {
+            display: inline-block;
+            float: right;
+            margin-right: 4px;
+            margin-bottom: 3px;
+        }
+
+        &.-active .block-quotecart {
+            position: absolute;
+        }
+
+        .block-minicart {
+            right: -30px;
+            width: 270px;
+        }
+
+        .block-minicart:after,
+        .block-minicart:before {
+            transform: translateX(-10px);
+        }
+
+        .amquote-showcart {
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .amquote-showcart.action:before {
+            content: '';
+            display: inline-block;
+            margin: 0;
+            width: 23px;
+            height: 30px;
+            line-height: 28px;
+            overflow: hidden;
+            speak: none;
+            text-align: center;
+            vertical-align: top;
+            background:  url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNSAyNSI+PHBhdGggZmlsbD0iIzc1NzU3NSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjQgMjFoLTFsLS4wMTItMTEuNTEyQS40ODguNDg4IDAgMCAwIDIyLjUgOUgyMFYxLjVhLjQ4OC40ODggMCAwIDAtLjQ4OC0uNDg4SDkuNDg4QS40ODguNDg4IDAgMCAwIDkgMS41VjIwaC0uMzM3QTMuNTE1IDMuNTE1IDAgMCAwIDcgMTguMzM3VjEuMzU5QzcgLjU1MSA2LjUgMCA1LjY2NCAwSDFTMCAwIDAgMXMxIDEgMSAxaDR2MTYuMDM1QTMuNSAzLjUgMCAxIDAgOC42NjMgMjNIMjRzMSAwIDEtMWMwLTEuMDAxLTEtMS0xLTF6bS0xMy4wMDEgMGwtLjAwMS0xMEgxNGwuMDAxIDQuMjM2YS40ODguNDg4IDAgMCAwIC43ODEuMzlsMS4xMzctMS4yNDUgMS4zMDEgMS4yNDZhLjQ4OC40ODggMCAwIDAgLjc4LS4zOTF2LTQuMjM1TDIxIDExdjkuOTk5TDEwLjk5OSAyMXptMS45OS0xNS4zNThhLjQ4OC40ODggMCAwIDAgLjc1OC40MDZsLjcwNi0uNzk3Ljc4OC43OTZBLjQ4Ny40ODcgMCAwIDAgMTYgNS42NFYzaDJ2NmgtN1YzaDEuOTg4djIuNjQyeiIgY2xpcC1ydWxlPSJldmVub2RkIi8+PC9zdmc+) no-repeat center;
+            transition: opacity .3s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .amquote-showcart:hover:before {
+            opacity: .75;
+        }
+
+        .amquote-showcart > .text,
+        .amquote-showcart .counter-label {
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        .amquote-showcart .counter-number {
+            text-shadow: 0 0 7px #000;
+        }
+
+        .amquote-showcart .counter.qty.empty {
+            display: none;
+        }
+
+        .amquote-showcart .counter.qty {
+            display: inline-block;
+            margin: 3px 0 0;
+            padding: 0 3px;
+            min-width: 18px;
+            .lib-css(height, @am-quotecart-counter__height);
+            .lib-css(line-height, @am-quotecart-counter__height);
+            border-radius: 2px;
+            overflow: hidden;
+            text-align: center;
+            white-space: normal;
+            .lib-css(background, @am-quotecart-counter__background);
+            .lib-css(color, @am-quotecart-counter__color);
+        }
+
+        .block-quotecart {
+            & {
+                padding-bottom: 0;
+            }
+
+            .cart-item-qty {
+                margin-right: 3px;
+            }
+        }
+
+        .minicart-widgets {
+            margin: 0;
+        }
+
+        .block-quotecart .subtitle.empty {
+            padding: 30px 0 50px;
+        }
+    }
+
+    .table-wrapper.cart {
+        .data.table .col.price,
+        .data.table .col.qty,
+        .col.price.qty {
+            text-align: center;
+            white-space: normal;
+        }
+
+        .item-info .col.qty {
+            white-space: normal;
+        }
+
+        .col.price .control .amquotereq-input {
+            width: 80px;
+            height: 36px;
+            margin-top: -7px;
+            padding: 0;
+            text-align: center;
+        }
+
+        .amquotereq-input + .mage-error {
+            line-height: normal;
+            font-weight: normal;
+        }
+
+        .col.price .input-text,
+        .col.qty .input-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #666;
+        }
+
+        .textarea.add-note {
+            display: none;
+        }
+
+        .add-note-quote {
+            cursor: pointer;
+        }
+    }
+
+    .quote-details {
+        & {
+            padding: 0 15px;
+        }
+
+        .title {
+            display: block;
+            margin: 12px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+            font-size: 2.4rem;
+            font-weight: 300;
+        }
+
+        .control {
+            margin-top: 10px;
+        }
+
+        .form-login {
+            border-bottom: 1px solid #cccccc;
+        }
+    }
+
+    .account-quote-buttons {
+        margin-bottom: 15px;
+    }
+
+    .amasty-quote-account-view,
+    .amasty_quote-account-view {
+        .table-wrapper {
+            table {
+                .quote-item-notes {
+                    border-top: none;
+                }
+            }
+        }
+
+        ul.note-list li {
+            display: inline-block;
+            width: 48%;
+        }
+    }
+
+    .amasty-quote-account-index,
+    .amasty_quote-account-index {
+        .quote-products-toolbar {
+            .pager {
+                .pages,
+                .limiter {
+                    display: inline-block;
+                    position: relative;
+                    width: auto;
+                }
+            }
+        }
+    }
+
+    .amasty-quote-update {
+        .control.price {
+            & {
+                position: relative;
+                min-width: 95px;
+                line-height: 22px;
+            }
+        }
+
+        .amquote-price-label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    }
+
+    #update-quote-cart {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+    }
+
+    .quote-interest-message {
+        font-weight: bold;
+    }
+
+    .cart-summary {
+        &._sticky {
+            margin-bottom: 20vh;
+        }
+
+        .checkout-methods-items  {
+            .amasty-quote-link {
+                width: 100%;
+                line-height: 2.2rem;
+                font-size: 1.8rem;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .amquote-cell-container {
+        & {
+            width: 50%;
+            font-weight: bold;
+        }
+
+        .amquote-note {
+            font-weight: normal;
+            word-break: break-word;
+            word-wrap: break-word;
+        }
+
+        &::before {
+            content: none !important; // override magento style
+        }
+    }
+
+    .amquote-report-container {
+        & {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-wrap(wrap);
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding: 0;
+        }
+
+        .amquote-item {
+            & {
+                min-width: 200px;
+                margin-right: 20px;
+                font-weight: bold;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .amquote-comment {
+            font-weight: normal;
+            word-break: break-word;
+            word-wrap: break-word;
+        }
+    }
+}
+
+//
+//  Tablet +
+//  --------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .amquote-addto-button {
+        width: 49%;
+    }
+    
+    .products.list .amquote-action-wrap .action.tocart {
+        width: 48%;
+    }
+
+    .amquote-cart-wrapper.minicart-wrapper {
+        & {
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+
+        .amquote-showcart.action:before {
+            margin: 0 5px 0 20px;
+        }
+
+        .block-minicart {
+            right: -20px;
+            width: 390px;
+        }
+
+        .block-minicart:after,
+        .block-minicart:before {
+            transform: none;
+        }
+    }
+
+    .quote-details {
+        padding: 0;
+    }
+}

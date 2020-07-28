@@ -1,0 +1,21 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Cart\Item\Renderer\Actions\Hide $block */
+?>
+
+<script>
+    require([
+        'jquery',
+        'Amasty_RequestQuote/js/actions/hide',
+        'Amasty_RequestQuote/js/actions/empty_cart_button'
+    ], function ($, hide, emptyCartButton) {
+        hide();
+        emptyCartButton();
+    });
+</script>

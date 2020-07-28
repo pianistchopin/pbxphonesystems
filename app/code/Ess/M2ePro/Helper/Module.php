@@ -20,10 +20,11 @@ class Module extends AbstractHelper
     const SERVER_MESSAGE_TYPE_WARNING = 2;
     const SERVER_MESSAGE_TYPE_SUCCESS = 3;
 
-    const ENVIRONMENT_PRODUCTION     = 'production';
-    const ENVIRONMENT_DEVELOPMENT    = 'development';
-    const ENVIRONMENT_TESTING_MANUAL = 'testing-manual';
-    const ENVIRONMENT_TESTING_AUTO   = 'testing-auto';
+    const ENVIRONMENT_PRODUCTION  = 'production';
+    const ENVIRONMENT_DEVELOPMENT = 'development';
+    const ENVIRONMENT_TESTING     = 'testing';
+
+    const DEVELOPMENT_MODE_COOKIE_KEY = 'm2epro_development_mode';
 
     protected $activeRecordFactory;
     protected $moduleConfig;
@@ -100,6 +101,13 @@ class Module extends AbstractHelper
         return $this->moduleList->getOne(self::IDENTIFIER)['setup_version'];
     }
 
+    // ---------------------------------------
+
+    public function getRevision()
+    {
+        return '3232';
+    }
+
     //########################################
 
     public function getInstallationKey()
@@ -131,9 +139,37 @@ class Module extends AbstractHelper
 
     //########################################
 
+    public function getPublicVersionInstallationDate()
+    {
+        $collection = $this->activeRecordFactory->getObject('PublicVersions')->getCollection();
+        $collection->addFieldToFilter('version_from', ['null' => true])
+                   ->addFieldToFilter('version_to', ['notnull' => true])
+                   ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_ASC);
+        return $collection->setPageSize(1)->getFirstItem()->getUpdateDate();
+    }
+
+    public function getPublicVersionLastUpgradeDate()
+    {
+        $collection = $this->activeRecordFactory->getObject('PublicVersions')->getCollection();
+        $collection->addFieldToFilter('version_from', ['notnull' => true])
+                   ->addFieldToFilter('version_to', ['notnull' => true])
+                   ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_ASC);
+        return $collection->setPageSize(1)->getFirstItem()->getUpdateDate();
+    }
+
+    // ---------------------------------------
+
+    public function getPublicVersionLastModificationDate()
+    {
+        $resource = $this->activeRecordFactory->getObject('VersionsHistory')->getResource();
+        return $resource->getLastItem()->getCreateDate();
+    }
+
+    //########################################
+
     public function isDisabled()
     {
-        return (bool)$this->getConfig()->getGroupValue('/', 'is_disabled');
+        return (bool)$this->getConfig()->getGroupValue(null, 'is_disabled');
     }
 
     //########################################
@@ -148,34 +184,47 @@ class Module extends AbstractHelper
 
     // ---------------------------------------
 
-    public function getEnvironment()
+    public function isDevelopmentEnvironment()
     {
-        return $this->getConfig()->getGroupValue('/', 'environment');
+        return (string)getenv('M2EPRO_ENV') == self::ENVIRONMENT_DEVELOPMENT;
+    }
+
+    public function isTestingEnvironment()
+    {
+        return (string)getenv('M2EPRO_ENV') == self::ENVIRONMENT_TESTING;
     }
 
     public function isProductionEnvironment()
     {
-        return $this->getEnvironment() === null || $this->getEnvironment() === self::ENVIRONMENT_PRODUCTION;
+        return (string)getenv('M2EPRO_ENV') == self::ENVIRONMENT_PRODUCTION ||
+               (!$this->isDevelopmentEnvironment() && !$this->isTestingEnvironment());
     }
 
-    public function isDevelopmentEnvironment()
+    // ---------------------------------------
+
+    public function isDevelopmentMode()
     {
-        return $this->getEnvironment() === self::ENVIRONMENT_DEVELOPMENT;
+        return $this->cookieManager->getCookie(self::DEVELOPMENT_MODE_COOKIE_KEY);
     }
 
-    public function isTestingManualEnvironment()
+    public function isProductionMode()
     {
-        return $this->getEnvironment() === self::ENVIRONMENT_TESTING_MANUAL;
+        return !$this->isDevelopmentMode();
     }
 
-    public function isTestingAutoEnvironment()
-    {
-        return $this->getEnvironment() === self::ENVIRONMENT_TESTING_AUTO;
-    }
+    // ---------------------------------------
 
-    public function setEnvironment($env)
+    public function setDevelopmentMode($value)
     {
-        $this->getConfig()->setGroupValue('/', 'environment', $env);
+        $cookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
+                                                      ->setPath('/')
+                                                      ->setHttpOnly(true);
+        if ($value) {
+            $cookieMetadata->setDurationOneYear();
+            $this->cookieManager->setPublicCookie(self::DEVELOPMENT_MODE_COOKIE_KEY, 'true', $cookieMetadata);
+        } else {
+            $this->cookieManager->deleteCookie(self::DEVELOPMENT_MODE_COOKIE_KEY, $cookieMetadata);
+        }
     }
 
     // ---------------------------------------

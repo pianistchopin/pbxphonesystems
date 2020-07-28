@@ -70,7 +70,7 @@ class Response extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Respon
                 'add' => 0
             ];
 
-            if ($variation->getChildObject()->isListed() || $variation->getChildObject()->isHidden()) {
+            if ($variation->getChildObject()->isListed()) {
                 $data['status'] = \Ess\M2ePro\Model\Listing\Product::STATUS_STOPPED;
             }
 

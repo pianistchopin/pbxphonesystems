@@ -13,6 +13,9 @@ namespace Ess\M2ePro\Helper\View;
  */
 class Amazon extends \Ess\M2ePro\Helper\AbstractHelper
 {
+    // M2ePro_TRANSLATIONS
+    // Sell On Multi-Channels
+
     const NICK  = 'amazon';
 
     const WIZARD_INSTALLATION_NICK = 'installationAmazon';

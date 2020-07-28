@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckAdminArea">
+        <annotations>
+            <features value="Restriction Rule Creation"/>
+            <stories value="Create a Restriction Rule via the Admin"/>
+            <title value="Check Restriction Rule And Apply In Admin Area"/>
+            <description value="Check Restriction Rule And Apply In Admin Area"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-14"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckAdminArea"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseConfigSettingBeforeTest"/>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction and enable Admin Area-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckAdminArea"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionEnableAdminArea" stepKey="EnableAdminArea">
+            <argument name="shippingRestriction" value="shiprestrictionCheckAdminArea"/>
+        </actionGroup>
+
+        <!--Check No Flat Rate In Admin Area-->
+        <actionGroup ref="AdminCheckNoShippingMethodsInAdminArea" stepKey="CheckNoShippingMethodInAdminArea">
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+
+        <!--Check Have Best Way In Admin Area-->
+        <actionGroup ref="AdminCheckShippingMethodsInAdminArea" stepKey="CheckShippingMethodInAdminArea">
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!-- Create Order with Best Way-->
+        <actionGroup ref="AdminCreateOrder" stepKey="CreateOrderWithActiveRestrictionRule">
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="customerEmail" value="shiprestrictionCheckAdminArea.customerEmail"/>
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!-- Check Success Message About Created Order-->
+        <actionGroup ref="AdminCheckSuccessMessageAfterCreatedOrder" stepKey="CheckSuccessMessage"/>
+
+    </test>
+</tests>

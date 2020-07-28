@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_ShippingBar
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_ShippingBar::bar"
+             title="Amasty Free Shipping Bar"
+             module="Amasty_ShippingBar"
+             parent="Magento_Backend::content"
+             dependsOnModule="Amasty_ShippingBar"
+             sortOrder="120"
+             resource="Amasty_ShippingBar::bar"
+        />
+        <add id="Amasty_ShippingBar::bar_configuration"
+             title="Manage Bars"
+             module="Amasty_ShippingBar"
+             resource="Amasty_ShippingBar::bar_configuration"
+             parent="Amasty_ShippingBar::bar"
+             action="amasty_shipbar/profile"
+             sortOrder="10"
+        />
+    </menu>
+</config>

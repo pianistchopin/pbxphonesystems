@@ -27,7 +27,7 @@ class GetGlobalMessages extends Main
 
         if (!$muteMessages) {
             $this->addCronErrorMessage();
-            $this->getCustomViewControllerHelper()->addMessages();
+            $this->getCustomViewControllerHelper()->addMessages($this);
         }
 
         $messages = $this->getMessageManager()->getMessages(

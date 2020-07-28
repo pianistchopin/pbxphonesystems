@@ -10,7 +10,6 @@
  * @method \Ess\M2ePro\Model\Template\SellingFormat getParentObject()
  * @method \Ess\M2ePro\Model\ResourceModel\Ebay\Template\SellingFormat getResource()
  */
-
 namespace Ess\M2ePro\Model\Ebay\Template;
 
 /**
@@ -18,15 +17,15 @@ namespace Ess\M2ePro\Model\Ebay\Template;
  */
 class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\AbstractModel
 {
-    const LISTING_TYPE_AUCTION = 1;
-    const LISTING_TYPE_FIXED = 2;
-    const LISTING_TYPE_ATTRIBUTE = 3;
+    const LISTING_TYPE_AUCTION      = 1;
+    const LISTING_TYPE_FIXED        = 2;
+    const LISTING_TYPE_ATTRIBUTE    = 3;
 
-    const LISTING_IS_PRIVATE_NO = 0;
-    const LISTING_IS_PRIVATE_YES = 1;
+    const LISTING_IS_PRIVATE_NO   = 0;
+    const LISTING_IS_PRIVATE_YES  = 1;
 
-    const DURATION_TYPE_EBAY = 1;
-    const DURATION_TYPE_ATTRIBUTE = 2;
+    const DURATION_TYPE_EBAY       = 1;
+    const DURATION_TYPE_ATTRIBUTE  = 2;
 
     const QTY_MODIFICATION_MODE_OFF = 0;
     const QTY_MODIFICATION_MODE_ON = 1;
@@ -34,45 +33,41 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     const QTY_MIN_POSTED_DEFAULT_VALUE = 1;
     const QTY_MAX_POSTED_DEFAULT_VALUE = 100;
 
-    const TAX_CATEGORY_MODE_NONE = 0;
-    const TAX_CATEGORY_MODE_VALUE = 1;
+    const TAX_CATEGORY_MODE_NONE      = 0;
+    const TAX_CATEGORY_MODE_VALUE     = 1;
     const TAX_CATEGORY_MODE_ATTRIBUTE = 2;
 
-    const PRICE_COEFFICIENT_NONE = 0;
-    const PRICE_COEFFICIENT_ABSOLUTE_INCREASE = 1;
-    const PRICE_COEFFICIENT_ABSOLUTE_DECREASE = 2;
+    const PRICE_COEFFICIENT_NONE                = 0;
+    const PRICE_COEFFICIENT_ABSOLUTE_INCREASE   = 1;
+    const PRICE_COEFFICIENT_ABSOLUTE_DECREASE   = 2;
     const PRICE_COEFFICIENT_PERCENTAGE_INCREASE = 3;
     const PRICE_COEFFICIENT_PERCENTAGE_DECREASE = 4;
 
-    const PRICE_VARIATION_MODE_PARENT = 1;
-    const PRICE_VARIATION_MODE_CHILDREN = 2;
+    const PRICE_VARIATION_MODE_PARENT        = 1;
+    const PRICE_VARIATION_MODE_CHILDREN      = 2;
 
-    const PRICE_DISCOUNT_STP_TYPE_RRP = 0;
-    const PRICE_DISCOUNT_STP_TYPE_SOLD_ON_EBAY = 1;
+    const PRICE_DISCOUNT_STP_TYPE_RRP           = 0;
+    const PRICE_DISCOUNT_STP_TYPE_SOLD_ON_EBAY  = 1;
     const PRICE_DISCOUNT_STP_TYPE_SOLD_OFF_EBAY = 2;
-    const PRICE_DISCOUNT_STP_TYPE_SOLD_ON_BOTH = 3;
+    const PRICE_DISCOUNT_STP_TYPE_SOLD_ON_BOTH  = 3;
 
-    const PRICE_DISCOUNT_MAP_EXPOSURE_NONE = 0;
-    const PRICE_DISCOUNT_MAP_EXPOSURE_DURING_CHECKOUT = 1;
-    const PRICE_DISCOUNT_MAP_EXPOSURE_PRE_CHECKOUT = 2;
+    const PRICE_DISCOUNT_MAP_EXPOSURE_NONE             = 0;
+    const PRICE_DISCOUNT_MAP_EXPOSURE_DURING_CHECKOUT  = 1;
+    const PRICE_DISCOUNT_MAP_EXPOSURE_PRE_CHECKOUT     = 2;
 
-    const BEST_OFFER_MODE_NO = 0;
+    const BEST_OFFER_MODE_NO  = 0;
     const BEST_OFFER_MODE_YES = 1;
 
-    const BEST_OFFER_ACCEPT_MODE_NO = 0;
-    const BEST_OFFER_ACCEPT_MODE_PERCENTAGE = 1;
-    const BEST_OFFER_ACCEPT_MODE_ATTRIBUTE = 2;
+    const BEST_OFFER_ACCEPT_MODE_NO          = 0;
+    const BEST_OFFER_ACCEPT_MODE_PERCENTAGE  = 1;
+    const BEST_OFFER_ACCEPT_MODE_ATTRIBUTE   = 2;
 
-    const BEST_OFFER_REJECT_MODE_NO = 0;
-    const BEST_OFFER_REJECT_MODE_PERCENTAGE = 1;
-    const BEST_OFFER_REJECT_MODE_ATTRIBUTE = 2;
+    const BEST_OFFER_REJECT_MODE_NO          = 0;
+    const BEST_OFFER_REJECT_MODE_PERCENTAGE  = 1;
+    const BEST_OFFER_REJECT_MODE_ATTRIBUTE   = 2;
 
     const RESTRICTED_TO_BUSINESS_DISABLED = 0;
-    const RESTRICTED_TO_BUSINESS_ENABLED = 1;
-
-    const LOT_SIZE_MODE_DISABLED = 0;
-    const LOT_SIZE_MODE_CUSTOM_VALUE = 1;
-    const LOT_SIZE_MODE_ATTRIBUTE = 2;
+    const RESTRICTED_TO_BUSINESS_ENABLED  = 1;
 
     /**
      * @var \Ess\M2ePro\Model\Ebay\Template\SellingFormat\Source[]
@@ -108,21 +103,21 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
         }
 
         return (bool)$this->activeRecordFactory->getObject('Ebay\Listing')
-                ->getCollection()
-                ->addFieldToFilter(
-                    'template_selling_format_mode',
-                    \Ess\M2ePro\Model\Ebay\Template\Manager::MODE_TEMPLATE
-                )
-                ->addFieldToFilter('template_selling_format_id', $this->getId())
-                ->getSize() ||
-            (bool)$this->activeRecordFactory->getObject('Ebay_Listing_Product')
-                ->getCollection()
-                ->addFieldToFilter(
-                    'template_selling_format_mode',
-                    \Ess\M2ePro\Model\Ebay\Template\Manager::MODE_TEMPLATE
-                )
-                ->addFieldToFilter('template_selling_format_id', $this->getId())
-                ->getSize();
+                            ->getCollection()
+                            ->addFieldToFilter(
+                                'template_selling_format_mode',
+                                \Ess\M2ePro\Model\Ebay\Template\Manager::MODE_TEMPLATE
+                            )
+                            ->addFieldToFilter('template_selling_format_id', $this->getId())
+                            ->getSize() ||
+               (bool)$this->activeRecordFactory->getObject('Ebay_Listing_Product')
+                            ->getCollection()
+                            ->addFieldToFilter(
+                                'template_selling_format_mode',
+                                \Ess\M2ePro\Model\Ebay\Template\Manager::MODE_TEMPLATE
+                            )
+                            ->addFieldToFilter('template_selling_format_id', $this->getId())
+                            ->getSize();
     }
 
     //########################################
@@ -209,7 +204,7 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getListingTypeSource()
     {
         return [
-            'mode' => $this->getListingType(),
+            'mode'      => $this->getListingType(),
             'attribute' => $this->getData('listing_type_attribute')
         ];
     }
@@ -252,8 +247,8 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
         }
 
         return [
-            'mode' => (int)$mode,
-            'value' => (int)$this->getDurationMode(),
+            'mode'     => (int)$mode,
+            'value'     => (int)$this->getDurationMode(),
             'attribute' => $this->getData('duration_attribute')
         ];
     }
@@ -271,6 +266,16 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
         }
 
         return $attributes;
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function getOutOfStockControl()
+    {
+        return (bool)$this->getData('out_of_stock_control');
     }
 
     // ---------------------------------------
@@ -347,13 +352,13 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getQtySource()
     {
         return [
-            'mode' => $this->getQtyMode(),
-            'value' => $this->getQtyNumber(),
+            'mode'      => $this->getQtyMode(),
+            'value'     => $this->getQtyNumber(),
             'attribute' => $this->getData('qty_custom_attribute'),
             'qty_modification_mode' => $this->getQtyModificationMode(),
-            'qty_min_posted_value' => $this->getQtyMinPostedValue(),
-            'qty_max_posted_value' => $this->getQtyMaxPostedValue(),
-            'qty_percentage' => $this->getQtyPercentage()
+            'qty_min_posted_value'      => $this->getQtyMinPostedValue(),
+            'qty_max_posted_value'      => $this->getQtyMaxPostedValue(),
+            'qty_percentage'            => $this->getQtyPercentage()
         ];
     }
 
@@ -427,75 +432,6 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     // ---------------------------------------
 
     /**
-     * @return int
-     */
-    public function getLotSizeMode()
-    {
-        return (int)$this->getData('lot_size_mode');
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLotSizeDisabled()
-    {
-        return $this->getLotSizeMode() == self::LOT_SIZE_MODE_DISABLED;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLotSizeCustom()
-    {
-        return $this->getLotSizeMode() == self::LOT_SIZE_MODE_CUSTOM_VALUE;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLotSizeAttribute()
-    {
-        return $this->getLotSizeMode() == self::LOT_SIZE_MODE_ATTRIBUTE;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLotSizeCustomValue()
-    {
-        return (int)$this->getData('lot_size_custom_value');
-    }
-
-    /**
-     * @return array
-     */
-    public function getLotSizeSource()
-    {
-        return [
-            'mode'      => $this->getLotSizeMode(),
-            'value'     => $this->getLotSizeCustomValue(),
-            'attribute' => $this->getData('lot_size_attribute')
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getLotSizeAttributes()
-    {
-        $attributes = [];
-        $src = $this->getLotSizeSource();
-
-        if ($src['mode'] == self::LOT_SIZE_MODE_ATTRIBUTE) {
-            $attributes[] = $src['attribute'];
-        }
-
-        return $attributes;
-    }
-
-    //----------------------------------------
-
-    /**
      * @return float
      */
     public function getVatPercent()
@@ -517,25 +453,10 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getTaxCategorySource()
     {
         return [
-            'mode' => $this->getData('tax_category_mode'),
-            'value' => $this->getData('tax_category_value'),
+            'mode'      => $this->getData('tax_category_mode'),
+            'value'     => $this->getData('tax_category_value'),
             'attribute' => $this->getData('tax_category_attribute')
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getTaxCategoryAttributes()
-    {
-        $attributes = [];
-        $src = $this->getTaxCategorySource();
-
-        if ($src['mode'] == self::TAX_CATEGORY_MODE_ATTRIBUTE) {
-            $attributes[] = $src['attribute'];
-        }
-
-        return $attributes;
     }
 
     /**
@@ -635,9 +556,9 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getFixedPriceSource()
     {
         return [
-            'mode' => $this->getFixedPriceMode(),
+            'mode'        => $this->getFixedPriceMode(),
             'coefficient' => $this->getFixedPriceCoefficient(),
-            'attribute' => $this->getData('fixed_price_custom_attribute')
+            'attribute'   => $this->getData('fixed_price_custom_attribute')
         ];
     }
 
@@ -709,9 +630,9 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getStartPriceSource()
     {
         return [
-            'mode' => $this->getStartPriceMode(),
+            'mode'        => $this->getStartPriceMode(),
             'coefficient' => $this->getStartPriceCoefficient(),
-            'attribute' => $this->getData('start_price_custom_attribute')
+            'attribute'   => $this->getData('start_price_custom_attribute')
         ];
     }
 
@@ -783,9 +704,9 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getReservePriceSource()
     {
         return [
-            'mode' => $this->getReservePriceMode(),
+            'mode'        => $this->getReservePriceMode(),
             'coefficient' => $this->getReservePriceCoefficient(),
-            'attribute' => $this->getData('reserve_price_custom_attribute')
+            'attribute'   => $this->getData('reserve_price_custom_attribute')
         ];
     }
 
@@ -857,7 +778,7 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getBuyItNowPriceSource()
     {
         return [
-            'mode' => $this->getBuyItNowPriceMode(),
+            'mode'      => $this->getBuyItNowPriceMode(),
             'coefficient' => $this->getBuyItNowPriceCoefficient(),
             'attribute' => $this->getData('buyitnow_price_custom_attribute')
         ];
@@ -926,7 +847,7 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getPriceDiscountStpSource()
     {
         return [
-            'mode' => $this->getPriceDiscountStpMode(),
+            'mode'      => $this->getPriceDiscountStpMode(),
             'attribute' => $this->getData('price_discount_stp_attribute')
         ];
     }
@@ -993,7 +914,7 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
      */
     public function getPriceDiscountStpAdditionalFlags()
     {
-        $soldOnEbayFlag = false;
+        $soldOnEbayFlag  = false;
         $soldOffEbayFlag = false;
 
         switch ($this->getPriceDiscountStpType()) {
@@ -1006,13 +927,13 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
                 break;
 
             case self::PRICE_DISCOUNT_STP_TYPE_SOLD_ON_BOTH:
-                $soldOnEbayFlag = true;
+                $soldOnEbayFlag  = true;
                 $soldOffEbayFlag = true;
                 break;
         }
 
         return [
-            'sold_on_ebay' => $soldOnEbayFlag,
+            'sold_on_ebay'  => $soldOnEbayFlag,
             'sold_off_ebay' => $soldOffEbayFlag
         ];
     }
@@ -1065,7 +986,7 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     public function getPriceDiscountMapSource()
     {
         return [
-            'mode' => $this->getPriceDiscountMapMode(),
+            'mode'      => $this->getPriceDiscountMapMode(),
             'attribute' => $this->getData('price_discount_map_attribute')
         ];
     }
@@ -1386,6 +1307,42 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
     /**
      * @return array
      */
+    public function getTrackingAttributes()
+    {
+        return array_unique(array_merge(
+            $this->getQtyAttributes(),
+            $this->getFixedPriceAttributes(),
+            $this->getStartPriceAttributes(),
+            $this->getReservePriceAttributes(),
+            $this->getBuyItNowPriceAttributes()
+        ));
+    }
+
+    /**
+     * @return array
+     */
+    public function getUsedAttributes()
+    {
+        return array_unique(array_merge(
+            $this->getListingTypeAttributes(),
+            $this->getDurationAttributes(),
+            $this->getQtyAttributes(),
+            $this->getFixedPriceAttributes(),
+            $this->getStartPriceAttributes(),
+            $this->getReservePriceAttributes(),
+            $this->getBuyItNowPriceAttributes(),
+            $this->getPriceDiscountStpAttributes(),
+            $this->getPriceDiscountMapAttributes(),
+            $this->getBestOfferAcceptAttributes(),
+            $this->getBestOfferRejectAttributes()
+        ));
+    }
+
+    //########################################
+
+    /**
+     * @return array
+     */
     public function getDefaultSettings()
     {
         return [
@@ -1398,6 +1355,8 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
             'duration_mode' => 3,
             'duration_attribute' => '',
 
+            'out_of_stock_control' => 1,
+
             'qty_mode' => \Ess\M2ePro\Model\Template\SellingFormat::QTY_MODE_PRODUCT,
             'qty_custom_value' => 1,
             'qty_custom_attribute' => '',
@@ -1406,13 +1365,13 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
             'qty_min_posted_value' => self::QTY_MIN_POSTED_DEFAULT_VALUE,
             'qty_max_posted_value' => self::QTY_MAX_POSTED_DEFAULT_VALUE,
 
-            'vat_percent' => 0,
+            'vat_percent'    => 0,
             'tax_table_mode' => 0,
 
             'restricted_to_business' => self::RESTRICTED_TO_BUSINESS_DISABLED,
 
-            'tax_category_mode' => 0,
-            'tax_category_value' => '',
+            'tax_category_mode'      => 0,
+            'tax_category_value'     => '',
             'tax_category_attribute' => '',
 
             'price_increase_vat_percent' => 0,
@@ -1453,12 +1412,61 @@ class SellingFormat extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\
             'best_offer_reject_attribute' => '',
 
             'charity' => '',
-            'ignore_variations' => 0,
-
-            'lot_size_mode' => 0,
-            'lot_size_custom_value' => '',
-            'lot_size_attribute' => ''
+            'ignore_variations' => 0
         ];
+    }
+
+    //########################################
+
+    /**
+     * @param bool $asArrays
+     * @param string|array $columns
+     * @return array
+     */
+    public function getAffectedListingsProducts($asArrays = true, $columns = '*')
+    {
+        $templateManager = $this->modelFactory->getObject('Ebay_Template_Manager');
+        $templateManager->setTemplate(\Ess\M2ePro\Model\Ebay\Template\Manager::TEMPLATE_SELLING_FORMAT);
+
+        $listingsProducts = $templateManager->getAffectedOwnerObjects(
+            \Ess\M2ePro\Model\Ebay\Template\Manager::OWNER_LISTING_PRODUCT,
+            $this->getId(),
+            $asArrays,
+            $columns
+        );
+
+        $listings = $templateManager->getAffectedOwnerObjects(
+            \Ess\M2ePro\Model\Ebay\Template\Manager::OWNER_LISTING,
+            $this->getId(),
+            false
+        );
+
+        foreach ($listings as $listing) {
+            $tempListingsProducts = $listing->getChildObject()
+                                            ->getAffectedListingsProductsByTemplate(
+                                                \Ess\M2ePro\Model\Ebay\Template\Manager::TEMPLATE_SELLING_FORMAT,
+                                                $asArrays,
+                                                $columns
+                                            );
+
+            foreach ($tempListingsProducts as $listingProduct) {
+                if (!isset($listingsProducts[$listingProduct['id']])) {
+                    $listingsProducts[$listingProduct['id']] = $listingProduct;
+                }
+            }
+        }
+
+        return $listingsProducts;
+    }
+
+    public function setSynchStatusNeed($newData, $oldData)
+    {
+        $listingsProducts = $this->getAffectedListingsProducts(true, ['id']);
+        if (empty($listingsProducts)) {
+            return;
+        }
+
+        $this->getResource()->setSynchStatusNeed($newData, $oldData, $listingsProducts);
     }
 
     //########################################

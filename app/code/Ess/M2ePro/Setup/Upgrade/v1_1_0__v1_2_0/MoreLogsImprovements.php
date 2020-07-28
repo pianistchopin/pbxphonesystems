@@ -14,6 +14,11 @@ class MoreLogsImprovements extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['module_config'];
+    }
+
     public function execute()
     {
         $this->getConfigModifier('module')->insert(

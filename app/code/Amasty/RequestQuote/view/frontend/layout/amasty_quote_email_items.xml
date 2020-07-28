@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Email Quote Items List" design_abstraction="custom">
+    <body>
+        <block class="Amasty\RequestQuote\Block\Email\Items" name="quote_items" template="Amasty_RequestQuote::email/items.phtml">
+            <block class="Magento\Framework\View\Element\RendererList" name="amasty.quote.items.renderers" as="renderer.list">
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" name="amasty.quote.items.renderers.default" as="default" template="Amasty_RequestQuote::email/items/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" name="amasty.quote.items.renderers.simple" as="simple" template="Amasty_RequestQuote::email/items/default.phtml"/>
+                <block class="Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped" name="amasty.quote.items.renderers.grouped" as="grouped" template="Amasty_RequestQuote::email/items/default.phtml"/>
+                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" name="amasty.quote.items.renderers.bundle" as="bundle" template="Amasty_RequestQuote::email/items/bundle.phtml"/>
+                <block class="Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable" name="amasty.quote.items.renderers.configurable" as="configurable" template="Amasty_RequestQuote::email/items/default.phtml"/>
+                <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer" name="amasty.quote.items.renderers.downloadable" as="downloadable" template="Amasty_RequestQuote::email/items/downloadable.phtml"/>
+            </block>
+            <block class="Amasty\RequestQuote\Block\Cart\Item\Price\Renderer" name="checkout.item.price.unit" template="Magento_Checkout::item/price/unit.phtml"/>
+            <block class="Amasty\RequestQuote\Block\Email\Totals" name="quote_totals" template="Magento_Sales::order/totals.phtml">
+                <arguments>
+                    <argument name="label_properties" xsi:type="string">colspan="4" class="mark"</argument>
+                    <argument name="value_properties" xsi:type="string">class="amount"</argument>
+                </arguments>
+            </block>
+        </block>
+    </body>
+</page>

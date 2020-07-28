@@ -13,6 +13,8 @@ namespace Ess\M2ePro\Model\Connector\Command;
  */
 abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 {
+    // ########################################
+
     protected $params = [];
 
     /** @var \Ess\M2ePro\Model\Connector\Protocol */
@@ -21,7 +23,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
     /** @var \Ess\M2ePro\Model\Connector\Connection\Single $connection */
     protected $connection = null;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Ess\M2ePro\Helper\Factory $helperFactory,
@@ -32,7 +34,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         parent::__construct($helperFactory, $modelFactory);
     }
 
-    //########################################
+    // ########################################
 
     public function setProtocol(\Ess\M2ePro\Model\Connector\Protocol $protocol)
     {
@@ -45,18 +47,18 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         return $this->protocol;
     }
 
-    //########################################
+    // ########################################
 
     abstract public function process();
 
-    //########################################
+    // ########################################
 
     public function getRequestDataPackage()
     {
         return $this->getRequest()->getPackage();
     }
 
-    //########################################
+    // ########################################
 
     protected function getConnection()
     {
@@ -69,7 +71,6 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     protected function buildConnectionInstance()
     {
-        /** @var \Ess\M2ePro\Model\Connector\Connection\Single $connection */
         $connection = $this->modelFactory->getObject('Connector_Connection_Single');
         $connection->setRequest($this->buildRequestInstance());
 
@@ -80,7 +81,6 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     protected function buildRequestInstance()
     {
-        /** @var \Ess\M2ePro\Model\Connector\Connection\Request $request */
         $request = $this->modelFactory->getObject('Connector_Connection_Request');
         $request->setCommand($this->getCommand());
 
@@ -92,7 +92,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         return $request;
     }
 
-    //########################################
+    // ########################################
 
     public function getRequest()
     {
@@ -104,14 +104,14 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         return $this->getConnection()->getResponse();
     }
 
-    //########################################
+    // ########################################
 
     public function getRequestTime()
     {
         return $this->getResponse()->getRequestTime();
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @return array
@@ -123,5 +123,5 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
      */
     abstract protected function getCommand();
 
-    //########################################
+    // ########################################
 }

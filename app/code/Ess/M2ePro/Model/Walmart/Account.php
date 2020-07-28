@@ -17,6 +17,12 @@ namespace Ess\M2ePro\Model\Walmart;
  */
 class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\AbstractModel
 {
+    const OTHER_LISTINGS_SYNCHRONIZATION_NO = 0;
+    const OTHER_LISTINGS_SYNCHRONIZATION_YES = 1;
+
+    const OTHER_LISTINGS_MAPPING_MODE_NO = 0;
+    const OTHER_LISTINGS_MAPPING_MODE_YES = 1;
+
     const OTHER_LISTINGS_MAPPING_SKU_MODE_NONE = 0;
     const OTHER_LISTINGS_MAPPING_SKU_MODE_DEFAULT = 1;
     const OTHER_LISTINGS_MAPPING_SKU_MODE_CUSTOM_ATTRIBUTE = 2;
@@ -41,14 +47,23 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
     const OTHER_LISTINGS_MAPPING_WPID_DEFAULT_PRIORITY = 4;
     const OTHER_LISTINGS_MAPPING_TITLE_DEFAULT_PRIORITY = 5;
 
+    const MAGENTO_ORDERS_LISTINGS_MODE_NO = 0;
+    const MAGENTO_ORDERS_LISTINGS_MODE_YES = 1;
+
     const MAGENTO_ORDERS_LISTINGS_STORE_MODE_DEFAULT = 0;
     const MAGENTO_ORDERS_LISTINGS_STORE_MODE_CUSTOM = 1;
+
+    const MAGENTO_ORDERS_LISTINGS_OTHER_MODE_NO = 0;
+    const MAGENTO_ORDERS_LISTINGS_OTHER_MODE_YES = 1;
 
     const MAGENTO_ORDERS_LISTINGS_OTHER_PRODUCT_MODE_IGNORE = 0;
     const MAGENTO_ORDERS_LISTINGS_OTHER_PRODUCT_MODE_IMPORT = 1;
 
     const MAGENTO_ORDERS_NUMBER_SOURCE_MAGENTO = 'magento';
     const MAGENTO_ORDERS_NUMBER_SOURCE_CHANNEL = 'channel';
+
+    const MAGENTO_ORDERS_NUMBER_PREFIX_MODE_NO = 0;
+    const MAGENTO_ORDERS_NUMBER_PREFIX_MODE_YES = 1;
 
     const MAGENTO_ORDERS_TAX_MODE_NONE = 0;
     const MAGENTO_ORDERS_TAX_MODE_CHANNEL = 1;
@@ -59,12 +74,21 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
     const MAGENTO_ORDERS_CUSTOMER_MODE_PREDEFINED = 1;
     const MAGENTO_ORDERS_CUSTOMER_MODE_NEW = 2;
 
+    const MAGENTO_ORDERS_CUSTOMER_NEW_SUBSCRIPTION_MODE_NO = 0;
+    const MAGENTO_ORDERS_CUSTOMER_NEW_SUBSCRIPTION_MODE_YES = 1;
+
     const MAGENTO_ORDERS_STATUS_MAPPING_MODE_DEFAULT = 0;
     const MAGENTO_ORDERS_STATUS_MAPPING_MODE_CUSTOM = 1;
 
     const MAGENTO_ORDERS_STATUS_MAPPING_NEW = 'pending';
     const MAGENTO_ORDERS_STATUS_MAPPING_PROCESSING = 'processing';
     const MAGENTO_ORDERS_STATUS_MAPPING_SHIPPED = 'complete';
+
+    const MAGENTO_ORDERS_INVOICE_MODE_NO = 0;
+    const MAGENTO_ORDERS_INVOICE_MODE_YES = 1;
+
+    const MAGENTO_ORDERS_SHIPMENT_MODE_NO = 0;
+    const MAGENTO_ORDERS_SHIPMENT_MODE_YES = 1;
 
     //########################################
 
@@ -422,7 +446,7 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
      */
     public function isOtherListingsSynchronizationEnabled()
     {
-        return $this->getOtherListingsSynchronization() == 1;
+        return $this->getOtherListingsSynchronization() == self::OTHER_LISTINGS_SYNCHRONIZATION_YES;
     }
 
     /**
@@ -430,7 +454,7 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
      */
     public function isOtherListingsMappingEnabled()
     {
-        return $this->getOtherListingsMappingMode() == 1;
+        return $this->getOtherListingsMappingMode() == self::OTHER_LISTINGS_MAPPING_MODE_YES;
     }
 
     // ---------------------------------------
@@ -554,7 +578,13 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
      */
     public function isMagentoOrdersListingsModeEnabled()
     {
-        return $this->getSetting('magento_orders_settings', ['listing', 'mode'], 1) == 1;
+        $setting = $this->getSetting(
+            'magento_orders_settings',
+            ['listing', 'mode'],
+            self::MAGENTO_ORDERS_LISTINGS_MODE_YES
+        );
+
+        return $setting == self::MAGENTO_ORDERS_LISTINGS_MODE_YES;
     }
 
     /**
@@ -588,7 +618,13 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
      */
     public function isMagentoOrdersListingsOtherModeEnabled()
     {
-        return $this->getSetting('magento_orders_settings', ['listing_other', 'mode'], 1) == 1;
+        $setting = $this->getSetting(
+            'magento_orders_settings',
+            ['listing_other', 'mode'],
+            self::MAGENTO_ORDERS_LISTINGS_OTHER_MODE_YES
+        );
+
+        return $setting == self::MAGENTO_ORDERS_LISTINGS_OTHER_MODE_YES;
     }
 
     /**
@@ -656,8 +692,18 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
     // ---------------------------------------
 
     /**
-     * @return string
+     * @return bool
      */
+    public function isMagentoOrdersNumberPrefixEnable()
+    {
+        $setting = $this->getSetting(
+            'magento_orders_settings',
+            ['number', 'prefix', 'mode'],
+            self::MAGENTO_ORDERS_NUMBER_PREFIX_MODE_NO
+        );
+        return $setting == self::MAGENTO_ORDERS_NUMBER_PREFIX_MODE_YES;
+    }
+
     public function getMagentoOrdersNumberRegularPrefix()
     {
         $settings = $this->getSetting('magento_orders_settings', ['number', 'prefix']);
@@ -777,7 +823,13 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
      */
     public function isMagentoOrdersCustomerNewSubscribed()
     {
-        return $this->getSetting('magento_orders_settings', ['customer', 'subscription_mode'], 0) == 1;
+        $setting = $this->getSetting(
+            'magento_orders_settings',
+            ['customer', 'subscription_mode'],
+            self::MAGENTO_ORDERS_CUSTOMER_NEW_SUBSCRIPTION_MODE_NO
+        );
+
+        return $setting == self::MAGENTO_ORDERS_CUSTOMER_NEW_SUBSCRIPTION_MODE_YES;
     }
 
     /**
@@ -872,7 +924,7 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
             return true;
         }
 
-        return $this->getSetting('magento_orders_settings', 'invoice_mode', 0) == 1;
+        return $this->getSetting('magento_orders_settings', 'invoice_mode') == self::MAGENTO_ORDERS_INVOICE_MODE_YES;
     }
 
     public function isMagentoOrdersShipmentEnabled()
@@ -881,7 +933,25 @@ class Account extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abs
             return true;
         }
 
-        return $this->getSetting('magento_orders_settings', 'shipment_mode', 0) == 1;
+        return $this->getSetting('magento_orders_settings', 'shipment_mode') == self::MAGENTO_ORDERS_SHIPMENT_MODE_YES;
+    }
+
+    //########################################
+
+    /**
+     * @return bool
+     */
+    public function isVatCalculationServiceEnabled()
+    {
+        return (bool)$this->getData('is_vat_calculation_service_enabled');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMagentoInvoiceCreationDisabled()
+    {
+        return (bool)$this->getData('is_magento_invoice_creation_disabled');
     }
 
     //########################################

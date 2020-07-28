@@ -34,22 +34,12 @@ class UpdateShippingStatus extends Order
         $hasFailed = false;
         $hasSucceeded = false;
 
-        /** @var \Ess\M2ePro\Model\Walmart\Order\Shipment\Handler $handler */
-        $handler = $this->modelFactory->getObject('Walmart_Order_Shipment_Handler');
-
         foreach ($orders as $order) {
             /** @var \Ess\M2ePro\Model\Order $order */
 
             $order->getLog()->setInitiator(\Ess\M2ePro\Helper\Data::INITIATOR_USER);
 
-            $magentoOrder = $order->getMagentoOrder();
-
-            if ($magentoOrder === null) {
-                $hasFailed = true;
-                continue;
-            }
-
-            $shipmentsCollection = $magentoOrder->getShipmentsCollection()
+            $shipmentsCollection = $order->getMagentoOrder()->getShipmentsCollection()
                 ->setOrderFilter($order->getMagentoOrderId());
 
             if ($shipmentsCollection->getSize() === 0) {
@@ -63,6 +53,11 @@ class UpdateShippingStatus extends Order
                 if (!$shipment->getId()) {
                     continue;
                 }
+
+                /** @var \Ess\M2ePro\Model\Walmart\Order\Shipment\Handler $handler */
+                $handler = $this->modelFactory->getObject('Order_Shipment_Handler')->factory(
+                    $order->getComponentMode()
+                );
 
                 $result = $handler->handle($order, $shipment);
 

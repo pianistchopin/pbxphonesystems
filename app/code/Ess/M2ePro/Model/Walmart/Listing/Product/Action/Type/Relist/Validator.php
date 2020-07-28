@@ -40,7 +40,7 @@ class Validator extends \Ess\M2ePro\Model\Walmart\Listing\Product\Action\Type\Va
             return false;
         }
 
-        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProduct()) {
+        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProductFlags()) {
             return false;
         }
 
@@ -54,6 +54,8 @@ class Validator extends \Ess\M2ePro\Model\Walmart\Listing\Product\Action\Type\Va
 
         if (!$this->getListingProduct()->isStopped() &&
             (!$this->getListingProduct()->isBlocked() || !$this->getWalmartListingProduct()->isOnlinePriceInvalid())) {
+            // M2ePro\TRANSLATIONS
+            // The Item either is Listed, or not Listed yet or not available
             $this->addMessage(
                 'The Item either is Listed, or not Listed yet or not available'
             );

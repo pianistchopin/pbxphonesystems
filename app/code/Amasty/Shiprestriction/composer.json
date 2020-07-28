@@ -1,0 +1,23 @@
+{
+    "name": "amasty/shiprestriction",
+    "description": "Shipping Restrictions By Amasty",
+    "require": {
+        "php": "~5.6.5|7.0.2|7.0.4|~7.0.6|^7.1.0",
+        "amasty/base": ">=1.9.4",
+        "amasty/system-common-rules": ">=2.4.8",
+        "amasty/module-shippingarea": ">=1.0.3"
+    },
+    "type": "magento2-module",
+    "version": "2.5.2",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\Shiprestriction\\": ""
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Sales::sales" title="Sales" translate="title" sortOrder="20">
+                    <resource id="Amasty_RequestQuote::quotes_operation" title="Operations" translate="title" sortOrder="10">
+                        <resource id="Amasty_RequestQuote::manage_quotes"  title="Amasty Quotes" translate="title" sortOrder="10">
+                            <resource id="Amasty_RequestQuote::actions" title="Actions" translate="title" sortOrder="10">
+                                <resource id="Amasty_RequestQuote::create" title="Create" translate="title" sortOrder="10" />
+                                <resource id="Amasty_RequestQuote::view" title="View" translate="title" sortOrder="20" />
+                                <resource id="Amasty_RequestQuote::edit" title="Edit" translate="title" sortOrder="30" />
+                                <!--<resource id="Amasty_RequestQuote::renew" title="Renew" translate="title" sortOrder="40" />-->
+                                <resource id="Amasty_RequestQuote::close" title="Cancel/Close" translate="title" sortOrder="50" />
+                                <resource id="Amasty_RequestQuote::approve" title="Approve" translate="title" sortOrder="60" />
+                                <!--<resource id="Amasty_RequestQuote::hold" title="Hold" translate="title" sortOrder="70" />-->
+                                <!--<resource id="Amasty_RequestQuote::unhold" title="Unhold" translate="title" sortOrder="80" />-->
+                                <resource id="Amasty_RequestQuote::order" title="Order" translate="title" sortOrder="90" />
+                                <resource id="Amasty_RequestQuote::createFromMagentoQuote" title="Create from Magento Quote" translate="title" sortOrder="100"/>
+                                <resource id="Amasty_RequestQuote::clone_order" title="Create Quote from Order" translate="title" sortOrder="110"/>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Amasty_RequestQuote::config" title="Request a Quote" sortOrder="11318" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

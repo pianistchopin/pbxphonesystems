@@ -205,4 +205,16 @@ class ShippingOverride extends \Ess\M2ePro\Model\ActiveRecord\Component\Abstract
     }
 
     //########################################
+
+    public function getTrackingAttributes()
+    {
+        return $this->getUsedAttributes();
+    }
+
+    public function getUsedAttributes()
+    {
+        return $this->getCostAttributes();
+    }
+
+    //########################################
 }

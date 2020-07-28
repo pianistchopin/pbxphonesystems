@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="checkout_cart_configure"/>
+    <head>
+        <link src="Amasty_RequestQuote::js/view/configure/product-customer-data.js"/>
+    </head>
+    <body>
+        <referenceBlock name="product.info">
+            <block class="Amasty\RequestQuote\Block\Cart\Item\Configure" name="checkout.cart.item.configure.block"/>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart.additional">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Amasty_RequestQuote::cart/item/configure/updatequote.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Amasty_RequestQuote::cart/item/configure/updatequote.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.addquote" remove="true"/>
+        <referenceBlock name="product.info.addquote.additional" remove="true"/>
+    </body>
+</page>

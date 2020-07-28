@@ -38,9 +38,6 @@ abstract class AbstractAddUpdate extends \Ess\M2ePro\Observer\Product\AbstractPr
 
     // ---------------------------------------
 
-    /**
-     * @return \Ess\M2ePro\Model\Listing\Product[]
-     */
     protected function getAffectedListingsProducts()
     {
         if (!empty($this->affectedListingsProducts)) {

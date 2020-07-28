@@ -1,0 +1,14 @@
+<!--@subject {{trans "Email alert for modified quote requests"}} @-->
+<!--@vars
+{
+"var viewUrl":"Url for view quote",
+"var customerName":"Customer Name"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "Hello %name," name=$customerName}}</p>
+<p>{{trans "Your quote request from %store_name=$store.getFrontendName() has been modified.  You can check the status of your quote request by  " store_name=$store.getFrontendName()}}<a href="{{var viewUrl}}">{{trans "logging into your account"}}.</a></p>
+<p>{{trans "Thank you!"}}</p>
+
+{{template config_path="design/email/footer_template"}}

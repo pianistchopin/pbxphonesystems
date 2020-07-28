@@ -1,0 +1,20 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div class="admin__page-section-title <?= /* @escapeNotVerified */ $block->getHeaderCssClass() ?>">
+    <span class="title"><?= /* @escapeNotVerified */ $block->getHeaderText() ?></span>
+    <div class="actions" style="float: right;"></div>
+</div>
+<div id="customer_account_fieds" class="admin__page-section-content">
+    <?= $block->getForm()->getHtml() ?>
+</div>
+
+<script>
+    require(["prototype", "Amasty_RequestQuote/quote/edit/form"], function(){
+        quote.accountFieldsBind($('customer_account_fieds'));
+    });
+</script>

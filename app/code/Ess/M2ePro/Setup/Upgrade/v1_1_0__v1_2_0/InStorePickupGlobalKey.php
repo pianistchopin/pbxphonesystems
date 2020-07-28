@@ -14,6 +14,11 @@ class InStorePickupGlobalKey extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['module_config'];
+    }
+
     public function execute()
     {
         $select = $this->getConnection()->select()->from($this->getFullTableName('account'));

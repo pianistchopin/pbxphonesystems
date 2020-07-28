@@ -14,6 +14,11 @@ class MarketplacesFeatures extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['ebay_marketplace'];
+    }
+
     public function execute()
     {
         $this->getTableModifier('ebay_marketplace')

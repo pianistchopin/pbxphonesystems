@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_item_qty_set_after">
+        <observer name="amasty_request_quote_disable_edit_qty" instance="Amasty\RequestQuote\Observer\Frontend\Quote\Item\Qty"/>
+    </event>
+    <event name="sales_quote_remove_item">
+        <observer name="amasty_request_remove_item" instance="Amasty\RequestQuote\Observer\Frontend\Quote\Quote"/>
+    </event>
+    <event name="controller_action_predispatch">
+        <observer name="quote_cart_persistent" instance="Amasty\RequestQuote\Persistent\Observer\EmulateQuoteObserver" />
+    </event>
+    <event name="amquote_customer_authenticated">
+        <observer name="amquote_customer_authenticated" instance="Magento\Persistent\Observer\CustomerAuthenticatedEventObserver" />
+    </event>
+</config>

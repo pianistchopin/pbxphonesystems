@@ -15,8 +15,8 @@ class RunRelistProducts extends \Ess\M2ePro\Controller\Adminhtml\Walmart\Listing
 {
     public function execute()
     {
-        return $this->scheduleAction(
-            \Ess\M2ePro\Model\Listing\Product::ACTION_RELIST
-        );
+        $this->setJsonContent($this->processConnector(\Ess\M2ePro\Model\Listing\Product::ACTION_RELIST));
+
+        return $this->getResult();
     }
 }

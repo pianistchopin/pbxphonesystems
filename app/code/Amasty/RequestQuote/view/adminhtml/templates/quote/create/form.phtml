@@ -1,0 +1,27 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var \Amasty\RequestQuote\Block\Adminhtml\Quote\Create\Form $block */
+?>
+<form id="edit_form" data-order-config='<?= $block->escapeHtml($block->getOrderDataJson()) ?>' data-load-base-url="<?= /* @escapeNotVerified */ $block->getLoadBlockUrl() ?>" action="<?= /* @escapeNotVerified */ $block->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+    <?= $block->getBlockHtml('formkey') ?>
+    <div id="quote-message">
+        <?= $block->getChildHtml('message') ?>
+    </div>
+    <div id="quote-customer-selector" class="fieldset-wrapper order-customer-selector" style="display:<?= /* @escapeNotVerified */ $block->getCustomerSelectorDisplay() ?>">
+        <?= $block->getChildHtml('customer.grid.container') ?>
+    </div>
+    <div id="quote-store" class="fieldset-wrapper" style="display:<?= /* @escapeNotVerified */ $block->getStoreSelectorDisplay() ?>">
+        <?= $block->getChildHtml('store') ?>
+    </div>
+    <div id="quote-data" style="display:<?= /* @escapeNotVerified */ $block->getDataSelectorDisplay() ?>">
+        <?= $block->getChildHtml('data') ?>
+    </div>
+</form>

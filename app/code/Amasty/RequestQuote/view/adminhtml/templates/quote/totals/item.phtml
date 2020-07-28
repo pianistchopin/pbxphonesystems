@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $source  = $block->getSource() ?>
+<?php $block->setPriceDataObject($source) ?>
+
+<?php if ((float) $source->getDataUsingMethod($block->getSourceField())): ?>
+    <tr>
+        <td class="label"><?php if ($block->getStrong()) : ?><strong><?php endif; ?><?= /* @escapeNotVerified */ __($block->getLabel()) ?><?php if ($block->getStrong()) : ?></strong><?php endif; ?></td>
+        <td <?= $block->getHtmlClass() ? ('class="' . $block->getHtmlClass() . '"') : '' ?>><?php if ($block->getStrong()) : ?><strong><?php endif; ?><?= /* @escapeNotVerified */ $block->displayPriceAttribute($block->getSourceField()) ?><?php if ($block->getStrong()) : ?></strong><?php endif; ?></td>
+    </tr>
+<?php endif; ?>

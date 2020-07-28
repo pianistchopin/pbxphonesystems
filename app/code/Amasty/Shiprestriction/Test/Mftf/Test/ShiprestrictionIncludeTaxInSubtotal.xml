@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionIncludeTaxInSubtotal">
+        <annotations>
+            <features value="Restriction Rule Creation"/>
+            <stories value="Create a Restriction Rule via the Admin"/>
+            <title value="Check Restriction Rule Setting Include Tax In Subtotal"/>
+            <description value="Check Restriction Rule Setting Include Tax In Subtotal"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-01"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionIncludeTaxInSubtotal"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.yes"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.default"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithTwoMethods" stepKey="CreateShippingRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionIncludeTaxInSubtotal"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionAddGlobalConditionsWithInput" stepKey="AddConditionsInRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionIncludeTaxInSubtotal"/>
+            <argument name="actionsConditionOptions" value="_subtotal"/>
+            <argument name="actionsConditionsOptionsParamIs" value="_equalsOrGreaterThan"/>
+            <argument name="conditionsData" value="shiprestrictionIncludeTaxInSubtotal.conditions"/>
+        </actionGroup>
+
+        <!--Add first product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagOvernightDuffle"/>
+        </actionGroup>
+
+        <!--Add second product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagWayfarerMessenger"/>
+        </actionGroup>
+
+        <!--Check Shipping Methods with default shipping address-->
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkFlatRate">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontCheckShippingMethod" stepKey="checkBestWay">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+        </actionGroup>
+
+        <!--Check Shipping Price Flat Rate with US, Michigan and Zip-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithCountryStateZip" stepKey="checkFlatRateWithAddress">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="country" value="shiprestrictionIncludeTaxInSubtotal.countryShipping"/>
+            <argument name="state" value="shiprestrictionIncludeTaxInSubtotal.stateShipping"/>
+            <argument name="zip" value="shiprestrictionIncludeTaxInSubtotal.zipShipping"/>
+        </actionGroup>
+        <!--Check Shipping Price Best Way with US, Michigan and Zip-->
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithCountryStateZip" stepKey="checkBestWayWithAddress">
+            <argument name="shippingMethods" value="_BestWayMethod"/>
+            <argument name="country" value="shiprestrictionIncludeTaxInSubtotal.countryShipping"/>
+            <argument name="state" value="shiprestrictionIncludeTaxInSubtotal.stateShipping"/>
+            <argument name="zip" value="shiprestrictionIncludeTaxInSubtotal.zipShipping"/>
+        </actionGroup>
+
+    </test>
+</tests>

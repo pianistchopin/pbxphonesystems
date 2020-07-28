@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Stockstatus
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <amstockstatus>
+            <general>
+                <displayforoutonly>0</displayforoutonly>
+                <display_default_status>1</display_default_status>
+                <use_ranges_only>0</use_ranges_only>
+                <use_range_rules>0</use_range_rules>
+                <icon_only>0</icon_only>
+            </general>
+            <display>
+                <display_on_category>0</display_on_category>
+                <display_in_cart>1</display_in_cart>
+                <display_in_email>1</display_in_email>
+            </display>
+            <configurable_products>
+                <stockalert>1</stockalert>
+                <outofstock>1</outofstock>
+                <change_custom_configurable_status>1</change_custom_configurable_status>
+            </configurable_products>
+        </amstockstatus>
+    </default>
+</config>

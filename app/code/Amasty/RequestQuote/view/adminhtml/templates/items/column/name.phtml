@@ -1,0 +1,49 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/**
+ * @var \Amasty\RequestQuote\Block\Adminhtml\Items\Column\Name $block
+ */
+?>
+<?php if ($item = $block->getItem()): ?>
+    <div id="order_item_<?= /* @escapeNotVerified */ $item->getId() ?>_title"
+         class="product-title">
+        <?= $block->escapeHtml($item->getName()) ?>
+    </div>
+
+    <div class="product-sku-block">
+        <span><?= /* @escapeNotVerified */ __('SKU') ?>:</span> <?= implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($block->escapeHtml($block->getSku()))) ?>
+    </div>
+
+    <?php if ($block->getOrderOptions()): ?>
+        <dl class="item-options">
+            <?php foreach ($block->getOrderOptions() as $option): ?>
+                <dt><?= /* @escapeNotVerified */ $option['label'] ?>:</dt>
+                <dd>
+                    <?php if (isset($option['custom_view']) && $option['custom_view']): ?>
+                        <?= /* @escapeNotVerified */ $block->getCustomizedOptionValue($option) ?>
+                    <?php else: ?>
+                        <?php $option = $block->getFormattedOption($option['value']); ?>
+                        <?= /* @escapeNotVerified */ $option['value'] ?><?php if (isset($option['remainder']) && $option['remainder']): ?><span id="<?= /* @escapeNotVerified */ $_dots = 'dots' . uniqid() ?>"> ...</span><span id="<?= /* @escapeNotVerified */ $_id = 'id' . uniqid() ?>"><?= /* @escapeNotVerified */ $option['remainder'] ?></span>
+                            <script>
+                                require(['prototype'], function() {
+                                    $('<?= /* @escapeNotVerified */ $_id ?>').hide();
+                                    $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @escapeNotVerified */ $_id ?>').show();});
+                                    $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseover', function(){$('<?= /* @escapeNotVerified */ $_dots ?>').hide();});
+                                    $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @escapeNotVerified */ $_id ?>').hide();});
+                                    $('<?= /* @escapeNotVerified */ $_id ?>').up().observe('mouseout',  function(){$('<?= /* @escapeNotVerified */ $_dots ?>').show();});
+                                });
+                            </script>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </dd>
+            <?php endforeach; ?>
+        </dl>
+    <?php endif; ?>
+    <?= $block->escapeHtml($item->getDescription()) ?>
+<?php endif; ?>

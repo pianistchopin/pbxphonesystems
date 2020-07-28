@@ -112,6 +112,7 @@ class Source extends \Ess\M2ePro\Model\AbstractModel
      */
     public function getTitle()
     {
+        $title = '';
         $src = $this->getEbayDescriptionTemplate()->getTitleSource();
 
         switch ($src['mode']) {
@@ -162,7 +163,9 @@ class Source extends \Ess\M2ePro\Model\AbstractModel
      */
     public function getDescription()
     {
+        $description = '';
         $src = $this->getEbayDescriptionTemplate()->getDescriptionSource();
+        ;
 
         switch ($src['mode']) {
             case \Ess\M2ePro\Model\Ebay\Template\Description::DESCRIPTION_MODE_PRODUCT:

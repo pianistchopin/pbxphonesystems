@@ -17,6 +17,7 @@ class Definition extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
 {
     public $templateModel = null;
     public $formData = [];
+    public $generalAttributesByInputTypes = [];
     public $allAttributes = [];
     public $allAttributesByInputTypes = [];
 
@@ -38,15 +39,21 @@ class Definition extends \Ess\M2ePro\Block\Adminhtml\Magento\Form\AbstractForm
 
         $this->allAttributes = $magentoAttributeHelper->getAll();
 
-        $this->allAttributesByInputTypes = [
-            'text' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text']),
-            'text_select' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'select']),
-            'text_weight' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'weight']),
+        $generalAttributes = $magentoAttributeHelper->getGeneralFromAllAttributeSets();
+
+        $this->generalAttributesByInputTypes = [
+            'text' => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text']),
+            'text_select' => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text', 'select']),
+            'text_weight' => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text', 'weight']),
             'text_images' => $magentoAttributeHelper->filterByInputTypes(
-                $this->allAttributes,
+                $generalAttributes,
                 ['text', 'image', 'media_image', 'gallery', 'multiline', 'textarea', 'select', 'multiselect']
             ),
-            'text_price'  => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'price']),
+            'text_price'  => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text', 'price']),
+        ];
+
+        $this->allAttributesByInputTypes = [
+            'text_select' => $magentoAttributeHelper->filterByInputTypes($this->allAttributes, ['text', 'select']),
         ];
     }
 
@@ -1450,14 +1457,14 @@ HTML
 
     public function getAttributesByInputTypesOptions($value, $attributeType, $conditionCallback = false)
     {
-        if (!isset($this->allAttributesByInputTypes[$attributeType])) {
+        if (!isset($this->generalAttributesByInputTypes[$attributeType])) {
             return [];
         }
 
         $optionsResult = [];
         $helper = $this->getHelper('Data');
 
-        foreach ($this->allAttributesByInputTypes[$attributeType] as $attribute) {
+        foreach ($this->generalAttributesByInputTypes[$attributeType] as $attribute) {
             $tmpOption = [
                 'value' => $value,
                 'label' => $helper->escapeHtml($attribute['label']),
@@ -1503,7 +1510,7 @@ HTML
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData[$attributeName],
-            $this->allAttributesByInputTypes['text_select'],
+            $this->generalAttributesByInputTypes['text_select'],
             $attributeMode
         );
 
@@ -1554,7 +1561,7 @@ HTML
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData[$attributeName],
-            $this->allAttributesByInputTypes['text_select'],
+            $this->generalAttributesByInputTypes['text_select'],
             $attributeMode
         );
 
@@ -1584,7 +1591,7 @@ HTML
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData[$name],
-            $this->allAttributesByInputTypes['text_weight']
+            $this->generalAttributesByInputTypes['text_weight']
         );
 
         if ($forceAddedAttributeOption) {
@@ -1592,7 +1599,7 @@ HTML
         }
 
         $helper = $this->getHelper('Data');
-        foreach ($this->allAttributesByInputTypes['text_weight'] as $attribute) {
+        foreach ($this->generalAttributesByInputTypes['text_weight'] as $attribute) {
             $tmpOption = [
                 'value' => $attribute['code'],
                 'label' => $helper->escapeHtml($attribute['label'])
@@ -1614,7 +1621,7 @@ HTML
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData[$attributeName],
-            $this->allAttributesByInputTypes[$attributeType],
+            $this->generalAttributesByInputTypes[$attributeType],
             $attributeMode
         );
 
@@ -1710,7 +1717,7 @@ HTML
         $magentoAttributeHelper = $this->getHelper('Magento\Attribute');
         $IsExistInAttributesArray = $magentoAttributeHelper->isExistInAttributesArray(
             $this->formData['item_package_quantity_custom_attribute'],
-            $this->allAttributesByInputTypes['text_select']
+            $this->generalAttributesByInputTypes['text_select']
         );
         if ($this->formData['item_package_quantity_custom_attribute'] != '' && !$IsExistInAttributesArray) {
             $optionsResult[] = [
@@ -1752,7 +1759,7 @@ HTML
         $magentoAttributeHelper = $this->getHelper('Magento\Attribute');
         $IsExistInAttributesArray = $magentoAttributeHelper->isExistInAttributesArray(
             $this->formData['number_of_items_custom_attribute'],
-            $this->allAttributesByInputTypes['text_select']
+            $this->generalAttributesByInputTypes['text_select']
         );
         if ($this->formData['number_of_items_custom_attribute'] != '' && !$IsExistInAttributesArray) {
             $optionsResult[] = [
@@ -1804,14 +1811,23 @@ HTML
         ];
 
         for ($i = 1; $i <= 8; $i++) {
-            $tempOption = [
-                'value' => DefinitionTemplate::GALLERY_IMAGES_MODE_PRODUCT,
-                'label' => $i == 1 ? 1 : $this->__('Up to') . ' ' . $i,
-                'attrs' => ['attribute_code' => $i]
-            ];
+            if ($i == 1) {
+                $tempOption = ['value' => '-1', 'label' => 1, 'attrs' => ['attribute_code' => 1]];
 
-            if ($this->formData['gallery_images_limit'] == $i) {
-                $tempOption['attrs']['selected'] = 'selected';
+                if ($this->formData['gallery_images_limit'] == 1
+                    && ($this->formData['gallery_images_mode'] != DefinitionTemplate::GALLERY_IMAGES_MODE_NONE)) {
+                    $tempOption['attrs']['selected'] = 'selected';
+                }
+            } else {
+                $tempOption = [
+                    'value' => DefinitionTemplate::GALLERY_IMAGES_MODE_PRODUCT,
+                    'label' => $this->__('Up to') . ' ' . $i,
+                    'attrs' => ['attribute_code' => $i]
+                ];
+
+                if ($this->formData['gallery_images_limit'] == $i) {
+                    $tempOption['attrs']['selected'] = 'selected';
+                }
             }
 
             $optionsResult['opt_group']['value'][] = $tempOption;
@@ -1819,7 +1835,7 @@ HTML
 
         $forceAddedAttributeOption = $this->getForceAddedAttributeOption(
             $this->formData['gallery_images_attribute'],
-            $this->allAttributesByInputTypes['text_images'],
+            $this->generalAttributesByInputTypes['text_images'],
             DefinitionTemplate::GALLERY_IMAGES_MODE_ATTRIBUTE
         );
 

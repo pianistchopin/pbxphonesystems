@@ -15,6 +15,11 @@ class TransactionalLocks extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return [];
+    }
+
     public function execute()
     {
         $lockTransactional = $this->getConnection()->newTable(

@@ -19,7 +19,15 @@ class Validator extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Valid
 
     public function validate()
     {
+        $params = $this->getParams();
+        if (!isset($params['out_of_stock_control_current_state']) ||
+            !isset($params['out_of_stock_control_result'])) {
+            throw new Logic('Miss required parameters.');
+        }
+
         if (!$this->getListingProduct()->isRevisable()) {
+            // M2ePro\TRANSLATIONS
+            // Item is not Listed or not available
             $this->addMessage('Item is not Listed or not available');
 
             return false;
@@ -43,7 +51,7 @@ class Validator extends \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Type\Valid
             return false;
         }
 
-        if (!$this->getEbayListingProduct()->isOutOfStockControlEnabled() && !$this->validateQty()) {
+        if (!$params['out_of_stock_control_result'] && !$this->validateQty()) {
             return false;
         }
 

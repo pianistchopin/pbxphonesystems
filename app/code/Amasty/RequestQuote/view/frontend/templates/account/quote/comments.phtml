@@ -1,0 +1,30 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var $block \Amasty\RequestQuote\Block\Account\Quote\Info */ ?>
+
+<?php if ($block->getNotes()): ?>
+<div class="block block-order-details-comments">
+    <div class="block-title"><strong><?= $block->escapeHtml(__('Remarks')) ?></strong></div>
+    <div class="block-content">
+        <ul class="note-list amquote-report-container">
+            <?php if ($block->getNotes()->getCustomerNote()): ?>
+                <li class="note-list-item amquote-item">
+                    <?= $block->escapeHtml(__('Сustomer Remarks:'))?>
+                    <div class="note-list-comment amquote-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getCustomerNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+                </li>
+            <?php endif; ?>
+            <?php if ($block->getNotes()->getAdminNote()): ?>
+                <li class="note-list-item amquote-item">
+                    <?= $block->escapeHtml(__('Administrator Remarks:'))?>
+                    <div class="note-list-comment amquote-comment"><?= nl2br($block->escapeHtml($block->getNotes()->getAdminNote(), ['b', 'br', 'strong', 'i', 'u', 'a'])) ?></div>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>

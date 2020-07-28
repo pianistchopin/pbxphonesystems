@@ -8,6 +8,8 @@
 
 namespace Ess\M2ePro\Model\Cron\Runner;
 
+use \Ess\M2ePro\Helper\Module\Cron\Service as CronService;
+
 /**
  * Class \Ess\M2ePro\Model\Cron\Runner\Magento
  */
@@ -42,7 +44,8 @@ class Magento extends AbstractModel
 
     protected function isPossibleToRun()
     {
-        return $this->getHelper('Data_GlobalData')->getValue('cron_running') === null && parent::isPossibleToRun();
+        return $this->getHelper('Data\GlobalData')->getValue('cron_running') === null &&
+               parent::isPossibleToRun();
     }
 
     // ---------------------------------------
@@ -54,7 +57,7 @@ class Magento extends AbstractModel
          * It can cause problems with items that were cached in first execution.
          */
         // ---------------------------------------
-        $this->getHelper('Data_GlobalData')->setValue('cron_running', true);
+        $this->getHelper('Data\GlobalData')->setValue('cron_running', true);
         // ---------------------------------------
 
         parent::beforeStart();
@@ -63,7 +66,7 @@ class Magento extends AbstractModel
 
     //########################################
 
-    protected function distributeLoadIfNeed()
+    private function distributeLoadIfNeed()
     {
         if (!$this->getHelper('Module')->isProductionEnvironment()) {
             return;

@@ -212,7 +212,10 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
     protected function validateSku()
     {
         if (!$this->getAmazonListingProduct()->getSku()) {
+            // M2ePro\TRANSLATIONS
+            // You have to list Item first.
             $this->addMessage('You have to list Item first.');
+
             return false;
         }
 
@@ -246,27 +249,11 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
 
         $qty = $this->getQty();
         if ($qty <= 0) {
-            if (isset($this->params['status_changer']) &&
-                $this->params['status_changer'] == \Ess\M2ePro\Model\Listing\Product::STATUS_CHANGER_USER) {
-                $message = 'You are submitting an Item with zero quantity. It contradicts Amazon requirements.';
-
-                if ($this->getListingProduct()->isStoppable()) {
-                    $message .= ' Please apply the Stop Action instead.';
-                }
-
-                $this->addMessage($message);
-            } else {
-                $message = 'Cannot submit an Item with zero quantity. It contradicts Amazon requirements.
-                            This action has been generated automatically based on your Synchronization Rule settings. ';
-
-                if ($this->getListingProduct()->isStoppable()) {
-                    $message .= 'The error occurs when the Stop Rules are not properly configured or disabled. ';
-                }
-
-                $message .= 'Please review your settings.';
-
-                $this->addMessage($message);
-            }
+// M2ePro\TRANSLATIONS
+// The Quantity must be greater than 0. Please, check the Selling Policy and Product Settings.
+            $this->addMessage(
+                'The Quantity must be greater than 0. Please, check the Selling Policy and Product Settings.'
+            );
 
             return false;
         }
@@ -297,7 +284,7 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
         }
 
         if ($this->getHelper('Component_Amazon_Repricing')->isEnabled() &&
-            $this->getAmazonListingProduct()->isRepricingManaged()
+            $this->getAmazonListingProduct()->isRepricingEnabled()
         ) {
             $this->getConfigurator()->disallowRegularPrice();
 
@@ -310,8 +297,10 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
             return true;
         }
 
-        $regularPrice = $this->getRegularPrice();
+        $regularPrice = $this->getPrice();
         if ($regularPrice <= 0) {
+            // M2ePro\TRANSLATIONS
+            // The Price must be greater than 0. Please, check the Selling Policy and Product Settings.
             $this->addMessage(
                 'The Price must be greater than 0. Please, check the Selling Policy and Product Settings.'
             );
@@ -346,6 +335,8 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
 
         $businessPrice = $this->getBusinessPrice();
         if ($businessPrice <= 0) {
+            // M2ePro_TRANSLATIONS
+            // The Business Price must be greater than 0. Please, check the Selling Policy and Product Settings.
             $this->addMessage(
                 'The Business Price must be greater than 0. Please, check the Selling Policy and Product Settings.'
             );
@@ -360,12 +351,31 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
 
     // ---------------------------------------
 
-    protected function validateParentListingProduct()
+    protected function validateLogicalUnit()
+    {
+        if (!$this->getVariationManager()->isLogicalUnit()) {
+            // M2ePro\TRANSLATIONS
+            // Only logical Products can be processed.
+            $this->addMessage('Only logical Products can be processed.');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    // ---------------------------------------
+
+    protected function validateParentListingProductFlags()
     {
         if ($this->getListingProduct()->getData('no_child_for_processing')) {
+// M2ePro\TRANSLATIONS
+// This Parent has no Child Products on which the chosen Action can be performed.
             $this->addMessage('This Parent has no Child Products on which the chosen Action can be performed.');
             return false;
         }
+// M2ePro\TRANSLATIONS
+// This Action cannot be fully performed because there are different actions in progress on some Child Products
         if ($this->getListingProduct()->getData('child_locked')) {
             $this->addMessage('This Action cannot be fully performed because there are
                                 different Actions in progress on some Child Products');
@@ -380,7 +390,10 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
     protected function validatePhysicalUnitAndSimple()
     {
         if (!$this->getVariationManager()->isPhysicalUnit() && !$this->getVariationManager()->isSimpleType()) {
+            // M2ePro\TRANSLATIONS
+            // Only physical Products can be processed.
             $this->addMessage('Only physical Products can be processed.');
+
             return false;
         }
 
@@ -390,7 +403,10 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
     protected function validatePhysicalUnitMatching()
     {
         if (!$this->getVariationManager()->getTypeModel()->isVariationProductMatched()) {
+            // M2ePro\TRANSLATIONS
+            // You have to select Magento Variation.
             $this->addMessage('You have to select Magento Variation.');
+
             return false;
         }
 
@@ -402,7 +418,10 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
         $typeModel = $this->getVariationManager()->getTypeModel();
 
         if (!$this->getAmazonListingProduct()->isGeneralIdOwner() && !$typeModel->isVariationChannelMatched()) {
+            // M2ePro\TRANSLATIONS
+            // You have to select Channel Variation.
             $this->addMessage('You have to select Channel Variation.');
+
             return false;
         }
 
@@ -411,7 +430,7 @@ abstract class Validator extends \Ess\M2ePro\Model\AbstractModel
 
     //########################################
 
-    protected function getRegularPrice()
+    protected function getPrice()
     {
         if (isset($this->getData()['regular_price'])) {
             return $this->getData('regular_price');

@@ -14,6 +14,11 @@ class EbayKtypesSpain extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['ebay_marketplace'];
+    }
+
     public function execute()
     {
         $this->getConnection()->update(

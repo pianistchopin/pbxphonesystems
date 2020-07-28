@@ -14,6 +14,11 @@ class RemoveUnsupportedAmazonMarketplaces extends AbstractFeature
 {
     //########################################
 
+    public function getBackupTables()
+    {
+        return ['marketplace', 'amazon_marketplace'];
+    }
+
     public function execute()
     {
         $this->getConnection()->delete($this->getFullTableName('marketplace'), [

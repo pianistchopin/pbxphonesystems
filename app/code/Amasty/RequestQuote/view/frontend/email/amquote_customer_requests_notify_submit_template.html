@@ -1,0 +1,45 @@
+<!--@subject {{trans "Email alert for submitted quote request"}} @-->
+<!--@vars
+{
+"var viewUrl":"Url for view quote",
+"var customerName":"Customer Name",
+"var remarks":"Email Quote Note",
+"var quote.increment_id":"Quote Id",
+"layout handle=\"amasty_quote_email_items\" quote=$quote area=\"frontend\"":"Quote Items Grid"
+}
+@-->
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello %customer_name," customer_name=$customerName}}</p>
+            <p>
+                {{trans "Thank you for your quote request from %store_name." store_name=$store.getFrontendName()}}
+                {{trans 'You can check the status of your quote request by <a href="%view_url">logging into your account</a>.' view_url=$viewUrl |raw}}
+            </p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <h1>{{trans 'Your Quote Request <span class="no-link">#%increment_id</span>' increment_id=$quote.increment_id |raw}}</h1>
+            <p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$quote.getCreatedAtFormatted(2) |raw}}</p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            {{depend remarks}}
+            <table class="message-info">
+                <tr>
+                    <td>
+                        {{var remarks|escape|nl2br}}
+                    </td>
+                </tr>
+            </table>
+            {{/depend}}
+            {{layout handle="amasty_quote_email_items" quote=$quote area="frontend"}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,28 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $item = $block->getItem() ?>
+<?php $quote = $block->getItem()->getQuote() ?>
+<tr>
+    <td class="item-info has-extra">
+        <p class="product-name"><?= $block->escapeHtml($item->getName()) ?></p>
+        <p class="sku"><?= /* @escapeNotVerified */  __('SKU') ?>: <?= $block->escapeHtml($item->getSku()) ?></p>
+        <?php if ($block->getOptionList()): ?>
+            <dl>
+                <?php foreach ($block->getOptionList() as $option): ?>
+                    <dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?></em></strong></dt>
+                    <dd><?= /* @escapeNotVerified */  implode(',', $option['value']) ?></dd>
+                <?php endforeach; ?>
+            </dl>
+        <?php endif; ?>
+        <?= $block->escapeHtml($item->getDescription()) ?>
+    </td>
+    <td class="item-qty"><?= /* @escapeNotVerified */  $item->getQty() * 1 ?></td>
+    <td class="item-price">
+        <?= /* @escapeNotVerified */  $block->getUnitPriceHtml($item) ?>
+    </td>
+</tr>

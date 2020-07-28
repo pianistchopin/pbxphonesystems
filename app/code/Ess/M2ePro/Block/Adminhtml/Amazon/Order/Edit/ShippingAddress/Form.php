@@ -186,7 +186,7 @@ class Form extends AbstractForm
         $this->jsUrl->addUrls($this->getHelper('Data')->getControllerActions('Order'));
         $this->jsUrl->add(
             $this->getUrl(
-                '*/amazon_order_shippingAddress/save',
+                '*/amazon_order/saveShippingAddress',
                 ['order_id' => $this->getRequest()->getParam('id')]
             ),
             'formSubmit'

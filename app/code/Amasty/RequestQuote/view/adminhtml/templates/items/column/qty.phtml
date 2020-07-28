@@ -1,0 +1,49 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/**
+ * @var \Amasty\RequestQuote\Block\Adminhtml\Items\Column\Qty $block
+ */
+?>
+<?php if ($item = $block->getItem()): ?>
+<table class="qty-table">
+    <tr>
+        <th><?= /* @escapeNotVerified */ __('Ordered') ?></th>
+        <td><?= /* @escapeNotVerified */ $item->getQtyOrdered()*1 ?></td>
+    </tr>
+
+    <?php if ((float) $item->getQtyInvoiced()): ?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Invoiced') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyInvoiced()*1 ?></td>
+        </tr>
+    <?php endif; ?>
+
+    <?php if ((float) $item->getQtyShipped()): ?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Shipped') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyShipped()*1 ?></td>
+        </tr>
+    <?php endif; ?>
+
+    <?php if ((float) $item->getQtyRefunded()): ?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Refunded') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyRefunded()*1 ?></td>
+        </tr>
+    <?php endif; ?>
+
+    <?php if ((float) $item->getQtyCanceled()): ?>
+        <tr>
+            <th><?= /* @escapeNotVerified */ __('Canceled') ?></th>
+            <td><?= /* @escapeNotVerified */ $item->getQtyCanceled()*1 ?></td>
+        </tr>
+    <?php endif; ?>
+
+</table>
+<?php endif; ?>

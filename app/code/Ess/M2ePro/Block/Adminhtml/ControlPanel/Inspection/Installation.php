@@ -17,6 +17,9 @@ class Installation extends AbstractInspection
 {
     private $cacheConfig;
 
+    public $lastVersion;
+    public $installationVersionHistory = [];
+
     //########################################
 
     public function __construct(
@@ -35,7 +38,11 @@ class Installation extends AbstractInspection
     {
         parent::_construct();
 
+        // Initialization block
+        // ---------------------------------------
         $this->setId('controlPanelInspectionInstallation');
+        // ---------------------------------------
+
         $this->setTemplate('control_panel/inspection/installation.phtml');
 
         $this->prepareInfo();

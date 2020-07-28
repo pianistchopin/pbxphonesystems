@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_AdminGws:etc/admingws.xsd">
+    <group name="collection_load_before" processor="Magento\AdminGws\Model\Collections">
+        <callback class="Amasty\Shiprestriction\Model\ResourceModel\Rule\Collection" method="addStoreFilterNoAdmin" />
+    </group>
+    <group name="model_save_before" processor="Magento\AdminGws\Model\Models">
+        <callback class="Amasty\Shiprestriction\Model\Rule" method="newsletterQueueSaveBefore" />
+    </group>
+    <group name="model_delete_before" processor="Magento\AdminGws\Model\Models">
+        <callback class="Amasty\Shiprestriction\Model\Rule" method="catalogProductReviewDeleteBefore" />
+    </group>
+    <group name="model_load_after" processor="Magento\AdminGws\Model\Models">
+        <callback class="Amasty\Shiprestriction\Model\Rule" method="newsletterQueueLoadAfter" />
+    </group>
+</config>

@@ -138,18 +138,18 @@ class AccountContinue extends InstallationWalmart
 
             'related_store_id' => 0,
 
-            'other_listings_synchronization'  => 0,
-            'other_listings_mapping_mode'     => 0,
+            'other_listings_synchronization'  => WalmartAccount::OTHER_LISTINGS_SYNCHRONIZATION_NO,
+            'other_listings_mapping_mode'     => WalmartAccount::OTHER_LISTINGS_MAPPING_MODE_NO,
             'other_listings_mapping_settings' => $this->getHelper('Data')->jsonEncode([]),
 
             'magento_orders_settings' => $this->getHelper('Data')->jsonEncode([
                 'listing' => [
-                    'mode'       => 1,
+                    'mode'       => WalmartAccount::MAGENTO_ORDERS_LISTINGS_MODE_YES,
                     'store_mode' => WalmartAccount::MAGENTO_ORDERS_LISTINGS_STORE_MODE_DEFAULT,
                     'store_id'   => null
                 ],
                 'listing_other' => [
-                    'mode'                 => 1,
+                    'mode'                 => WalmartAccount::MAGENTO_ORDERS_LISTINGS_OTHER_MODE_YES,
                     'product_mode'         => WalmartAccount::MAGENTO_ORDERS_LISTINGS_OTHER_PRODUCT_MODE_IMPORT,
                     'product_tax_class_id' => \Ess\M2ePro\Model\Magento\Product::TAX_CLASS_ID_NONE,
                     'store_id'             => $this->getHelper('Magento\Store')->getDefaultStoreId(),
@@ -157,7 +157,7 @@ class AccountContinue extends InstallationWalmart
                 'number' => [
                     'source' => WalmartAccount::MAGENTO_ORDERS_NUMBER_SOURCE_MAGENTO,
                     'prefix' => [
-                        'mode'   => 0,
+                        'mode'   => WalmartAccount::MAGENTO_ORDERS_NUMBER_PREFIX_MODE_NO,
                         'prefix' => '',
                     ]
                 ],
@@ -179,8 +179,8 @@ class AccountContinue extends InstallationWalmart
                     'processing' => WalmartAccount::MAGENTO_ORDERS_STATUS_MAPPING_PROCESSING,
                     'shipped'    => WalmartAccount::MAGENTO_ORDERS_STATUS_MAPPING_SHIPPED,
                 ],
-                'invoice_mode'   => 1,
-                'shipment_mode'  => 1
+                'invoice_mode'   => WalmartAccount::MAGENTO_ORDERS_INVOICE_MODE_YES,
+                'shipment_mode'  => WalmartAccount::MAGENTO_ORDERS_SHIPMENT_MODE_YES
             ])
         ];
     }

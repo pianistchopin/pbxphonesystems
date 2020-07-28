@@ -12,68 +12,43 @@ define([
         // ---------------------------------------
 
         initObservers: function() {
-            $('return_accepted')
-                .observe('change', this.acceptedChange)
-                .simulate('change');
-
-            $('return_international_accepted')
-                .observe('change', this.internationalAcceptedChange)
-                .simulate('change');
+            jquery('#return_accepted').off('change');
+            jquery('#return_accepted').on('change', this.acceptedChange).change();
         },
 
         // ---------------------------------------
 
         acceptedChange: function()
         {
-            var fields = [
+            var columns = [
                 'return_option',
                 'return_within',
-                'return_shipping_cost'
+                'return_shipping_cost',
+                'return_restocking_fee'
             ];
 
-            var internationalFieldset = $('return_policy_international_returns_fieldset'),
-                additionalFieldset = $('return_policy_additional_fieldset');
-
-            internationalFieldset && internationalFieldset.hide();
-            additionalFieldset && additionalFieldset.hide();
-
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Ebay_Template_ReturnPolicy::RETURNS_ACCEPTED')) {
-                fields.forEach(function(value) {
+            if (this.value == 'ReturnsAccepted') {
+                columns.forEach(function(value) {
                     var el = $$('.field-'+value).first();
-                    el && el[$(value).childElements().length ? 'show' : 'hide']();
+                    el && el[$(value).options.length ? 'show' : 'hide']();
                 });
+                $$('.field-return_description').invoke('show');
 
-                internationalFieldset && internationalFieldset.show();
-                additionalFieldset && additionalFieldset.show();
+                if ($$('.field-return_holiday_mode').length) {
+                    $$('.field-return_holiday_mode').invoke('show');
+                }
             } else {
-                fields.forEach(function(value) {
+                columns.forEach(function(value) {
                     var el = $$('.field-'+value).first();
                     el && el.hide();
                 });
-            }
 
-            internationalFieldset && internationalFieldset.simulate('change');
-        },
+                $$('.field-return_description').invoke('hide');
+                $$('.field-return_holiday').invoke('hide');
 
-        internationalAcceptedChange: function()
-        {
-            var fields = [
-                'return_international_option',
-                'return_international_within',
-                'return_international_shipping_cost'
-            ];
-
-            if (this.value == M2ePro.php.constant('Ess_M2ePro_Model_Ebay_Template_ReturnPolicy::RETURNS_ACCEPTED')) {
-                fields.forEach(function(value) {
-                    var el = $$('.field-'+value).first();
-                    el && el[$(value).childElements().length ? 'show' : 'hide']();
-                });
-
-            } else {
-                fields.forEach(function(value) {
-                    var el = $$('.field-'+value).first();
-                    el && el.hide();
-                });
+                //$('return_holiday_mode').selectedIndex = 0;
+                //jquery('#return_holiday_mode').trigger('change');
+                $$('.field-return_holiday_mode').invoke('hide');
             }
         }
 

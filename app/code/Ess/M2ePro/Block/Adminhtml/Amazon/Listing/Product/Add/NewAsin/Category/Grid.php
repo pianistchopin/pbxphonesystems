@@ -260,33 +260,19 @@ HTML;
 
     protected function _toHtml()
     {
-        $categoriesData = $this->getData('categories_data');
-        if (!empty($categoriesData)) {
-            $errorMessage = $this
-                ->__(
-                    "To proceed, the category data must be specified.
-                     Please select a relevant Description Policy for at least one Magento Category. "
-                );
-            $isNotExistProductsWithDescriptionTemplate = (int)$this->isNotExistProductsWithDescriptionTemplate(
-                $this->getData('description_templates_data')
-            );
+        if (count($this->getData('categories_data')) === 0) {
+            $msg = $this->__('Magento Categories are not specified for Products you are adding.');
 
             $this->js->add(
                 <<<JS
     require([
         'M2ePro/Plugin/Messages'
     ],function(MessageObj) {
-        
-        var button = $('save_and_go_to_listing_view');
-        if ({$isNotExistProductsWithDescriptionTemplate}) {
-            button.addClassName('disabled');
-            button.disable();
-            MessageObj.addErrorMessage(`{$errorMessage}`);
-        } else {
-            button.removeClassName('disabled');
-            button.enable();
-            MessageObj.clear();
-        }
+        MessageObj.clear();
+        MessageObj.addErrorMessage('{$msg}');
+        $('save_and_go_to_listing_view').addClassName('disabled').onclick = function() {
+            return null;
+        };
     });
 JS
             );
@@ -364,23 +350,6 @@ JS
             $descriptionTemplatesIds
         );
         $this->listing->save();
-    }
-
-    //########################################
-
-    protected function isNotExistProductsWithDescriptionTemplate($descriptionTemplatesData)
-    {
-        if (empty($descriptionTemplatesData)) {
-            return true;
-        }
-
-        foreach ($descriptionTemplatesData as $descriptionTemplateData) {
-            if (!empty($descriptionTemplateData)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     //########################################

@@ -1,0 +1,16 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php $source  = $block->getSource() ?>
+<?php $block->setPriceDataObject($source) ?>
+
+<?php if ((float) $source->getShippingAmount() || $source->getShippingDescription()): ?>
+    <tr>
+        <td class="label"><?= /* @escapeNotVerified */ __('Shipping &amp; Handling') ?></td>
+        <td><?= /* @escapeNotVerified */ $block->displayPriceAttribute('shipping_amount') ?></td>
+    </tr>
+<?php endif; ?>

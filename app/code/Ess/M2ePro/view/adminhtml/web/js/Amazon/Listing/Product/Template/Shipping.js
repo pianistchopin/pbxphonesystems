@@ -15,14 +15,24 @@ define([
 
         // ---------------------------------------
 
-        openPopUp: function (productsIds) {
+        options: {},
+
+        setOptions: function (options) {
+            this.options = Object.extend(this.options, options);
+            return this;
+        },
+
+        // ---------------------------------------
+
+        openPopUp: function (productsIds, shippingMode) {
             var self = this;
             self.gridHandler.unselectAll();
 
             new Ajax.Request(M2ePro.url.get('amazon_listing_product_template_shipping/viewPopup'), {
                 method: 'post',
                 parameters: {
-                    products_ids:  productsIds
+                    products_ids:  productsIds,
+                    shipping_mode: shippingMode
                 },
                 onSuccess: function (transport) {
 
@@ -44,7 +54,9 @@ define([
                         return;
                     }
 
-                    var popupElId = '#template_shipping_pop_up_content';
+                    var popupElId = (shippingMode == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_OVERRIDE'))
+                        ? '#template_shippingOverride_pop_up_content'
+                        : '#template_shippingTemplate_pop_up_content';
 
                     var popupEl = jQuery(popupElId);
 
@@ -56,8 +68,14 @@ define([
 
                     self.templateShippingPopup = jQuery(popupElId);
 
-                    var title             = M2ePro.translator.translate('templateShippingPopupTitle');
-                    var addNewPolicyTitle = M2ePro.translator.translate('Add New Shipping Policy');
+                    var title             = M2ePro.translator.translate('templateShippingTemplatePopupTitle');
+                    var addNewPolicyTitle = M2ePro.translator.translate('Add New Shipping Template Policy');
+
+                    if (shippingMode == M2ePro.php.constant('Ess_M2ePro_Model_Amazon_Account::SHIPPING_MODE_OVERRIDE')) {
+
+                        title             = M2ePro.translator.translate('templateShippingOverridePopupTitle');
+                        addNewPolicyTitle = M2ePro.translator.translate('Add New Shipping Override Policy');
+                    }
 
                     modal({
                         title: title,
@@ -71,7 +89,7 @@ define([
                             text: addNewPolicyTitle,
                             class: 'action primary ',
                             click: function () {
-                                self.createInNewTab(self.newTemplateUrl);
+                                self.createInNewTab(self.newTemplateUrl, shippingMode);
                             }
                         }]
                     }, self.templateShippingPopup);
@@ -85,19 +103,19 @@ define([
                             return;
                         }
 
-                        self.assign(event.target.getAttribute('templateShippingId'));
+                        self.assign(event.target.getAttribute('templateShippingId'), shippingMode);
                     });
 
                     $('template_shipping_grid').on('click', '.new-shipping-template', function() {
-                        self.createInNewTab(self.newTemplateUrl);
+                        self.createInNewTab(self.newTemplateUrl, shippingMode);
                     });
 
-                    self.loadGrid();
+                    self.loadGrid(shippingMode);
                 }
             });
         },
 
-        loadGrid: function () {
+        loadGrid: function (shippingMode) {
 
             var self = this;
 
@@ -105,6 +123,7 @@ define([
                 method: 'post',
                 parameters: {
                     products_ids: self.templateShippingPopup.productsIds,
+                    shipping_mode: shippingMode
                 },
                 onSuccess: function (transport) {
                     $('template_shipping_grid').update(transport.responseText);
@@ -115,7 +134,7 @@ define([
 
         // ---------------------------------------
 
-        assign: function (templateId) {
+        assign: function (templateId, shippingMode) {
             var self = this;
 
             self.confirm({
@@ -125,6 +144,7 @@ define([
                             method: 'post',
                             parameters: {
                                 products_ids:  self.templateShippingPopup.productsIds,
+                                shipping_mode: shippingMode,
                                 template_id:   templateId
                             },
                             onSuccess: function (transport) {
@@ -156,13 +176,14 @@ define([
 
         // ---------------------------------------
 
-        unassign: function (productsIds) {
+        unassign: function (productsIds, shippingMode) {
             var self = this;
 
             new Ajax.Request(M2ePro.url.get('amazon_listing_product_template_shipping/unassign'), {
                 method: 'post',
                 parameters: {
-                    products_ids:  productsIds
+                    products_ids:  productsIds,
+                    shipping_mode: shippingMode
                 },
                 onSuccess: function (transport) {
 
@@ -185,7 +206,7 @@ define([
 
         // ---------------------------------------
 
-        createInNewTab: function (url) {
+        createInNewTab: function (url, shippingMode) {
             var self = this;
             var win = window.open(url);
 
@@ -196,7 +217,7 @@ define([
 
                 clearInterval(intervalId);
 
-                self.loadGrid();
+                self.loadGrid(shippingMode);
             }, 1000);
         }
 

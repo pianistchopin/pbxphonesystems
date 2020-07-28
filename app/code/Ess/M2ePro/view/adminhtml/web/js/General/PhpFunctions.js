@@ -94,14 +94,8 @@ define([], function(){
 
     window.setCookie = function setCookie(name, value, expires, path, domain, secure)
     {
-        if (expires) {
-            var date = new Date();
-            date.setTime(date.getTime() + expires);
-            expires = date.toGMTString();
-        }
-
         document.cookie = name + "=" + escape(value) +
-            ((expires) ? "; expires=" + expires : "") +
+            ((expires) ? "; expires=" + "Mon, 01-Jan-2020 00:00:00 GMT" : "") +
             ((path) ? "; path=" + path : "") +
             ((domain) ? "; domain=" + domain : "") +
             ((secure) ? "; secure" : "");

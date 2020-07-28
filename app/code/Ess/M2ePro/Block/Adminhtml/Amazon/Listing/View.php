@@ -71,7 +71,7 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
 
         // ---------------------------------------
         $this->addButton('view_logs', [
-            'label'   => $this->__('Logs & Events'),
+            'label'   => $this->__('View Log'),
             'onclick' => 'window.open(\''.$this->getUrl('*/amazon_log_listing_product/index', [
                 \Ess\M2ePro\Block\Adminhtml\Log\Listing\Product\AbstractGrid::LISTING_ID_FIELD =>
                     $this->listing->getId()
@@ -194,8 +194,16 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
             $this->getHelper('Data')->getControllerActions('Amazon_Listing_Product_Variation_Individual')
         );
 
-        $this->jsUrl->add($this->getUrl('*/listing_moving/moveToListingGrid'), 'moveToListingGridHtml');
+        $this->jsUrl->add(
+            $this->getUrl(
+                '*/amazon_listing_view_settings_moving/moveToListingGrid',
+                ['listing_view' => true]
+            ),
+            'moveToListingGridHtml'
+        );
         $this->jsUrl->add($this->getUrl('*/listing_moving/prepareMoveToListing'), 'prepareData');
+        $this->jsUrl->add($this->getUrl('*/listing_moving/getFailedProducts'), 'getFailedProductsHtml');
+        $this->jsUrl->add($this->getUrl('*/listing_moving/tryToMoveToListing'), 'tryToMoveToListing');
         $this->jsUrl->add($this->getUrl('*/listing_moving/moveToListing'), 'moveToListing');
 
         $this->jsUrl->add($this->getUrl('*/amazon_marketplace/index'), 'marketplaceSynchUrl');
@@ -231,6 +239,8 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         $templateDescriptionPopupTitle = $this->__('Assign Description Policy');
 
         $popupTitle = $this->__('Moving Amazon Items');
+        $popupTitleSingle = $this->__('Moving Amazon Item');
+        $failedProductsPopupTitle = $this->__('Products failed to move');
 
         $taskCompletedMessage = $this->__('Task completed. Please wait ...');
         $taskCompletedSuccessMessage = $this->__('"%task_title%" Task has successfully submitted to be processed.');
@@ -241,6 +251,7 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
             '"%task_title%" Task has completed with errors. <a target="_blank" href="%url%">View Log</a> for details.'
         );
 
+        $lockedObjNoticeMessage = $this->__('Some Amazon request(s) are being processed now.');
         $sendingDataToAmazonMessage = $this->__('Sending %product_title% Product(s) data on Amazon.');
         $viewAllProductLogMessage = $this->__('View Full Product Log');
 
@@ -258,12 +269,21 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         $deletingAndRemovingSelectedItemsMessage = $this->__('Removing From Amazon And Listing Selected Items');
         $removingSelectedItemsMessage = $this->__('Removing From Listing Selected Items');
 
+        $successfullyMovedMessage = $this->__('Product(s) was successfully Moved.');
+        $productsWereNotMovedMessage = $this->__(
+            'Product(s) was not Moved. <a target="_blank" href="%url%">View Log</a> for details.'
+        );
+        $someProductsWereNotMovedMessage = $this->__(
+            'Some Product(s) was not Moved. <a target="_blank" href="%url%">View Log</a> for details.'
+        );
+
         $selectItemsMessage = $this->__('Please select the Products you want to perform the Action on.');
         $selectActionMessage = $this->__('Please select Action.');
 
         $assignString = $this->__('Assign');
 
-        $templateShippingPopupTitle = $this->__('Assign Shipping Template Policy');
+        $templateShippingTemplatePopupTitle = $this->__('Assign Shipping Template Policy');
+        $templateShippingOverridePopupTitle = $this->__('Assign Shipping Override Policy');
         $templateProductTaxCodePopupTitle   = $this->__('Assign Product Tax Code Policy');
 
         $enterProductSearchQueryMessage = $this->__('Please enter Product Title or ASIN/ISBN/UPC/EAN.');
@@ -303,19 +323,23 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
             'You must select at least 1 Category.' => $this->__('You must select at least 1 Category.'),
             'Rule with the same Title already exists.' => $this->__('Rule with the same Title already exists.'),
 
-            'Add New Shipping Policy' => $this->__('Add New Shipping Policy'),
+            'Add New Shipping Template Policy' => $this->__('Add New Shipping Template Policy'),
+            'Add New Shipping Override Policy' => $this->__('Add New Shipping Override Policy'),
             'Add New Product Tax Code Policy'  => $this->__('Add New Product Tax Code Policy'),
             'Add New Listing' => $this->__('Add New Listing'),
 
             'Clear Search Results' => $this->__('Clear Search Results'),
 
             'popup_title' => $popupTitle,
+            'popup_title_single' => $popupTitleSingle,
+            'failed_products_popup_title' => $failedProductsPopupTitle,
 
             'task_completed_message' => $taskCompletedMessage,
             'task_completed_success_message' => $taskCompletedSuccessMessage,
             'task_completed_warning_message' => $taskCompletedWarningMessage,
             'task_completed_error_message' => $taskCompletedErrorMessage,
 
+            'locked_obj_notice' => $lockedObjNoticeMessage,
             'sending_data_message' => $sendingDataToAmazonMessage,
             'view_all_product_log_message' => $viewAllProductLogMessage,
 
@@ -331,12 +355,17 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
             'deleting_and_removing_selected_items_message' => $deletingAndRemovingSelectedItemsMessage,
             'removing_selected_items_message' => $removingSelectedItemsMessage,
 
+            'successfully_moved' => $successfullyMovedMessage,
+            'products_were_not_moved' => $productsWereNotMovedMessage,
+            'some_products_were_not_moved' => $someProductsWereNotMovedMessage,
+
             'select_items_message' => $selectItemsMessage,
             'select_action_message' => $selectActionMessage,
 
             'templateDescriptionPopupTitle' => $templateDescriptionPopupTitle,
 
-            'templateShippingPopupTitle' => $templateShippingPopupTitle,
+            'templateShippingOverridePopupTitle' => $templateShippingOverridePopupTitle,
+            'templateShippingTemplatePopupTitle' => $templateShippingTemplatePopupTitle,
             'templateProductTaxCodePopupTitle'   => $templateProductTaxCodePopupTitle,
 
             'assign' => $assignString,
@@ -394,9 +423,8 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         );
         ListingGridHandlerObj.afterInitPage();
 
-        ListingGridHandlerObj.movingHandler.setProgressBar('listing_view_progress_bar');
-        ListingGridHandlerObj.movingHandler.setGridWrapper('listing_view_content_container');
-        
+        ListingGridHandlerObj.movingHandler.setOptions(M2ePro);
+
         ListingGridHandlerObj.actionHandler.setProgressBar('listing_view_progress_bar');
         ListingGridHandlerObj.actionHandler.setGridWrapper('listing_view_content_container');
 

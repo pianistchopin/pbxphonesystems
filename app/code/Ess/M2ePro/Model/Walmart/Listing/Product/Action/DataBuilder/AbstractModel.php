@@ -200,6 +200,8 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
                     $this->getListing()->getStoreId()
                 );
         }
+        // M2ePro\TRANSLATIONS
+        // %attribute_title%: Attribute(s) %attributes% were not found in this Product and its value was not sent.
         $this->addWarningMessage(
             $this->getHelper('Module\Translation')->__(
                 '%attribute_title%: Attribute(s) %attributes% were not found' .
@@ -231,7 +233,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
     /**
      * @return array
      */
-    abstract public function getBuilderData();
+    abstract public function getRequestData();
 
     //########################################
 }

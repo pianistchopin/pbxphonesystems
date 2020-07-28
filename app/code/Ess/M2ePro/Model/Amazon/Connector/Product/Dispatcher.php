@@ -18,7 +18,7 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
     protected $activeRecordFactory;
     protected $amazonFactory;
 
-    //########################################
+    // ########################################
 
     public function __construct(
         \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
@@ -31,14 +31,13 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         parent::__construct($helperFactory, $modelFactory);
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @param int $action
      * @param array|\Ess\M2ePro\Model\Listing\Product $products
      * @param array $params
      * @return int
-     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     public function process($action, $products, array $params = [])
     {
@@ -67,7 +66,7 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         return (int)$this->logsActionId;
     }
 
-    //########################################
+    // ########################################
 
     /**
      * @param array $sortedProductsData
@@ -141,7 +140,7 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         }
     }
 
-    //########################################
+    // ########################################
 
     protected function prepareProducts($products)
     {
@@ -302,9 +301,9 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         return $logAction;
     }
 
-    //########################################
+    // ########################################
 
-    protected function getActionNick($action)
+    private function getActionNick($action)
     {
         switch ($action) {
             case \Ess\M2ePro\Model\Listing\Product::ACTION_LIST:
@@ -327,5 +326,5 @@ class Dispatcher extends \Ess\M2ePro\Model\AbstractModel
         }
     }
 
-    //########################################
+    // ########################################
 }

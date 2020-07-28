@@ -52,7 +52,9 @@ define([
                 reviseAction: this.actionHandler.reviseAction.bind(this.actionHandler),
                 stopAction: this.actionHandler.stopAction.bind(this.actionHandler),
                 stopAndRemoveAction: this.actionHandler.stopAndRemoveAction.bind(this.actionHandler),
-                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler)
+                previewItemsAction: this.actionHandler.previewItemsAction.bind(this.actionHandler),
+                startTranslateAction: this.actionHandler.startTranslateAction.bind(this.actionHandler),
+                stopTranslateAction: this.actionHandler.stopTranslateAction.bind(this.actionHandler)
             };
 
             this.templateDescriptionHandler = new AmazonListingProductTemplateDescription(this);

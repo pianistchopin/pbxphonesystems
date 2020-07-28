@@ -20,7 +20,7 @@ class General extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Valid
      */
     public function validate()
     {
-        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProduct()) {
+        if ($this->getVariationManager()->isRelationParentType() && !$this->validateParentListingProductFlags()) {
             return false;
         }
 
@@ -32,7 +32,10 @@ class General extends \Ess\M2ePro\Model\Amazon\Listing\Product\Action\Type\Valid
         }
 
         if (!$this->getListingProduct()->isNotListed() || !$this->getListingProduct()->isListable()) {
+            // M2ePro\TRANSLATIONS
+            // Item is already on Amazon, or not available.
             $this->addMessage('Item is already on Amazon, or not available.');
+
             return false;
         }
 

@@ -408,7 +408,7 @@ class Combine extends AbstractModel
     public function getConditions()
     {
         $key = $this->getPrefix() ? $this->getPrefix() : 'conditions';
-        return (array)$this->getData($key);
+        return $this->getData($key);
     }
 
     public function setConditions($conditions)

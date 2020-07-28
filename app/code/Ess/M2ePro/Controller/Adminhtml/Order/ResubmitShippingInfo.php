@@ -36,7 +36,6 @@ class ResubmitShippingInfo extends Order
         foreach ($ids as $id) {
             /** @var \Ess\M2ePro\Model\Order $order */
             $order = $this->activeRecordFactory->getObjectLoaded('Order', $id);
-            $order->getLog()->setInitiator(\Ess\M2ePro\Helper\Data::INITIATOR_USER);
 
             $shipmentsCollection = $this->orderShipmentCollectionFactory->create();
             $shipmentsCollection->setOrderFilter($order->getMagentoOrderId());
@@ -48,8 +47,9 @@ class ResubmitShippingInfo extends Order
                 }
 
                 /** @var \Ess\M2ePro\Model\Order\Shipment\Handler $handler */
-                $componentMode = ucfirst($order->getComponentMode());
-                $handler = $this->modelFactory->getObject("{$componentMode}_Order_Shipment_Handler");
+                $handler = $this->modelFactory->getObject('Order_Shipment_Handler')->factory(
+                    $order->getComponentMode()
+                );
                 $result  = $handler->handle($order, $shipment);
 
                 if ($result == \Ess\M2ePro\Model\Order\Shipment\Handler::HANDLE_RESULT_FAILED) {

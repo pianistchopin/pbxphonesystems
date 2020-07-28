@@ -221,13 +221,7 @@ abstract class AbstractGrid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\Abs
         }
 
         $gtinHtml = $this->getHelper('Data')->escapeHtml($gtin);
-
-        $walmartHelper = $this->getHelper('Component\Walmart');
-        $marketplaceId = $row->getData('marketplace_id');
-        $channelUrl = $walmartHelper->getItemUrl(
-            $row->getData($walmartHelper->getIdentifierForItemUrl($marketplaceId)),
-            $marketplaceId
-        );
+        $channelUrl = $row->getData('channel_url');
 
         if (!empty($channelUrl)) {
             $gtinHtml = <<<HTML

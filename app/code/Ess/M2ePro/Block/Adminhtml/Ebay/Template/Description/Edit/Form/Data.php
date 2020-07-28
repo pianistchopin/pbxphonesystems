@@ -17,6 +17,7 @@ use Ess\M2ePro\Model\Ebay\Template\Description;
 class Data extends AbstractForm
 {
     protected $attributes = [];
+    protected $generalAttributes = [];
     protected $M2eProAttributes = [];
 
     protected function _construct()
@@ -34,13 +35,19 @@ class Data extends AbstractForm
         /** @var \Ess\M2ePro\Helper\Magento\Attribute $magentoAttributeHelper */
         $magentoAttributeHelper = $this->getHelper('Magento\Attribute');
 
+        $generalAttributes = $magentoAttributeHelper->getGeneralFromAllAttributeSets();
         $attributesConfigurable = $magentoAttributeHelper->getAllConfigurable();
 
-        $allAttributesByTypes = [
+        $attributesByInputTypes = [
             'text' => $magentoAttributeHelper->filterByInputTypes($this->attributes, ['text']),
             'text_select' => $magentoAttributeHelper->filterByInputTypes($this->attributes, ['text', 'select']),
+        ];
+
+        $generalAttributesByTypes = [
+            'text' => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text']),
+            'text_select' => $magentoAttributeHelper->filterByInputTypes($generalAttributes, ['text', 'select']),
             'text_images' => $magentoAttributeHelper->filterByInputTypes(
-                $this->attributes,
+                $generalAttributes,
                 ['text', 'image', 'media_image', 'gallery', 'multiline', 'textarea', 'select', 'multiselect']
             ),
         ];
@@ -150,7 +157,7 @@ class Data extends AbstractForm
         }
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text_select'] as $attribute) {
+        foreach ($generalAttributesByTypes['text_select'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['condition_mode'] == Description::CONDITION_MODE_ATTRIBUTE
                 && $formData['condition_attribute'] == $attribute['code']
@@ -283,7 +290,7 @@ class Data extends AbstractForm
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text_images'] as $attribute) {
+        foreach ($generalAttributesByTypes['text_images'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['image_main_mode'] == Description::IMAGE_MAIN_MODE_ATTRIBUTE
                 && $formData['image_main_attribute'] == $attribute['code']
@@ -405,7 +412,7 @@ class Data extends AbstractForm
         }
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text_images'] as $attribute) {
+        foreach ($generalAttributesByTypes['text_images'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
 
             if ($formData['gallery_images_mode'] == Description::GALLERY_IMAGES_MODE_ATTRIBUTE
@@ -525,7 +532,7 @@ class Data extends AbstractForm
         }
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text_images'] as $attribute) {
+        foreach ($generalAttributesByTypes['text_images'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['variation_images_mode'] == Description::VARIATION_IMAGES_MODE_ATTRIBUTE
                 && $formData['variation_images_attribute'] == $attribute['code']
@@ -984,7 +991,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text'] as $attribute) {
+        foreach ($generalAttributesByTypes['text'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['upc']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['upc']['attribute'] == $attribute['code']
@@ -1037,7 +1044,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text'] as $attribute) {
+        foreach ($generalAttributesByTypes['text'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['ean']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['ean']['attribute'] == $attribute['code']
@@ -1091,7 +1098,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text'] as $attribute) {
+        foreach ($generalAttributesByTypes['text'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['isbn']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['isbn']['attribute'] == $attribute['code']
@@ -1144,7 +1151,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text'] as $attribute) {
+        foreach ($generalAttributesByTypes['text'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['epid']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['epid']['attribute'] == $attribute['code']
@@ -1192,7 +1199,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text_select'] as $attribute) {
+        foreach ($generalAttributesByTypes['text_select'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['brand']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['brand']['attribute'] == $attribute['code']
@@ -1244,7 +1251,7 @@ HTML
         );
 
         $preparedAttributes = [];
-        foreach ($allAttributesByTypes['text'] as $attribute) {
+        foreach ($generalAttributesByTypes['text'] as $attribute) {
             $attrs = ['attribute_code' => $attribute['code']];
             if ($formData['product_details']['mpn']['mode'] == Description::PRODUCT_DETAILS_MODE_ATTRIBUTE
                 && $formData['product_details']['mpn']['attribute'] == $attribute['code']

@@ -49,11 +49,16 @@ class Mutable extends AbstractModel
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         $scopeCode = null
     ) {
-        $this->helperFactory->getObject('Data_Cache_Runtime')->setValue(
-            $this->preparePath($path, $scope, $scopeCode),
-            $value,
-            ['app_config_overrides']
-        );
+        if ($this->isCanBeUsed()) {
+            $this->helperFactory->getObject('Data_Cache_Runtime')->setValue(
+                $this->preparePath($path, $scope, $scopeCode),
+                $value,
+                ['app_config_overrides']
+            );
+            return $this;
+        }
+
+        $this->storeConfig->setValue($path, $value, $scope, $scopeCode);
         return $this;
     }
 
@@ -62,19 +67,29 @@ class Mutable extends AbstractModel
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         $scopeCode = null
     ) {
-        return $this->helperFactory->getObject('Data_Cache_Runtime')->getValue(
-            $this->preparePath($path, $scope, $scopeCode)
-        );
+        if ($this->isCanBeUsed()) {
+            return $this->helperFactory->getObject('Data_Cache_Runtime')->getValue(
+                $this->preparePath($path, $scope, $scopeCode)
+            );
+        }
+
+        return $this->storeConfig->getValue($path, $scope, $scopeCode);
     }
 
     public function unsetValue(
         $path,
+        $originalValue,
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         $scopeCode = null
     ) {
-        $this->helperFactory->getObject('Data_Cache_Runtime')->removeValue(
-            $this->preparePath($path, $scope, $scopeCode)
-        );
+        if ($this->isCanBeUsed()) {
+            $this->helperFactory->getObject('Data_Cache_Runtime')->removeValue(
+                $this->preparePath($path, $scope, $scopeCode)
+            );
+            return $this;
+        }
+
+        $this->storeConfig->setValue($path, $originalValue, $scope, $scopeCode);
         return $this;
     }
 
@@ -82,8 +97,19 @@ class Mutable extends AbstractModel
 
     public function clear()
     {
-        $this->helperFactory->getObject('Data_Cache_Runtime')->removeTagValues('app_config_overrides');
-        return $this;
+        if ($this->isCanBeUsed()) {
+            $this->helperFactory->getObject('Data_Cache_Runtime')->removeTagValues('app_config_overrides');
+            return $this;
+        }
+
+        throw new Exception('Unable to clear values. Must be cleared one by one.');
+    }
+
+    //########################################
+
+    public function isCanBeUsed()
+    {
+        return version_compare($this->getHelper('Magento')->getVersion(), '2.1.2', '>');
     }
 
     //########################################

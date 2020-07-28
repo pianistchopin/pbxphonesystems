@@ -1,0 +1,61 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php /** @var \Amasty\RequestQuote\Block\Account\Quote\History $block */ ?>
+
+<?php $quotes = $block->getQuotes(); ?>
+<?= $block->getChildHtml('info') ?>
+<?php if ($quotes && $quotes->getSize()): ?>
+    <div class="table-wrapper quotes-history">
+        <table class="data table table-quote-items history" id="my-quotes-table">
+            <caption class="table-caption"><?= /* @escapeNotVerified */ __('Quotes') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col id"><?= /* @escapeNotVerified */ __('Quote #') ?></th>
+                <th scope="col" class="col date"><?= /* @escapeNotVerified */ __('Date') ?></th>
+                <th scope="col" class="col total"><?= /* @escapeNotVerified */ __('Quote Total') ?></th>
+                <th scope="col" class="col status"><?= /* @escapeNotVerified */ __('Status') ?></th>
+                <?php if ($block->isExpiryColumnShow()) : ?>
+                <th scope="col" class="col expired"><?= /* @escapeNotVerified */ __('Expiry Date') ?></th>
+                <?php endif; ?>
+                <th scope="col" class="col actions"><?= /* @escapeNotVerified */ __('Action') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($quotes as $quote): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('Quote #')) ?>" class="col id"><?= /* @escapeNotVerified */ $quote->getIncrementId() ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?= /* @escapeNotVerified */ $block->formatDate($quote->getCreatedAt()) ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Quote Total')) ?>" class="col total"><?= /* @escapeNotVerified */ $quote->formatPrice($quote->getGrandTotal()) ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= /* @escapeNotVerified */ $quote->getStatusLabel() ?></td>
+                    <?php if ($block->isExpiryColumnShow()) : ?>
+                    <td data-th="<?= $block->escapeHtml(__('Expiry Date')) ?>" class="col expired"><?= /* @escapeNotVerified */ $block->getExpiredDate($quote) ?></td>
+                    <?php endif; ?>
+                    <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                        <a href="<?= /* @escapeNotVerified */ $block->getViewUrl($quote) ?>" class="action view">
+                            <span><?= /* @escapeNotVerified */ __('View') ?></span>
+                        </a>
+                    <?php if ($block->isMoveShowed($quote)) : ?>
+                        <a href="#" data-post='<?php /* @escapeNotVerified */ echo
+                            $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+                                ->getPostData($block->getMoveUrl($quote))
+                            ?>' class="action quote" title="<?= /* @escapeNotVerified */ __('Move to Cart') ?>">
+                                <span><?= /* @escapeNotVerified */ __('Move to Cart') ?></span>
+                        </a>
+                    <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="quote-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?= /* @escapeNotVerified */ __('You have placed no quotes.') ?></span></div>
+<?php endif ?>

@@ -1,0 +1,19 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var $block \Amasty\RequestQuote\Block\Cart\Item\Price\Renderer */
+
+$item = $block->getItem();
+?>
+<span class="price-excluding-tax">
+    <span class="cart-price">
+        <span class="price">
+            <?= /* @escapeNotVerified */ $block->convertPrice($item->getRowTotal()) ?>
+        </span>
+    </span>
+</span>

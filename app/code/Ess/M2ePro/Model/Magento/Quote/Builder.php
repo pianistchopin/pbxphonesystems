@@ -125,7 +125,6 @@ class Builder extends \Ess\M2ePro\Model\AbstractModel
         $this->quote->setTotalsCollectedFlag(false);
 
         $this->quote->setIsM2eProQuote(true);
-        $this->quote->setIsNeedToSendEmail($this->proxyOrder->isMagentoOrdersCustomerNewNotifyWhenOrderCreated());
         $this->quote->setNeedProcessChannelTaxes(
             $this->proxyOrder->isTaxModeChannel() ||
             ($this->proxyOrder->isTaxModeMixed() &&

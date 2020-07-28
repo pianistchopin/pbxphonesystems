@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\RequestQuote\Api\QuoteRepositoryInterface"
+                type="Amasty\RequestQuote\Model\QuoteRepository" />
+    <preference for="Amasty\RequestQuote\Api\Data\QuoteInterface"
+                type="Amasty\RequestQuote\Model\Quote" />
+    <preference for="Amasty\RequestQuote\Api\RemarkServiceInterface"
+                type="Amasty\RequestQuote\Model\Service\Remark" />
+    <preference for="Amasty\RequestQuote\Api\QuoteItemRepositoryInterface"
+                type="Amasty\RequestQuote\Model\QuoteItemRepository" />
+
+    <virtualType name="Amasty\RequestQuote\Model\Sidebar"
+                 type="Magento\Checkout\Model\Sidebar">
+        <arguments>
+            <argument name="cart" xsi:type="object">Amasty\RequestQuote\Model\Cart</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\RequestQuote\Controller\Sidebar\UpdateItemQty">
+        <arguments>
+            <argument name="sidebar" xsi:type="object">Amasty\RequestQuote\Model\Sidebar</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\RequestQuote\Controller\Sidebar\RemoveItem">
+        <arguments>
+            <argument name="sidebar" xsi:type="object">Amasty\RequestQuote\Model\Sidebar</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\RequestQuote\Model\ShippingMethodManagement"
+                 type="Magento\Quote\Model\ShippingMethodManagement">
+        <arguments>
+            <argument name="quoteRepository" xsi:type="object">Amasty\RequestQuote\Api\QuoteRepositoryInterface</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\RequestQuote\Model\Cart\ImageProvider"
+                 type="Magento\Checkout\Model\Cart\ImageProvider">
+        <arguments>
+            <argument name="itemRepository" xsi:type="object">Amasty\RequestQuote\Model\Quote\Item\Repository</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\RequestQuote\Model\CouponManagement"
+                 type="Magento\Quote\Model\CouponManagement">
+        <arguments>
+            <argument name="quoteRepository" xsi:type="object">Amasty\RequestQuote\Api\QuoteRepositoryInterface</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\RequestQuote\Model\Cart\CartTotal">
+        <arguments>
+            <argument name="couponService" xsi:type="object">Amasty\RequestQuote\Model\CouponManagement</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\RequestQuote\Model\DefaultConfigProvider"
+                 type="Magento\Checkout\Model\DefaultConfigProvider">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Amasty\RequestQuote\Model\Quote\Session</argument>
+            <argument name="quoteRepository" xsi:type="object">Amasty\RequestQuote\Api\QuoteRepositoryInterface</argument>
+            <argument name="quoteItemRepository" xsi:type="object">Amasty\RequestQuote\Model\Quote\Item\Repository</argument>
+            <argument name="shippingMethodManager" xsi:type="object">Amasty\RequestQuote\Model\ShippingMethodManagement</argument>
+            <argument name="imageProvider" xsi:type="object">Amasty\RequestQuote\Model\Cart\ImageProvider</argument>
+            <argument name="cartTotalRepository" xsi:type="object">Amasty\RequestQuote\Model\Cart\CartTotal</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\RequestQuote\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="checkout_default_config_provider" xsi:type="object">Amasty\RequestQuote\Model\DefaultConfigProvider</item>
+                <item name="checkout_summary_config_provider" xsi:type="object">Amasty\RequestQuote\Model\CheckoutSummaryConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\RequestQuote\Block\Cart\Grid">
+        <arguments>
+            <argument name="configProvider" xsi:type="object">Amasty\RequestQuote\Model\CompositeConfigProvider</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\RequestQuote\Model\Quote\TotalsCollector"
+                 type="Magento\Quote\Model\Quote\TotalsCollector">
+        <arguments>
+            <argument name="collectorList" xsi:type="object">Amasty\RequestQuote\Model\Quote\TotalsCollectorList</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\RequestQuote\Model\Quote">
+        <arguments>
+            <argument name="totalsCollector" xsi:type="object">Amasty\RequestQuote\Model\Quote\TotalsCollector</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amasty_quote_grid_data_source"
+                      xsi:type="string">Amasty\RequestQuote\Model\ResourceModel\Quote\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\RequestQuote\Model\ResourceModel\Quote\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">quote</argument>
+            <argument name="eventPrefix" xsi:type="string">quote_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">quote_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Amasty\RequestQuote\Model\ResourceModel\Quote</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\RequestQuote\Model\Quote">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="status_source" xsi:type="object">Amasty\RequestQuote\Model\Source\Status</item>
+                <item name="currency_factory" xsi:type="object">Magento\Directory\Model\CurrencyFactory</item>
+                <item name="locale_resolver" xsi:type="object">Magento\Framework\Locale\ResolverInterface</item>
+                <item name="timezone" xsi:type="object">Magento\Framework\Stdlib\DateTime\TimezoneInterface</item>
+                <item name="messageManager" xsi:type="object">Magento\Framework\Message\ManagerInterface</item>
+                <item name="helper" xsi:type="object">Amasty\RequestQuote\Helper\Data</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="Amasty_Request::rewrite-active" type="Amasty\RequestQuote\Plugin\Quote\Model\Quote" />
+    </type>
+
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Generic">
+        <plugin name="Amasty_Request::remove-edit-options-quoted-items" type="Amasty\RequestQuote\Plugin\Checkout\Block\Cart\Item\Renderer\Actions\Generic" />
+    </type>
+
+    <type name="Magento\Checkout\CustomerData\AbstractItem">
+        <plugin name="Amasty_Request::replace-configure-url" type="Amasty\RequestQuote\Plugin\Checkout\CustomerData\AbstractItem" />
+    </type>
+
+    <type name="Magento\Checkout\Controller\Cart\Configure">
+        <plugin name="Amasty_Request::disable-configure-for-quoted-items" type="Amasty\RequestQuote\Plugin\Checkout\Controller\Cart\Configure" />
+    </type>
+
+    <!-- section source emails -->
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\AdminTemplate" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_admin_notifications_notify_template</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Submit" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_submit</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Approve" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_approve</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\NewQuote" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_create_quote</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Edit" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_edit_quote</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Promotion" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_end_promotion</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Cancel" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_cancel</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Expired" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_expired</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\Reminder" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_customer_template_reminder</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Amasty\RequestQuote\Model\Source\Email\Customer\AdminNewQuote" type="Amasty\RequestQuote\Model\Source\Email\AbstractTemplate">
+        <arguments>
+            <argument name="origTemplateCode" xsi:type="string">amasty_request_quote_customer_notifications_admin_template_create_quote</argument>
+        </arguments>
+    </virtualType>
+    <!-- end section source emails -->
+
+    <!-- refresh form key in request after login -->
+    <type name="Magento\PageCache\Observer\FlushFormKey">
+        <plugin name="customerFlushFormKey" type="Amasty\RequestQuote\Plugin\CustomerFlushFormKey"/>
+    </type>
+</config>

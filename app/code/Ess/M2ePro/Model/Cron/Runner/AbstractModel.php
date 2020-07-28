@@ -24,10 +24,13 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     protected $activeRecordFactory;
 
-    protected $previousStoreId = null;
+    private $previousStoreId = null;
 
-    /** @var \Ess\M2ePro\Model\Cron\OperationHistory $operationHistory */
-    protected $operationHistory = null;
+    /** @var \Ess\M2ePro\Model\OperationHistory $operationHistory */
+    private $operationHistory = null;
+
+    /** @var \Ess\M2ePro\Model\Setup\PublicVersionsChecker $publicVersionsChecker */
+    private $publicVersionsChecker = null;
 
     //########################################
 
@@ -41,12 +44,14 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Config\Model\Config $magentoConfig,
         \Ess\M2ePro\Model\ActiveRecord\Factory $activeRecordFactory,
+        \Ess\M2ePro\Model\Setup\PublicVersionsChecker $publicVersionsChecker,
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Ess\M2ePro\Model\Factory $modelFactory
     ) {
         $this->storeManager  = $storeManager;
         $this->magentoConfig = $magentoConfig;
         $this->activeRecordFactory = $activeRecordFactory;
+        $this->publicVersionsChecker = $publicVersionsChecker;
         parent::__construct($helperFactory, $modelFactory);
     }
 
@@ -54,25 +59,25 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     public function process()
     {
-        if (!$this->canProcess()) {
+        if (!$this->helperFactory->getObject('Magento')->isInstalled()) {
+            return false;
+        }
+
+        if ($this->getHelper('Module\Maintenance')->isEnabled()) {
+            return false;
+        }
+
+        if ($this->isDisabled()) {
             return false;
         }
 
         $runnerSwitcher = $this->modelFactory->getObject('Cron_Runner_Switcher');
         $runnerSwitcher->check($this);
 
-        $this->modelFactory->getObject('Cron_Checker_Dispatcher')->process();
-
-        /** @var \Ess\M2ePro\Model\Lock\Transactional\Manager $transactionalManager */
-        $transactionalManager = $this->modelFactory->getObject('Lock_Transactional_Manager', [
-            'nick' => 'cron_runner'
-        ]);
+        $transactionalManager = $this->modelFactory->getObject('Lock_Transactional_Manager');
+        $transactionalManager->setNick('cron_runner');
 
         $transactionalManager->lock();
-
-        if (!$this->canProcessRunner()) {
-            return false;
-        }
 
         $this->initialize();
         $this->updateLastAccess();
@@ -83,6 +88,8 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
             return true;
         }
+
+        $this->publicVersionsChecker->doCheck();
 
         $this->updateLastRun();
         $this->beforeStart();
@@ -98,20 +105,15 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
             $strategyObject->setParentOperationHistory($this->getOperationHistory());
 
             $result = $strategyObject->process();
-
         } catch (\Exception $exception) {
-
             $result = false;
 
-            $this->getOperationHistory()->addContentData(
-                'exceptions',
-                [
-                    'message' => $exception->getMessage(),
-                    'file'    => $exception->getFile(),
-                    'line'    => $exception->getLine(),
-                    'trace'   => $exception->getTraceAsString(),
-                ]
-            );
+            $this->getOperationHistory()->addContentData('exception', [
+                'message' => $exception->getMessage(),
+                'file'    => $exception->getFile(),
+                'line'    => $exception->getLine(),
+                'trace'   => $exception->getTraceAsString(),
+            ]);
 
             $this->getHelper('Module\Exception')->process($exception);
         }
@@ -129,30 +131,13 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     //########################################
 
-    protected function canProcess()
+    protected function isDisabled()
     {
-        if (!$this->helperFactory->getObject('Magento')->isInstalled()) {
-            return false;
-        }
-
-        if ($this->getHelper('Module\Maintenance')->isEnabled()) {
-            return false;
-        }
-
-        if ($this->getHelper('Module')->isDisabled()) {
-            return false;
-        }
-
         if ($this->getHelper('Module')->getConfig()->getGroupValue('/cron/'.$this->getNick().'/', 'disabled')) {
-            return false;
+            return true;
         }
 
-        return true;
-    }
-
-    protected function canProcessRunner()
-    {
-        return $this->getNick() === $this->getHelper('Module\Cron')->getRunner();
+        return false;
     }
 
     protected function initialize()
@@ -183,11 +168,19 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     protected function isPossibleToRun()
     {
+        if ($this->getHelper('Module')->isDisabled()) {
+            return false;
+        }
+
         if (!$this->getHelper('Module')->isReadyToWork()) {
             return false;
         }
 
-        if (!$this->getHelper('Module_Cron')->isModeEnabled()) {
+        if ($this->getNick() != $this->getHelper('Module\Cron')->getRunner()) {
+            return false;
+        }
+
+        if (!$this->getHelper('Module\Cron')->isModeEnabled()) {
             return false;
         }
 
@@ -204,14 +197,9 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
 
     protected function beforeStart()
     {
-        $this->getOperationHistory()->start(
-            'cron_runner',
-            null,
-            $this->getInitiator(),
-            $this->getOperationHistoryData()
-        );
+        $this->getOperationHistory()
+            ->start('cron_runner', null, $this->getInitiator(), $this->getOperationHistoryData());
         $this->getOperationHistory()->makeShutdownFunction();
-        $this->getOperationHistory()->cleanOldData();
     }
 
     protected function afterEnd()
@@ -229,7 +217,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
     //########################################
 
     /**
-     * @return \Ess\M2ePro\Model\Cron\OperationHistory
+     * @return \Ess\M2ePro\Model\OperationHistory
      */
     public function getOperationHistory()
     {
@@ -237,7 +225,7 @@ abstract class AbstractModel extends \Ess\M2ePro\Model\AbstractModel
             return $this->operationHistory;
         }
 
-        return $this->operationHistory = $this->activeRecordFactory->getObject('Cron_OperationHistory');
+        return $this->operationHistory = $this->activeRecordFactory->getObject('OperationHistory');
     }
 
     //########################################

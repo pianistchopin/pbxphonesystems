@@ -114,6 +114,8 @@ class Category extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContaine
         );
 
         ListingGridHandlerObj.afterInitPage();
+
+        ListingGridHandlerObj.actionHandler.setOptions(M2ePro);
     });
 JS
         );

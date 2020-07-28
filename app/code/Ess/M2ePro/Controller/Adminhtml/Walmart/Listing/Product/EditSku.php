@@ -13,7 +13,7 @@ use Ess\M2ePro\Model\Walmart\Listing\Product\Action\Configurator;
 /**
  * Class \Ess\M2ePro\Controller\Adminhtml\Walmart\Listing\Product\EditSku
  */
-class EditSku extends \Ess\M2ePro\Controller\Adminhtml\Walmart\Listing\ActionAbstract
+class EditSku extends \Ess\M2ePro\Controller\Adminhtml\Walmart\Main
 {
     //########################################
 
@@ -50,23 +50,6 @@ class EditSku extends \Ess\M2ePro\Controller\Adminhtml\Walmart\Listing\ActionAbs
             return $this->getResult();
         }
 
-        $lockManager = $this->modelFactory->getObject('Listing_Product_LockManager');
-        $lockManager->setListingProduct($listingProduct);
-        $lockManager->setInitiator(\Ess\M2ePro\Helper\Data::INITIATOR_USER);
-        $lockManager->setLogsAction($this->getLogsAction(\Ess\M2ePro\Model\Listing\Product::ACTION_REVISE));
-
-        if ($lockManager->checkLocking()) {
-            $this->setJsonContent(
-                [
-                    'result'  => false,
-                    'message' => $this->__(
-                        'Another Action is being processed. Try again when the Action is completed.'
-                    )
-                ]
-            );
-            return $this->getResult();
-        }
-
         $oldSku = $listingProduct->getChildObject()->getData('sku');
         if ($oldSku === $value) {
             $this->setJsonContent([
@@ -77,47 +60,25 @@ class EditSku extends \Ess\M2ePro\Controller\Adminhtml\Walmart\Listing\ActionAbs
             return $this->getResult();
         }
 
-        /** @var Configurator $configurator */
-        $configurator = $this->modelFactory->getObject('Walmart_Listing_Product_Action_Configurator');
-        $configurator->disableAll();
-        $configurator->allowDetails();
+        try {
+            /** @var Configurator $configurator */
+            $configurator = $this->modelFactory->getObject('Walmart_Listing_Product_Action_Configurator');
+            $configurator->reset();
+            $configurator->allowDetails();
 
-        /** @var \Ess\M2ePro\Model\Listing\Product\ScheduledAction $scheduledAction */
-        $scheduledAction = $this->activeRecordFactory->getObject('Listing_Product_ScheduledAction');
-        $scheduledAction->setData(
-            [
-                'listing_product_id' => $listingProduct->getId(),
-                'component'          => \Ess\M2ePro\Helper\Component\Walmart::NICK,
-                'action_type'        => \Ess\M2ePro\Model\Listing\Product::ACTION_REVISE,
-                'is_force'           => true,
-                'tag'                => '/details/',
-                'additional_data'    => $this->getHelper('Data')->jsonEncode(
-                    [
-                        'params' => [
-                            'changed_sku'    => $value,
-                            'status_changer' => \Ess\M2ePro\Model\Listing\Product::STATUS_CHANGER_USER
-                        ],
-                        'configurator' => $configurator->getSerializedData(),
-                    ]
-                ),
-            ]
-        );
+            $listingProduct->setActionConfigurator($configurator);
 
-        /** @var \Ess\M2ePro\Model\Listing\Product\ScheduledAction $existedScheduledAction */
-        $existedScheduledAction = $this->activeRecordFactory->getObjectLoaded(
-            'Listing_Product_ScheduledAction',
-            $listingProduct->getId(),
-            'listing_product_id',
-            false
-        );
+            $params['status_changer'] = \Ess\M2ePro\Model\Listing\Product::STATUS_CHANGER_USER;
 
-        /** @var \Ess\M2ePro\Model\Listing\Product\ScheduledAction\Manager $scheduledActionManager */
-        $scheduledActionManager = $this->modelFactory->getObject('Listing_Product_ScheduledAction_Manager');
+            $dispatcherObject = $this->modelFactory->getObject('Walmart_Connector_Product_Dispatcher');
+            $dispatcherObject->process(\Ess\M2ePro\Model\Listing\Product::ACTION_REVISE, [$listingProduct], $params);
+        } catch (\Exception $exception) {
+            $this->setJsonContent([
+                'result' => false,
+                'message' => $exception->getMessage()
+            ]);
 
-        if ($existedScheduledAction && $existedScheduledAction->getId()) {
-            $scheduledActionManager->updateAction($scheduledAction);
-        } else {
-            $scheduledActionManager->addAction($scheduledAction);
+            return $this->getResult();
         }
 
         $this->setJsonContent([

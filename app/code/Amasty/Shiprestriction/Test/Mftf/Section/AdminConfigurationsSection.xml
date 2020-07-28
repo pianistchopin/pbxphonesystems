@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+
+    <section name="AdminConfigurationsShiprestrictionSection">
+        <element name="IncludeTaxInSubtotal" type="select" selector="//select[@id='amshiprestriction_general_tax']"/>
+        <element name="UseSubtotalAfterDiscount" type="select" selector="//select[@id='amshiprestriction_general_discount']"/>
+        <element name="AlwaysShowErrorMessage" type="select" selector="//select[@id='amshiprestriction_general_error_message']"/>
+        <element name="GeneralTab" type="button" selector="//a[@id='amshiprestriction_general-head']"/>
+        <element name="GeneralTabOpen" type="block" selector="//a[@id='amshiprestriction_general-head'][@class='open']"/>
+        <element name="Save" type="button" selector="//div[@class='page-actions-buttons']/button[@id='save']"/>
+    </section>
+
+</sections>

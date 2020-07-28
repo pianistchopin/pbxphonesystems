@@ -59,9 +59,7 @@ class Save extends Category
 
         $oldData = [];
         if ($categoryTemplate->getId()) {
-            $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Category_SnapshotBuilder');
-            $snapshotBuilder->setModel($categoryTemplate);
-            $oldData = $snapshotBuilder->getSnapshot();
+            $oldData = $categoryTemplate->getDataSnapshot();
         }
 
         $categoryTemplate->addData($dataForAdd)->save();
@@ -114,24 +112,8 @@ class Save extends Category
 
         // Is Need Synchronize
         // ---------------------------------------
-        $snapshotBuilder = $this->modelFactory->getObject('Walmart_Template_Category_SnapshotBuilder');
-        $snapshotBuilder->setModel($categoryTemplate);
-        $newData = $snapshotBuilder->getSnapshot();
-
-        $diff = $this->modelFactory->getObject('Walmart_Template_Category_Diff');
-        $diff->setNewSnapshot($newData);
-        $diff->setOldSnapshot($oldData);
-
-        $affectedListingsProducts = $this->modelFactory->getObject(
-            'Walmart_Template_Category_AffectedListingsProducts'
-        );
-        $affectedListingsProducts->setModel($categoryTemplate);
-
-        $changeProcessor = $this->modelFactory->getObject('Walmart_Template_Category_ChangeProcessor');
-        $changeProcessor->process(
-            $diff,
-            $affectedListingsProducts->getObjectsData(['id', 'status'], ['only_physical_units' => true])
-        );
+        $newData = $categoryTemplate->getDataSnapshot();
+        $categoryTemplate->setSynchStatusNeed($newData, $oldData);
         // ---------------------------------------
 
         if ($this->isAjax()) {

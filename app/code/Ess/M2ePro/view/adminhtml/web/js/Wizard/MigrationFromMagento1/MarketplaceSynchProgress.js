@@ -37,43 +37,11 @@ define([
             });
         },
 
-        runTask: function (title, url, components, callBackWhenEnd)
-        {
-            title = title || '';
-            url = url || '';
-            components = components || '';
-            callBackWhenEnd = callBackWhenEnd || '';
-
-            if (url == '') {
-                return;
-            }
-
-            var self = this;
-            self.start(title, M2ePro.translator.translate('Preparing to start. Please wait ...'));
-            new Ajax.Request(url, {
-                parameters: {components: components},
-                method: 'get',
-                asynchronous: true,
-                onSuccess: function(transport) {
-
-                    var response = transport.responseText.evalJSON();
-
-                    if (response && response['result']) {
-                        self.result = response['result'];
-                    }
-                }
-            });
-
-            setTimeout(function () {
-                self.startGetExecutingInfo(components, callBackWhenEnd);
-            }, 2000);
-        },
-
-        startGetExecutingInfo: function (component, callBackWhenEnd) {
+        startGetExecutingInfo: function (callBackWhenEnd) {
             callBackWhenEnd = callBackWhenEnd || '';
 
             var self = this;
-            new Ajax.Request(M2ePro.url.get(component + '_marketplace/synchGetExecutingInfo'), {
+            new Ajax.Request(M2ePro.url.get('general/synchGetExecutingInfo'), {
                 method: 'get',
                 asynchronous: true,
                 onSuccess: function (transport) {
@@ -92,10 +60,8 @@ define([
                         }
                         self.progressBarObj.setStatus(data.status);
 
-                        $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
-
                         setTimeout(function () {
-                            self.startGetExecutingInfo(component, callBackWhenEnd);
+                            self.startGetExecutingInfo(callBackWhenEnd);
                         }, 3000);
 
                     } else {
@@ -104,7 +70,13 @@ define([
 
                         // ---------------------------------------
                         setTimeout(function () {
+
+                            if (callBackWhenEnd != '') {
                                 eval(callBackWhenEnd);
+                            } else {
+                                self.end();
+                            }
+
                         }, 1500);
                         // ---------------------------------------
                     }

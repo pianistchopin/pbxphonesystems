@@ -49,7 +49,7 @@ class OptionsFinder extends \Ess\M2ePro\Model\AbstractModel
      */
     public function setChannelOptions(array $options = [])
     {
-        $this->channelOptions = $this->getHelper('Data')->toLowerCaseRecursive($options);
+        $this->channelOptions = $options;
         return $this;
     }
 
@@ -59,7 +59,7 @@ class OptionsFinder extends \Ess\M2ePro\Model\AbstractModel
      */
     public function addChannelOptions(array $options = [])
     {
-        $this->channelOptions = $this->channelOptions + $this->getHelper('Data')->toLowerCaseRecursive($options);
+        $this->channelOptions = array_merge_recursive($this->channelOptions, $options);
         return $this;
     }
 
@@ -97,6 +97,8 @@ class OptionsFinder extends \Ess\M2ePro\Model\AbstractModel
             $this->optionsData['associated_products'] = [$associatedProduct->getId()];
             return;
         }
+
+        $this->channelOptions = $this->getHelper('Data')->toLowerCaseRecursive($this->channelOptions);
 
         if (empty($this->channelOptions)) {
             $this->isNeedToReturnFirstOptionValues() && $this->matchFirstOptions();

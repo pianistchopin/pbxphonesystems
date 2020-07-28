@@ -1,0 +1,62 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<div id="quote-totals">
+    <table class="data-table admin__table-secondary order-subtotal-table">
+        <?php $totals = $block->getTotals('footer')?>
+
+        <?php if ($totals):?>
+            <tfoot>
+                <?php foreach ($block->getTotals('footer') as $code => $total): ?>
+                    <?php if ($total->getBlockName()): ?>
+                        <?= $block->getChildHtml($total->getBlockName(), false) ?>
+                    <?php else:?>
+                    <tr class="col-<?= /* @escapeNotVerified */ $code ?>">
+                        <td <?= /* @escapeNotVerified */ $block->getLabelProperties() ?> class="label">
+                            <strong><?= $block->escapeHtml($total->getLabel()) ?></strong>
+                        </td>
+                        <td <?= /* @escapeNotVerified */ $block->getValueProperties() ?>>
+                            <strong><?= /* @escapeNotVerified */ $block->formatValue($total) ?></strong>
+                        </td>
+                    </tr>
+                    <?php endif?>
+                <?php endforeach?>
+            </tfoot>
+        <?php endif?>
+
+        <?php $totals = $block->getTotals('')?>
+        <?php if ($totals):?>
+            <tbody>
+                <?php foreach ($totals as $code => $total): ?>
+                    <?php if ($total->getBlockName()): ?>
+                        <?= $block->getChildHtml($total->getBlockName(), false) ?>
+                    <?php else:?>
+                        <tr class="col-<?= /* @escapeNotVerified */ $code ?>">
+                            <td <?= /* @escapeNotVerified */ $block->getLabelProperties() ?> class="label">
+                                <?php if ($total->getStrong()):?>
+                                <strong><?= $block->escapeHtml($total->getLabel()) ?></strong>
+                                <?php else:?>
+                                <?= $block->escapeHtml($total->getLabel()) ?>
+                                <?php endif?>
+                            </td>
+
+                            <?php if ($total->getStrong()):?>
+                                <td <?= /* @escapeNotVerified */ $block->getValueProperties() ?>>
+                                    <strong><?= /* @escapeNotVerified */ $block->formatValue($total) ?></strong>
+                                </td>
+                            <?php else:?>
+                                <td <?= /* @escapeNotVerified */ $block->getValueProperties() ?>>
+                                    <span><?= /* @escapeNotVerified */ $block->formatValue($total) ?></span>
+                                </td>
+                            <?php endif?>
+                        </tr>
+                    <?php endif?>
+                <?php endforeach?>
+            </tbody>
+        <?php endif?>
+    </table>
+</div>

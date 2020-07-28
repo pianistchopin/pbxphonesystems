@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+
+    <section name="AdminShippingRestrictionsGridSection">
+        <element name="AddNewRuleButton" type="button" selector="#add" timeout="30"/>
+        <!-- Choose MassAction-->
+        <element name="MassActionSelectAllShipRule" type="select" selector="//div[@class='action-multicheck-wrap']/input[@class='admin__control-checkbox']/following-sibling::label"/>
+        <element name="EmptyGrid" type="block" selector="//table[@data-role='grid']//tr[@class='data-grid-tr-no-data']"/>
+
+        <!-- Select Options For Actions-->
+        <element name="ActionsButton" type="button" selector="//button[@title='Select Items']"/>
+        <element name="ActionsDelete" type="button" selector="//div[@class='action-menu-items']//span[contains(text(), 'Delete')]"/>
+        <element name="ConfirmAction" type="button" selector="//button[@class='action-primary action-accept']"/>
+    </section>
+
+
+    <section name="AdminShippingRestrictionSection">
+        <element name="Save" type="button" selector="//button[@id='save']" timeout="30"/>
+        <element name="SaveAndContinueEdit" type="button" selector="//button[@id='save_and_continue']" timeout="30"/>
+        <!-- General Tab-->
+        <element name="Name" type="input" selector="//input[@name='name']"/>
+        <element name="RestrictionMessage" type="input" selector="//input[@name='message']"/>
+        <element name="RestrictionStatus" type="checkbox" selector="//div[@data-index='is_active']//label[@class='admin__actions-switch-label']"/>
+        <element name="RestrictionStatusDisable" type="block" selector="//div[@data-index='is_active']//div[@class='admin__actions-switch']/input[@type='checkbox'][@value='0']"/>
+        <element name="RestrictionStatusEnable" type="block" selector="//div[@data-index='is_active']//div[@class='admin__actions-switch']/input[@type='checkbox'][@value='1']"/>
+        <element name="MethodSelectForClick" type="button" selector="//div[@data-index='methods']//div[@data-role='advanced-select']"/>
+        <element name="MethodInputInSelectForSearch" type="input" selector="//div[@data-index='methods']//input[@data-role='advanced-select-text']"/>
+        <element name="MethodFoundInSelect" type="button" selector="//div[@data-index='methods']//li[@data-role='option-group']/div"/>
+        <element name="ShippingMethodsTab" type="button" selector="//div[@data-index='general']/div[@class='fieldset-wrapper-title']"/>
+        <element name="ShippingMethodsTabOpen" type="block" selector="//div[@data-index='general']/div[@data-state-collapsible='open']"/>
+        <element name="ShippingMethodsTabClosed" type="block" selector="//div[@data-index='general']/div[@data-state-collapsible='closed']"/>
+
+        <!-- Conditions Tab -->
+        <element name="ConditionsTab" type="button" selector="//div[@data-index='conditions']/div[@class='fieldset-wrapper-title']"/>
+        <element name="ConditionsTabOpen" type="block" selector="//div[@data-index='conditions']/div[@data-state-collapsible='open']"/>
+        <element name="ConditionsTabClosed" type="block" selector="//div[@data-index='conditions']/div[@data-state-collapsible='closed']"/>
+        <element name="ConditionsText" type="block" selector="//fieldset[@id='rule_conditions_fieldset']"/>
+        <element name="ButtonGlobalConditions" type="button" selector="//div[@data-index='conditions']//span[@class='rule-param rule-param-new-child']"/>
+        <element name="BackordersSelect" type="select" selector="//select[@name='out_of_stock']"/>
+
+        <!-- Coupons and discounts -->
+        <element name="CouponsAndDiscountsTab" type="button" selector="//div[@data-index='sales_rules']/div[@class='fieldset-wrapper-title']"/>
+        <element name="CouponsAndDiscountsTabOpen" type="block" selector="//div[@data-index='sales_rules']/div[@data-state-collapsible='open']"/>
+        <element name="CouponsAndDiscountsTabClosed" type="block" selector="//div[@data-index='sales_rules']/div[@data-state-collapsible='closed']"/>
+        <element name="ApplyCouponCode" type="input" selector="//input[@name='coupon']"/>
+        <element name="ApplyShoppingCartRule" type="select" selector="//select[@name='discount_id']"/>
+        <element name="DontApplyCouponCode" type="input" selector="//input[@name='coupon_disable']"/>
+        <element name="DontApplyShoppingCartRule" type="select" selector="//select[@name='discount_id_disable']"/>
+
+        <!-- Stores & Customer Groups Tab-->
+        <element name="StoresCustomerTab" type="button" selector="//div[@data-index='store_groups']/div[@class='fieldset-wrapper-title']"/>
+        <element name="StoresCustomerTabOpen" type="block" selector="//div[@data-index='store_groups']/div[@data-state-collapsible='open']"/>
+        <element name="StoresCustomerTabClosed" type="block" selector="//div[@data-index='store_groups']/div[@data-state-collapsible='closed']"/>
+        <element name="AdminAreaSwitch" type="checkbox" selector="//div[@data-index='for_admin']//label[@class='admin__actions-switch-label']"/>
+        <element name="AdminAreaSwitchDisable" type="block" selector="//div[@data-index='for_admin']//div[@class='admin__actions-switch']/input[@type='checkbox'][@value='0']"/>
+        <element name="AdminAreaSwitchEnable" type="block" selector="//div[@data-index='for_admin']//div[@class='admin__actions-switch']/input[@type='checkbox'][@value='1']"/>
+    </section>
+
+</sections>

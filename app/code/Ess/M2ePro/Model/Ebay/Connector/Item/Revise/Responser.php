@@ -29,7 +29,8 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
         if (!empty($data['already_stop'])) {
             $this->getResponseObject()->processAlreadyStopped($data, $params);
 
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
+            // M2ePro\TRANSLATIONS
+            // Item was already Stopped on eBay
             $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
             $message->initFromPreparedData(
                 'Item was already Stopped on eBay',
@@ -52,9 +53,8 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
         $responseMessages = $this->getResponse()->getMessages()->getEntities();
 
         if ($this->getStatusChanger() == \Ess\M2ePro\Model\Listing\Product::STATUS_CHANGER_SYNCH &&
-            $this->getConfigurator()->isIncludingMode() &&
+            !$this->getConfigurator()->isDefaultMode() &&
             $this->isNewRequiredSpecificNeeded($responseMessages)) {
-            /** @var \Ess\M2ePro\Model\Connector\Connection\Response\Message $message */
             $message = $this->modelFactory->getObject('Connector_Connection_Response_Message');
             $message->initFromPreparedData(
                 $this->getHelper('Module\Translation')->__(
@@ -68,7 +68,6 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
 
             $this->getLogger()->logListingProductMessage($this->listingProduct, $message);
 
-            /** @var \Ess\M2ePro\Model\Ebay\Listing\Product\Action\Configurator $configurator */
             $configurator = $this->modelFactory->getObject('Ebay_Listing_Product_Action_Configurator');
 
             $this->processAdditionalAction($this->getActionType(), $configurator);
@@ -84,14 +83,6 @@ class Responser extends \Ess\M2ePro\Model\Ebay\Connector\Item\Responser
         }
 
         parent::eventAfterExecuting();
-
-        if ($this->isSuccess) {
-            return;
-        }
-
-        $additionalData = $this->listingProduct->getAdditionalData();
-        $additionalData['need_full_synchronization_template_recheck'] = true;
-        $this->listingProduct->setSettings('additional_data', $additionalData)->save();
     }
 
     //########################################

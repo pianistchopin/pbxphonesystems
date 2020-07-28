@@ -27,7 +27,7 @@ class Option extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abst
 
     //########################################
 
-    public function afterSave()
+    protected function _afterSave()
     {
         $listingProductId = $this->getListingProduct()->getId();
         $variationId = $this->getListingProductVariation()->getId();
@@ -36,10 +36,10 @@ class Option extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abst
             "listing_product_{$listingProductId}_variation_{$variationId}_options"
         );
 
-        return parent::afterSave();
+        return parent::_afterSave();
     }
 
-    public function beforeDelete()
+    protected function _beforeDelete()
     {
         $listingProductId = $this->getListingProduct()->getId();
         $variationId = $this->getListingProductVariation()->getId();
@@ -48,7 +48,7 @@ class Option extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abst
             "listing_product_{$listingProductId}_variation_{$variationId}_options"
         );
 
-        return parent::beforeDelete();
+        return parent::_beforeDelete();
     }
 
     //########################################

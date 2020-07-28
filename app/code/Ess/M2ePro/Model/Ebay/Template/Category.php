@@ -243,9 +243,23 @@ class Category extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     /**
      * @return array
      */
-    public function getMainCategoryAttributes()
+    public function getTrackingAttributes()
     {
-        $usedAttributes = array();
+        $attributes = [];
+
+        foreach ($this->getSpecifics(true) as $specific) {
+            $attributes = array_merge($attributes, $specific->getTrackingAttributes());
+        }
+
+        return array_unique($attributes);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUsedAttributes()
+    {
+        $usedAttributes = [];
 
         $categoryMainSrc = $this->getCategoryMainSource();
 
@@ -254,13 +268,27 @@ class Category extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
         }
 
         foreach ($this->getSpecifics(true) as $specificModel) {
-            $usedAttributes = array_merge($usedAttributes, $specificModel->getValueAttributes());
+            $usedAttributes = array_merge($usedAttributes, $specificModel->getUsedAttributes());
         }
 
         return array_values(array_unique($usedAttributes));
     }
 
     //########################################
+
+    public function getDataSnapshot()
+    {
+        $data = parent::getDataSnapshot();
+        $data['specifics'] = $this->getSpecifics();
+
+        foreach ($data['specifics'] as &$specificData) {
+            foreach ($specificData as &$value) {
+                $value !== null && !is_array($value) && $value = (string)$value;
+            }
+        }
+
+        return $data;
+    }
 
     /**
      * @return array
@@ -273,6 +301,37 @@ class Category extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
             'category_main_mode' => self::CATEGORY_MODE_EBAY,
             'category_main_attribute' => ''
         ];
+    }
+
+    //########################################
+
+    /**
+     * @param bool $asArrays
+     * @param string|array $columns
+     * @return array
+     */
+    public function getAffectedListingsProducts($asArrays = true, $columns = '*')
+    {
+        /** @var \Ess\M2ePro\Model\ResourceModel\Listing\Product\Collection $collection */
+        $collection = $this->ebayFactory->getObject('Listing\Product')->getCollection();
+        $collection->addFieldToFilter('template_category_id', $this->getId());
+
+        if (is_array($columns) && !empty($columns)) {
+            $collection->getSelect()->reset(\Zend_Db_Select::COLUMNS);
+            $collection->getSelect()->columns($columns);
+        }
+
+        return $asArrays ? (array)$collection->getData() : (array)$collection->getItems();
+    }
+
+    public function setSynchStatusNeed($newData, $oldData)
+    {
+        $listingsProducts = $this->getAffectedListingsProducts(true, ['id']);
+        if (empty($listingsProducts)) {
+            return;
+        }
+
+        $this->getResource()->setSynchStatusNeed($newData, $oldData, $listingsProducts);
     }
 
     //########################################

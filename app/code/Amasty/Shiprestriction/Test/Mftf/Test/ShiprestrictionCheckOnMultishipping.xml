@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Shiprestriction
+ */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="ShiprestrictionCheckOnMultishipping">
+        <annotations>
+            <features value="Rule Creation"/>
+            <stories value="Create a Rule via the Admin"/>
+            <title value="Check Multishipping"/>
+            <description value="Check Multishipping"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SRS-MFTF-16"/>
+            <group value="Amasty"/>
+            <group value="Shiprestriction"/>
+            <group value="Rule"/>
+            <group value="Shipping"/>
+            <group value="ShiprestrictionCheckOnMultishipping"/>
+        </annotations>
+
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin1"/>
+            <actionGroup ref="AdminEditGeneralSettingShiprestriction" stepKey="chooseConfigBeforeTest">
+                <argument name="settingIncludeTaxInSubtotal" value="includeTaxInSubtotalShiprestriction.default"/>
+                <argument name="settingUseSubtotalAfterDiscount" value="useSubtotalAfterDiscountShiprestriction.default"/>
+                <argument name="settingAlwaysShowErrorMessage" value="alwaysShowErrorMessageShiprestriction.yes"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <!--Delete Rules -->
+            <actionGroup ref="AdminDeleteAllShippingRestrictions" stepKey="DeleteAllRestrictionsRules"/>
+            <actionGroup ref="AdminDefaultSettingShiprestriction" stepKey="chooseAfterTest"/>
+            <actionGroup ref="DeleteProductFromTheCartIfTestWithLoginFailed" stepKey="DeleteProductIfTestFailed1">
+                <argument name="products" value="_theBagImpulseDuffleData"/>
+            </actionGroup>
+            <actionGroup ref="DeleteProductFromTheCartIfTestWithLoginFailed" stepKey="DeleteProductIfTestFailed2">
+                <argument name="products" value="_theWatchClamberData"/>
+            </actionGroup>
+            <amOnPage url="admin/admin/auth/logout/" stepKey="amOnLogoutPage"/>
+        </after>
+
+        <!--Create shipping restriction 1-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestrictionFirst">
+            <argument name="shippingRestriction" value="shiprestrictionCheckOnMultishipping1"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionAddGlobalConditionsWithIs" stepKey="AddConditionsInRestriction">
+            <argument name="shippingRestriction" value="shiprestrictionCheckOnMultishipping1"/>
+            <argument name="actionsConditionOptions" value="_shippingState"/>
+            <argument name="conditionsData" value="shiprestrictionCheckOnMultishipping1.conditions"/>
+        </actionGroup>
+
+        <!--Create shipping restriction 2-->
+        <actionGroup ref="AdminCreateShippingRestrictionWithOneMethod" stepKey="CreateShippingRestrictionSecond">
+            <argument name="shippingRestriction" value="shiprestrictionCheckOnMultishipping2"/>
+        </actionGroup>
+        <actionGroup ref="AdminEditShippingRestrictionAddGlobalConditionsWithIs" stepKey="AddConditionsInRestriction2">
+            <argument name="shippingRestriction" value="shiprestrictionCheckOnMultishipping2"/>
+            <argument name="actionsConditionOptions" value="_shippingState"/>
+            <argument name="conditionsData" value="shiprestrictionCheckOnMultishipping2.conditions"/>
+        </actionGroup>
+
+        <!--Login -->
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="LogIn">
+            <argument name="Customer" value="CustomerLogIn"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddFirstProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theBagImpulseDuffleData"/>
+        </actionGroup>
+
+        <!--Add product to cart-->
+        <actionGroup ref="AddProductToCart" stepKey="AddSecondProductToCart">
+            <argument name="addProductQty" value="_enterQty1"/>
+            <argument name="products" value="_theWatchClamberData"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontCheckNoShippingMethodWithErrorMessageOnCheckout" stepKey="CheckNoShippingOnCheckout">
+            <argument name="shippingMethods" value="_FlatRateMethod"/>
+            <argument name="shippingMethodTitle" value="shiprestrictionCheckOnMultishipping1.titleMethod"/>
+            <argument name="errorMessage" value="shiprestrictionCheckOnMultishipping1.message"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontAddNewCustomerAddress" stepKey="AddNewAddress">
+            <argument name="customer" value="newCustomerAddress"/>
+        </actionGroup>
+
+        <actionGroup ref="AmastyCreateMultishippingOrderWithTwoAddressAndCheckSuccessful" stepKey="CreateMultiShippingOrder">
+            <argument name="products" value="_theWatchClamberData"/>
+            <argument name="address" value="shiprestrictionCheckOnMultishipping1.address"/>
+            <argument name="shippingMethodOne" value="shiprestrictionCheckOnMultishipping1.shippingMethodOne"/>
+            <argument name="shippingMethodTwo" value="shiprestrictionCheckOnMultishipping1.shippingMethodTwo"/>
+            <argument name="billingMethod" value="shiprestrictionCheckOnMultishipping1.billingMethod"/>
+        </actionGroup>
+
+    </test>
+</tests>

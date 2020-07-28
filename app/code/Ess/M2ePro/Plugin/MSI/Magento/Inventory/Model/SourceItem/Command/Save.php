@@ -7,8 +7,8 @@
 
 namespace Ess\M2ePro\Plugin\MSI\Magento\Inventory\Model\SourceItem\Command;
 
-use Ess\M2ePro\Model\Magento\Product\ChangeProcessor\AbstractModel as ChangeProcessorAbstract;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\Inventory\Model\ResourceModel\SourceItem;
 
 /**
  * Class \Ess\M2ePro\Plugin\MSI\Magento\Inventory\Model\SourceItem\Command\Save
@@ -78,9 +78,9 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
         $sourceItemsBefore = [];
 
         foreach ($sourceItems as $sourceItem) {
+
             $searchCriteria = $this->searchCriteriaBuilder
-                ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceItem->getSourceCode())
-                ->addFilter(SourceItemInterface::SKU, $sourceItem->getSku())
+                ->addFilter(SourceItem::ID_FIELD_NAME, $sourceItem->getSourceItemId())
                 ->create();
 
             foreach ($this->sourceItemRepo->getList($searchCriteria)->getItems() as $beforeSourceItem) {
@@ -92,19 +92,23 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
 
         foreach ($sourceItems as $sourceItem) {
 
-            $sourceItemBefore = isset($sourceItemsBefore[$sourceItem->getSourceItemId()]) ?
-                                $sourceItemsBefore[$sourceItem->getSourceItemId()] :
-                                null;
+            if (!isset($sourceItemsBefore[$sourceItem->getSourceItemId()])) {
+                continue;
+            }
+
+            $sourceItemBefore = $sourceItemsBefore[$sourceItem->getSourceItemId()];
             $affected = $this->msiAffectedProducts->getAffectedProductsBySourceAndSku(
-                $sourceItem->getSourceCode(),
-                $sourceItem->getSku()
+                $sourceItem->getSourceCode(), $sourceItem->getSku()
             );
 
             if (empty($affected)) {
                 continue;
             }
 
-            $this->addListingProductInstructions($affected);
+            $this->activeRecordFactory->getObject('ProductChange')->addUpdateAction(
+                $this->productResource->getIdBySku($sourceItem->getSku()),
+                \Ess\M2ePro\Model\ProductChange::INITIATOR_OBSERVER
+            );
 
             $this->processQty($sourceItemBefore, $sourceItem, $affected);
             $this->processStockAvailability($sourceItemBefore, $sourceItem, $affected);
@@ -125,7 +129,9 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
         $oldValue = $beforeSourceItem !== null ? $beforeSourceItem->getQuantity() : 'undefined';
         $newValue = $afterSourceItem->getQuantity();
 
-        if ($oldValue == $newValue) {
+        if ($oldValue == $newValue ||
+            !$this->updateProductChangeRecord($afterSourceItem->getSku(), 'qty', $oldValue, $newValue)
+        ) {
             return;
         }
 
@@ -152,7 +158,9 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
         $beforeSourceItem !== null && $oldValue = $beforeSourceItem->getStatus() ? 'IN Stock' : 'OUT of Stock';
         $newValue = $afterSourceItem->getStatus() ? 'IN Stock' : 'OUT of Stock';
 
-        if ($oldValue == $newValue) {
+        if ($oldValue == $newValue ||
+            !$this->updateProductChangeRecord($afterSourceItem->getSku(), 'stock_availability', $oldValue, $newValue)
+        ) {
             return;
         }
 
@@ -166,6 +174,24 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
                 $newValue
             );
         }
+    }
+
+    /**
+     * @param $sku
+     * @param $attributeCode
+     * @param $oldValue
+     * @param $newValue
+     * @return mixed
+     */
+    private function updateProductChangeRecord($sku, $attributeCode, $oldValue, $newValue)
+    {
+        return $this->activeRecordFactory->getObject('ProductChange')->updateAttribute(
+            $this->productResource->getIdBySku($sku),
+            $attributeCode,
+            $oldValue,
+            $newValue,
+            \Ess\M2ePro\Model\ProductChange::INITIATOR_OBSERVER
+        );
     }
 
     private function logListingProductMessage(
@@ -191,32 +217,6 @@ class Save extends \Ess\M2ePro\Plugin\AbstractPlugin
             ),
             \Ess\M2ePro\Model\Log\AbstractModel::TYPE_NOTICE,
             \Ess\M2ePro\Model\Log\AbstractModel::PRIORITY_LOW
-        );
-    }
-
-    //########################################
-
-    private function addListingProductInstructions($affectedProducts)
-    {
-        $synchronizationInstructionsData = [];
-
-        foreach ($affectedProducts as $listingProduct) {
-            /** @var \Ess\M2ePro\Model\Magento\Product\ChangeProcessor\AbstractModel $changeProcessor */
-            $changeProcessor = $this->modelFactory->getObject(
-                ucfirst($listingProduct->getComponentMode()) . '_Magento_Product_ChangeProcessor'
-            );
-            $changeProcessor->setListingProduct($listingProduct);
-            $changeProcessor->setDefaultInstructionTypes(
-                [
-                    ChangeProcessorAbstract::INSTRUCTION_TYPE_PRODUCT_STATUS_DATA_POTENTIALLY_CHANGED,
-                    ChangeProcessorAbstract::INSTRUCTION_TYPE_PRODUCT_QTY_DATA_POTENTIALLY_CHANGED,
-                ]
-            );
-            $changeProcessor->process();
-        }
-
-        $this->activeRecordFactory->getObject('Listing_Product_Instruction')->getResource()->add(
-            $synchronizationInstructionsData
         );
     }
 
