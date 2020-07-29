@@ -1,0 +1,6 @@
+.search-autocomplete{
+	max-height: initial;
+	text-align: initial;
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
+	box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
+}
