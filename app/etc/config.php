@@ -224,7 +224,7 @@ return [
         'Amasty_Geoip' => 1,
         'Amasty_Orderexport' => 1,
         'Amasty_Pgrid' => 1,
-        'Amasty_RequestQuote' => 1,
+        'Amasty_RequestQuote' => 0,
         'Amasty_ShippingArea' => 1,
         'Amasty_ShippingBar' => 1,
         'Amasty_ShippingTableRates' => 1,

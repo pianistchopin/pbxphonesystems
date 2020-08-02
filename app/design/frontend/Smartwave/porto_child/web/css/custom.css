@@ -4,3 +4,36 @@
 	-webkit-box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
 	box-shadow: 0 3px 10px rgba(0,0,0, 0.15);
 }
+
+.amasty-shipbar-car .amshipbar-mobile{
+	width: 45px!important;
+}
+.amasty-shipbar.container{
+	display: contents!important;
+	min-height: 45px!important;
+}
+
+.amasty-shipbar .content{
+	padding: 10px 60px!important;
+}
+.amasty-shipbar .main-container{
+	height: 45px!important;
+}
+
+.products-grid.products.grid.flex-grid .product-item, .products-grid.divider-line .product-item{
+	border:	0px!important;
+}
+.amstockstatus-category .stock{
+	display: flex;
+	align-items: center;
+}
+.amstockstatus-category .stock .amstockstatus_icon{
+	width: initial!important;
+}
+
+.sidebar .product-items .product-item-info{
+	display: initial!important;
+}
+.amstockstatus{
+	margin-left: 5px;
+}

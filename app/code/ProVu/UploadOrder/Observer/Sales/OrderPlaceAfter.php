@@ -20,15 +20,9 @@ class OrderPlaceAfter implements ObserverInterface
         $order = $observer->getEvent()->getOrder();
         if(isset($_SESSION['ponumber'])){
             $poNumber = $_SESSION['ponumber'];
+            $order->setPoNumber($poNumber);
+            $this->uploadOrderToProvu($order, $poNumber);
         }
-        else{
-            $poNumber = 0;
-        }
-
-
-		$order->setPoNumber($poNumber);
-		$this->uploadOrderToProvu($order, $poNumber);
-
     }
 	
 	public function uploadOrderToProvu($order, $poNumber) 
@@ -90,5 +84,6 @@ class OrderPlaceAfter implements ObserverInterface
 		$result = curl_exec($ch);
 		curl_close($ch);
 		$logger->info('Order '.$poNumber.' has been uploaded.');
+        unset($_SESSION["ponumber"]);
 	}
 }
