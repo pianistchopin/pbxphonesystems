@@ -4,29 +4,46 @@ namespace ProVu\UploadOrder\Observer\Sales;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Model\Order;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Model\Product;
 
 class OrderPlaceAfter implements ObserverInterface
 {
     protected $orderFactory;
+    protected $productRepositoryInterface;
+    protected $product;
 
-    public function __construct(\Magento\Quote\Model\QuoteFactory $quoteFactory,
-    \Magento\Sales\Model\Order $orderFactory)
+    public function __construct(
+        \Magento\Quote\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Order $orderFactory,
+        ProductRepositoryInterface $productRepositoryInterface,
+        Product $product
+)
     {
         $this->orderFactory = $orderFactory;
+        $this->productRepositoryInterface = $productRepositoryInterface;
+        $this->product =$product;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if(isset($_SESSION['ponumber'])){
-            $poNumber = $_SESSION['ponumber'];
-            $order->setPoNumber($poNumber);
-            $this->uploadOrderToProvu($order, $poNumber);
+        if(!isset($_SESSION['ponumber'])){
+            $poNumber = 0;
         }
+        else{
+            $poNumber = $_SESSION['ponumber'];
+        }
+        $order->setPoNumber($poNumber);
+        $this->uploadOrderToProvu($order, $poNumber);
     }
 	
 	public function uploadOrderToProvu($order, $poNumber) 
 	{
+        $provu_flag = false;
+        $ebay_sku_arr = array();
+        $provu_sku_arr = array();
+
 		$username = 'pbxphonesys.apitest';
 		$password = 'mBB:q8K~S';
 		$address = $order->getBillingAddress();
@@ -62,28 +79,61 @@ class OrderPlaceAfter implements ObserverInterface
 			$email = $order->getCustomerEmail();
 			$poststring .= "<Email>$email</Email>\n"; 
 			$orderItems = $order->getAllItems();
-			$poststring .= "<lines>\n"; 
+			$poststring .= "<lines>\n";
 			foreach ($orderItems as $orderItem) {
-				$poststring .= "<line>\n"; 
-				$sku = $orderItem->getSku();
-				$poststring .= "<Item>$sku</Item>\n"; 
-				$qty = $orderItem->getQtyOrdered();
-				$poststring .= "<Quantity>$qty</Quantity>\n"; 
-				$poststring .= "</line>\n";
+                $sku = $orderItem->getSku();
+                if($this->checkSkuFromProduct($sku)) {
+                    $poststring .= "<line>\n";
+                    $poststring .= "<Item>$sku</Item>\n";
+                    $qty = $orderItem->getQtyOrdered();
+                    $poststring .= "<Quantity>$qty</Quantity>\n";
+                    $poststring .= "</line>\n";
+                    $provu_flag = true;
+
+                    array_push($provu_sku_arr, $sku);
+                }
+                else{
+                    array_push($ebay_sku_arr, $sku);
+                }
 			}
 			$poststring .= "</lines>\n";
 		}
 		$poststring .= "</order_conf>\n";
 		$posturl = "https://secure.provu.co.uk/prosys/xml.php";
-		$ch = curl_init(); 
-		curl_setopt($ch, CURLOPT_URL, $posturl); 
-		curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
-		curl_setopt($ch, CURLOPT_POST, 1); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1); 
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring); 
-		$result = curl_exec($ch);
-		curl_close($ch);
-		$logger->info('Order '.$poNumber.' has been uploaded.');
+
+
+		if($provu_flag){
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $posturl);
+            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $poststring);
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $provu_sku_str = '';
+            foreach($provu_sku_arr as $provu_sku){
+                $provu_sku_str .= $provu_sku.', ';
+            }
+            $logger->info('Order '.$poNumber.'(sku: '.$provu_sku_str.') has been uploaded to provu.');
+        }
+
+        $ebay_sku_str = '';
+        foreach($ebay_sku_arr as $ebay_sku){
+            $ebay_sku_str .= $ebay_sku.', ';
+        }
+
+        $logger->info('Order '.$poNumber.'(sku: '.$ebay_sku_str.') has not been uploaded to provu. These products is for ebay shop');
         unset($_SESSION["ponumber"]);
 	}
+
+	public function checkSkuFromProduct($sku){
+        $provu_flag = false;
+        $product = $this->product->getIdBySku($sku);
+        if($product){
+            $provu_flag = true;
+        }
+        return $provu_flag;
+    }
 }
