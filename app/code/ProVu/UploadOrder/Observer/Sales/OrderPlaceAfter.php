@@ -124,7 +124,6 @@ class OrderPlaceAfter implements ObserverInterface
             $ebay_sku_str .= $ebay_sku.', ';
         }
 
-        $logger->info('Order '.$poNumber.'(sku: '.$ebay_sku_str.') has not been uploaded to provu. These products is for ebay shop');
         unset($_SESSION["ponumber"]);
 	}
 
@@ -132,7 +131,11 @@ class OrderPlaceAfter implements ObserverInterface
         $provu_flag = false;
         $product = $this->product->getIdBySku($sku);
         if($product){
-            $provu_flag = true;
+            $product_interface = $this->productRepositoryInterface->get($sku);
+            $provu_update_time = $product_interface->getData('provu_updated_time');
+            if($provu_update_time != '' ){
+                $provu_flag = true;
+            }
         }
         return $provu_flag;
     }
