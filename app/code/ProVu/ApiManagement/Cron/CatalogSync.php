@@ -75,9 +75,9 @@ class CatalogSync
 //					xiao jin 20200501  discount price --start--
 //                    real price is =>
                 $price_each = floatval($catalogElement['price_each']);
-                $provu_rrp = floatval($catalogElement['retail_price']);
+                $buying_price = $price_each;
 
-                if($price_each > 0 && $price_each < 51){
+                if($price_each > 0 && $price_each < 50){
                     $priceDiscount = $priceDiscount1;
                 }
                 elseif($price_each >= 50  && $price_each < 101){
@@ -99,7 +99,7 @@ class CatalogSync
 						   'qty' => $catalogElement['free_stock'],
 						   'is_qty_decimal' => 1));
 					$_product->setData('provu_updated_time',date("Y/m/d"));
-					$_product->setData('provu_rrp',$provu_rrp);
+					$_product->setData('buying_price',$buying_price);
 					$galleryImages = $_product->getMediaGalleryImages();
 					if (count($galleryImages) == 0) {
 						$imagePathArray = array();
@@ -155,7 +155,7 @@ class CatalogSync
 					$_product->setName($catalogElement['web_name']);
 					$_product->setWeight(floatval($catalogElement['weight']));
 					$_product->setData('provu_updated_time',date("Y/m/d"));
-					$_product->setData('provu_rrp',$provu_rrp);
+					$_product->setData('buying_price',$buying_price);
 					$_product->setWebsiteIds(array(1));
 					$_product->setData('status',1);
 					$_product->setTaxClassId(2);
